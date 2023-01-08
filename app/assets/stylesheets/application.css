@@ -1,1 +1,4 @@
 /* Application styles */
+body {
+  background-image: url('pjord-face.svg');
+}
