@@ -16,8 +16,7 @@ const boxStyle = {
 };
 
 const SecondExample = () => {
-  const [nbElements, setNbElements] = React.useState(3);
-  const [labels, setLabels] = React.useState("hello");
+  const [nbElements, setNbElements] = React.useState(2);
   return (
     <div
       style={{
@@ -26,17 +25,7 @@ const SecondExample = () => {
       }}
     >
       <div>
-        <div>Change labels</div>
-        <input
-          data-cy="change-labels-input"
-          type="text"
-          onChange={(event) => {
-            setLabels(event.currentTarget.value);
-          }}
-        />
-      </div>
-      <div>
-        <div>Add elements</div>
+        <div>子階層1に要素を追加</div>
         <button
           data-cy="add-element"
           onClick={() => setNbElements(nbElements + 1)}
@@ -49,33 +38,50 @@ const SecondExample = () => {
           -
         </button>
       </div>
-      <ArcherContainer strokeColor="red">
+      <div>
+        <div>子階層2に要素を追加</div>
+        <button
+          data-cy="add-element"
+          onClick={() => setNbElements(nbElements + 1)}
+        >
+          +
+        </button>
+        <button
+          onClick={() => setNbElements(nbElements > 1 ? nbElements - 1 : 0)}
+        >
+          -
+        </button>
+      </div>
+      <hr></hr>
+      <ArcherContainer strokeColor="red" lineStyle="angle">
         <div style={rootStyle}>
-          <ArcherElement id="root with spaces et accents héhéhéhé">
-            <div style={boxStyle}>Root</div>
+          <ArcherElement
+            id="sales"
+            relations={[
+              {
+                targetId: "element0",
+                targetAnchor: "top",
+                sourceAnchor: "bottom",
+              },
+              {
+                targetId: "element1",
+                targetAnchor: "top",
+                sourceAnchor: "bottom",
+              },
+            ]}
+          >
+            <div style={boxStyle}>
+              売上
+              <hr></hr>
+              100
+            </div>
           </ArcherElement>
         </div>
-
         <div style={rowStyle}>
           {Array(nbElements)
             .fill(0)
             .map((_, i) => (
-              <ArcherElement
-                key={`element${i}`}
-                id={`element${i}`}
-                relations={[
-                  {
-                    targetId: "root with spaces et accents héhéhéhé",
-                    targetAnchor: "bottom",
-                    sourceAnchor: "top",
-                    label: (
-                      <div>
-                        {i} {labels}
-                      </div>
-                    ),
-                  },
-                ]}
-              >
+              <ArcherElement key={`element${i}`} id={`element${i}`}>
                 <div style={boxStyle}>Element {i}</div>
               </ArcherElement>
             ))}
