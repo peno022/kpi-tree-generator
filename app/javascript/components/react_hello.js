@@ -19,6 +19,68 @@ const orgChart = {
           children: [
             {
               name: "Worker",
+              children: [
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+              ],
+            },
+            {
+              name: "Worker",
+              children: [
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+              ],
+            },
+            {
+              name: "Worker",
+              children: [
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+              ],
+            },
+            {
+              name: "Worker",
+              children: [
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+              ],
             },
           ],
         },
@@ -30,6 +92,45 @@ const orgChart = {
           children: [
             {
               name: "Worker",
+              children: [
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+              ],
+            },
+            {
+              name: "Worker",
+              children: [
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+              ],
+            },
+            {
+              name: "Worker",
+              children: [
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+                {
+                  name: "Worker",
+                },
+              ],
             },
           ],
         },
