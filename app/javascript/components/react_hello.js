@@ -130,7 +130,7 @@ const OrgChartTree = () => {
   return (
     <div>
       <div>
-        <div>「訪問者数」の下に階層を追加</div>
+        <div className="underline">「訪問者数」の下に階層を追加</div>
         <button
           onClick={() => {
             console.log("button clicked");
@@ -141,6 +141,7 @@ const OrgChartTree = () => {
             const newData = JSON.parse(JSON.stringify(data));
             setData(newData);
           }}
+          className="btn btn-primary"
         >
           <span>追加</span>
         </button>
