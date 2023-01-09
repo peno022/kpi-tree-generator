@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
 
@@ -22,6 +22,7 @@ const orgChart = {
             value: 100000,
             unit: "人",
           },
+          children: [],
         },
         {
           name: "購入率",
@@ -29,6 +30,7 @@ const orgChart = {
             value: 0.05,
             unit: null,
           },
+          children: [],
         },
       ],
     },
@@ -45,6 +47,7 @@ const orgChart = {
             value: 200,
             unit: "円",
           },
+          children: [],
         },
         {
           name: "購入商品数",
@@ -52,6 +55,7 @@ const orgChart = {
             value: 10,
             unit: "個",
           },
+          children: [],
         },
       ],
     },
@@ -104,15 +108,51 @@ const customNodeElement = ({ nodeDatum }) => {
 };
 
 const OrgChartTree = () => {
+  const [data, setData] = useState(orgChart);
+  const emptyLayer = [
+    {
+      name: "xxx",
+      attributes: {
+        value: 0,
+        unit: "",
+      },
+      children: [],
+    },
+    {
+      name: "xxx",
+      attributes: {
+        value: 0,
+        unit: "",
+      },
+      children: [],
+    },
+  ];
   return (
-    // `<Tree />` will fill width/height of its container; in this case `#treeWrapper`.
-    <div id="treeWrapper" style={{ width: "50em", height: "50em" }}>
-      <Tree
-        data={orgChart}
-        pathFunc="step"
-        orientation="vertical"
-        renderCustomNodeElement={customNodeElement}
-      />
+    <div>
+      <div>
+        <div>「訪問者数」の下に階層を追加</div>
+        <button
+          onClick={() => {
+            console.log("button clicked");
+            console.log(data);
+            console.log(data.children);
+            console.log(emptyLayer);
+            data.children[0].children[0].children.push(...emptyLayer);
+            const newData = JSON.parse(JSON.stringify(data));
+            setData(newData);
+          }}
+        >
+          <span>追加</span>
+        </button>
+      </div>
+      <div id="treeWrapper" style={{ width: "50em", height: "50em" }}>
+        <Tree
+          data={data}
+          pathFunc="step"
+          orientation="vertical"
+          renderCustomNodeElement={customNodeElement}
+        />
+      </div>
     </div>
   );
 };
