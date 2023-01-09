@@ -3,136 +3,55 @@ import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
 
 const orgChart = {
-  name: "CEO",
+  name: "売上金額",
+  attributes: {
+    value: 1000,
+    unit: "万円",
+  },
   children: [
     {
-      name: "Manager",
+      name: "購入者数",
       attributes: {
-        department: "Production",
+        value: 5000,
+        unit: "人",
       },
       children: [
         {
-          name: "Foreman",
+          name: "訪問者数",
           attributes: {
-            department: "Fabrication",
+            value: 100000,
+            unit: "人",
           },
-          children: [
-            {
-              name: "Worker",
-              children: [
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-              ],
-            },
-            {
-              name: "Worker",
-              children: [
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-              ],
-            },
-            {
-              name: "Worker",
-              children: [
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-              ],
-            },
-            {
-              name: "Worker",
-              children: [
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-              ],
-            },
-          ],
         },
         {
-          name: "Foreman",
+          name: "購入率",
           attributes: {
-            department: "Assembly",
+            value: 0.05,
+            unit: null,
           },
-          children: [
-            {
-              name: "Worker",
-              children: [
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-              ],
-            },
-            {
-              name: "Worker",
-              children: [
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-              ],
-            },
-            {
-              name: "Worker",
-              children: [
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-                {
-                  name: "Worker",
-                },
-              ],
-            },
-          ],
+        },
+      ],
+    },
+    {
+      name: "顧客単価",
+      attributes: {
+        value: 2000,
+        unit: "円",
+      },
+      children: [
+        {
+          name: "商品単価",
+          attributes: {
+            value: 200,
+            unit: "円",
+          },
+        },
+        {
+          name: "購入商品数",
+          attributes: {
+            value: 10,
+            unit: "個",
+          },
         },
       ],
     },
@@ -169,15 +88,16 @@ const customNodeElement = ({ nodeDatum }) => {
       </text>
       <text
         x="-60"
-        y="60"
+        y="65"
         style={{
           fill: "#333",
           strokeWidth: "0",
-          fontSize: "0.9em",
+          fontSize: "1em",
           maxWidth: "280",
         }}
       >
-        {`部署：${nodeDatum.attributes?.department}`}
+        {nodeDatum.attributes?.value}
+        {nodeDatum.attributes?.unit}
       </text>
     </g>
   );
