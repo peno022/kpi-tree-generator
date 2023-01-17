@@ -1,0 +1,22 @@
+# 現在はまだ本番環境がないので、動作確認用のサンプルジョブを実行
+
+name: tagpr
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tagpr:
+    runs-on: ubuntu-latest
+    outputs:
+      tagpr-tag: ${{ steps.run-tagpr.outputs.tag }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+
+      - id: run-tagpr
+        name: Run tagpr
+        uses: Songmu/tagpr@v1
