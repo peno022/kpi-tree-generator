@@ -22,7 +22,7 @@ jobs:
         uses: Songmu/tagpr@v1
 
   release:
-  # 現在はまだ本番環境がないので、動作確認用のサンプルジョブを実行
+    # 現在はまだ本番環境がないので、動作確認用のサンプルジョブを実行
     needs: tagpr
     if: needs.tagpr.outputs.tagpr-tag != ''
     runs-on: ubuntu-latest
