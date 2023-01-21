@@ -18,7 +18,6 @@ jobs:
       - id: run-tagpr
         name: Run tagpr
         uses: Songmu/tagpr@v1
-  
   ci:
     needs: tagpr
     runs-on: ubuntu-latest
