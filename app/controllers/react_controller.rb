@@ -1,4 +1,5 @@
+# frozen_string_literal: true
+
 class ReactController < ApplicationController
-  def hello
-  end
+  def hello; end
 end
