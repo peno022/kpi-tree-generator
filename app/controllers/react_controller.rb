@@ -1,4 +1,3 @@
 class ReactController < ApplicationController
-  def hello
-  end
+  def hello; end
 end
