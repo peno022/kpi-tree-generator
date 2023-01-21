@@ -29,6 +29,6 @@ jobs:
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
-      - name: Use local my-action
-        uses: ./.github/workflows/sample.yml
+      - name: Use local action
+        uses: ./.github/actions/release
 

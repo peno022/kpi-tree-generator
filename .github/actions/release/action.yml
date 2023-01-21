@@ -1,0 +1,7 @@
+# 現在はまだ本番環境がないので、動作確認用のサンプルジョブを実行
+runs:
+  using: "Composite"
+  steps:
+    - name: sample
+      run: echo '---- sample worked ----'
+      shell: bash
