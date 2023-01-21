@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe 'sample true' do
+describe 'ReactController' do
   it 'returns true' do
     truthy = true
     expect(truthy).to eq(true)
