@@ -18,3 +18,17 @@ jobs:
       - id: run-tagpr
         name: Run tagpr
         uses: Songmu/tagpr@v1
+
+  release:
+  # 現在はまだ本番環境がないので、動作確認用のサンプルジョブを実行
+    needs: tagpr
+    if: needs.tagpr.outputs.tagpr-tag != ''
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v3
+      - name: Use local my-action
+        uses: ./.github/workflows/sample.yml
+
