@@ -1,17 +1,17 @@
 # TODO: tagprが失敗した場合に手動でタグを打った時のリリース用ジョブ
 
-name: release
-on:
-  push:
-    tags:
-    - "v[0-9]+.[0-9]+.[0-9]+"
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check out source code
-      uses: actions/checkout@v3
-    - name: Use local release action
-      uses: ./.github/actions/release
-      with:
-          tag: ${{ github.ref }}
+# name: release
+# on:
+#   push:
+#     tags:
+#     - "v[0-9]+.[0-9]+.[0-9]+"
+# jobs:
+#   release:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Check out source code
+#       uses: actions/checkout@v3
+#     - name: Use local release action
+#       uses: ./.github/actions/release
+#       with:
+#           tag: ${{ github.ref }}
