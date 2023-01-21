@@ -44,7 +44,9 @@ runs:
       shell: bash
 
     - name: Bundle install
-      run: bundle install --path=vendor/bundle --jobs 4 --retry 3
+      run: |
+        bundle config set --local path 'vendor/bundle'
+        bundle install --jobs 4 --retry 3
       shell: bash
 
     - name: npm install
@@ -52,7 +54,7 @@ runs:
       shell: bash
 
     - name: Run rubocop
-      run: rubocop
+      run: bundle exec rubocop
       shell: bash
 
     - name: Run lint
