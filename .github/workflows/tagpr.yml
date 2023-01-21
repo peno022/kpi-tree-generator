@@ -18,6 +18,8 @@ jobs:
       - id: run-tagpr
         name: Run tagpr
         uses: Songmu/tagpr@v1
+  
+  ci
 
   release:
   # 現在はまだ本番環境がないので、動作確認用のサンプルジョブを実行
