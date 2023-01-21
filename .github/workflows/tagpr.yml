@@ -19,17 +19,6 @@ jobs:
         name: Run tagpr
         uses: Songmu/tagpr@v1
 
-  ci:
-    needs: tagpr
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Check out source code
-        uses: actions/checkout@v3
-      - name: Trigger ci action
-        uses: ./.github/actions/ci
-
   release:
   # 現在はまだ本番環境がないので、動作確認用のサンプルジョブを実行
     needs: tagpr
