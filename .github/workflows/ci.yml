@@ -5,10 +5,10 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
-      - name: Use local action
+      - name: Trigger ci action
         uses: ./.github/actions/ci
