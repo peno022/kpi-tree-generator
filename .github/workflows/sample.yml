@@ -1,0 +1,7 @@
+name: sample
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo '---- sample worked ----'
