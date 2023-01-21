@@ -28,7 +28,7 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v3
       - name: Trigger ci action
-        uses: .github/actions/ci
+        uses: ./.github/actions/ci
 
   release:
   # 現在はまだ本番環境がないので、動作確認用のサンプルジョブを実行
@@ -41,5 +41,5 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v3
       - name: Trigger release action
-        uses: .github/actions/release
+        uses: ./.github/actions/release
 

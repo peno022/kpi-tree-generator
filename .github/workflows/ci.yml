@@ -11,4 +11,4 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v3
       - name: Use local action
-        uses: .github/actions/ci
+        uses: ./.github/actions/ci
