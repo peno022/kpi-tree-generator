@@ -10,10 +10,12 @@ jobs:
     outputs:
       tagpr-tag: ${{ steps.run-tagpr.outputs.tag }}
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_PAT }}
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
 
       - id: run-tagpr
         name: Run tagpr
