@@ -4,20 +4,12 @@ on:
   issues:
     types: [opened]
 
-env:
-  PROJECT_OWNER: peno022
-  PROJECT_NUMBER: 2
-  GITHUB_TOKEN: ${{ secrets.ADD_TO_PROJECT_PAT }}
-
 jobs:
-  manage_project:
-    name: Add issues to project
+  add-to-project:
+    name: Add issue to project
     runs-on: ubuntu-latest
     steps:
-      - id: add-issue-to-project
-        uses: monry/actions-add-issue-to-project@v1
+      - uses: actions/add-to-project@v0.4.0
         with:
-          github-token: ${{ env.GITHUB_TOKEN }}
-          project-owner: ${{ env.PROJECT_OWNER }}
-          project-number: ${{ env.PROJECT_NUMBER }}
-          issue-id: ${{ github.event.issue.node_id }}
+          project-url: https://github.com/users/peno022/projects/2
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
