@@ -27,10 +27,12 @@ jobs:
     if: needs.tagpr.outputs.tagpr-tag != ''
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_PAT }}
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
       - name: Trigger release action
         uses: ./.github/actions/release
 
