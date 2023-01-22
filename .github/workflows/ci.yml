@@ -14,5 +14,50 @@ jobs:
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
-      - name: Trigger ci action
-        uses: ./.github/actions/ci
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Cache bundle gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+            ${{ runner.os }}-
+
+      - name: Install Node.js
+        run: |
+          # https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
+          curl -sL https://deb.nodesource.com/setup_19.x | bash -
+          apt-get install -y nodejs
+
+      - name: Install Bundler
+        run: gem install bundler --no-document -v $(grep "BUNDLED WITH" -1 Gemfile.lock | tail -n 1)
+
+      - name: Bundle install
+        run: |
+          bundle config set --local path 'vendor/bundle'
+          bundle install --jobs 4 --retry 3
+
+      - name: Npm install
+        run: npm install
+
+      - name: Run rubocop
+        run: bundle exec rubocop
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run tests
+        run: bundle exec rspec
