@@ -14,10 +14,10 @@ jobs:
     name: Add issues to project
     runs-on: ubuntu-latest
     steps:
-      id: add-issue-to-project
-      uses: monry/actions-add-issue-to-project@v1
-      with:
-        github-token: ${{ env.GITHUB_TOKEN }}
-        project-owner: ${{ env.PROJECT_OWNER }}
-        project-number: ${{ env.PROJECT_NUMBER }}
-        issue-id: ${{ github.event.issue.node_id }}
+      - id: add-issue-to-project
+        uses: monry/actions-add-issue-to-project@v1
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          project-owner: ${{ env.PROJECT_OWNER }}
+          project-number: ${{ env.PROJECT_NUMBER }}
+          issue-id: ${{ github.event.issue.node_id }}
