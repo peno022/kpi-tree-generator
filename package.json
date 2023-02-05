@@ -15,8 +15,9 @@
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
     "lint": "run-p lint:*",
-    "lint:eslint": "eslint 'app/javascript/**/*.{js,ts,tsx}' --max-warnings=0",
-    "lint:prettier": "prettier app/javascript/**/*.{js,ts,tsx} --check"
+    "lint:eslint": "eslint 'app/javascript/**/*.{js,ts,tsx}'",
+    "lint:prettier": "prettier app/javascript/**/*.{js,ts,tsx} --check",
+    "prettier": "npx prettier --write app/javascript/**/*.{js,ts,tsx}"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

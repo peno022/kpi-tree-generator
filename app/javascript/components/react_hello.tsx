@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
-import { RawNodeDatum } from 'react-d3-tree/lib/types/types/common'
-
+import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 
 const orgChart: any = {
   name: "売上金額",
@@ -156,7 +155,7 @@ const OrgChartTree = () => {
       </div>
     </div>
   );
-}
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("app") as HTMLElement;
