@@ -19,6 +19,7 @@
     "lint:prettier": "prettier app/javascript/**/*.js --check"
   },
   "devDependencies": {
+    "@types/react": "^18.0.27",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-standard": "^17.0.0",
