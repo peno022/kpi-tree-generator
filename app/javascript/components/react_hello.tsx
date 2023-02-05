@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
-// import TreeNodeDatum from "react-d3-tree";
-// import RawNodeDatum from 'react-d3-tree'
-import { CustomNodeElementProps, RawNodeDatum } from 'react-d3-tree/lib/types/types/common'
+import { RawNodeDatum } from 'react-d3-tree/lib/types/types/common'
 
 
 const orgChart: any = {
@@ -154,11 +152,6 @@ const OrgChartTree = () => {
               </g>
             );
           }}
-          // renderCustomNodeElement={(rd3tNodeProps) =>
-          //   customNodeElement({
-          //       ...rd3tNodeProps
-          //   })
-          // }
         />
       </div>
     </div>
