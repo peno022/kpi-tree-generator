@@ -15,12 +15,15 @@
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
     "lint": "run-p lint:*",
-    "lint:eslint": "eslint 'app/javascript/**/*.js' --max-warnings=0",
-    "lint:prettier": "prettier app/javascript/**/*.js --check"
+    "lint:eslint": "eslint 'app/javascript/**/*.{js,ts,tsx}' --max-warnings=0",
+    "lint:prettier": "prettier app/javascript/**/*.{js,ts,tsx} --check"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
-    "eslint": "^8.31.0",
+    "@types/react-dom": "^18.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.4",

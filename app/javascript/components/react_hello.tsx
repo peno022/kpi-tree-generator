@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
+// import TreeNodeDatum from "react-d3-tree";
+// import RawNodeDatum from 'react-d3-tree'
+import { CustomNodeElementProps, RawNodeDatum } from 'react-d3-tree/lib/types/types/common'
 
-const orgChart = {
+
+const orgChart: any = {
   name: "売上金額",
   attributes: {
     value: 1000,
@@ -62,54 +66,9 @@ const orgChart = {
   ],
 };
 
-const customNodeElement = ({ nodeDatum }) => {
-  return (
-    <g>
-      <rect
-        x="-75"
-        rx="5"
-        ry="5"
-        style={{
-          width: "150",
-          height: "85",
-          fill: "ghostwhite",
-          stroke: "dimgray",
-          strokeWidth: "1",
-        }}
-      />
-      <text
-        x="-60"
-        y="38"
-        style={{
-          fill: "#333",
-          strokeWidth: "0",
-          fontWeight: "bold",
-          fontSize: "1.4em",
-          maxWidth: "280",
-        }}
-      >
-        {nodeDatum.name}
-      </text>
-      <text
-        x="-60"
-        y="65"
-        style={{
-          fill: "#333",
-          strokeWidth: "0",
-          fontSize: "1em",
-          maxWidth: "280",
-        }}
-      >
-        {nodeDatum.attributes?.value}
-        {nodeDatum.attributes?.unit}
-      </text>
-    </g>
-  );
-};
-
 const OrgChartTree = () => {
   const [data, setData] = useState(orgChart);
-  const emptyLayer = [
+  const emptyLayer: Array<RawNodeDatum> = [
     {
       name: "xxx",
       attributes: {
@@ -151,14 +110,62 @@ const OrgChartTree = () => {
           data={data}
           pathFunc="step"
           orientation="vertical"
-          renderCustomNodeElement={customNodeElement}
+          renderCustomNodeElement={({ nodeDatum }) => {
+            return (
+              <g>
+                <rect
+                  x="-75"
+                  rx="5"
+                  ry="5"
+                  style={{
+                    width: "150",
+                    height: "85",
+                    fill: "ghostwhite",
+                    stroke: "dimgray",
+                    strokeWidth: "1",
+                  }}
+                />
+                <text
+                  x="-60"
+                  y="38"
+                  style={{
+                    fill: "#333",
+                    strokeWidth: "0",
+                    fontWeight: "bold",
+                    fontSize: "1.4em",
+                    maxWidth: "280",
+                  }}
+                >
+                  {nodeDatum.name}
+                </text>
+                <text
+                  x="-60"
+                  y="65"
+                  style={{
+                    fill: "#333",
+                    strokeWidth: "0",
+                    fontSize: "1em",
+                    maxWidth: "280",
+                  }}
+                >
+                  {nodeDatum.attributes?.value}
+                  {nodeDatum.attributes?.unit}
+                </text>
+              </g>
+            );
+          }}
+          // renderCustomNodeElement={(rd3tNodeProps) =>
+          //   customNodeElement({
+          //       ...rd3tNodeProps
+          //   })
+          // }
         />
       </div>
     </div>
   );
-};
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("app");
+  const container = document.getElementById("app") as HTMLElement;
   createRoot(container).render(<OrgChartTree />);
 });
