@@ -12,3 +12,12 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | b
   && source ~/.bashrc \
   && nvm install 19.4 \
   && nvm use 19.4
+
+# Install PostgreSQL
+RUN apt-get update
+RUN apt-get -y install curl gnupg2 ca-certificates
+RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
+RUN apt-get update
+RUN apt-get -y install postgresql-15
+RUN apt-get -y install postgresql-client
