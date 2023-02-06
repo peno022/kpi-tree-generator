@@ -5,3 +5,8 @@ require:
 # ドキュメントの無い public class を許可する
 Style/Documentation:
   Enabled: false
+
+# Enabling/Disabling Pending Cops in Bulk
+# https://docs.rubocop.org/rubocop/1.31/versioning.html#pending-cops
+AllCops:
+  NewCops: enable

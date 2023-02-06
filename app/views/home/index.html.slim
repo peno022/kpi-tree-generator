@@ -1,0 +1,24 @@
+head
+body
+  header 
+    nav 
+  h1 KPIツリージェネレーター
+  section 
+    ul 
+      li KPIツリーを画像で簡単出力
+      li 数クリックでツリーを作成し、数値を更新
+      li ログインすれば、ツリーデータを保存可能
+  section 
+    button ログインなしで試す
+  section 
+    = image_tag 'tmp-image.png', size: '400', alt: 'KPI tree image'
+  footer 
+    div 
+      = link_to '利用規約', terms_of_use_path
+      = link_to 'プライバシーポリシー', privacy_policy_path
+      = link_to 'https://github.com/peno022/kpi-tree-generator' do
+        i class="fa-brands fa-github"
+    span
+      i.fa.fa-copyright
+      = Time.current.year
+      |  peno022

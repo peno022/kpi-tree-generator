@@ -2,8 +2,7 @@
 
 Rails.application.routes.draw do
   get 'react/hello'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  root 'react#hello'
+  root 'home#index'
+  get '/privacy-policy', to: 'welcome#privacy_policy'
+  get '/terms-of-use', to: 'welcome#terms_of_use'
 end
