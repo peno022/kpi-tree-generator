@@ -1,0 +1,28 @@
+/ https://daisyui.com/components/hero/
+.hero.min-h-screen.bg-base-200
+  .hero-content.text-center
+    .max-w-md
+      h1.text-5xl.font-bold
+        | KPIツリーメーカー
+      ul 
+        li KPIツリーを画像で簡単出力
+        li 数クリックでツリーを作成し、数値を更新
+        li ログインすれば、ツリーデータを保存可能
+      button.btn.btn-primary
+        | ログインなしで試す
+
+/ = image_tag 'tmp-image.png', size: '400', alt: 'KPI tree image'
+
+footer.footer.footer-center.p-10.bg-base-200.text-base-content.rounded
+  div.grid.grid-flow-col.gap-4
+    = link_to '利用規約', terms_of_use_path, class: 'link link-hover'
+    = link_to 'プライバシーポリシー', privacy_policy_path, class: 'link link-hover'
+    = link_to 'https://github.com/peno022/kpi-tree-generator', class: 'link link-hover' do
+      i.fa-brands.fa-github
+    = link_to 'https://twitter.com/peno022', class: 'link link-hover' do
+      i.fa-brands.fa-twitter
+  div.grid.grid-flow-col.gap-4
+    p
+      | Copyright 
+      i.fa.fa-copyright 
+      | 2023 - peno022
