@@ -21,3 +21,4 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" | tee 
 RUN apt-get update
 RUN apt-get -y install postgresql-15
 RUN apt-get -y install postgresql-client
+RUN apt-get -y install yarn
