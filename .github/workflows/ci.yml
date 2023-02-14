@@ -82,6 +82,9 @@ jobs:
           npm install yarn --global
           bin/rails css:build
 
+      - name: Build JavaScript
+        run: bin/rails javascript:build
+
       - name: Run rubocop
         run: bundle exec rubocop
 
