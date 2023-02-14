@@ -74,11 +74,14 @@ jobs:
       - name: Npm install
         run: npm install
 
-      - name: Run rubocop
-        run: bundle exec rubocop
-
       - name: DB setup
         run: bundle exec rails db:setup
+
+      - name: Build CSS
+        run: bin/rails css:build
+
+      - name: Run rubocop
+        run: bundle exec rubocop
 
       - name: Run lint
         run: npm run lint
