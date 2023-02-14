@@ -6,6 +6,10 @@ require:
 Style/Documentation:
   Enabled: false
 
+# 1つのexampleで複数のアサーションを許可する
+RSpec/MultipleExpectations:
+  Max: 3
+
 # Enabling/Disabling Pending Cops in Bulk
 # https://docs.rubocop.org/rubocop/1.31/versioning.html#pending-cops
 AllCops:
