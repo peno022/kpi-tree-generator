@@ -1,0 +1,40 @@
+nav.navbar.bg-base-100
+  .flex-1
+    a.btn.btn-ghost.normal-case.text-xl
+      |KPIツリーメーカー
+  .flex-none
+    ul.menu.menu-horizontal.px-1
+      li
+        a
+          | ログイン
+      li
+        a
+          | 登録
+.flex.flex-col.min-h-screen.border-t-2.border-b-2.border-base-300
+  .hero.bg-base-200.flex-grow
+    .hero-content.object-center
+      .max-w-md
+        h1.text-5xl.font-bold
+          | KPIツリーを簡単に
+        ul.py-6.list-disc.list-inside
+          li KPIツリーを画像で簡単出力
+          li 数クリックでツリーを作成し、数値を更新
+          li ログインすれば、ツリーデータを保存可能
+        = image_tag 'tmp-image.png', size: '500', alt: 'KPI tree image'
+        .text-center.py-6
+          button.btn.btn-primary.btn-lg
+            | ログインなしで試す
+
+  footer.footer.footer-center.p-10.bg-base-100.text-base-content.rounded
+    div.grid.grid-flow-col.gap-4
+      = link_to '利用規約', terms_of_use_path, class: 'link link-hover'
+      = link_to 'プライバシーポリシー', privacy_policy_path, class: 'link link-hover'
+      = link_to 'https://github.com/peno022/kpi-tree-generator', class: 'link link-hover' do
+        i.fa-brands.fa-github
+      = link_to 'https://twitter.com/peno022', class: 'link link-hover' do
+        i.fa-brands.fa-twitter
+    div.grid.grid-flow-col.gap-4
+      p
+        | Copyright 
+        i.fa.fa-copyright 
+        | 2023 - peno022

@@ -159,5 +159,7 @@ const OrgChartTree = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("app") as HTMLElement;
-  createRoot(container).render(<OrgChartTree />);
+  if (container) {
+    createRoot(container).render(<OrgChartTree />);
+  }
 });

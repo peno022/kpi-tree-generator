@@ -8,6 +8,7 @@ RUN gem install rails webdrivers
 # The value is a comma-separated list of allowed domains
 ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
 
+# Install Node.js
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
   && source ~/.bashrc \
   && nvm install 19.4 \
@@ -21,3 +22,8 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" | tee 
 RUN apt-get update
 RUN apt-get -y install postgresql-15
 RUN apt-get -y install postgresql-client
+RUN apt-get -y install yarn
+
+# Install gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install

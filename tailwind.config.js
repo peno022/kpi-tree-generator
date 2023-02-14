@@ -1,9 +1,13 @@
 module.exports = {
   content: [
-    "./app/views/**/*.html.erb",
+    "./app/views/**/*",
     "./app/helpers/**/*.rb",
     "./app/assets/stylesheets/**/*.css",
     "./app/javascript/**/*.js",
+    "./app/javascript/**/*.tsx",
   ],
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  daisyui: {
+    themes: ["emerald"],
+  },
 };

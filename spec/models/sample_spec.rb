@@ -3,11 +3,11 @@
 describe 'ReactController' do
   it 'returns true' do
     truthy = true
-    expect(truthy).to eq(true)
+    expect(truthy).to be(true)
   end
 
   it 'returns false' do
     falsy = false
-    expect(falsy).to eq(false)
+    expect(falsy).to be(false)
   end
 end

@@ -23,6 +23,11 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+      selenium_chrome:
+        image: selenium/standalone-chrome-debug
+        ports:
+          - "4444:4444"
+
     container:
       image: ruby:3.1.3
       env:
@@ -69,11 +74,19 @@ jobs:
       - name: Npm install
         run: npm install
 
-      - name: Run rubocop
-        run: bundle exec rubocop
-
       - name: DB setup
         run: bundle exec rails db:setup
+
+      - name: Build CSS
+        run: |
+          npm install yarn --global
+          bin/rails css:build
+
+      - name: Build JavaScript
+        run: bin/rails javascript:build
+
+      - name: Run rubocop
+        run: bundle exec rubocop
 
       - name: Run lint
         run: npm run lint

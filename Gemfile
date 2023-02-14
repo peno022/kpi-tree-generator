@@ -25,6 +25,9 @@ gem 'jbuilder'
 
 gem 'cssbundling-rails'
 
+gem 'font-awesome-sass', '~> 6.2.1'
+gem 'slim-rails'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
@@ -49,11 +52,13 @@ group :development, :test do
 end
 
 group :development, :test do
+  gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 6.0.0'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem 'foreman'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
@@ -68,6 +73,7 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
+  gem 'launchy'
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
