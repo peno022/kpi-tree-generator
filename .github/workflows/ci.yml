@@ -78,7 +78,9 @@ jobs:
         run: bundle exec rails db:setup
 
       - name: Build CSS
-        run: bin/rails css:build
+        run: |
+          npm install yarn --global
+          bin/rails css:build
 
       - name: Run rubocop
         run: bundle exec rubocop
