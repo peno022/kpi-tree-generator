@@ -14,6 +14,12 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | b
   && nvm install 19.4 \
   && nvm use 19.4
 
+# Install yarn
+RUN apt update && apt remove cmdtest
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" |  tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get -y install yarn
+
 # Install PostgreSQL
 RUN apt-get update
 RUN apt-get -y install curl gnupg2 ca-certificates
@@ -22,7 +28,6 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" | tee 
 RUN apt-get update
 RUN apt-get -y install postgresql-15
 RUN apt-get -y install postgresql-client
-RUN apt-get -y install yarn
 
 # Install gems
 COPY Gemfile Gemfile.lock ./
