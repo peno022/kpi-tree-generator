@@ -72,15 +72,15 @@ jobs:
           bundle install --jobs 4 --retry 3
 
       - name: Yarn install
-        run: yarn install
+        run: |
+          npm install yarn --global
+          yarn install
 
       - name: DB setup
         run: bundle exec rails db:setup
 
       - name: Build CSS
-        run: |
-          npm install yarn --global
-          bin/rails css:build
+        run: bin/rails css:build
 
       - name: Build JavaScript
         run: bin/rails javascript:build
