@@ -71,8 +71,8 @@ jobs:
           bundle config set --local path 'vendor/bundle'
           bundle install --jobs 4 --retry 3
 
-      - name: Npm install
-        run: npm install
+      - name: Yarn install
+        run: yarn install
 
       - name: DB setup
         run: bundle exec rails db:setup
