@@ -8,17 +8,14 @@ RUN gem install rails webdrivers
 # The value is a comma-separated list of allowed domains
 ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
 
-# Install Node.js
+# Install Node.js and Yarn
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
   && source ~/.bashrc \
   && nvm install 19.4 \
-  && nvm use 19.4
-
-# Install yarn
-RUN apt update && apt remove cmdtest
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-  && echo "deb https://dl.yarnpkg.com/debian/ stable main" |  tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get -y install yarn
+  && nvm use 19.4 \
+  && corepack enable \
+  && corepack prepare yarn@stable --activate \
+  && yarn set version 3.4.1
 
 # Install PostgreSQL
 RUN apt-get update
@@ -32,7 +29,3 @@ RUN apt-get -y install postgresql-client
 # Install gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
-
-# Install dependencies
-COPY package.json yarn.lock ./
-RUN yarn install

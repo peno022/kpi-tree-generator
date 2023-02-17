@@ -73,7 +73,9 @@ jobs:
 
       - name: Yarn install
         run: |
-          npm install yarn --global
+          corepack enable
+          corepack prepare yarn@stable --activate
+          yarn set version 3.4.1
           yarn install
 
       - name: DB setup
