@@ -32,3 +32,7 @@ RUN apt-get -y install postgresql-client
 # Install gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
+
+# Install dependencies
+COPY package.json yarn.lock ./
+RUN yarn install
