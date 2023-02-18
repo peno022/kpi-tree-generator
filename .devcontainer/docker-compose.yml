@@ -13,7 +13,9 @@ services:
     command: sleep infinity
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
+
+    networks:
+      ktg-net:
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
@@ -22,6 +24,8 @@ services:
     image: selenium/standalone-chrome-debug
     ports:
       - "4444:4444"
+    networks:
+      ktg-net:
   
   db:
     image: postgres:15.1
@@ -48,6 +52,11 @@ services:
 
     # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
+    networks:
+      ktg-net:
+
+networks:
+  ktg-net:
 
 volumes:
   postgres-data:
