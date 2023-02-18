@@ -20,10 +20,11 @@ services:
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
+    environment:
+      - SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub
+
   selenium_chrome:
     image: selenium/standalone-chrome-debug
-    ports:
-      - "4444:4444"
     networks:
       ktg-net:
   
