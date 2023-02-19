@@ -31,8 +31,7 @@ jobs:
       env:
         RAILS_ENV: test
         DATABASE_HOST: db
-      environment:
-        - SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub
+        SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
