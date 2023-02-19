@@ -75,6 +75,4 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
-  gem 'webdrivers', require: !ENV['SELENIUM_DRIVER_URL']
 end
