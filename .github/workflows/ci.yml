@@ -25,14 +25,14 @@ jobs:
 
       selenium_chrome:
         image: selenium/standalone-chrome-debug
-        ports:
-          - "4444:4444"
 
     container:
       image: ruby:3.1.3
       env:
         RAILS_ENV: test
         DATABASE_HOST: db
+      environment:
+        - SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub
     steps:
       - name: Check out source code
         uses: actions/checkout@v3
