@@ -6,7 +6,7 @@ class CreateNodes < ActiveRecord::Migration[7.0]
       t.string :name
       t.float :value
       t.integer :value_format
-      t.integer :unit
+      t.string :unit
       t.boolean :is_value_locked
       t.references :tree, null: false, foreign_key: true
       t.references :parent, foreign_key: { to_table: :nodes }
