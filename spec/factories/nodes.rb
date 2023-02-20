@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :node do
-    name { "MyString" }
+    name { 'MyString' }
     value { 1.5 }
     value_format { 1 }
     unit { 1 }
