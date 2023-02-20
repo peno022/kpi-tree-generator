@@ -14,3 +14,9 @@ RSpec/MultipleExpectations:
 # https://docs.rubocop.org/rubocop/1.31/versioning.html#pending-cops
 AllCops:
   NewCops: enable
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 20
+  Exclude:
+    - spec/**/*
