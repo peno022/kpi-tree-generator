@@ -10,8 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_20_220253) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "layers", force: :cascade do |t|
+    t.integer "operation"
+    t.float "fraction"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "nodes", force: :cascade do |t|
+    t.string "name"
+    t.float "value"
+    t.integer "value_format"
+    t.integer "unit"
+    t.boolean "is_value_locked"
+    t.bigint "tree_id", null: false
+    t.bigint "parent_id"
+    t.bigint "layer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["layer_id"], name: "index_nodes_on_layer_id"
+    t.index ["parent_id"], name: "index_nodes_on_parent_id"
+    t.index ["tree_id"], name: "index_nodes_on_tree_id"
+  end
+
+  create_table "trees", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_trees_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "nodes", "layers"
+  add_foreign_key "nodes", "nodes", column: "parent_id"
+  add_foreign_key "nodes", "trees"
+  add_foreign_key "trees", "users"
 end
