@@ -8,8 +8,6 @@ class CreateNodes < ActiveRecord::Migration[7.0]
       t.integer :value_format
       t.integer :unit
       t.boolean :is_value_locked
-      t.integer :operation_ratio_denominator
-      t.integer :operation_ratio_numerator
       t.references :tree, null: false, foreign_key: true
       t.references :parent, foreign_key: { to_table: :nodes }
 
