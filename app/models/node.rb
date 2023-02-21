@@ -12,7 +12,6 @@ class Node < ApplicationRecord
   validates :value, presence: true, numericality: true
   validates :value_format, presence: true # memo:enumで定義していない値を渡すと、RailsのArgumentErroｒになる
   validates :unit, absence: true, if: :percent_formatted?
-  validates :is_value_locked, presence: true
 
   def percent_formatted?
     value_format == '%'
