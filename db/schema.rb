@@ -26,7 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_220253) do
     t.float "value"
     t.integer "value_format"
     t.string "unit"
-    t.boolean "is_value_locked"
+    t.boolean "is_value_locked", default: false
     t.bigint "tree_id", null: false
     t.bigint "parent_id"
     t.bigint "layer_id"
