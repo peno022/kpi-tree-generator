@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Node do
   before do
-    @user = User.create()
+    @user = User.create
     @tree = Tree.create(name: 'my tree', user: @user)
     @layer = Layer.create
   end
@@ -63,7 +63,7 @@ RSpec.describe Node do
     it 'valueに数値以外を入れると無効になる' do
       node = described_class.new(value: 'test string')
       node.valid?
-      expect(node.errors[:value]).to include("is not a number")
+      expect(node.errors[:value]).to include('is not a number')
     end
 
     it 'value_formatがないと無効になる' do
@@ -73,9 +73,9 @@ RSpec.describe Node do
     end
 
     it 'value_formatにenum定義外の数値を入れるとArgumentError' do
-      expect {
+      expect do
         node = described_class.new(value_format: 999)
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
     end
 
     it '表示形式が%のときはunitが空欄でないと無効になる' do
@@ -86,7 +86,7 @@ RSpec.describe Node do
       node.valid?
       expect(node.errors[:unit]).to include('must be blank')
     end
-    
+
     it '表示形式が%以外のときはunitに値が入ってよい' do
       node = described_class.new(
         value_format: 0,
@@ -95,32 +95,34 @@ RSpec.describe Node do
       node.valid?
       expect(node.errors[:unit]).to be_empty
     end
-    
   end
 
   describe 'default values' do
     it 'is_value_lockedはデフォルト値がfalseになる' do
-      node = described_class.new()
-      expect(node.is_value_locked).to eq false
+      node = described_class.new
+      expect(node.is_value_locked).to be false
     end
   end
 
   describe 'percent_formatted?' do
     it "value_format が'なし'のとき" do
       node = described_class.new(value_format: 0)
-      expect(node.percent_formatted?).to eq false
+      expect(node.percent_formatted?).to be false
     end
+
     it "value_format が'%'のとき" do
       node = described_class.new(value_format: 1)
-      expect(node.percent_formatted?).to eq true
+      expect(node.percent_formatted?).to be true
     end
+
     it "value_format が'千'のとき" do
       node = described_class.new(value_format: 2)
-      expect(node.percent_formatted?).to eq false
+      expect(node.percent_formatted?).to be false
     end
+
     it "value_format が'万'のとき" do
       node = described_class.new(value_format: 3)
-      expect(node.percent_formatted?).to eq false
+      expect(node.percent_formatted?).to be false
     end
   end
 end
