@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :tree do
-    name { 'MyString' }
-    user { nil }
+    name { 'My first tree' }
+    user
   end
 end

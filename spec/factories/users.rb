@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :layer
+  factory :user
 end

@@ -2,13 +2,11 @@
 
 FactoryBot.define do
   factory :node do
-    name { 'MyString' }
+    name { 'My node' }
     value { 1.5 }
-    value_format { 1 }
-    unit { 1 }
+    value_format { 0 }
+    unit { '円' }
     is_value_locked { false }
-    operation_ratio_denominator { 1 }
-    operation_ratio_numerator { 1 }
-    tree { nil }
+    tree
   end
 end
