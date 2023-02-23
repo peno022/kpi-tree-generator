@@ -3,13 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe Node do
-  before do
-    @user = User.create
-    @tree = Tree.create(name: 'my tree', user: @user)
-    @layer = Layer.create
-  end
-
   describe 'reference' do
+    let!(:user) { User.create }
+    let!(:tree) { Tree.create(name: 'my tree', user:) }
+    let!(:layer) { Layer.create }
+    let!(:parent_node) do
+      described_class.create(
+        name: 'valid node',
+        value: 1.5,
+        value_format: 0,
+        tree:,
+        layer:
+      )
+    end
+
     it '所属するtreeがないと無効になる' do
       node = described_class.new(tree: nil)
       node.valid?
@@ -23,13 +30,6 @@ RSpec.describe Node do
     end
 
     it '所属する親ノードを持つことができる' do
-      parent_node = described_class.create(
-        name: 'valid node',
-        value: 1.5,
-        value_format: 0,
-        tree: @tree,
-        layer: @layer
-      )
       node = described_class.new(parent: parent_node)
       node.valid?
       expect(node.errors[:parent]).to be_empty
@@ -37,13 +37,17 @@ RSpec.describe Node do
   end
 
   describe 'validations for node' do
+    let!(:user) { User.create }
+    let!(:tree) { Tree.create(name: 'my tree', user:) }
+    let!(:layer) { Layer.create }
+
     it 'name, value, value_format, tree_id, layer_idがあれば有効な状態である' do
       node = described_class.new(
         name: 'valid node',
         value: 1.5,
         value_format: 0,
-        tree: @tree,
-        layer: @layer
+        tree:,
+        layer:
       )
       expect(node).to be_valid
     end
@@ -74,7 +78,7 @@ RSpec.describe Node do
 
     it 'value_formatにenum定義外の数値を入れるとArgumentError' do
       expect do
-        node = described_class.new(value_format: 999)
+        described_class.new(value_format: 999)
       end.to raise_error(ArgumentError)
     end
 
