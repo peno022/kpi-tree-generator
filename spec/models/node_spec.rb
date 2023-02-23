@@ -4,44 +4,32 @@ require 'rails_helper'
 
 RSpec.describe Node do
   describe 'reference' do
-    let!(:user) { User.create }
-    let!(:tree) { Tree.create(name: 'my tree', user:) }
-    let!(:layer) { Layer.create }
-    let!(:parent_node) do
-      described_class.create(
-        name: 'valid node',
-        value: 1.5,
-        value_format: 0,
-        tree:,
-        layer:
-      )
-    end
-
-    it '所属するtreeがないと無効になる' do
+    it '所属するtreeがnilだと無効になる' do
       node = described_class.new(tree: nil)
       node.valid?
       expect(node.errors[:tree]).to include('must exist')
     end
 
+    it '存在しないtree_idを指定すると無効になる' do
+      node = described_class.new(tree_id: Tree.maximum(:id).to_i + 1)
+      node.valid?
+      expect(node.errors[:tree]).to include('must exist')
+    end
+
     it '所属する親ノードを持つことができる' do
-      node = described_class.new(parent: parent_node)
+      node = described_class.new(parent: create(:node))
       node.valid?
       expect(node.errors[:parent]).to be_empty
     end
   end
 
   describe 'validations for node' do
-    let!(:user) { User.create }
-    let!(:tree) { Tree.create(name: 'my tree', user:) }
-    let!(:layer) { Layer.create }
-
-    it 'name, value, value_format, tree_id, layer_idがあれば有効な状態である' do
+    it 'name, value, value_format, tree_idがあれば有効な状態である' do
       node = described_class.new(
         name: 'valid node',
         value: 1.5,
         value_format: 0,
-        tree:,
-        layer:
+        tree: create(:tree)
       )
       expect(node).to be_valid
     end
