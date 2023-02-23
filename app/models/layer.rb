@@ -2,7 +2,7 @@
 
 class NodesCountValidator < ActiveModel::Validator
   def validate(layer)
-    return true if layer.nodes.blank? || layer.nodes.length >= 2
+    return true if layer.nodes.empty? || layer.nodes.length >= 2
 
     layer.errors.add :nodes_count, 'must have 0 or 2 or more nodes'
   end

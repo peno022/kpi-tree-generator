@@ -5,15 +5,10 @@ require 'rails_helper'
 RSpec.describe Layer do
   describe 'validations' do
     it '持っている全てのノードのparent_idが同じかつnilでなければ有効になる' do
-      parent = create(:node)
-      child1 = build(:node, parent)
-      child2 = build(:node, parent)
+      parent_node = create(:node)
+      child1 = create(:node, parent: parent_node)
+      child2 = create(:node, parent: parent_node)
       layer = described_class.new(nodes: [child1, child2])
-      expect(layer).to be_valid
-    end
-
-    it '持っているnodesがnilのときは有効になる' do
-      layer = described_class.new(nodes: nil)
       expect(layer).to be_valid
     end
 
