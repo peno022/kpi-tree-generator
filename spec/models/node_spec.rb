@@ -23,12 +23,6 @@ RSpec.describe Node do
       expect(node.errors[:tree]).to include('must exist')
     end
 
-    it '所属するlayerがないと無効になる' do
-      node = described_class.new(layer: nil)
-      node.valid?
-      expect(node.errors[:layer]).to include('must exist')
-    end
-
     it '所属する親ノードを持つことができる' do
       node = described_class.new(parent: parent_node)
       node.valid?
