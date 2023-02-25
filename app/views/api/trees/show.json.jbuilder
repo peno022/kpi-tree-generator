@@ -10,7 +10,7 @@ great_grandchildren1 = [
     value: 5,
     value_format: '万',
     unit: '人',
-    tree_id: 1
+    is_value_locked: false
   },
   {
     id: 9,
@@ -18,7 +18,7 @@ great_grandchildren1 = [
     value: 4,
     value_format: '万',
     unit: '人',
-    tree_id: 1
+    is_value_locked: false
   },
   {
     id: 10,
@@ -26,9 +26,15 @@ great_grandchildren1 = [
     value: 1,
     value_format: '万',
     unit: '人',
-    tree_id: 1
+    is_value_locked: false
   }
 ]
+
+layer_for_great_grandchildren1 = {
+  operation: 'たし算',
+  fraction: nil,
+  nodes: great_grandchildren1
+}
 
 grandchildren1 = [
   {
@@ -37,8 +43,8 @@ grandchildren1 = [
     value: 10,
     value_format: '万',
     unit: '人',
-    tree_id: 1,
-    children: great_grandchildren1
+    is_value_locked: false,
+    next_layer: layer_for_great_grandchildren1
   },
   {
     id: 5,
@@ -46,9 +52,16 @@ grandchildren1 = [
     value: 5,
     value_format: '%',
     unit: '',
-    tree_id: 1
+    is_value_locked: false
   }
 ]
+
+layer_for_grandchildren1 = {
+  operation: 'かけ算',
+  fraction: nil,
+  nodes: grandchildren1
+}
+
 grandchildren2 = [
   {
     id: 6,
@@ -56,7 +69,7 @@ grandchildren2 = [
     value: 1200,
     value_format: 'なし',
     unit: '円',
-    tree_id: 1
+    is_value_locked: false
   },
   {
     id: 7,
@@ -64,9 +77,15 @@ grandchildren2 = [
     value: 1.6,
     value_format: 'なし',
     unit: '個',
-    tree_id: 1
+    is_value_locked: false
   }
 ]
+
+layer_for_grandchildren2 = {
+  operation: 'かけ算',
+  fraction: -80,
+  nodes: grandchildren2
+}
 
 children = [
   {
@@ -75,8 +94,8 @@ children = [
     value: 5000,
     value_format: 'なし',
     unit: '人',
-    tree_id: 1,
-    children: grandchildren1
+    is_value_locked: false,
+    next_layer: layer_for_grandchildren1
   },
   {
     id: 3,
@@ -84,10 +103,16 @@ children = [
     value: 2000,
     value_format: 'なし',
     unit: '円',
-    tree_id: 1,
-    children: grandchildren2
+    is_value_locked: false,
+    next_layer: layer_for_grandchildren2
   }
 ]
+
+layer_for_children = {
+  operation: 'かけ算',
+  fraction: nil,
+  nodes: children
+}
 
 # rubocop:disable Metrics/BlockLength
 
@@ -102,31 +127,42 @@ json.tree do
     json.unit '円'
     json.is_value_locked true
     json.next_layer do
-      json.operation 'かけ算'
+      json.operation layer_for_children[:operation]
+      json.fraction layer_for_children[:fraction]
       json.children do
-        json.array! children do |child|
+        json.array! layer_for_children[:nodes] do |child|
           json.id child[:id]
           json.name child[:name]
           json.value child[:value]
           json.value_format child[:value_format]
           json.unit child[:unit]
-          json.tree_id child[:tree_id]
-          json.children do
-            json.array! child[:children] do |grandchild|
-              json.id grandchild[:id]
-              json.name grandchild[:name]
-              json.value grandchild[:value]
-              json.value_format grandchild[:value_format]
-              json.unit grandchild[:unit]
-              json.tree_id grandchild[:tree_id]
-              json.children do
-                json.array! grandchild[:children] do |great_grandchild|
-                  json.id great_grandchild[:id]
-                  json.name great_grandchild[:name]
-                  json.value great_grandchild[:value]
-                  json.value_format great_grandchild[:value_format]
-                  json.unit great_grandchild[:unit]
-                  json.tree_id great_grandchild[:tree_id]
+          json.is_value_locked child[:is_value_locked]
+          json.next_layer do
+            json.operation child[:next_layer][:operation]
+            json.fraction child[:next_layer][:fraction]
+            json.children do
+              json.array! child[:next_layer][:nodes] do |grandchild|
+                json.id grandchild[:id]
+                json.name grandchild[:name]
+                json.value grandchild[:value]
+                json.value_format grandchild[:value_format]
+                json.unit grandchild[:unit]
+                json.is_value_locked grandchild[:is_value_locked]
+                if grandchild[:next_layer]
+                  json.next_layer do
+                    json.operation grandchild[:next_layer][:operation]
+                    json.fraction grandchild[:next_layer][:fraction]
+                    json.children do
+                      json.array! grandchild[:next_layer][:nodes] do |great_grandchild|
+                        json.id great_grandchild[:id]
+                        json.name great_grandchild[:name]
+                        json.value great_grandchild[:value]
+                        json.value_format great_grandchild[:value_format]
+                        json.unit great_grandchild[:unit]
+                        json.is_value_locked great_grandchild[:is_value_locked]
+                      end
+                    end
+                  end
                 end
               end
             end
