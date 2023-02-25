@@ -5,6 +5,7 @@ class CreateLayers < ActiveRecord::Migration[7.0]
     create_table :layers do |t|
       t.integer :operation
       t.float :fraction
+      t.references :parent_node, foreign_key: { to_table: :nodes }
 
       t.timestamps
     end
