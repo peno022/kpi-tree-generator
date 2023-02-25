@@ -107,8 +107,6 @@ layer = {
   fraction: nil
 }
 
-# rubocop:disable Metrics/BlockLength
-
 json.tree do
   json.id 1
   json.name '売上構成ツリー'
@@ -123,5 +121,3 @@ json.tree do
     json.children children
   end
 end
-
-# rubocop:enable Metrics/BlockLength
