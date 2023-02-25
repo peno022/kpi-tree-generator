@@ -30,12 +30,6 @@ great_grandchildren1 = [
   }
 ]
 
-layer_for_great_grandchildren1 = {
-  operation: 'たし算',
-  fraction: nil,
-  nodes: great_grandchildren1
-}
-
 grandchildren1 = [
   {
     id: 4,
@@ -44,7 +38,11 @@ grandchildren1 = [
     value_format: '万',
     unit: '人',
     is_value_locked: false,
-    next_layer: layer_for_great_grandchildren1
+    child_layer: {
+      operation: 'たし算',
+      fraction: nil
+    },
+    children: great_grandchildren1
   },
   {
     id: 5,
@@ -55,12 +53,6 @@ grandchildren1 = [
     is_value_locked: false
   }
 ]
-
-layer_for_grandchildren1 = {
-  operation: 'かけ算',
-  fraction: nil,
-  nodes: grandchildren1
-}
 
 grandchildren2 = [
   {
@@ -81,12 +73,6 @@ grandchildren2 = [
   }
 ]
 
-layer_for_grandchildren2 = {
-  operation: 'かけ算',
-  fraction: -80,
-  nodes: grandchildren2
-}
-
 children = [
   {
     id: 2,
@@ -95,7 +81,11 @@ children = [
     value_format: 'なし',
     unit: '人',
     is_value_locked: false,
-    next_layer: layer_for_grandchildren1
+    child_layer: {
+      operation: 'かけ算',
+      fraction: nil
+    },
+    children: grandchildren1
   },
   {
     id: 3,
@@ -104,14 +94,17 @@ children = [
     value_format: 'なし',
     unit: '円',
     is_value_locked: false,
-    next_layer: layer_for_grandchildren2
+    child_layer: {
+      operation: 'かけ算',
+      fraction: -80
+    },
+    children: grandchildren2
   }
 ]
 
-layer_for_children = {
+layer = {
   operation: 'かけ算',
-  fraction: nil,
-  nodes: children
+  fraction: nil
 }
 
 # rubocop:disable Metrics/BlockLength
@@ -126,50 +119,8 @@ json.tree do
     json.value_format '万'
     json.unit '円'
     json.is_value_locked true
-    json.next_layer do
-      json.operation layer_for_children[:operation]
-      json.fraction layer_for_children[:fraction]
-      json.children do
-        json.array! layer_for_children[:nodes] do |child|
-          json.id child[:id]
-          json.name child[:name]
-          json.value child[:value]
-          json.value_format child[:value_format]
-          json.unit child[:unit]
-          json.is_value_locked child[:is_value_locked]
-          json.next_layer do
-            json.operation child[:next_layer][:operation]
-            json.fraction child[:next_layer][:fraction]
-            json.children do
-              json.array! child[:next_layer][:nodes] do |grandchild|
-                json.id grandchild[:id]
-                json.name grandchild[:name]
-                json.value grandchild[:value]
-                json.value_format grandchild[:value_format]
-                json.unit grandchild[:unit]
-                json.is_value_locked grandchild[:is_value_locked]
-                if grandchild[:next_layer]
-                  json.next_layer do
-                    json.operation grandchild[:next_layer][:operation]
-                    json.fraction grandchild[:next_layer][:fraction]
-                    json.children do
-                      json.array! grandchild[:next_layer][:nodes] do |great_grandchild|
-                        json.id great_grandchild[:id]
-                        json.name great_grandchild[:name]
-                        json.value great_grandchild[:value]
-                        json.value_format great_grandchild[:value_format]
-                        json.unit great_grandchild[:unit]
-                        json.is_value_locked great_grandchild[:is_value_locked]
-                      end
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-    end
+    json.child_layer layer
+    json.children children
   end
 end
 
