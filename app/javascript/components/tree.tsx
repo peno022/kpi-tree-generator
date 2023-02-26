@@ -28,7 +28,7 @@ const CustomNode: types.RenderCustomNodeElementFn = ({ nodeDatum }) => {
           fill: "#333",
           strokeWidth: "0",
           fontWeight: "bold",
-          fontSize: "1.4em",
+          fontSize: "1.2em",
           maxWidth: "280",
         }}
       >
