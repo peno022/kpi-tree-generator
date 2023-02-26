@@ -6,7 +6,9 @@ import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
 import * as types from "react-d3-tree/lib/types/types/common";
 
-const CustomNode: React.FC<types.CustomNodeElementProps> = ({ nodeDatum }) => {
+const CustomNode: types.RenderCustomNodeElementFn = ({
+  nodeDatum,
+}: types.CustomNodeElementProps) => {
   return (
     <g>
       <rect
