@@ -1,7 +1,7 @@
 import React from "react";
 import useSWR from "swr";
 import fetcher from "../fetcher";
-import processTreeForD3 from "../process_tree_for_d3";
+import convertNodeToRawNodeDatum from "../convert_node_to_raw_node_datum";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
 import * as types from "react-d3-tree/lib/types/types/common";
@@ -59,7 +59,7 @@ const EditTree = () => {
   if (error) return <>エラーが発生しました。</>;
   if (!data) return <>ロード中…</>;
   console.log(data);
-  const processedData = processTreeForD3(data.tree.root);
+  const processedData = convertNodeToRawNodeDatum(data.tree.root);
   return (
     <>
       <div id="treeWrapper" style={{ width: "50em", height: "50em" }}>
