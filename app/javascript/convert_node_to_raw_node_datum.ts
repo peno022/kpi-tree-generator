@@ -1,6 +1,7 @@
-export {};
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 import * as types from "./types";
+
+export {};
 
 export default function convertNodeToRawNodeDatum(
   data: types.Node

@@ -1,7 +1,7 @@
-export type Tree = {
+export type Layer = {
   id: number;
-  name: string;
-  root: Node;
+  operation: string;
+  fraction?: number;
 };
 
 export type Node = {
@@ -15,8 +15,8 @@ export type Node = {
   children?: Node[];
 };
 
-export type Layer = {
+export type Tree = {
   id: number;
-  operation: string;
-  fraction?: number;
+  name: string;
+  root: Node;
 };
