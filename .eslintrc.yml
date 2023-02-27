@@ -15,6 +15,13 @@ overrides:
     extends:
       - plugin:@typescript-eslint/eslint-recommended
       - plugin:@typescript-eslint/recommended
+  - files:
+    - "spec/**/*.ts"
+    plugins:
+      - jest
+    extends:
+      - plugin:jest/recommended
+    rules: {}
 parserOptions:
   ecmaVersion: latest
   sourceType: module

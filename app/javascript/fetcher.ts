@@ -1,3 +1,6 @@
-export default function fetcher(url: URL): Promise<any> {
-  return fetch(url).then((res) => res.json());
+import * as types from "./types";
+
+export default async function fetcher(url: URL): Promise<{ tree: types.Tree }> {
+  const res = await fetch(url);
+  return await res.json();
 }

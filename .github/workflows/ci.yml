@@ -93,5 +93,8 @@ jobs:
       - name: Run lint
         run: npm run lint
 
-      - name: Run tests
+      - name: Run jest
+        run: yarn jest
+
+      - name: Run rspec
         run: bundle exec rspec
