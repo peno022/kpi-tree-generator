@@ -10,7 +10,9 @@ great_grandchildren1 = [
     value: 5,
     value_format: '万',
     unit: '人',
-    is_value_locked: false
+    is_value_locked: false,
+    operation: 'たし算',
+    is_last_in_layer: false
   },
   {
     id: 9,
@@ -18,7 +20,9 @@ great_grandchildren1 = [
     value: 4,
     value_format: '万',
     unit: '人',
-    is_value_locked: false
+    is_value_locked: false,
+    operation: 'たし算',
+    is_last_in_layer: false
   },
   {
     id: 10,
@@ -26,7 +30,9 @@ great_grandchildren1 = [
     value: 1,
     value_format: '万',
     unit: '人',
-    is_value_locked: false
+    is_value_locked: false,
+    operation: 'たし算',
+    is_last_in_layer: true
   }
 ]
 
@@ -38,6 +44,8 @@ grandchildren1 = [
     value_format: '万',
     unit: '人',
     is_value_locked: false,
+    operation: 'かけ算',
+    is_last_in_layer: false,
     child_layer: {
       operation: 'たし算',
       fraction: nil
@@ -50,7 +58,9 @@ grandchildren1 = [
     value: 5,
     value_format: '%',
     unit: '',
-    is_value_locked: false
+    is_value_locked: false,
+    operation: 'かけ算',
+    is_last_in_layer: true
   }
 ]
 
@@ -61,7 +71,9 @@ grandchildren2 = [
     value: 1200,
     value_format: 'なし',
     unit: '円',
-    is_value_locked: false
+    is_value_locked: false,
+    operation: 'かけ算',
+    is_last_in_layer: false
   },
   {
     id: 7,
@@ -69,7 +81,9 @@ grandchildren2 = [
     value: 1.6,
     value_format: 'なし',
     unit: '個',
-    is_value_locked: false
+    is_value_locked: false,
+    operation: 'かけ算',
+    is_last_in_layer: true
   }
 ]
 
@@ -81,6 +95,8 @@ children = [
     value_format: 'なし',
     unit: '人',
     is_value_locked: false,
+    operation: 'かけ算',
+    is_last_in_layer: false,
     child_layer: {
       operation: 'かけ算',
       fraction: nil
@@ -94,6 +110,8 @@ children = [
     value_format: 'なし',
     unit: '円',
     is_value_locked: false,
+    operation: 'かけ算',
+    is_last_in_layer: true,
     child_layer: {
       operation: 'かけ算',
       fraction: -80
@@ -117,6 +135,8 @@ json.tree do
     json.value_format '万'
     json.unit '円'
     json.is_value_locked true
+    json.operation ''
+    json.is_last_in_layer true
     json.child_layer layer
     json.children children
   end

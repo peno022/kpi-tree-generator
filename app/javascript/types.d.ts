@@ -11,6 +11,8 @@ export type Node = {
   value_format: string;
   unit: string;
   is_value_locked: boolean;
+  operation: string;
+  is_last_in_layer: boolean;
   child_layer?: Layer;
   children?: Node[];
 };

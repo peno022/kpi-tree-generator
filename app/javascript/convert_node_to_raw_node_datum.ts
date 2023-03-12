@@ -13,6 +13,8 @@ export default function convertNodeToRawNodeDatum(
       valueFormat: data.value_format,
       unit: data.unit,
       isValueLocked: data.is_value_locked,
+      operation: data.operation,
+      isLastInLayer: data.is_last_in_layer,
     },
     children: data.children?.map(convertNodeToRawNodeDatum),
   };
