@@ -52,6 +52,25 @@ const CustomNode: types.RenderCustomNodeElementFn = ({
           : nodeDatum.attributes?.valueFormat}
         {nodeDatum.attributes?.unit}
       </text>
+      <text
+        x="130"
+        y="42"
+        style={{
+          fill: "#333",
+          strokeWidth: "0",
+          fontWeight: "bold",
+          fontSize: "1.5em",
+          maxWidth: "280",
+        }}
+      >
+        {nodeDatum.attributes?.operation === "たし算" &&
+          !nodeDatum.attributes?.isLastInLayer &&
+          "＋"}
+        {nodeDatum.attributes?.operation === "かけ算" &&
+          !nodeDatum.attributes?.isLastInLayer &&
+          "×"}
+      </text>
+      <text></text>
     </g>
   );
 };
@@ -67,9 +86,10 @@ const EditTree = () => {
       <div id="treeWrapper" style={{ width: "50em", height: "50em" }}>
         <Tree
           data={processedData}
-          pathFunc="step"
+          pathFunc="diagonal"
           orientation="vertical"
           renderCustomNodeElement={CustomNode}
+          separation={{ siblings: 2, nonSiblings: 2 }}
         />
       </div>
     </>
