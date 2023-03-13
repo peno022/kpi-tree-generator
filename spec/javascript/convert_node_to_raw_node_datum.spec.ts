@@ -12,6 +12,8 @@ describe("convertNodeToRawNodeDatum", () => {
         value_format: "なし",
         unit: "円",
         is_value_locked: false,
+        operation: "",
+        is_last_in_layer: true,
       };
 
       const expected: RawNodeDatum = {
@@ -21,6 +23,8 @@ describe("convertNodeToRawNodeDatum", () => {
           valueFormat: "なし",
           unit: "円",
           isValueLocked: false,
+          operation: "",
+          isLastInLayer: true,
         },
       };
       expect(convertNodeToRawNodeDatum(node)).toEqual(expected);
@@ -34,6 +38,8 @@ describe("convertNodeToRawNodeDatum", () => {
         value_format: "なし",
         unit: "",
         is_value_locked: false,
+        operation: "",
+        is_last_in_layer: true,
       };
 
       const expected: RawNodeDatum = {
@@ -43,6 +49,8 @@ describe("convertNodeToRawNodeDatum", () => {
           valueFormat: "なし",
           unit: "",
           isValueLocked: false,
+          operation: "",
+          isLastInLayer: true,
         },
       };
       expect(convertNodeToRawNodeDatum(node)).toEqual(expected);
@@ -56,6 +64,8 @@ describe("convertNodeToRawNodeDatum", () => {
         value_format: "なし",
         unit: "回",
         is_value_locked: false,
+        operation: "",
+        is_last_in_layer: true,
       };
 
       const expected: RawNodeDatum = {
@@ -65,6 +75,8 @@ describe("convertNodeToRawNodeDatum", () => {
           valueFormat: "なし",
           unit: "回",
           isValueLocked: false,
+          operation: "",
+          isLastInLayer: true,
         },
       };
       expect(convertNodeToRawNodeDatum(node)).toEqual(expected);
@@ -83,6 +95,8 @@ describe("convertNodeToRawNodeDatum", () => {
           id: 1,
           operation: "たし算",
         },
+        operation: "",
+        is_last_in_layer: true,
         children: [
           {
             id: 2,
@@ -91,6 +105,8 @@ describe("convertNodeToRawNodeDatum", () => {
             value_format: "なし",
             unit: "円",
             is_value_locked: false,
+            operation: "たし算",
+            is_last_in_layer: false,
           },
           {
             id: 3,
@@ -99,6 +115,8 @@ describe("convertNodeToRawNodeDatum", () => {
             value_format: "なし",
             unit: "円",
             is_value_locked: false,
+            operation: "たし算",
+            is_last_in_layer: true,
           },
         ],
       };
@@ -110,6 +128,8 @@ describe("convertNodeToRawNodeDatum", () => {
           valueFormat: "なし",
           unit: "円",
           isValueLocked: false,
+          operation: "",
+          isLastInLayer: true,
         },
         children: [
           {
@@ -119,6 +139,8 @@ describe("convertNodeToRawNodeDatum", () => {
               valueFormat: "なし",
               unit: "円",
               isValueLocked: false,
+              operation: "たし算",
+              isLastInLayer: false,
             },
           },
           {
@@ -128,6 +150,8 @@ describe("convertNodeToRawNodeDatum", () => {
               valueFormat: "なし",
               unit: "円",
               isValueLocked: false,
+              operation: "たし算",
+              isLastInLayer: true,
             },
           },
         ],
@@ -144,6 +168,8 @@ describe("convertNodeToRawNodeDatum", () => {
         value_format: "なし",
         unit: "円",
         is_value_locked: false,
+        operation: "",
+        is_last_in_layer: true,
         child_layer: {
           id: 1,
           operation: "たし算",
@@ -156,6 +182,8 @@ describe("convertNodeToRawNodeDatum", () => {
             value_format: "なし",
             unit: "円",
             is_value_locked: false,
+            operation: "たし算",
+            is_last_in_layer: false,
             child_layer: {
               id: 1,
               operation: "かけ算",
@@ -168,6 +196,8 @@ describe("convertNodeToRawNodeDatum", () => {
                 value_format: "なし",
                 unit: "円",
                 is_value_locked: true,
+                operation: "かけ算",
+                is_last_in_layer: false,
               },
               {
                 id: 5,
@@ -176,6 +206,8 @@ describe("convertNodeToRawNodeDatum", () => {
                 value_format: "なし",
                 unit: "人",
                 is_value_locked: false,
+                operation: "かけ算",
+                is_last_in_layer: true,
               },
             ],
           },
@@ -186,6 +218,8 @@ describe("convertNodeToRawNodeDatum", () => {
             value_format: "なし",
             unit: "円",
             is_value_locked: false,
+            operation: "たし算",
+            is_last_in_layer: true,
           },
         ],
       };
@@ -197,6 +231,8 @@ describe("convertNodeToRawNodeDatum", () => {
           valueFormat: "なし",
           unit: "円",
           isValueLocked: false,
+          operation: "",
+          isLastInLayer: true,
         },
         children: [
           {
@@ -206,6 +242,8 @@ describe("convertNodeToRawNodeDatum", () => {
               valueFormat: "なし",
               unit: "円",
               isValueLocked: false,
+              operation: "たし算",
+              isLastInLayer: false,
             },
             children: [
               {
@@ -215,6 +253,8 @@ describe("convertNodeToRawNodeDatum", () => {
                   valueFormat: "なし",
                   unit: "円",
                   isValueLocked: true,
+                  operation: "かけ算",
+                  isLastInLayer: false,
                 },
               },
               {
@@ -224,6 +264,8 @@ describe("convertNodeToRawNodeDatum", () => {
                   valueFormat: "なし",
                   unit: "人",
                   isValueLocked: false,
+                  operation: "かけ算",
+                  isLastInLayer: true,
                 },
               },
             ],
@@ -235,6 +277,8 @@ describe("convertNodeToRawNodeDatum", () => {
               valueFormat: "なし",
               unit: "円",
               isValueLocked: false,
+              operation: "たし算",
+              isLastInLayer: true,
             },
           },
         ],
