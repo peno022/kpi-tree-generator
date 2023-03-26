@@ -4,6 +4,8 @@ import fetcher from "../fetcher";
 import convertNodeToRawNodeDatum from "../convert_node_to_raw_node_datum";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 import * as types from "react-d3-tree/lib/types/types/common";
 
 const CustomNode: types.RenderCustomNodeElementFn = ({
@@ -36,6 +38,18 @@ const CustomNode: types.RenderCustomNodeElementFn = ({
       >
         {nodeDatum.name}
       </text>
+      {nodeDatum.attributes?.isValueLocked && (
+        <FontAwesomeIcon
+          icon={faLock}
+          width={20}
+          height={20}
+          x={45}
+          y={10}
+          style={{
+            color: "dimgray",
+          }}
+        />
+      )}
       <text
         x="-60"
         y="65"
@@ -81,6 +95,7 @@ const EditTree = () => {
   if (!data) return <>ロード中…</>;
   console.log(data);
   const processedData = convertNodeToRawNodeDatum(data.tree.root);
+  console.log(processedData);
   return (
     <>
       <div id="treeWrapper" style={{ width: "50em", height: "50em" }}>
