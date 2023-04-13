@@ -2,6 +2,10 @@
 
 module Api
   class TreesController < BaseController
-    def show; end
+    def show
+      @tree = Tree.find(params[:id])
+      @nodes = @tree.nodes
+      @layers = @tree.layers
+    end
   end
 end

@@ -21,10 +21,10 @@ grandchild11.children.create(name: '検索流入', value: 5, value_format: '万'
 grandchild11.children.create(name: '広告流入', value: 4, value_format: '万', unit: '人', tree: tree1)
 grandchild11.children.create(name: 'メルマガ流入', value: 1, value_format: '万', unit: '人', tree: tree1)
 
-Layer.create(parent_node: root, operation: 'かけ算')
-Layer.create(parent_node: child1, operation: 'かけ算')
-Layer.create(parent_node: child2, operation: 'かけ算', fraction: -80)
-Layer.create(parent_node: grandchild11, operation: 'たし算')
+Layer.create(parent_node: root, operation: 'かけ算', tree: tree1)
+Layer.create(parent_node: child1, operation: 'かけ算', tree: tree1)
+Layer.create(parent_node: child2, operation: 'かけ算', fraction: -80, tree: tree1)
+Layer.create(parent_node: grandchild11, operation: 'たし算', tree: tree1)
 
 ### tree2
 tree2 = user_with_trees.trees.create(name: '無題のツリー')
@@ -33,7 +33,7 @@ defalut_root = tree2.nodes.create(name: '売上金額', value: 500, value_format
 defalut_root.children.create(name: '購入者数', value: 10_000, value_format: 'なし', unit: '人', tree: tree2)
 defalut_root.children.create(name: '顧客単価', value: 500, value_format: 'なし', unit: '円', tree: tree2)
 
-Layer.create(parent_node: defalut_root, operation: 'かけ算')
+Layer.create(parent_node: defalut_root, operation: 'かけ算', tree: tree2)
 
 ### tree3
 tree3 = user_with_trees.trees.create(name: 'ルートノードだけのツリー')

@@ -18,9 +18,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_25_223903) do
     t.integer "operation"
     t.float "fraction"
     t.bigint "parent_node_id"
+    t.bigint "tree_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["parent_node_id"], name: "index_layers_on_parent_node_id"
+    t.index ["tree_id"], name: "index_layers_on_tree_id"
   end
 
   create_table "nodes", force: :cascade do |t|
@@ -51,6 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_25_223903) do
   end
 
   add_foreign_key "layers", "nodes", column: "parent_node_id"
+  add_foreign_key "layers", "trees"
   add_foreign_key "nodes", "nodes", column: "parent_id"
   add_foreign_key "nodes", "trees"
   add_foreign_key "trees", "users"
