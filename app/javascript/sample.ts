@@ -1,4 +1,4 @@
-import { convertNodesToRawNodeDatum } from "./convert_nodes_list_to_tree";
+import { convertNodesToRawNodeDatum } from "./convert_nodes_list_to_raw_node_datum";
 import * as types from "./types";
 import fetch from "node-fetch";
 
@@ -16,10 +16,10 @@ async function getTree(): Promise<types.TreeData> {
   try {
     const data = await getTree();
 
-    console.log("=== start sample2 ===");
+    console.log("=== start sample ===");
     const rawNodeDatum = convertNodesToRawNodeDatum(data.nodes, data.layers);
     console.dir(rawNodeDatum, { depth: null });
-    console.log("=== end sample2 ===");
+    console.log("=== end sample ===");
   } catch (error) {
     console.error(error);
   }

@@ -1,7 +1,7 @@
 import React from "react";
 import useSWR from "swr";
 import fetcher from "../fetcher";
-import { convertNodesToRawNodeDatum } from "../convert_nodes_list_to_tree";
+import { convertNodesToRawNodeDatum } from "../convert_nodes_list_to_raw_node_datum";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

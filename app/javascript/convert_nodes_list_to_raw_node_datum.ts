@@ -16,7 +16,7 @@ export function convertNodesToRawNodeDatum(
   return rawNodeDatum;
 }
 
-export function prepareNodeProperties(
+function prepareNodeProperties(
   nodes: types.Node[],
   layers: types.Layer[]
 ): types.Node[] {
@@ -31,9 +31,7 @@ export function prepareNodeProperties(
   return nodesWithInheritedOperation;
 }
 
-export function convertNodesListToTree(
-  nodes: types.Node[]
-): types.TreeStructureNode {
+function convertNodesListToTree(nodes: types.Node[]): types.TreeStructureNode {
   // nodesのparent_idがnullの場合、parent_idを0に変更する
   nodes.forEach((node) => {
     if (node.parent_id === null) {
