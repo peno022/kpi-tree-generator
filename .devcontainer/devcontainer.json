@@ -4,7 +4,7 @@
 	"name": "Ruby on Rails & Postgres",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {}
 
@@ -16,7 +16,22 @@
 	// "postCreateCommand": "bundle install && rake db:setup",
 
 	// Configure tool-specific properties.
-	// "customizations": {},
+	"customizations": {
+		"vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+				"aliariff.slim-lint",
+				"burkeholland.simple-react-snippets",
+				"eamodio.gitlens",
+				"esbenp.prettier-vscode",
+				"Github.copilot",
+				"github.copilot-labs",
+				"karunamurti.rspec-snippets",
+				"misogi.ruby-rubocop",
+				"rebornix.ruby"
+			]
+    }
+	}
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
