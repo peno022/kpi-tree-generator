@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Layer do
-  it 'operationとparent_nodeがあれば有効になる' do
+  it 'operation、parent_node、tree_idがあれば有効になる' do
     node = create(:node)
-    layer = described_class.new(parent_node: node, operation: 'かけ算')
+    layer = described_class.new(parent_node: node, operation: 'かけ算', tree: create(:tree))
     expect(layer).to be_valid
   end
 
@@ -25,6 +25,18 @@ RSpec.describe Layer do
     layer = described_class.new(parent_node_id: Node.maximum(:id).to_i + 1)
     layer.valid?
     expect(layer.errors[:parent_node]).to include('must exist')
+  end
+
+  it 'treeがnilだと無効になる' do
+    layer = described_class.new(tree: nil)
+    layer.valid?
+    expect(layer.errors[:tree]).to include('must exist')
+  end
+
+  it '存在しないtree_idを指定すると無効になる' do
+    layer = described_class.new(tree_id: Tree.maximum(:id).to_i + 1)
+    layer.valid?
+    expect(layer.errors[:tree]).to include('must exist')
   end
 
   it 'operationにenum定義外の数値を入れるとArgumentErrorになる' do

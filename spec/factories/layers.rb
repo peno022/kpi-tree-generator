@@ -4,5 +4,6 @@ FactoryBot.define do
   factory :layer do
     operation { 'かけ算' }
     parent_node
+    tree
   end
 end
