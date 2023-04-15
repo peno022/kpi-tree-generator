@@ -62,7 +62,7 @@ function addIsLastInLayerProperty(nodes: types.Node[]): types.Node[] {
         node.is_last_in_layer = false;
       }
     } else {
-      node.is_last_in_layer = false;
+      node.is_last_in_layer = true;
     }
   });
 
