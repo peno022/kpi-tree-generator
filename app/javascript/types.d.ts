@@ -3,7 +3,6 @@ export type Layer = {
   operation: string;
   fraction: number | null;
   parent_node_id: number;
-  tree_id: number;
 };
 
 export type Node = {
