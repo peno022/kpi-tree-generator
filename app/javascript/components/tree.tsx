@@ -7,24 +7,44 @@ import Tree from "react-d3-tree";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import * as types from "react-d3-tree/lib/types/types/common";
+import * as typesOfTree from "react-d3-tree/lib/types/Tree/types";
 
 const CustomNode: types.RenderCustomNodeElementFn = ({
   nodeDatum,
+  onNodeClick,
 }: types.CustomNodeElementProps) => {
   return (
     <g>
-      <rect
-        x="-75"
-        rx="5"
-        ry="5"
-        style={{
-          width: "150",
-          height: "85",
-          fill: "ghostwhite",
-          stroke: "dimgray",
-          strokeWidth: "1",
-        }}
-      />
+      {nodeDatum.attributes?.isSelected && (
+        <rect
+          x="-75"
+          rx="5"
+          ry="5"
+          style={{
+            width: "150",
+            height: "85",
+            fill: "moccasin",
+            stroke: "dimgray",
+            strokeWidth: "1",
+          }}
+          onClick={onNodeClick}
+        />
+      )}
+      {!nodeDatum.attributes?.isSelected && (
+        <rect
+          x="-75"
+          rx="5"
+          ry="5"
+          style={{
+            width: "150",
+            height: "85",
+            fill: "ghostwhite",
+            stroke: "dimgray",
+            strokeWidth: "1",
+          }}
+          onClick={onNodeClick}
+        />
+      )}
       <text
         x="-60"
         y="38"
@@ -96,6 +116,12 @@ const EditTree = () => {
   console.log(data);
   const processedData = convertNodesToRawNodeDatum(data.nodes, data.layers);
   console.log(processedData);
+
+  const handleClick: typesOfTree.TreeNodeEventCallback = (node) => {
+    console.log("--- clicked ---");
+    console.log(node.data.name);
+    console.log("--- end ---");
+  };
   return (
     <>
       <div id="treeWrapper" style={{ width: "50em", height: "50em" }}>
@@ -104,6 +130,7 @@ const EditTree = () => {
           pathFunc="diagonal"
           orientation="vertical"
           renderCustomNodeElement={CustomNode}
+          onNodeClick={handleClick}
           separation={{ siblings: 2, nonSiblings: 2 }}
         />
       </div>
