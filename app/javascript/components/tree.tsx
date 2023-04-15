@@ -1,7 +1,7 @@
 import React from "react";
 import useSWR from "swr";
 import fetcher from "../fetcher";
-import convertNodeToRawNodeDatum from "../convert_node_to_raw_node_datum";
+import { convertNodesToRawNodeDatum } from "../convert_nodes_list_to_raw_node_datum";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -94,7 +94,7 @@ const EditTree = () => {
   if (error) return <>エラーが発生しました。</>;
   if (!data) return <>ロード中…</>;
   console.log(data);
-  const processedData = convertNodeToRawNodeDatum(data.tree.root);
+  const processedData = convertNodesToRawNodeDatum(data.nodes, data.layers);
   console.log(processedData);
   return (
     <>
