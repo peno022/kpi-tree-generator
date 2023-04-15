@@ -1818,6 +1818,7 @@ __metadata:
     react-dom: ^18.2.0
     swr: ^2.0.4
     tailwindcss: ^3.2.4
+    tree-model: ^1.0.7
     ts-jest: ^29.0.5
     tsx: ^3.12.6
     typescript: ^4.9.5
@@ -3483,6 +3484,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"find-insert-index@npm:0.0.1":
+  version: 0.0.1
+  resolution: "find-insert-index@npm:0.0.1"
+  checksum: a77d17cfeb258c8b0618f92ec177baa2aa0ab5ef9525c27422d2b82828ab61ac1452000df0fbcabe75b2de4787133daefda573c9cab2efb15b2f517b29e79929
+  languageName: node
+  linkType: hard
+
 "find-up@npm:^4.0.0, find-up@npm:^4.1.0":
   version: 4.1.0
   resolution: "find-up@npm:4.1.0"
@@ -5030,6 +5038,13 @@ __metadata:
   version: 1.4.1
   resolution: "merge2@npm:1.4.1"
   checksum: 7268db63ed5169466540b6fb947aec313200bcf6d40c5ab722c22e242f651994619bcd85601602972d3c85bd2cc45a358a4c61937e9f11a061919a1da569b0c2
+  languageName: node
+  linkType: hard
+
+"mergesort@npm:0.0.1":
+  version: 0.0.1
+  resolution: "mergesort@npm:0.0.1"
+  checksum: f174d414944950b8d504ca7392790de74c8c6064398742a46ac3a90d993be5b1157476b14d34aa909277a939085997eb9941654efa5c4dc38aa145a7f64df7e7
   languageName: node
   linkType: hard
 
@@ -6592,6 +6607,16 @@ __metadata:
   dependencies:
     is-number: ^7.0.0
   checksum: f76fa01b3d5be85db6a2a143e24df9f60dd047d151062d0ba3df62953f2f697b16fe5dad9b0ac6191c7efc7b1d9dcaa4b768174b7b29da89d4428e64bc0a20ed
+  languageName: node
+  linkType: hard
+
+"tree-model@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "tree-model@npm:1.0.7"
+  dependencies:
+    find-insert-index: 0.0.1
+    mergesort: 0.0.1
+  checksum: 4a4a5cc96e9276e65229ba0e4b1324c08328bee657cb3864791fe16f0fc04334410338e486ae74311e2d6172139b3d4cd3c0c2aa355272123cf3e3d347ec045e
   languageName: node
   linkType: hard
 
