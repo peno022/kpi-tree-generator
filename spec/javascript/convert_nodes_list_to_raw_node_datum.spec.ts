@@ -1,7 +1,7 @@
 import { convertNodesToRawNodeDatum } from "../../app/javascript/convert_nodes_list_to_raw_node_datum";
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 import { Node, Layer } from "../../app/javascript/types";
-import * as fixtures from "./__fixtures__/convert_nodes_list_to_raw_node_datum";
+import * as fixtures from "./__fixtures__/sample_data";
 
 const {
   parentNode,
