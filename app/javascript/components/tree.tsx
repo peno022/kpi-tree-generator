@@ -10,11 +10,12 @@ import * as typesOfTree from "react-d3-tree/lib/types/Tree/types";
 import CustomNode from "./custom_node";
 
 const EditTree = () => {
+  const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
   const initialData: types.RawNodeDatum = {
     name: "initial-root",
   };
 
-  const { data, error } = useSWR(`/api/trees/1.json`, fetcher);
+  const { data, error } = useSWR(`/api/trees/${treeId}.json`, fetcher);
   const [nodeDatum, setNodeDatam] = useState<types.RawNodeDatum>(initialData);
 
   const [treeKey, setTreeKey] = useState<number>(0);
