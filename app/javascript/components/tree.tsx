@@ -22,15 +22,13 @@ const EditTree = () => {
   useEffect(() => {
     if (data) {
       const convertedData = convertNodesToRawNodeDatum(data.nodes, data.layers);
+      console.log(convertedData);
       setNodeDatam(convertedData);
     }
   }, [data]);
 
   if (error) return <>エラーが発生しました。</>;
   if (!data) return <>ロード中…</>;
-  console.log(data);
-  const processedData = convertNodesToRawNodeDatum(data.nodes, data.layers);
-  console.log(processedData);
 
   const handleClick: typesOfTree.TreeNodeEventCallback = (node) => {
     console.log("--- handleClick start ---");
