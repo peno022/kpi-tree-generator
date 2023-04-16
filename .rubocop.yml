@@ -22,10 +22,10 @@ Metrics/MethodLength:
 # 1つのテストケースあたりの行数
 RSpec/ExampleLength:
   Enabled: true
-  Max: 10 # default: 5
+  Max: 30 # default: 5
   CountAsOne: ["array", "hash", "heredoc"]
 
 # 1つのexampleで複数のアサーションを許可する
 RSpec/MultipleExpectations:
   Enabled: true
-  Max: 3 # default: 1
+  Max: 10 # default: 1
