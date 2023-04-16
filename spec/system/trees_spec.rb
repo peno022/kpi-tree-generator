@@ -2,7 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Tree pages', js: true, pending: '初期表示時に画面枠外に出てしまって見えないノードのクリックや存在確認ができないため。issue#152で初期表示位置の修正時にテストが通るようにする' do
+RSpec.describe 'Tree pages', js: true,
+                             pending: '初期表示時に画面枠外に出てしまって見えないノードのクリックや存在確認ができないため。
+   issue#152で初期表示位置の修正時にテストが通るようにする' do
   it('treeの詳細画面に、treeの図が表示されている') do
     tree1 = create(:tree)
     nodes = create_list(:node, 3, tree: tree1)
