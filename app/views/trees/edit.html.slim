@@ -2,5 +2,7 @@
   nav.navbar.bg-base-100.flex.justify-center.border-b-2.border-base-300
     h1.text-xl.font-bold
       | #{@tree.name}
+    a.btn.btn-ghost
+      i.fa.fa-pencil.mx-1[aria-hidden="true"]
   .container.flex.grow#tree.w-full.mx-auto data-tree-id=@tree.id
   
