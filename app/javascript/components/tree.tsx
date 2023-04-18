@@ -51,15 +51,17 @@ const EditTree = () => {
   };
   return (
     <>
-      <div id="treeWrapper" style={{ width: "50em", height: "50em" }}>
+      <div className="container flex-grow" id="treeWrapper">
         <Tree
           key={treeKey}
+          translate={{ x: 350, y: 20 }}
           data={nodeDatum}
           pathFunc="diagonal"
           orientation="vertical"
           renderCustomNodeElement={CustomNode}
           onNodeClick={handleClick}
           separation={{ siblings: 2, nonSiblings: 2 }}
+          zoom={0.7}
         />
       </div>
     </>
