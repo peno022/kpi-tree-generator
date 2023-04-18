@@ -1,5 +1,6 @@
-nav.navbar.bg-base-100.flex.justify-center.border-b-2.border-base-300
-  h1.text-xl.font-bold
-    | #{@tree.name}
-.container.mx-10
-  #tree.my-5 data-tree-id=@tree.id
+.flex.flex-col.min-h-screen
+  nav.navbar.bg-base-100.flex.justify-center.border-b-2.border-base-300
+    h1.text-xl.font-bold
+      | #{@tree.name}
+  .container.flex.grow#tree.w-full.mx-auto data-tree-id=@tree.id
+  
