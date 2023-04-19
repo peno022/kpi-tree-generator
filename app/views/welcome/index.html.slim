@@ -26,15 +26,15 @@ nav.navbar.bg-base-100
             | ログインなしで試す
 
   footer.footer.footer-center.p-10.bg-base-100.text-base-content.rounded
-    div.grid.grid-flow-col.gap-4
+    .grid.grid-flow-col.gap-4
       = link_to '利用規約', terms_of_use_path, class: 'link link-hover'
       = link_to 'プライバシーポリシー', privacy_policy_path, class: 'link link-hover'
       = link_to 'https://github.com/peno022/kpi-tree-generator', class: 'link link-hover' do
         i.fa-brands.fa-github
       = link_to 'https://twitter.com/peno022', class: 'link link-hover' do
         i.fa-brands.fa-twitter
-    div.grid.grid-flow-col.gap-4
+    .grid.grid-flow-col.gap-4
       p
-        | Copyright 
-        i.fa.fa-copyright 
+        | Copyright
+        i.fa.fa-copyright.mx-1
         | 2023 - peno022
