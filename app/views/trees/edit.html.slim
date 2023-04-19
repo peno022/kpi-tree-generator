@@ -1,6 +1,7 @@
 .flex.flex-col.min-h-screen
   nav.navbar.bg-base-100.flex.items-center.border-b-2.border-base-300
-    a.btn.btn-ghost
+    / TODO: ログインしていない場合はLPに、ログインしている場合はツリー一覧画面に遷移する
+    = link_to trees_path, class: 'btn btn-ghost' do
       p.mx-1
         i.fa.fa-lg.fa-angle-left[aria-hidden="true"]
         p.text-lg
@@ -8,14 +9,10 @@
     .dropdown.dropdown-bottom
       label.btn.btn-ghost.text-lg.rounded-btn[tabindex="0"]
         | ファイル
-      ul.menu.dropdown-content.p-2.shadow.bg-base-100\
-      .rounded-box.w-52.mt-4[tabindex="0"]
+      ul.menu.dropdown-content.p-2.shadow.bg-base-100.rounded-box.w-52.mt-4[tabindex="0"]
         li
           a
             | 保存
-        li
-          a
-            | ダウンロード
     .flex-grow.flex.justify-center
       h1.text-xl.font-bold
         | #{@tree.name}
