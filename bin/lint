@@ -1,0 +1,5 @@
+#!/bin/bash
+
+bundle exec rubocop -a
+bundle exec slim-lint app/**/*.slim -c config/slim_lint.yml
+npm run lint
