@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo '> bundle exec rubocop -a'
+bundle exec rubocop -a
+
+echo '> bundle exec slim-lint app/**/*.slim -c config/slim_lint.yml'
+bundle exec slim-lint app/**/*.slim -c config/slim_lint.yml
+
+echo '> npm run lint'
+npm run lint
