@@ -1,3 +1,5 @@
+import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
+
 export type Layer = {
   id: number;
   operation: string;
@@ -30,6 +32,18 @@ export type TreeStructureNode = {
   child_layer?: Layer;
   parent_id: number;
   children: TreeStructureNode[];
+};
+
+export type WrappedRawNodeDatum = RawNodeDatum & {
+  attributes: {
+    id: number;
+    value: number;
+    valueFormat: "なし" | "%" | "千" | "万";
+    unit: string;
+    isValueLocked: boolean;
+    operation?: "multiply" | "add";
+    isLastInLayer: boolean;
+  };
 };
 
 export type Tree = {
