@@ -2,7 +2,15 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
-export const ToolMenu = () => {
+type MenuItem = {
+  label: string;
+  onClick: () => void;
+};
+type Props = {
+  menuItems: MenuItem[];
+};
+
+export const ToolMenu: React.FC<Props> = ({ menuItems }) => {
   return (
     <>
       <div className="dropdown dropdown-bottom dropdown-end">
@@ -13,9 +21,11 @@ export const ToolMenu = () => {
           tabIndex={0}
           className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
         >
-          <li>
-            <a>この階層を削除</a>
-          </li>
+          {menuItems.map((item, index) => (
+            <li key={index} onClick={item.onClick}>
+              <a href="#">{item.label}</a>
+            </li>
+          ))}
         </ul>
       </div>
     </>
