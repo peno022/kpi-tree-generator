@@ -5,7 +5,7 @@ import Calculation from "./calculationArea/calculation";
 import NodeDetail from "./nodeDetailArea/node_detail";
 import { WrappedRawNodeDatum } from "../../types";
 
-export const Tool = () => {
+const ToolArea = () => {
   const selectedNodes: WrappedRawNodeDatum[] = [
     {
       name: "購入者数",
@@ -104,3 +104,5 @@ export const Tool = () => {
     </>
   );
 };
+
+export default ToolArea;

@@ -3,15 +3,16 @@ import useSWR from "swr";
 import fetcher from "../../fetcher";
 import { convertNodesToRawNodeDatum } from "../../convert_nodes_list_to_raw_node_datum";
 import { selectNodes } from "../../select_nodes";
-import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
 import * as types from "react-d3-tree/lib/types/types/common";
 import * as typesOfTree from "react-d3-tree/lib/types/Tree/types";
 import CustomNode from "./custom_node";
-import { Tool } from "../tool/tool";
 
-const EditTree = () => {
-  const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
+type Props = {
+  treeId: string;
+};
+
+const TreeArea: React.FC<Props> = ({ treeId }) => {
   const initialData: types.RawNodeDatum = {
     name: "initial-root",
   };
@@ -51,46 +52,18 @@ const EditTree = () => {
     console.log("--- handleClick end ---");
   };
   return (
-    <>
-      <div className="flex w-full">
-        <div
-          className="flex-1 ml-1"
-          id="treeWrapper"
-          style={{
-            flexGrow: 2,
-            flexBasis: 0,
-          }}
-        >
-          <Tree
-            key={treeKey}
-            translate={{ x: 350, y: 20 }}
-            data={nodeDatum}
-            pathFunc="diagonal"
-            orientation="vertical"
-            renderCustomNodeElement={CustomNode}
-            onNodeClick={handleClick}
-            separation={{ siblings: 2, nonSiblings: 2 }}
-            zoom={0.7}
-          />
-        </div>
-        <div
-          className="flex-1 border-l-2 border-base-300 mr-1"
-          id="toolWrapper"
-          style={{
-            flexGrow: 1,
-            flexBasis: 0,
-          }}
-        >
-          <Tool />
-        </div>
-      </div>
-    </>
+    <Tree
+      key={treeKey}
+      translate={{ x: 350, y: 20 }}
+      data={nodeDatum}
+      pathFunc="diagonal"
+      orientation="vertical"
+      renderCustomNodeElement={CustomNode}
+      onNodeClick={handleClick}
+      separation={{ siblings: 2, nonSiblings: 2 }}
+      zoom={0.7}
+    />
   );
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("tree") as HTMLElement;
-  if (container) {
-    createRoot(container).render(<EditTree />);
-  }
-});
+export default TreeArea;
