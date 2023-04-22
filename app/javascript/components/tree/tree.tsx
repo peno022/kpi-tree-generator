@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import fetcher from "../fetcher";
-import { convertNodesToRawNodeDatum } from "../convert_nodes_list_to_raw_node_datum";
-import { selectNodes } from "../select_nodes";
+import fetcher from "../../fetcher";
+import { convertNodesToRawNodeDatum } from "../../convert_nodes_list_to_raw_node_datum";
+import { selectNodes } from "../../select_nodes";
 import { createRoot } from "react-dom/client";
 import Tree from "react-d3-tree";
 import * as types from "react-d3-tree/lib/types/types/common";
 import * as typesOfTree from "react-d3-tree/lib/types/Tree/types";
 import CustomNode from "./custom_node";
-import { Tool } from "./tool";
+import { Tool } from "../tool/tool";
 
 const EditTree = () => {
   const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
