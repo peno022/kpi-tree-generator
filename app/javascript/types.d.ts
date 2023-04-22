@@ -41,7 +41,7 @@ export type WrappedRawNodeDatum = RawNodeDatum & {
     valueFormat: "なし" | "%" | "千" | "万";
     unit: string;
     isValueLocked: boolean;
-    operation?: "たし算" | "かけ算";
+    operation?: "multiply" | "add";
     isLastInLayer: boolean;
   };
 };

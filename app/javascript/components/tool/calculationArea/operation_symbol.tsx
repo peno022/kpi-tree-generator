@@ -20,7 +20,7 @@ const OperationSymbol: React.FC<Props> = ({ operation }) => {
       break;
   }
 
-  return <div>{element}</div>;
+  return <div className="flex items-center mx-3">{element}</div>;
 };
 
 export default OperationSymbol;

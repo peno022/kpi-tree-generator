@@ -14,7 +14,7 @@ export const ToolMenu: React.FC<Props> = ({ menuItems }) => {
   return (
     <>
       <div className="dropdown dropdown-bottom dropdown-end">
-        <label tabIndex={0} className="btn btn-ghost">
+        <label tabIndex={0} className="btn btn-ghost btn-sm">
           <FontAwesomeIcon icon={faEllipsis} />
         </label>
         <ul

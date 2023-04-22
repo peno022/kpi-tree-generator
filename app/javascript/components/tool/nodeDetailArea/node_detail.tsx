@@ -1,8 +1,7 @@
 import React from "react";
 import NodeField from "./node_field";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { WrappedRawNodeDatum } from "../../../types";
+import { ToolMenu } from "../common/tool_menu";
 type Props = {
   order: number;
   node: WrappedRawNodeDatum;
@@ -11,10 +10,19 @@ type Props = {
 const NodeDetail: React.FC<Props> = ({ order, node }) => {
   return (
     <>
-      <div className="border border-base-300 p-2 m-2">
-        <div className="flex justify-between mb-1.5">
+      <div className="border border-base-300 p-2 my-2">
+        <div className="flex justify-between items-center mb-1.5">
           <div className="text-base bg-base-100">{`要素${order}`}</div>
-          <FontAwesomeIcon icon={faEllipsis} />
+          <ToolMenu
+            menuItems={[
+              {
+                label: "要素を削除",
+                onClick: () => {
+                  console.log("要素を削除");
+                },
+              },
+            ]}
+          />
         </div>
         <div className="flex flex-row space-x-4 mb-1.5">
           <NodeField type="text" label="名前" value={node.name} />
