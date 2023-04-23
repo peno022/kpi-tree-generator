@@ -7,6 +7,7 @@ import Tree from "react-d3-tree";
 import * as types from "react-d3-tree/lib/types/types/common";
 import * as typesOfTree from "react-d3-tree/lib/types/Tree/types";
 import CustomNode from "./custom_node";
+import { useImmer } from "use-immer";
 
 type Props = {
   treeId: string;
@@ -18,7 +19,7 @@ const TreeArea: React.FC<Props> = ({ treeId }) => {
   };
 
   const { data, error } = useSWR(`/api/trees/${treeId}.json`, fetcher);
-  const [nodeDatum, setNodeDatam] = useState<types.RawNodeDatum>(initialData);
+  const [nodeDatum, setNodeDatam] = useImmer<types.RawNodeDatum>(initialData);
 
   useEffect(() => {
     if (data) {
