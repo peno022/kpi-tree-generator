@@ -20,8 +20,6 @@ const TreeArea: React.FC<Props> = ({ treeId }) => {
   const { data, error } = useSWR(`/api/trees/${treeId}.json`, fetcher);
   const [nodeDatum, setNodeDatam] = useState<types.RawNodeDatum>(initialData);
 
-  const [treeKey, setTreeKey] = useState<number>(0);
-
   useEffect(() => {
     if (data) {
       const convertedData = convertNodesToRawNodeDatum(data.nodes, data.layers);
@@ -43,8 +41,6 @@ const TreeArea: React.FC<Props> = ({ treeId }) => {
         nodeDatum
       );
       setNodeDatam(afterSelectedNodes);
-      // キーを更新してツリーを再描画
-      setTreeKey(treeKey + 1);
     } else {
       console.log("idがない又はnumber型でないため処理を中断");
     }
@@ -53,7 +49,6 @@ const TreeArea: React.FC<Props> = ({ treeId }) => {
   };
   return (
     <Tree
-      key={treeKey}
       translate={{ x: 350, y: 20 }}
       data={nodeDatum}
       pathFunc="diagonal"

@@ -45,5 +45,10 @@ export function selectNodes(
     });
   }
 
-  return tree.model;
+  const updatedTree = deepCopy(tree.model);
+  return updatedTree;
+}
+
+function deepCopy<RawNodeDatum>(obj: RawNodeDatum): RawNodeDatum {
+  return JSON.parse(JSON.stringify(obj));
 }
