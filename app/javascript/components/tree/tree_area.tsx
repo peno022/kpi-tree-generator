@@ -1,57 +1,34 @@
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
-import fetcher from "../../fetcher";
+import React from "react";
 import { convertNodesToRawNodeDatum } from "../../convert_nodes_list_to_raw_node_datum";
 import { selectNodes } from "../../select_nodes";
 import Tree from "react-d3-tree";
-import * as types from "react-d3-tree/lib/types/types/common";
-import * as typesOfTree from "react-d3-tree/lib/types/Tree/types";
+import * as types from "../../types";
+import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
+import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
 import CustomNode from "./custom_node";
-import { useImmer } from "use-immer";
 
 type Props = {
-  treeId: string;
+  treeData: types.TreeData;
+  selectedNodeIds: number[];
+  handleClick: TreeNodeEventCallback;
 };
 
-const TreeArea: React.FC<Props> = ({ treeId }) => {
-  const initialData: types.RawNodeDatum = {
-    name: "initial-root",
-  };
+const TreeArea: React.FC<Props> = ({
+  treeData,
+  selectedNodeIds,
+  handleClick,
+}) => {
+  let rawNodeDatum: RawNodeDatum;
+  rawNodeDatum = convertNodesToRawNodeDatum(treeData.nodes, treeData.layers);
 
-  const { data, error } = useSWR(`/api/trees/${treeId}.json`, fetcher);
-  const [nodeDatum, setNodeDatam] = useImmer<types.RawNodeDatum>(initialData);
+  if (selectedNodeIds.length > 0) {
+    rawNodeDatum = selectNodes(selectedNodeIds[0], rawNodeDatum);
+  }
 
-  useEffect(() => {
-    if (data) {
-      const convertedData = convertNodesToRawNodeDatum(data.nodes, data.layers);
-      console.log(convertedData);
-      setNodeDatam(convertedData);
-    }
-  }, [data]);
-
-  if (error) return <>エラーが発生しました。</>;
-  if (!data) return <>ロード中…</>;
-
-  const handleClick: typesOfTree.TreeNodeEventCallback = (node) => {
-    console.log("--- handleClick start ---");
-    console.log(`id:${node.data?.attributes?.id}: ${node.data.name}をクリック`);
-    // クリックされたノードと同じ親ノードを持つノードのisSelectedをtrueにする
-    if (typeof node.data.attributes?.id === "number") {
-      const afterSelectedNodes = selectNodes(
-        node.data.attributes.id,
-        nodeDatum
-      );
-      setNodeDatam(afterSelectedNodes);
-    } else {
-      console.log("idがない又はnumber型でないため処理を中断");
-    }
-    console.dir(nodeDatum, { depth: null });
-    console.log("--- handleClick end ---");
-  };
   return (
     <Tree
       translate={{ x: 350, y: 20 }}
-      data={nodeDatum}
+      data={rawNodeDatum}
       pathFunc="diagonal"
       orientation="vertical"
       renderCustomNodeElement={CustomNode}
