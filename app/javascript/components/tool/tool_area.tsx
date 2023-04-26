@@ -3,66 +3,67 @@ import { ToolMenu } from "./common/tool_menu";
 import Operations from "./operationArea/operations";
 import Calculation from "./calculationArea/calculation";
 import NodeDetail from "./nodeDetailArea/node_detail";
-import { WrappedRawNodeDatum } from "../../types";
+import * as types from "../../types";
 
-const ToolArea = () => {
-  const selectedNodes: WrappedRawNodeDatum[] = [
-    {
-      name: "購入者数",
-      attributes: {
-        id: 2,
-        value: 5000,
-        valueFormat: "なし",
-        unit: "人",
-        isValueLocked: false,
-        operation: "multiply",
-        isLastInLayer: false,
-      },
-    },
-    {
-      name: "商品単価",
-      attributes: {
-        id: 3,
-        value: 1200,
-        valueFormat: "なし",
-        unit: "円",
-        isValueLocked: true,
-        operation: "multiply",
-        isLastInLayer: false,
-      },
-    },
-    {
-      name: "購入個数",
-      attributes: {
-        id: 4,
-        value: 1.6,
-        valueFormat: "なし",
-        unit: "円",
-        isValueLocked: false,
-        operation: "multiply",
-        isLastInLayer: true,
-      },
-    },
-  ];
-  const parentNode: WrappedRawNodeDatum = {
-    name: "売上金額",
-    attributes: {
-      id: 1,
-      value: 1000,
-      valueFormat: "万",
-      unit: "円",
-      isValueLocked: true,
-      isLastInLayer: true,
-    },
-    children: selectedNodes,
-  };
+type Props = {
+  treeData: types.TreeData;
+  selectedNodeIds: number[];
+};
+
+const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
+  const { nodes, layers } = treeData;
+  if (selectedNodeIds.length === 0) {
+    return (
+      <div className="p-2 text-center mt-6">
+        <p className="">要素を選択すると、ここに詳細が表示されます。</p>
+      </div>
+    );
+  }
+  const selectedNodes: types.Node[] = nodes.filter((node) =>
+    selectedNodeIds.includes(node.id)
+  );
+  const parentNode = nodes.find(
+    (node) => node.id === selectedNodes[0].parent_id
+  );
+
+  if (!parentNode) {
+    return (
+      <>
+        <div className="relative flex flex-col h-full">
+          <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
+            {selectedNodes.map((node, index) => (
+              <NodeDetail
+                key={node.id}
+                order={index + 1}
+                node={node}
+                isRoot={true}
+              />
+            ))}
+          </div>
+          <div
+            className="absolute bottom-0 w-full flex justify-center items-center border-t-2 border-base-300 bg-base-100 mt-auto p-2"
+            id="updateButton"
+          >
+            <button className="btn btn-primary">更新</button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  let selectedLayer: types.Layer | undefined;
+  if (parentNode) {
+    selectedLayer = layers.find(
+      (layer) => layer.parent_node_id === parentNode.id
+    );
+  }
 
   return (
     <>
       <div className="relative flex flex-col h-full">
         <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
           <div className="flex justify-between items-center mb-1.5">
-            <div className="text-base bg-base-100">要素間の関係</div>
+            <div className="text-base font-semibold">要素間の関係</div>
             <ToolMenu
               menuItems={[
                 {
@@ -80,14 +81,16 @@ const ToolArea = () => {
           <div className="mb-4">
             <Calculation
               selectedNodes={selectedNodes}
+              selectedLayer={selectedLayer}
               parentNode={parentNode}
             ></Calculation>
           </div>
           {selectedNodes.map((node, index) => (
             <NodeDetail
-              key={node.attributes.id}
+              key={node.id}
               order={index + 1}
               node={node}
+              isRoot={false}
             />
           ))}
           <div className="flex justify-center">

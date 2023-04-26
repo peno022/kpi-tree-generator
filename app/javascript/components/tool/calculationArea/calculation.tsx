@@ -3,30 +3,36 @@ import NodeValue from "./node_value";
 import OperationSymbol from "./operation_symbol";
 import Fraction from "./fraction";
 import MessageBubble from "./message_bubble";
-import { WrappedRawNodeDatum } from "../../../types";
+import { Node, Layer } from "../../../types";
 
 type Props = {
-  parentNode: WrappedRawNodeDatum | null;
-  selectedNodes: WrappedRawNodeDatum[];
+  selectedNodes: Node[];
+  selectedLayer: Layer | undefined;
+  parentNode: Node | undefined;
 };
 
-const Calculation: React.FC<Props> = ({ parentNode, selectedNodes }) => {
-  if (parentNode === null && selectedNodes.length === 1) {
+const Calculation: React.FC<Props> = ({
+  parentNode,
+  selectedLayer,
+  selectedNodes,
+}) => {
+  if (!parentNode && selectedNodes.length === 1) {
     const rootNode = selectedNodes[0];
     return (
       <NodeValue
         name={rootNode.name}
-        value={rootNode.attributes.value}
+        value={rootNode.value}
         displayUnit={getDisplayUnit(rootNode)}
       />
     );
-  } else if (parentNode != null && selectedNodes.length > 1) {
+  } else if (parentNode && selectedNodes.length > 1) {
+    const maxId = Math.max(...selectedNodes.map((node) => node.id));
     return (
       <>
         <div className="flex flex-row">
           <NodeValue
             name={parentNode.name}
-            value={parentNode.attributes.value}
+            value={parentNode.value}
             displayUnit={getDisplayUnit(parentNode)}
           />
           <OperationSymbol operation="equal" />
@@ -35,13 +41,12 @@ const Calculation: React.FC<Props> = ({ parentNode, selectedNodes }) => {
               <div key={index} className="flex flex-row">
                 <NodeValue
                   name={node.name}
-                  value={node.attributes.value}
+                  value={node.value}
                   displayUnit={getDisplayUnit(node)}
                 />
-                {!node.attributes.isLastInLayer &&
-                  node.attributes.operation && (
-                    <OperationSymbol operation={node.attributes.operation} />
-                  )}
+                {!(node.id === maxId) && selectedLayer && (
+                  <OperationSymbol operation={selectedLayer.operation} />
+                )}
               </div>
             );
           })}
@@ -61,11 +66,11 @@ const Calculation: React.FC<Props> = ({ parentNode, selectedNodes }) => {
   }
 };
 
-function getDisplayUnit(node: WrappedRawNodeDatum) {
-  if (node.attributes.valueFormat === "なし") {
-    return node.attributes.unit;
+function getDisplayUnit(node: Node) {
+  if (node.value_format === "なし") {
+    return node.unit;
   } else {
-    return `${node.attributes.valueFormat}${node.attributes.unit}`;
+    return `${node.value_format}${node.unit}`;
   }
 }
 

@@ -2,30 +2,39 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import ToolArea from "./tool/tool_area";
 import TreeArea from "./tree/tree_area";
-import useSWR from "swr";
-import fetcher from "../fetcher";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
 import * as types from "../types";
+import { ErrorBoundary } from "react-error-boundary";
+import { FallbackProps } from "react-error-boundary/dist/react-error-boundary";
 
 const EditTreePage = () => {
   const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
 
-  const { data, error } = useSWR(`/api/trees/${treeId}.json`, fetcher);
   const [treeData, setTreeData] = useState<types.TreeData>({
     tree: { id: 0, name: "" },
     nodes: [],
     layers: [],
   });
   const [selectedNodeIds, setSelectedNodeIds] = useState<number[]>([]);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      setTreeData(data);
-    }
-  }, [data]);
+    const load = async () => {
+      setisLoading(true);
+      try {
+        const responce = await fetch(`/api/trees/${treeId}.json`);
+        setTreeData(await responce.json());
+      } catch (err) {
+        console.log(err);
+        return <>エラーが発生しました。</>;
+      } finally {
+        setisLoading(false);
+      }
+    };
+    load();
+  }, []);
 
-  if (error) return <>エラーが発生しました。</>;
-  if (!data) return <>ロード中…</>;
+  if (isLoading) return <>ロード中…</>;
 
   const handleClick: TreeNodeEventCallback = (node) => {
     console.log("--- handleClick start ---");
@@ -59,11 +68,14 @@ const EditTreePage = () => {
             flexBasis: 0,
           }}
         >
-          <TreeArea
-            treeData={data}
-            selectedNodeIds={selectedNodeIds}
-            handleClick={handleClick}
-          />
+          <ErrorBoundary fallbackRender={fallbackRender}>
+            <TreeArea
+              treeData={treeData}
+              selectedNodeIds={selectedNodeIds}
+              handleClick={handleClick}
+            />
+          </ErrorBoundary>
+          ;
         </div>
         <div
           className="flex-1 border-l-2 border-base-300 mr-1"
@@ -73,12 +85,23 @@ const EditTreePage = () => {
             flexBasis: 0,
           }}
         >
-          <ToolArea />
+          <ErrorBoundary fallbackRender={fallbackRender}>
+            <ToolArea treeData={treeData} selectedNodeIds={selectedNodeIds} />
+          </ErrorBoundary>
         </div>
       </div>
     </>
   );
 };
+
+function fallbackRender({ error }: FallbackProps) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre style={{ color: "red" }}>{error.message}</pre>
+    </div>
+  );
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("tree") as HTMLElement;
