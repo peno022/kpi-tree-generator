@@ -15,6 +15,7 @@
     "react": "^18.2.0",
     "react-d3-tree": "^3.4.2",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.4",
     "swr": "^2.0.4",
     "tailwindcss": "^3.2.4",
     "tree-model": "^1.0.7",
