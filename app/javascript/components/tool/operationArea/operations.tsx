@@ -1,19 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Operation from "./operation";
+import { Layer } from "../../../types";
 
-const Operations: React.FC = () => {
+type Props = {
+  selectedLayer: Layer;
+};
+
+const Operations: React.FC<Props> = ({ selectedLayer }) => {
   const [selected, setSelected] = useState<"multiply" | "add">("multiply");
 
   const handleButtonClick = (choice: "multiply" | "add") => {
     setSelected(choice);
   };
 
+  useEffect(() => {
+    console.log("------ operations.tsx useEffect ------");
+    console.dir(selectedLayer);
+    if (selectedLayer.operation === "multiply") {
+      setSelected("multiply");
+    } else {
+      setSelected("add");
+    }
+  }, [selectedLayer]);
+
   return (
     <div className="flex space-x-4">
       <div>
         <Operation
           isSelected={selected === "multiply"}
-          operation="かけ算"
+          operation="multiply"
           onClick={() => handleButtonClick("multiply")}
         />
       </div>
@@ -21,7 +36,7 @@ const Operations: React.FC = () => {
       <div onClick={() => handleButtonClick("add")}>
         <Operation
           isSelected={selected === "add"}
-          operation="たし算"
+          operation="add"
           onClick={() => handleButtonClick("add")}
         />
       </div>

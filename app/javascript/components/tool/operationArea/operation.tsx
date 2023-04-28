@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   isSelected: boolean;
-  operation: "かけ算" | "たし算";
+  operation: "multiply" | "add";
   onClick: () => void;
 };
 
@@ -16,7 +16,7 @@ const Operation: React.FC<Props> = ({ isSelected, operation, onClick }) => {
       }`}
       onClick={onClick}
     >
-      {operation}
+      {operation === "multiply" ? "かけ算" : "たし算"}
     </button>
   );
 };
