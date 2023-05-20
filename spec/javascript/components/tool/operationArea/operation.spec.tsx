@@ -10,7 +10,9 @@ describe("Operation", () => {
     const operationProps: OperationProps = {
       isSelected: true,
       operation: "multiply",
-      onClick: () => {},
+      onClick: () => {
+        console.log("かけ算・選択状態");
+      },
     };
     render(<Operation {...operationProps} />);
     const operationButton = screen.getByRole("button");
@@ -24,7 +26,9 @@ describe("Operation", () => {
     const operationProps: OperationProps = {
       isSelected: false,
       operation: "multiply",
-      onClick: () => {},
+      onClick: () => {
+        console.log("かけ算・非選択状態");
+      },
     };
     render(<Operation {...operationProps} />);
     const operationButton = screen.getByRole("button");
@@ -38,7 +42,9 @@ describe("Operation", () => {
     const operationProps: OperationProps = {
       isSelected: true,
       operation: "add",
-      onClick: () => {},
+      onClick: () => {
+        console.log("たし算・選択状態");
+      },
     };
     render(<Operation {...operationProps} />);
     const operationButton = screen.getByRole("button");
