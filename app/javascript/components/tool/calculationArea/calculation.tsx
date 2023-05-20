@@ -67,10 +67,11 @@ const Calculation: React.FC<Props> = ({
 };
 
 function getDisplayUnit(node: Node) {
+  const unit = node.unit ? node.unit : "";
   if (node.value_format === "なし") {
-    return node.unit;
+    return unit;
   } else {
-    return `${node.value_format}${node.unit}`;
+    return `${node.value_format}${unit}`;
   }
 }
 
