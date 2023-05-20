@@ -34,7 +34,7 @@ export const childNode2: Node = {
 
 export const childLayer: Layer = {
   id: 1,
-  operation: "たし算",
+  operation: "add",
   fraction: null,
   parent_node_id: 1,
 };
@@ -61,7 +61,7 @@ export const grandChildNode2: Node = {
 
 export const grandChildLayer: Layer = {
   id: 2,
-  operation: "かけ算",
+  operation: "multiply",
   fraction: null,
   parent_node_id: 2,
 };

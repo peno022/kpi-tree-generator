@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :layer do
-    operation { 'かけ算' }
-    parent_node
+    operation { 'multiply' }
+    parent_node { association :node }
     tree
   end
 end

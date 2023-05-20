@@ -1,12 +1,16 @@
 import React from "react";
 
-type Props = {
+export type OperationProps = {
   isSelected: boolean;
-  operation: "かけ算" | "たし算";
+  operation: "multiply" | "add";
   onClick: () => void;
 };
 
-const Operation: React.FC<Props> = ({ isSelected, operation, onClick }) => {
+const Operation: React.FC<OperationProps> = ({
+  isSelected,
+  operation,
+  onClick,
+}) => {
   const styleSelected = "bg-base-100 border border-neutral";
   const styleUnselected = "bg-base-200 text-base-300 border border-base-200";
   return (
@@ -16,7 +20,7 @@ const Operation: React.FC<Props> = ({ isSelected, operation, onClick }) => {
       }`}
       onClick={onClick}
     >
-      {operation}
+      {operation === "multiply" ? "かけ算" : "たし算"}
     </button>
   );
 };

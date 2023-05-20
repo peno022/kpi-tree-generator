@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Layer do
   it 'operation、parent_node、tree_idがあれば有効になる' do
     node = create(:node)
-    layer = described_class.new(parent_node: node, operation: 'かけ算', tree: create(:tree))
+    layer = described_class.new(parent_node: node, operation: 'multiply', tree: create(:tree))
     expect(layer).to be_valid
   end
 
