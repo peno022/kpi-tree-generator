@@ -22,6 +22,15 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
   const selectedNodes: types.Node[] = nodes.filter((node) =>
     selectedNodeIds.includes(node.id)
   );
+
+  if (selectedNodes.length === 0) {
+    return (
+      <div className="p-2 text-center mt-6">
+        <p className="">選択されたノードIDが不正です。</p>
+      </div>
+    );
+  }
+
   const parentNode = nodes.find(
     (node) => node.id === selectedNodes[0].parent_id
   );
@@ -51,16 +60,13 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
     );
   }
 
-  let selectedLayer: types.Layer | undefined;
-  if (parentNode) {
-    selectedLayer = layers.find(
-      (layer) => layer.parent_node_id === parentNode.id
-    );
-  }
+  const selectedLayer = layers.find(
+    (layer) => layer.parent_node_id === parentNode.id
+  );
+
   if (!selectedLayer) {
-    return <>階層が存在しません。</>;
-  }
-  if (parentNode && selectedLayer) {
+    return <>存在しない階層です。</>;
+  } else {
     return (
       <>
         <div className="relative flex flex-col h-full">
