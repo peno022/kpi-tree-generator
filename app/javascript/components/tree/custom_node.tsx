@@ -91,10 +91,10 @@ const CustomNode: types.RenderCustomNodeElementFn = ({
           maxWidth: "280",
         }}
       >
-        {nodeDatum.attributes?.operation === "たし算" &&
+        {nodeDatum.attributes?.operation === "add" &&
           !nodeDatum.attributes?.isLastInLayer &&
           "＋"}
-        {nodeDatum.attributes?.operation === "かけ算" &&
+        {nodeDatum.attributes?.operation === "multiply" &&
           !nodeDatum.attributes?.isLastInLayer &&
           "×"}
       </text>
