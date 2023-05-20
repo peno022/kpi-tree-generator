@@ -20,6 +20,7 @@ RSpec.describe 'Tree pages', js: true do
   it('treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。') do
     tree2 = create(:tree)
     nodes2 = create_list(:node, 3, tree: tree2)
+    create(:layer, tree: tree2, parent_node: nodes2[0])
     nodes2[1].name = '子1'
     nodes2[2].name = '子2'
     nodes2[0].children = [nodes2[1], nodes2[2]]
