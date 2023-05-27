@@ -39,11 +39,12 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
     });
   };
 
-  const { nodes, layers } = treeData;
+  const allNodes = treeData.nodes;
+  const allLayers = treeData.layers;
 
   useEffect(() => {
     if (selectedNodeIds.length > 0) {
-      const selectedNodes: types.Node[] = nodes.filter((node) =>
+      const selectedNodes: types.Node[] = allNodes.filter((node) =>
         selectedNodeIds.includes(node.id)
       );
 
@@ -52,7 +53,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
         nodes: selectedNodes,
       });
     }
-  }, [selectedNodeIds, nodes]);
+  }, [selectedNodeIds, allNodes]);
 
   if (selectedNodeIds.length === 0) {
     return (
@@ -62,7 +63,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
     );
   }
 
-  const selectedNodes: types.Node[] = nodes.filter((node) =>
+  const selectedNodes: types.Node[] = allNodes.filter((node) =>
     selectedNodeIds.includes(node.id)
   );
 
@@ -74,7 +75,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
     );
   }
 
-  const parentNode = nodes.find(
+  const parentNode = allNodes.find(
     (node) => node.id === selectedNodes[0].parent_id
   );
 
@@ -104,7 +105,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
     );
   }
 
-  const selectedLayer = layers.find(
+  const selectedLayer = allLayers.find(
     (layer) => layer.parent_node_id === parentNode.id
   );
 
