@@ -19,7 +19,6 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    console.log("handleInputChange");
     const name = e.target.name;
     let value: string | number | boolean;
     if (e.target instanceof HTMLInputElement) {
@@ -76,7 +75,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
           />
           <NodeField
             type="dropdown"
-            name="valueFormat"
+            name="value_format"
             label="表示形式"
             value={node.value_format}
             onChange={handleInputChange}
@@ -84,7 +83,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
           <div className="ml-8">
             <NodeField
               type="checkbox"
-              name="isValueLocked"
+              name="is_value_locked"
               label="数値を自動更新しない"
               checked={node.is_value_locked}
               onChange={handleInputChange}

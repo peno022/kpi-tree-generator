@@ -11,8 +11,8 @@ type Props = {
 };
 
 export type ToolAreaState = {
-  // operation, culculationResultも後からここに追加する
   nodes: types.Node[];
+  layer: types.Layer | null;
 };
 
 const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
@@ -23,11 +23,17 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
         name: "",
         value: 0,
         unit: "",
-        value_format: "",
+        value_format: "なし",
         is_value_locked: false,
         parent_id: 0,
       },
     ],
+    layer: {
+      id: 0,
+      operation: "multiply",
+      fraction: 0,
+      parent_node_id: 0,
+    },
   });
 
   const handleNodeInfoChange = (index: number, newNodeInfo: types.Node) => {
@@ -135,7 +141,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
             <div className="mb-4">
               <Calculation
                 selectedNodes={layerProperty.nodes}
-                selectedLayer={selectedLayer}
+                operation={selectedLayer.operation}
                 parentNode={parentNode}
               ></Calculation>
             </div>
