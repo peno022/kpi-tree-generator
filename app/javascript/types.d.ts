@@ -4,33 +4,33 @@ export type Layer = {
   id: number;
   operation: "multiply" | "add";
   fraction: number | null;
-  parent_node_id: number;
+  parentNodeId: number;
 };
 
 export type Node = {
   id: number;
   name: string;
   value: number;
-  value_format: "なし" | "%" | "千" | "万";
+  valueFormat: "なし" | "%" | "千" | "万";
   unit: string;
-  is_value_locked: boolean;
+  isValueLocked: boolean;
   operation?: string;
-  is_last_in_layer?: boolean;
-  child_layer?: Layer;
-  parent_id: number;
+  isLastInLayer?: boolean;
+  childLayer?: Layer;
+  parentId: number;
 };
 
 export type TreeStructureNode = {
   id: number;
   name: string;
   value: number;
-  value_format: string;
+  valueFormat: "なし" | "%" | "千" | "万";
   unit: string;
-  is_value_locked: boolean;
+  isValueLocked: boolean;
   operation: string;
-  is_last_in_layer: boolean;
-  child_layer?: Layer;
-  parent_id: number;
+  isLastInLayer: boolean;
+  childLayer?: Layer;
+  parentId: number;
   children: TreeStructureNode[];
 };
 

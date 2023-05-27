@@ -30,9 +30,7 @@ const Calculation: React.FC<Props> = ({
         return acc + getValueForCalculation(node);
       }, 0);
     }
-    setCalculationResult(
-      getValueForDisplay(newResult, parentNode.value_format)
-    );
+    setCalculationResult(getValueForDisplay(newResult, parentNode.valueFormat));
   }, [selectedNodes, operation]);
 
   return (
@@ -74,15 +72,15 @@ const Calculation: React.FC<Props> = ({
 
 function getDisplayUnit(node: Node) {
   const unit = node.unit ? node.unit : "";
-  if (node.value_format === "なし") {
+  if (node.valueFormat === "なし") {
     return unit;
   } else {
-    return `${node.value_format}${unit}`;
+    return `${node.valueFormat}${unit}`;
   }
 }
 
 function getValueForCalculation(node: Node) {
-  switch (node.value_format) {
+  switch (node.valueFormat) {
     case "なし":
       return node.value;
     case "%":
