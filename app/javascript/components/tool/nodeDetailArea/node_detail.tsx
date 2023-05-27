@@ -2,19 +2,40 @@ import React from "react";
 import NodeField from "./node_field";
 import { Node } from "../../../types";
 import { ToolMenu } from "../common/tool_menu";
-type Props = {
-  order: number;
+
+type NodeDetailProps = {
+  index: number;
   node: Node;
   isRoot: boolean;
+  handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
 };
 
-const NodeDetail: React.FC<Props> = ({ order, node, isRoot = false }) => {
+const NodeDetail: React.FC<NodeDetailProps> = ({
+  index,
+  node,
+  isRoot = false,
+  handleNodeInfoChange,
+}) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    console.log("handleInputChange");
+    const name = e.target.name;
+    let value: string | number | boolean;
+    if (e.target instanceof HTMLInputElement) {
+      value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    } else {
+      value = e.target.value;
+    }
+    const updatedNodeInfo = { ...node, [name]: value };
+    handleNodeInfoChange(index, updatedNodeInfo);
+  };
   return (
     <>
       <div className="border border-base-300 p-2 my-2">
         <div className="flex justify-between items-center mb-1.5">
           <div className="text-base font-semibold">
-            {isRoot ? "ルート要素" : `要素${order}`}
+            {isRoot ? "ルート要素" : `要素${index + 1}`}
           </div>
           {!isRoot && (
             <ToolMenu
@@ -30,21 +51,43 @@ const NodeDetail: React.FC<Props> = ({ order, node, isRoot = false }) => {
           )}
         </div>
         <div className="flex flex-row space-x-4 mb-1.5">
-          <NodeField type="text" label="名前" value={node.name} />
-          <NodeField type="text" label="単位" value={node.unit} />
+          <NodeField
+            type="text"
+            name="name"
+            label="名前"
+            value={node.name}
+            onChange={handleInputChange}
+          />
+          <NodeField
+            type="text"
+            name="unit"
+            label="単位"
+            value={node.unit}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="flex flex-row space-x-2">
-          <NodeField type="number" label="数値" value={node.value} />
+          <NodeField
+            type="number"
+            name="value"
+            label="数値"
+            value={node.value}
+            onChange={handleInputChange}
+          />
           <NodeField
             type="dropdown"
+            name="valueFormat"
             label="表示形式"
             value={node.value_format}
+            onChange={handleInputChange}
           />
           <div className="ml-8">
             <NodeField
               type="checkbox"
+              name="isValueLocked"
               label="数値を自動更新しない"
               checked={node.is_value_locked}
+              onChange={handleInputChange}
             />
           </div>
         </div>
