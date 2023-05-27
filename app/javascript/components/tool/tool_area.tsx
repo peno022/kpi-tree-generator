@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ToolMenu } from "./common/tool_menu";
 import Operations from "./operationArea/operations";
 import Calculation from "./calculationArea/calculation";
@@ -10,8 +10,57 @@ type Props = {
   selectedNodeIds: number[];
 };
 
+export type ToolAreaState = {
+  nodes: types.Node[];
+  layer: types.Layer | null;
+};
+
 const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
-  const { nodes, layers } = treeData;
+  const [layerProperty, setlayerProperty] = useState<ToolAreaState>({
+    nodes: [
+      {
+        id: 0,
+        name: "",
+        value: 0,
+        unit: "",
+        value_format: "なし",
+        is_value_locked: false,
+        parent_id: 0,
+      },
+    ],
+    layer: {
+      id: 0,
+      operation: "multiply",
+      fraction: 0,
+      parent_node_id: 0,
+    },
+  });
+
+  const handleNodeInfoChange = (index: number, newNodeInfo: types.Node) => {
+    const newValues = [...layerProperty.nodes];
+    newValues[index] = newNodeInfo;
+    setlayerProperty({
+      ...layerProperty,
+      nodes: newValues,
+    });
+  };
+
+  const allNodes = treeData.nodes;
+  const allLayers = treeData.layers;
+
+  useEffect(() => {
+    if (selectedNodeIds.length > 0) {
+      const selectedNodes: types.Node[] = allNodes.filter((node) =>
+        selectedNodeIds.includes(node.id)
+      );
+
+      setlayerProperty({
+        ...layerProperty,
+        nodes: selectedNodes,
+      });
+    }
+  }, [selectedNodeIds, allNodes]);
+
   if (selectedNodeIds.length === 0) {
     return (
       <div className="p-2 text-center mt-6">
@@ -19,7 +68,8 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
       </div>
     );
   }
-  const selectedNodes: types.Node[] = nodes.filter((node) =>
+
+  const selectedNodes: types.Node[] = allNodes.filter((node) =>
     selectedNodeIds.includes(node.id)
   );
 
@@ -31,7 +81,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
     );
   }
 
-  const parentNode = nodes.find(
+  const parentNode = allNodes.find(
     (node) => node.id === selectedNodes[0].parent_id
   );
 
@@ -40,12 +90,13 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
       <>
         <div className="relative flex flex-col h-full">
           <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
-            {selectedNodes.map((node, index) => (
+            {layerProperty.nodes.map((node, index) => (
               <NodeDetail
                 key={node.id}
-                order={index + 1}
+                index={index}
                 node={node}
                 isRoot={true}
+                handleNodeInfoChange={handleNodeInfoChange}
               />
             ))}
           </div>
@@ -60,7 +111,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
     );
   }
 
-  const selectedLayer = layers.find(
+  const selectedLayer = allLayers.find(
     (layer) => layer.parent_node_id === parentNode.id
   );
 
@@ -89,17 +140,18 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
             </div>
             <div className="mb-4">
               <Calculation
-                selectedNodes={selectedNodes}
-                selectedLayer={selectedLayer}
+                selectedNodes={layerProperty.nodes}
+                operation={selectedLayer.operation}
                 parentNode={parentNode}
               ></Calculation>
             </div>
-            {selectedNodes.map((node, index) => (
+            {layerProperty.nodes.map((node, index) => (
               <NodeDetail
                 key={node.id}
-                order={index + 1}
+                index={index}
                 node={node}
                 isRoot={false}
+                handleNodeInfoChange={handleNodeInfoChange}
               />
             ))}
             <div className="flex justify-center">

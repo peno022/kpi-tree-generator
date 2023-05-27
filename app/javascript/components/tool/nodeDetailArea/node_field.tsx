@@ -3,6 +3,10 @@ import React from "react";
 type Props = {
   type: "text" | "number" | "checkbox" | "dropdown";
   label: string;
+  name: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   placeholder?: string;
   value?: string | number;
   checked?: boolean;
@@ -11,6 +15,8 @@ type Props = {
 const NodeField: React.FC<Props> = ({
   type,
   label,
+  name,
+  onChange,
   placeholder = "",
   value = "",
   checked = false,
@@ -19,13 +25,21 @@ const NodeField: React.FC<Props> = ({
   switch (type) {
     case "checkbox":
       inputElement = (
-        <input type="checkbox" className="checkbox" defaultChecked={checked} />
+        <input
+          type="checkbox"
+          name={name}
+          onChange={onChange}
+          className="checkbox"
+          defaultChecked={checked}
+        />
       );
       break;
     case "number":
       inputElement = (
         <input
           type="number"
+          name={name}
+          onChange={onChange}
           placeholder={placeholder}
           className="input input-bordered input-sm w-24"
           defaultValue={value}
@@ -36,6 +50,8 @@ const NodeField: React.FC<Props> = ({
       inputElement = (
         <input
           type="text"
+          name={name}
+          onChange={onChange}
           placeholder={placeholder}
           className="input input-sm input-bordered w-32"
           defaultValue={value}
@@ -45,6 +61,8 @@ const NodeField: React.FC<Props> = ({
     case "dropdown":
       inputElement = (
         <select
+          name={name}
+          onChange={onChange}
           className="select select-bordered select-sm w-20"
           defaultValue={value}
         >

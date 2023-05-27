@@ -11,7 +11,7 @@ export type Node = {
   id: number;
   name: string;
   value: number;
-  value_format: string;
+  value_format: "なし" | "%" | "千" | "万";
   unit: string;
   is_value_locked: boolean;
   operation?: string;
