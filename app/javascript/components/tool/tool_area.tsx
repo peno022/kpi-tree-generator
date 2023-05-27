@@ -23,16 +23,16 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
         name: "",
         value: 0,
         unit: "",
-        value_format: "なし",
-        is_value_locked: false,
-        parent_id: 0,
+        valueFormat: "なし",
+        isValueLocked: false,
+        parentId: 0,
       },
     ],
     layer: {
       id: 0,
       operation: "multiply",
       fraction: 0,
-      parent_node_id: 0,
+      parentNodeId: 0,
     },
   });
 
@@ -82,7 +82,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
   }
 
   const parentNode = allNodes.find(
-    (node) => node.id === selectedNodes[0].parent_id
+    (node) => node.id === selectedNodes[0].parentId
   );
 
   if (!parentNode) {
@@ -112,7 +112,7 @@ const ToolArea: React.FC<Props> = ({ treeData, selectedNodeIds }) => {
   }
 
   const selectedLayer = allLayers.find(
-    (layer) => layer.parent_node_id === parentNode.id
+    (layer) => layer.parentNodeId === parentNode.id
   );
 
   if (!selectedLayer) {

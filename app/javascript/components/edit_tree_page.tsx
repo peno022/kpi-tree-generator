@@ -6,6 +6,7 @@ import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
 import * as types from "../types";
 import { ErrorBoundary } from "react-error-boundary";
 import { FallbackProps } from "react-error-boundary/dist/react-error-boundary";
+import keysToCamelCase from "../keys_to_camel_case";
 
 const EditTreePage = () => {
   const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
@@ -23,7 +24,7 @@ const EditTreePage = () => {
       setisLoading(true);
       try {
         const responce = await fetch(`/api/trees/${treeId}.json`);
-        setTreeData(await responce.json());
+        setTreeData(keysToCamelCase(await responce.json()));
       } catch (err) {
         console.log(err);
         return <>エラーが発生しました。</>;
@@ -46,11 +47,11 @@ const EditTreePage = () => {
     );
     if (!clickedNode) {
       console.log("ERROR: clickedNode is not found");
-    } else if (clickedNode.parent_id === null) {
+    } else if (clickedNode.parentId === null) {
       setSelectedNodeIds([clickedNode.id]);
     } else {
       const siblings = treeData.nodes.filter(
-        (node) => node.parent_id === clickedNode.parent_id
+        (node) => node.parentId === clickedNode.parentId
       );
       setSelectedNodeIds(siblings.map((node) => node.id));
     }

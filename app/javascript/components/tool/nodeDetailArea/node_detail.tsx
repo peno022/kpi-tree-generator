@@ -75,17 +75,17 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
           />
           <NodeField
             type="dropdown"
-            name="value_format"
+            name="valueFormat"
             label="表示形式"
-            value={node.value_format}
+            value={node.valueFormat}
             onChange={handleInputChange}
           />
           <div className="ml-8">
             <NodeField
               type="checkbox"
-              name="is_value_locked"
+              name="isValueLocked"
               label="数値を自動更新しない"
-              checked={node.is_value_locked}
+              checked={node.isValueLocked}
               onChange={handleInputChange}
             />
           </div>

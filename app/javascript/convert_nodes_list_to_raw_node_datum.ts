@@ -32,64 +32,64 @@ function prepareNodeProperties(
 }
 
 function convertNodesListToTree(nodes: types.Node[]): types.TreeStructureNode {
-  // nodesのparent_idがnullの場合、parent_idを0に変更する
+  // nodesのparentIdがnullの場合、parentIdを0に変更する
   nodes.forEach((node) => {
-    if (node.parent_id === null) {
-      node.parent_id = 0;
+    if (node.parentId === null) {
+      node.parentId = 0;
     }
   });
 
   const treeStructureNode = new LTT(nodes, {
     key_id: "id",
-    key_parent: "parent_id",
+    key_parent: "parentId",
     key_child: "children",
   }).GetTree();
 
   return treeStructureNode[0];
 }
 
-// 自分がchildrenの中の最後のノードかどうかを判定し、is_last_in_layerプロパティを追加する関数
+// 自分がchildrenの中の最後のノードかどうかを判定し、isLastInLayerプロパティを追加する関数
 function addIsLastInLayerProperty(nodes: types.Node[]): types.Node[] {
   nodes.forEach((node) => {
-    const parentNode = findNodeById(node.parent_id, nodes);
+    const parentNode = findNodeById(node.parentId, nodes);
     if (parentNode) {
-      const childrenNodes = nodes.filter((n) => n.parent_id === node.parent_id);
-      // childrenNodesの中で一番大きいidを持つノードが自分自身であれば、is_last_in_layerをtrueにする
+      const childrenNodes = nodes.filter((n) => n.parentId === node.parentId);
+      // childrenNodesの中で一番大きいidを持つノードが自分自身であれば、isLastInLayerをtrueにする
       const maxId = Math.max(...childrenNodes.map((n) => n.id));
       if (node.id === maxId) {
-        node.is_last_in_layer = true;
+        node.isLastInLayer = true;
       } else {
-        node.is_last_in_layer = false;
+        node.isLastInLayer = false;
       }
     } else {
-      node.is_last_in_layer = true;
+      node.isLastInLayer = true;
     }
   });
 
   return nodes;
 }
 
-// Layerのparent_node_idをidに持つNodeを探し、そのNodeのプロパティにchild_layerを追加する関数
+// LayerのparentNodeIdをidに持つNodeを探し、そのNodeのプロパティにchildLayerを追加する関数
 function addLayerToNode(
   nodes: types.Node[],
   layers: types.Layer[]
 ): types.Node[] {
   layers.forEach((layer) => {
-    const parentNode = findNodeById(layer.parent_node_id, nodes);
+    const parentNode = findNodeById(layer.parentNodeId, nodes);
     if (parentNode) {
-      parentNode.child_layer = layer;
+      parentNode.childLayer = layer;
     }
   });
 
   return nodes;
 }
 
-// 親ノードのchild_layerのoperationを子ノードに引き継ぐ関数
+// 親ノードのchildLayerのoperationを子ノードに引き継ぐ関数
 function inheritOperationFromParentNode(nodes: types.Node[]): types.Node[] {
   nodes.forEach((node) => {
-    const parentNode = findNodeById(node.parent_id, nodes);
+    const parentNode = findNodeById(node.parentId, nodes);
     if (parentNode) {
-      node.operation = parentNode.child_layer?.operation;
+      node.operation = parentNode.childLayer?.operation;
     } else {
       node.operation = "";
     }
@@ -107,11 +107,11 @@ function convertTreeStructureNodeToRawNodeDatum(
     attributes: {
       id: treeStructureNode.id,
       value: treeStructureNode.value,
-      valueFormat: treeStructureNode.value_format,
+      valueFormat: treeStructureNode.valueFormat,
       unit: treeStructureNode.unit,
-      isValueLocked: treeStructureNode.is_value_locked,
+      isValueLocked: treeStructureNode.isValueLocked,
       operation: treeStructureNode.operation,
-      isLastInLayer: treeStructureNode.is_last_in_layer,
+      isLastInLayer: treeStructureNode.isLastInLayer,
     },
     children: treeStructureNode.children?.map((child) =>
       convertTreeStructureNodeToRawNodeDatum(child)
