@@ -97,7 +97,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
               key={node.id}
               index={index}
               node={node}
-              isRoot={false}
               handleNodeInfoChange={handleNodeInfoChange}
             />
           ))}

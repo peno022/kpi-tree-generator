@@ -6,14 +6,12 @@ import ToolMenu from "../common/tool_menu";
 type NodeDetailProps = {
   index: number;
   node: Node;
-  isRoot: boolean;
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
 };
 
 const NodeDetail: React.FC<NodeDetailProps> = ({
   index,
   node,
-  isRoot = false,
   handleNodeInfoChange,
 }) => {
   const handleInputChange = (
@@ -33,21 +31,17 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
     <>
       <div className="border border-base-300 p-2 my-2">
         <div className="flex justify-between items-center mb-1.5">
-          <div className="text-base font-semibold">
-            {isRoot ? "ルート要素" : `要素${index + 1}`}
-          </div>
-          {!isRoot && (
-            <ToolMenu
-              menuItems={[
-                {
-                  label: "要素を削除",
-                  onClick: () => {
-                    console.log("要素を削除");
-                  },
+          <div className="text-base font-semibold">{`要素${index + 1}`}</div>
+          <ToolMenu
+            menuItems={[
+              {
+                label: "要素を削除",
+                onClick: () => {
+                  console.log("要素を削除");
                 },
-              ]}
-            />
-          )}
+              },
+            ]}
+          />
         </div>
         <div className="flex flex-row space-x-4 mb-1.5">
           <NodeField
