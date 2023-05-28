@@ -10,7 +10,7 @@ type Props = {
   menuItems: MenuItem[];
 };
 
-export const ToolMenu: React.FC<Props> = ({ menuItems }) => {
+const ToolMenu: React.FC<Props> = ({ menuItems }) => {
   return (
     <>
       <div className="dropdown dropdown-bottom dropdown-end">
@@ -31,3 +31,5 @@ export const ToolMenu: React.FC<Props> = ({ menuItems }) => {
     </>
   );
 };
+
+export default ToolMenu;

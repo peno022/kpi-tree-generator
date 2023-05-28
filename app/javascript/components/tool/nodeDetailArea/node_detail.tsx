@@ -1,7 +1,7 @@
 import React from "react";
 import NodeField from "./node_field";
 import { Node } from "../../../types";
-import { ToolMenu } from "../common/tool_menu";
+import ToolMenu from "../common/tool_menu";
 
 type NodeDetailProps = {
   index: number;
