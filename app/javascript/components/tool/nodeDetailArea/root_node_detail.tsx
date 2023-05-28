@@ -25,9 +25,7 @@ const RootNodeDetail: React.FC<RootNodeDetailProps> = ({
     const updatedNodeInfo = { ...node, [name]: value };
     handleNodeInfoChange(updatedNodeInfo);
   };
-  console.log("-----parentNode-------");
-  console.log(parentNode);
-  console.log("-------------------");
+
   return (
     <>
       <div className="border border-base-300 p-2 my-2">
