@@ -2,20 +2,18 @@ import React, { useState, useEffect } from "react";
 import Operation from "./operation";
 import { Layer } from "../../../types";
 
-type Props = {
+type OperationsProps = {
   selectedLayer: Layer;
+  handleOperationChange: (operation: "multiply" | "add") => void;
 };
 
-const Operations: React.FC<Props> = ({ selectedLayer }) => {
+const Operations: React.FC<OperationsProps> = ({
+  selectedLayer,
+  handleOperationChange,
+}) => {
   const [selected, setSelected] = useState<"multiply" | "add">("multiply");
 
-  const handleButtonClick = (choice: "multiply" | "add") => {
-    setSelected(choice);
-  };
-
   useEffect(() => {
-    console.log("------ operations.tsx useEffect ------");
-    console.dir(selectedLayer);
     if (selectedLayer.operation === "multiply") {
       setSelected("multiply");
     } else {
@@ -29,15 +27,15 @@ const Operations: React.FC<Props> = ({ selectedLayer }) => {
         <Operation
           isSelected={selected === "multiply"}
           operation="multiply"
-          onClick={() => handleButtonClick("multiply")}
+          onClick={() => handleOperationChange("multiply")}
         />
       </div>
 
-      <div onClick={() => handleButtonClick("add")}>
+      <div>
         <Operation
           isSelected={selected === "add"}
           operation="add"
-          onClick={() => handleButtonClick("add")}
+          onClick={() => handleOperationChange("add")}
         />
       </div>
     </div>

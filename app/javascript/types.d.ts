@@ -3,7 +3,7 @@ import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 export type Layer = {
   id: number;
   operation: "multiply" | "add";
-  fraction: number | null;
+  fraction: number;
   parentNodeId: number;
 };
 
