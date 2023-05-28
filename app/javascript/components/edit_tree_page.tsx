@@ -38,7 +38,6 @@ const EditTreePage = () => {
   if (isLoading) return <>ロード中…</>;
 
   const handleClick: TreeNodeEventCallback = (node) => {
-    console.log("--- handleClick start ---");
     const clickedNodeId = node.data?.attributes?.id;
     console.log(`id:${clickedNodeId}: ${node.data.name}をクリック`);
 
@@ -55,7 +54,6 @@ const EditTreePage = () => {
       );
       setSelectedNodeIds(siblings.map((node) => node.id));
     }
-    console.log("--- handleClick end ---");
   };
 
   return (
