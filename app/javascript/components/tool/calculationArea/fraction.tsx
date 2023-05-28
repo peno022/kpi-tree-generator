@@ -1,12 +1,18 @@
 import React from "react";
 
-type Props = {
+type FractionProps = {
   label: string;
   placeholder?: string;
-  value?: number;
+  value: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Fraction: React.FC<Props> = ({ label, placeholder = "", value }) => {
+const Fraction: React.FC<FractionProps> = ({
+  label,
+  placeholder = "",
+  value = 0,
+  onChange,
+}) => {
   return (
     <div className="flex flex-col">
       <div className="text-xs">{label}</div>
@@ -14,7 +20,8 @@ const Fraction: React.FC<Props> = ({ label, placeholder = "", value }) => {
         type="number"
         placeholder={placeholder}
         className="input input-bordered input-xs w-20"
-        defaultValue={value}
+        value={value}
+        onChange={onChange}
       />
     </div>
   );

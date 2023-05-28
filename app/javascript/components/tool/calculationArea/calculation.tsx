@@ -3,35 +3,36 @@ import NodeValue from "./node_value";
 import OperationSymbol from "./operation_symbol";
 import Fraction from "./fraction";
 import MessageBubble from "./message_bubble";
-import { Node } from "../../../types";
+import { Node, Layer } from "../../../types";
 
 type Props = {
   selectedNodes: Node[];
-  operation: "add" | "multiply";
+  selectedLayer: Layer;
   parentNode: Node;
+  handleFractionChange: (fraction: number) => void;
 };
 
 const Calculation: React.FC<Props> = ({
   parentNode,
-  operation,
+  selectedLayer,
   selectedNodes,
+  handleFractionChange,
 }) => {
   const maxId = Math.max(...selectedNodes.map((node) => node.id));
   const [calculationResult, setCalculationResult] = useState(0);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFractionChange(e.target.valueAsNumber);
+  };
 
   useEffect(() => {
-    let newResult = 0;
-    if (operation === "multiply") {
-      newResult = selectedNodes.reduce((acc, node) => {
-        return acc * getValueForCalculation(node);
-      }, 1);
-    } else if (operation === "add") {
-      newResult = selectedNodes.reduce((acc, node) => {
-        return acc + getValueForCalculation(node);
-      }, 0);
-    }
-    setCalculationResult(getValueForDisplay(newResult, parentNode.valueFormat));
-  }, [selectedNodes, operation]);
+    const newResult = getValueForDisplay(
+      calculateNodes(selectedLayer.operation, selectedNodes) +
+        (selectedLayer.fraction ?? 0),
+      parentNode.valueFormat
+    );
+
+    setCalculationResult(newResult);
+  }, [selectedNodes, selectedLayer, parentNode]);
 
   return (
     <>
@@ -51,13 +52,17 @@ const Calculation: React.FC<Props> = ({
                 displayUnit={getDisplayUnit(node)}
               />
               {!(node.id === maxId) && (
-                <OperationSymbol operation={operation} />
+                <OperationSymbol operation={selectedLayer.operation} />
               )}
             </div>
           );
         })}
         <OperationSymbol operation="add" />
-        <Fraction label="端数" />
+        <Fraction
+          label="端数"
+          value={selectedLayer.fraction ?? 0}
+          onChange={handleInputChange}
+        />
       </div>
       {parentNode.value !== calculationResult && (
         <MessageBubble
@@ -109,6 +114,18 @@ function getValueForDisplay(
       return value / 10000;
     default:
       return value;
+  }
+}
+
+function calculateNodes(operation: "multiply" | "add", nodes: Node[]) {
+  if (operation === "multiply") {
+    return nodes.reduce((acc, node) => {
+      return acc * getValueForCalculation(node);
+    }, 1);
+  } else {
+    return nodes.reduce((acc, node) => {
+      return acc + getValueForCalculation(node);
+    }, 0);
   }
 }
 

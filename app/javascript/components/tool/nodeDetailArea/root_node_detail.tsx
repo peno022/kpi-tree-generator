@@ -1,16 +1,14 @@
 import React from "react";
 import NodeField from "./node_field";
 import { Node } from "../../../types";
-import ToolMenu from "../common/tool_menu";
+import { parentNode } from "../../../../../spec/javascript/__fixtures__/sample_data";
 
-type NodeDetailProps = {
-  index: number;
+type RootNodeDetailProps = {
   node: Node;
-  handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
+  handleNodeInfoChange: (newNodeInfo: Node) => void;
 };
 
-const NodeDetail: React.FC<NodeDetailProps> = ({
-  index,
+const RootNodeDetail: React.FC<RootNodeDetailProps> = ({
   node,
   handleNodeInfoChange,
 }) => {
@@ -25,23 +23,14 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
       value = e.target.value;
     }
     const updatedNodeInfo = { ...node, [name]: value };
-    handleNodeInfoChange(index, updatedNodeInfo);
+    handleNodeInfoChange(updatedNodeInfo);
   };
+
   return (
     <>
       <div className="border border-base-300 p-2 my-2">
         <div className="flex justify-between items-center mb-1.5">
-          <div className="text-base font-semibold">{`要素${index + 1}`}</div>
-          <ToolMenu
-            menuItems={[
-              {
-                label: "要素を削除",
-                onClick: () => {
-                  console.log("要素を削除");
-                },
-              },
-            ]}
-          />
+          <div className="text-base font-semibold">ルート要素</div>
         </div>
         <div className="flex flex-row space-x-4 mb-1.5">
           <NodeField
@@ -89,4 +78,4 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   );
 };
 
-export default NodeDetail;
+export default RootNodeDetail;
