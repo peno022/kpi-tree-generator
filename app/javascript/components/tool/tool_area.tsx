@@ -7,9 +7,14 @@ import Message from "./message";
 type ToolAreaProps = {
   treeData: types.TreeData;
   selectedNodeIds: number[];
+  onUpdateSuccess: (updatedTreeData: types.TreeData) => void;
 };
 
-const ToolArea: React.FC<ToolAreaProps> = ({ treeData, selectedNodeIds }) => {
+const ToolArea: React.FC<ToolAreaProps> = ({
+  treeData,
+  selectedNodeIds,
+  onUpdateSuccess,
+}) => {
   const allNodes = treeData.nodes;
   const allLayers = treeData.layers;
 
@@ -45,6 +50,7 @@ const ToolArea: React.FC<ToolAreaProps> = ({ treeData, selectedNodeIds }) => {
         selectedNodes={selectedNodes}
         selectedLayer={selectedLayer}
         parentNode={parentNode}
+        onUpdateSuccess={onUpdateSuccess}
       ></LayerTool>
     );
   }

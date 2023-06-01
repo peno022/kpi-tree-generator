@@ -56,6 +56,11 @@ const EditTreePage = () => {
     }
   };
 
+  const handleUpdateSuccess = (updatedTreeData: types.TreeData) => {
+    setTreeData(updatedTreeData);
+    setSelectedNodeIds([]);
+  };
+
   return (
     <>
       <div className="flex w-full">
@@ -85,7 +90,11 @@ const EditTreePage = () => {
           }}
         >
           <ErrorBoundary fallbackRender={fallbackRender}>
-            <ToolArea treeData={treeData} selectedNodeIds={selectedNodeIds} />
+            <ToolArea
+              treeData={treeData}
+              selectedNodeIds={selectedNodeIds}
+              onUpdateSuccess={handleUpdateSuccess}
+            />
           </ErrorBoundary>
         </div>
       </div>

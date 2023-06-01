@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import NodeDetail from "./nodeDetailArea/node_detail";
-import { Node, Layer } from "../../types";
+import { Node, Layer, TreeData } from "../../types";
 import ToolMenu from "./common/tool_menu";
 import Operations from "./operationArea/operations";
 import Calculation from "./calculationArea/calculation";
+import OpenModalButton from "./common/open_modal_button";
 
 type LayerToolProps = {
   selectedNodes: Node[];
   selectedLayer: Layer;
   parentNode: Node;
+  onUpdateSuccess: (updatedTreeData: TreeData) => void;
 };
 
 export type LayerToolState = {
@@ -20,11 +22,22 @@ const LayerTool: React.FC<LayerToolProps> = ({
   selectedNodes,
   selectedLayer,
   parentNode,
+  onUpdateSuccess,
 }) => {
   const [layerProperty, setlayerProperty] = useState<LayerToolState>({
     nodes: selectedNodes,
     layer: selectedLayer,
   });
+  const [nodeValidationResults, setNodeValidationResults] = useState<boolean[]>(
+    Array(selectedNodes.length).fill(true)
+  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [savedState, setSavedState] = useState<LayerToolState | null>(null);
+  const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(true);
+
+  const isAllValid = (results: boolean[]): boolean => {
+    return results.every((result) => result);
+  };
 
   useEffect(() => {
     setlayerProperty({
@@ -34,6 +47,10 @@ const LayerTool: React.FC<LayerToolProps> = ({
     });
   }, [selectedNodes, selectedLayer, parentNode]);
 
+  useEffect(() => {
+    setIsUpdateButtonDisabled(!isAllValid(nodeValidationResults));
+  }, [nodeValidationResults]);
+
   const handleNodeInfoChange = (index: number, newNodeInfo: Node) => {
     const newValues = [...layerProperty.nodes];
     newValues[index] = newNodeInfo;
@@ -41,6 +58,15 @@ const LayerTool: React.FC<LayerToolProps> = ({
       ...layerProperty,
       nodes: newValues,
     });
+  };
+
+  const handleNodeValidationResultsChange = (
+    index: number,
+    isValid: boolean
+  ) => {
+    const newValues = [...nodeValidationResults];
+    newValues[index] = isValid;
+    setNodeValidationResults(newValues);
   };
 
   const handleOperationChange = (operation: "multiply" | "add") => {
@@ -59,6 +85,32 @@ const LayerTool: React.FC<LayerToolProps> = ({
       ...layerProperty,
       layer: newLayerValues,
     });
+  };
+
+  const saveLayerProperty = async () => {
+    setErrorMessage(null);
+    setSavedState(layerProperty);
+
+    // TODO: 更新用APIを呼び出す
+    try {
+      const response = await fetch("/api/v1/layers/" + selectedLayer.id, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          layer: layerProperty.layer,
+          nodes: layerProperty.nodes,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("HTTP status " + response.status);
+      }
+      const json = await response.json();
+      onUpdateSuccess(json);
+    } catch (err) {
+      setErrorMessage("更新に失敗しました。");
+    }
   };
 
   return (
@@ -98,6 +150,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
               index={index}
               node={node}
               handleNodeInfoChange={handleNodeInfoChange}
+              setNodeValidationResult={handleNodeValidationResultsChange}
             />
           ))}
           <div className="flex justify-center">
@@ -108,7 +161,15 @@ const LayerTool: React.FC<LayerToolProps> = ({
           className="absolute bottom-0 w-full flex justify-center items-center border-t-2 border-base-300 bg-base-100 mt-auto p-2"
           id="updateButton"
         >
-          <button className="btn btn-primary">更新</button>
+          <OpenModalButton
+            buttonText="更新"
+            disabled={isUpdateButtonDisabled}
+            modalButtonText="更新する"
+            modalHeadline=""
+            modaltext="データを更新してよろしいですか？"
+            modalId="updateLayerModal"
+            handleClick={saveLayerProperty}
+          ></OpenModalButton>
         </div>
       </div>
     </>
