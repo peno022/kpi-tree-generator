@@ -10,7 +10,8 @@ type Props = {
   placeholder?: string;
   value?: string | number;
   checked?: boolean;
-  setFieldValidationResults: (name: string, isValid: boolean) => void;
+  isValidField: boolean;
+  errorMessage: string;
 };
 
 const NodeField: React.FC<Props> = ({
@@ -21,39 +22,9 @@ const NodeField: React.FC<Props> = ({
   placeholder = "",
   value = "",
   checked = false,
-  setFieldValidationResults,
+  isValidField,
+  errorMessage,
 }) => {
-  const [isValidField, setIsValidField] = React.useState(true);
-  const [errorMessage, setErrorMessage] = React.useState("");
-  const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    // 単項目のバリデーションチェック
-    if (
-      e.target.name === "name" ||
-      e.target.name === "unit" ||
-      e.target.name === "value"
-    ) {
-      if (isEmptyOrNull(e.target.value)) {
-        setIsValidField(false);
-        setFieldValidationResults(e.target.name, false);
-        setErrorMessage("必須項目です");
-        return;
-      }
-    }
-    if (e.target.name === "value") {
-      if (!isValidNumber(e.target.value)) {
-        setIsValidField(false);
-        setFieldValidationResults(e.target.name, false);
-        setErrorMessage("数値を入力してください");
-        return;
-      }
-    }
-    setIsValidField(true);
-    setFieldValidationResults(e.target.name, true);
-    handleInputChange(e);
-  };
-
   let inputElement: JSX.Element;
   switch (type) {
     case "checkbox":
@@ -61,8 +32,8 @@ const NodeField: React.FC<Props> = ({
         <input
           type="checkbox"
           name={name}
-          onChange={onChange}
-          className="checkbox"
+          onChange={handleInputChange}
+          className={isValidField ? "checkbox" : "checkbox checkbox-error"}
           defaultChecked={checked}
         />
       );
@@ -70,27 +41,31 @@ const NodeField: React.FC<Props> = ({
     case "number":
     case "text":
       const baseInputClass = "input input-sm input-bordered w-32";
-      const inputClassName = isValidField
+      const inputClass = isValidField
         ? baseInputClass
         : `${baseInputClass} input-error`;
       inputElement = (
         <input
           type={type}
           name={name}
-          onChange={onChange}
+          onChange={handleInputChange}
           placeholder={placeholder}
-          className={inputClassName}
+          className={inputClass}
           defaultValue={value}
           required
         />
       );
       break;
     case "dropdown":
+      const baseSelectClass = "input input-sm input-bordered w-32";
+      const selectClass = isValidField
+        ? baseSelectClass
+        : `${baseSelectClass} select-error`;
       inputElement = (
         <select
           name={name}
-          onChange={onChange}
-          className="select select-bordered select-sm w-20"
+          onChange={handleInputChange}
+          className={selectClass}
           defaultValue={value}
         >
           <option>なし</option>
@@ -105,19 +80,11 @@ const NodeField: React.FC<Props> = ({
     <div className="flex flex-col">
       <div className="text-sm">{label}</div>
       {inputElement}
-      {!isValidField && (
+      {errorMessage && (
         <span className="label-text-alt text-error">{errorMessage}</span>
       )}
     </div>
   );
 };
-
-function isValidNumber(value: string) {
-  return !isNaN(Number(value));
-}
-
-function isEmptyOrNull(input: string): boolean {
-  return input == null || input.trim() == "";
-}
 
 export default NodeField;
