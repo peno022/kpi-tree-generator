@@ -3,7 +3,7 @@ import NodeField from "./node_field";
 import { Node } from "../../../types";
 import ToolMenu from "../common/tool_menu";
 
-type NodeDetailProps = {
+export type NodeDetailProps = {
   index: number;
   node: Node;
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
@@ -170,7 +170,10 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   };
   return (
     <>
-      <div className="border border-base-300 p-2 my-2">
+      <div
+        className="border border-base-300 p-2 my-2"
+        id={`node-detail-${index + 1}`}
+      >
         <div className="flex justify-between items-center mb-1.5">
           <div className="text-base font-semibold">{`要素${index + 1}`}</div>
           <ToolMenu
@@ -206,7 +209,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
         </div>
         <div className="flex flex-row space-x-4">
           <NodeField
-            type="number"
+            type="text"
             name="value"
             label="数値"
             value={node.value}
