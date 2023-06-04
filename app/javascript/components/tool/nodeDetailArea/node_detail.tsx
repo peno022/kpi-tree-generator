@@ -67,6 +67,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
       value = e.target.value.trim();
     }
     const updatedNodeInfo = { ...node, [name]: value };
+    handleNodeInfoChange(index, updatedNodeInfo);
     // バリデーションチェック
     if (name === "name" || name === "value") {
       if (value == null || value == "") {
@@ -157,7 +158,6 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
       ...prev,
       [name]: "",
     }));
-    handleNodeInfoChange(index, updatedNodeInfo);
   };
   const handleFieldValidationResultsChange = (
     name: string,
