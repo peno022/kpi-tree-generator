@@ -65,3 +65,40 @@ export const grandChildLayer: Layer = {
   fraction: 0,
   parentNodeId: 2,
 };
+
+export const greatGrandChildNode1: Node = {
+  id: 6,
+  name: "ひ孫ノード1",
+  value: 950,
+  valueFormat: "万",
+  unit: "円",
+  isValueLocked: false,
+  parentId: 4,
+};
+
+export const greatGrandChildNode2: Node = {
+  id: 7,
+  name: "ひ孫ノード2",
+  value: 20,
+  valueFormat: "万",
+  unit: "なし",
+  isValueLocked: false,
+  parentId: 4,
+};
+
+export const greatGrandChildNode3: Node = {
+  id: 8,
+  name: "ひ孫ノード3",
+  value: 30,
+  valueFormat: "万",
+  unit: "なし",
+  isValueLocked: false,
+  parentId: 4,
+};
+
+export const greatGrandChildLayer: Layer = {
+  id: 3,
+  operation: "add",
+  fraction: 0,
+  parentNodeId: 4,
+};

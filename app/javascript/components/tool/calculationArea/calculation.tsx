@@ -4,6 +4,7 @@ import OperationSymbol from "./operation_symbol";
 import Fraction from "./fraction";
 import MessageBubble from "./message_bubble";
 import { Node, Layer } from "../../../types";
+import calculateParentNodeValue from "../../../calculate_parent_node_value";
 
 type Props = {
   selectedNodes: Node[];
@@ -25,10 +26,10 @@ const Calculation: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    const newResult = getValueForDisplay(
-      calculateNodes(selectedLayer.operation, selectedNodes) +
-        (selectedLayer.fraction ?? 0),
-      parentNode.valueFormat
+    const newResult = calculateParentNodeValue(
+      parentNode,
+      selectedNodes,
+      selectedLayer
     );
 
     setCalculationResult(newResult);
@@ -81,51 +82,6 @@ function getDisplayUnit(node: Node) {
     return unit;
   } else {
     return `${node.valueFormat}${unit}`;
-  }
-}
-
-function getValueForCalculation(node: Node) {
-  switch (node.valueFormat) {
-    case "なし":
-      return node.value;
-    case "%":
-      return node.value / 100;
-    case "千":
-      return node.value * 1000;
-    case "万":
-      return node.value * 10000;
-    default:
-      return node.value;
-  }
-}
-
-function getValueForDisplay(
-  value: number,
-  valueFormat: "なし" | "%" | "千" | "万"
-) {
-  switch (valueFormat) {
-    case "なし":
-      return value;
-    case "%":
-      return value * 100;
-    case "千":
-      return value / 1000;
-    case "万":
-      return value / 10000;
-    default:
-      return value;
-  }
-}
-
-function calculateNodes(operation: "multiply" | "add", nodes: Node[]) {
-  if (operation === "multiply") {
-    return nodes.reduce((acc, node) => {
-      return acc * getValueForCalculation(node);
-    }, 1);
-  } else {
-    return nodes.reduce((acc, node) => {
-      return acc + getValueForCalculation(node);
-    }, 0);
   }
 }
 
