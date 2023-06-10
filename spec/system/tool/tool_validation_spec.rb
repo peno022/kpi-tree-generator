@@ -80,6 +80,24 @@ RSpec.describe 'ツールエリアのバリデーションチェック', js: tru
       expect(page).to have_css('label.btn.btn-primary.btn-disabled', text: '更新')
     end
 
+    it('名前・数値共にスペース入力時も必須項目エラーがそれぞれ出る') do
+      tree1 = create(:tree)
+      nodes1 = create_list(:node, 3, tree: tree1)
+      create(:layer, tree: tree1, parent_node: nodes1[0])
+      nodes1[1].name = '子1'
+      nodes1[0].children = [nodes1[1], nodes1[2]]
+      visit edit_tree_path(tree1)
+      find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
+
+      find_by_id('node-detail-1').find('input[name="name"]').set('　') # 全角スペース
+      find_by_id('node-detail-1').find('input[name="value"]').set(' ') # 半角スペース
+      sleep 5
+      expect(page).to have_css('span.text-error', text: '必須項目です', count: 2)
+      expect(find_by_id('node-detail-1').find('input[name="name"]')['class']).to include('input-error')
+      expect(find_by_id('node-detail-1').find('input[name="value"]')['class']).to include('input-error')
+      expect(page).to have_css('label.btn.btn-primary.btn-disabled', text: '更新')
+    end
+
     it('必須項目エラーが出ている時に他の項目を変更しても、エラーは消えない') do
       tree1 = create(:tree)
       nodes1 = create_list(:node, 3, tree: tree1)

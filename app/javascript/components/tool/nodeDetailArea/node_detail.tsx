@@ -159,15 +159,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
       [name]: "",
     }));
   };
-  const handleFieldValidationResultsChange = (
-    name: string,
-    isValid: boolean
-  ) => {
-    setFieldValidationResults((prev) => ({
-      ...prev,
-      [name]: isValid,
-    }));
-  };
+
   return (
     <>
       <div
