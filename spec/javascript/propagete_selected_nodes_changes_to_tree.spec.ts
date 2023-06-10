@@ -39,11 +39,13 @@ describe("propagateSelectedNodesChangesToTree", () => {
     };
 
     const selectedNodes: Node[] = [
-      greatGrandChildNode1,
-      greatGrandChildNode2,
-      greatGrandChildNode3,
+      JSON.parse(JSON.stringify(greatGrandChildNode1)),
+      JSON.parse(JSON.stringify(greatGrandChildNode2)),
+      JSON.parse(JSON.stringify(greatGrandChildNode3)),
     ];
-    const selectedLayer: Layer = greatGrandChildLayer;
+    const selectedLayer: Layer = JSON.parse(
+      JSON.stringify(greatGrandChildLayer)
+    );
 
     selectedNodes[0].value = 1900;
     selectedNodes[1].value = 300000;
@@ -142,11 +144,13 @@ describe("propagateSelectedNodesChangesToTree", () => {
     };
 
     const selectedNodes: Node[] = [
-      greatGrandChildNode1,
-      greatGrandChildNode2,
-      greatGrandChildNode3,
+      JSON.parse(JSON.stringify(greatGrandChildNode1)),
+      JSON.parse(JSON.stringify(greatGrandChildNode2)),
+      JSON.parse(JSON.stringify(greatGrandChildNode3)),
     ];
-    const selectedLayer: Layer = greatGrandChildLayer;
+    const selectedLayer: Layer = JSON.parse(
+      JSON.stringify(greatGrandChildLayer)
+    );
 
     selectedNodes[0].value = 1900;
     selectedNodes[1].value = 300000;
@@ -240,11 +244,13 @@ describe("propagateSelectedNodesChangesToTree", () => {
     };
 
     const selectedNodes: Node[] = [
-      greatGrandChildNode1,
-      greatGrandChildNode2,
-      greatGrandChildNode3,
+      JSON.parse(JSON.stringify(greatGrandChildNode1)),
+      JSON.parse(JSON.stringify(greatGrandChildNode2)),
+      JSON.parse(JSON.stringify(greatGrandChildNode3)),
     ];
-    const selectedLayer: Layer = greatGrandChildLayer;
+    const selectedLayer: Layer = JSON.parse(
+      JSON.stringify(greatGrandChildLayer)
+    );
 
     selectedNodes[0].value = 1900;
     selectedNodes[1].value = 300000;
@@ -343,11 +349,13 @@ describe("propagateSelectedNodesChangesToTree", () => {
     };
 
     const selectedNodes: Node[] = [
-      greatGrandChildNode1,
-      greatGrandChildNode2,
-      greatGrandChildNode3,
+      JSON.parse(JSON.stringify(greatGrandChildNode1)),
+      JSON.parse(JSON.stringify(greatGrandChildNode2)),
+      JSON.parse(JSON.stringify(greatGrandChildNode3)),
     ];
-    const selectedLayer: Layer = greatGrandChildLayer;
+    const selectedLayer: Layer = JSON.parse(
+      JSON.stringify(greatGrandChildLayer)
+    );
 
     selectedNodes[0].value = 1900;
     selectedNodes[1].value = 300000;
@@ -445,11 +453,13 @@ describe("propagateSelectedNodesChangesToTree", () => {
     };
 
     const selectedNodes: Node[] = [
-      greatGrandChildNode1,
-      greatGrandChildNode2,
-      greatGrandChildNode3,
+      JSON.parse(JSON.stringify(greatGrandChildNode1)),
+      JSON.parse(JSON.stringify(greatGrandChildNode2)),
+      JSON.parse(JSON.stringify(greatGrandChildNode3)),
     ];
-    const selectedLayer: Layer = greatGrandChildLayer;
+    const selectedLayer: Layer = JSON.parse(
+      JSON.stringify(greatGrandChildLayer)
+    );
 
     selectedNodes[0].value = 1900;
     selectedNodes[1].value = 300000;

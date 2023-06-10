@@ -8,6 +8,24 @@ export default function propagateSelectedNodesChangesToTree(
 ): TreeData {
   const updatedTreeData: TreeData = JSON.parse(JSON.stringify(treeData));
 
+  selectedNodes.forEach((node) => {
+    const updatedNode = updatedTreeData.nodes.find((n) => n.id === node.id);
+    if (!updatedNode) return;
+    updatedNode.name = node.name;
+    updatedNode.value = node.value;
+    updatedNode.valueFormat = node.valueFormat;
+    updatedNode.unit = node.unit;
+    updatedNode.isValueLocked = node.isValueLocked;
+  });
+
+  const updatedLayer = updatedTreeData.layers.find(
+    (l) => l.id === selectedLayer.id
+  );
+  if (updatedLayer) {
+    updatedLayer.operation = selectedLayer.operation;
+    updatedLayer.fraction = selectedLayer.fraction;
+  }
+
   function updateParentNode(node: Node, layer: Layer): void {
     if (node.parentId == null || node.parentId == 0) return;
     const parentNode = updatedTreeData.nodes.find(
