@@ -17,7 +17,7 @@ const EditTreePage = () => {
     layers: [],
   });
   const [selectedNodeIds, setSelectedNodeIds] = useState<number[]>([]);
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {

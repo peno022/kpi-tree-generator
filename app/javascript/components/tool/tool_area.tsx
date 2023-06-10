@@ -51,6 +51,7 @@ const ToolArea: React.FC<ToolAreaProps> = ({
         selectedLayer={selectedLayer}
         parentNode={parentNode}
         onUpdateSuccess={onUpdateSuccess}
+        treeData={treeData}
       ></LayerTool>
     );
   }

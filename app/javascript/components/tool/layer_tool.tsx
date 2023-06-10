@@ -5,12 +5,16 @@ import ToolMenu from "./common/tool_menu";
 import Operations from "./operationArea/operations";
 import Calculation from "./calculationArea/calculation";
 import OpenModalButton from "./common/open_modal_button";
+import propagateSelectedNodesChangesToTree from "../../propagete_selected_nodes_changes_to_tree";
+import keysToSnakeCase from "../../keys_to_snake_case";
+import keysToCamelCase from "../../keys_to_camel_case";
 
 type LayerToolProps = {
   selectedNodes: Node[];
   selectedLayer: Layer;
   parentNode: Node;
   onUpdateSuccess: (updatedTreeData: TreeData) => void;
+  treeData: TreeData;
 };
 
 export type LayerToolState = {
@@ -23,6 +27,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
   selectedLayer,
   parentNode,
   onUpdateSuccess,
+  treeData,
 }) => {
   const [layerProperty, setlayerProperty] = useState<LayerToolState>({
     nodes: selectedNodes,
@@ -91,33 +96,95 @@ const LayerTool: React.FC<LayerToolProps> = ({
     setErrorMessage(null);
     setSavedState(layerProperty);
 
-    // TODO: 更新用APIを呼び出す
+    const treeDataToSave = propagateSelectedNodesChangesToTree(
+      layerProperty.nodes,
+      layerProperty.layer,
+      treeData
+    );
+
+    const bodyData = JSON.stringify({
+      tree: {
+        layers: keysToSnakeCase(
+          treeDataToSave.layers.map((layer) => {
+            return {
+              ...layer,
+              parentNodeId:
+                layer.parentNodeId === 0 ? null : layer.parentNodeId,
+            };
+          })
+        ),
+        nodes: keysToSnakeCase(
+          treeDataToSave.nodes.map((node) => {
+            return {
+              ...node,
+              parentId: node.parentId === 0 ? null : node.parentId,
+            };
+          })
+        ),
+      },
+    });
+
+    console.log("---------- REQUEST -----------");
+    console.log({
+      tree: {
+        layers: keysToSnakeCase(
+          treeDataToSave.layers.map((layer) => {
+            return {
+              ...layer,
+              parentNodeId:
+                layer.parentNodeId === 0 ? null : layer.parentNodeId,
+            };
+          })
+        ),
+        nodes: keysToSnakeCase(
+          treeDataToSave.nodes.map((node) => {
+            return {
+              ...node,
+              parentId: node.parentId === 0 ? null : node.parentId,
+            };
+          })
+        ),
+      },
+    });
+
     try {
-      const response = await fetch("/api/v1/layers/" + selectedLayer.id, {
+      const response = await fetch("/api/trees/" + treeData.tree.id, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json; charset=utf-8",
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRF-Token": token(),
         },
-        body: JSON.stringify({
-          layer: layerProperty.layer,
-          nodes: layerProperty.nodes,
-        }),
+        credentials: "same-origin",
+        body: bodyData,
       });
       if (!response.ok) {
         throw new Error("HTTP status " + response.status);
       }
       const json = await response.json();
-      onUpdateSuccess(json);
-    } catch (err) {
-      setErrorMessage("更新に失敗しました。");
+      console.log("---------- SUCCESS -----------");
+      console.dir(keysToCamelCase(json));
+      onUpdateSuccess(keysToCamelCase(json));
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("An unknown error occurred.");
+      }
     }
   };
+
+  function token(): string {
+    const meta = document.querySelector('meta[name="csrf-token"]');
+    return meta ? meta.getAttribute("content") || "" : "";
+  }
 
   return (
     <>
       <div className="relative flex flex-col h-full">
         <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
           <div className="flex justify-between items-center mb-1.5">
+            <div className="text-error">{errorMessage ? errorMessage : ""}</div>
             <div className="text-base font-semibold">要素間の関係</div>
             <ToolMenu
               menuItems={[
