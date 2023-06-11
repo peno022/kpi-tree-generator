@@ -15,7 +15,6 @@ module Api
       ActiveRecord::Base.transaction do
         (@nodes + @layers).each(&:save!)
       end
-      render json: { tree: @tree, nodes: @tree.nodes, layers: @tree.layers }
     end
 
     private
