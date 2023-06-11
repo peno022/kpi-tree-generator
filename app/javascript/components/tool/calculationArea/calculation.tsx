@@ -22,6 +22,11 @@ const Calculation: React.FC<Props> = ({
   const maxId = Math.max(...selectedNodes.map((node) => node.id));
   const [calculationResult, setCalculationResult] = useState(0);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === "") {
+      handleFractionChange(0);
+      return;
+    }
+
     handleFractionChange(e.target.valueAsNumber);
   };
 

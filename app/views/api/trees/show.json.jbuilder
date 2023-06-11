@@ -19,6 +19,7 @@ end
 json.layers @layers do |layer|
   json.id layer.id
   json.operation layer.operation
+  json.fraction layer.fraction
   json.parent_node_id layer.parent_node_id
   json.tree_id layer.tree_id
 end

@@ -5,5 +5,5 @@ class Layer < ApplicationRecord
   belongs_to :parent_node, class_name: 'Node'
   belongs_to :tree
   validates :operation, presence: true
-  validates :fraction, numericality: true, allow_nil: true
+  validates :fraction, numericality: true
 end
