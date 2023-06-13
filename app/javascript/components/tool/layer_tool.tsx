@@ -8,6 +8,8 @@ import OpenModalButton from "./common/open_modal_button";
 import propagateSelectedNodesChangesToTree from "../../propagete_selected_nodes_changes_to_tree";
 import keysToSnakeCase from "../../keys_to_snake_case";
 import keysToCamelCase from "../../keys_to_camel_case";
+import nullifyParentNodeId from "../../nullify_parent_node_id";
+import token from "../../token";
 
 type LayerToolProps = {
   selectedNodes: Node[];
@@ -96,57 +98,22 @@ const LayerTool: React.FC<LayerToolProps> = ({
     setErrorMessage(null);
     setSavedState(layerProperty);
 
-    const treeDataToSave = propagateSelectedNodesChangesToTree(
-      layerProperty.nodes,
-      layerProperty.layer,
-      treeData
+    const treeDataToSave = nullifyParentNodeId(
+      propagateSelectedNodesChangesToTree(
+        layerProperty.nodes,
+        layerProperty.layer,
+        treeData
+      )
     );
 
-    const bodyData = JSON.stringify({
-      tree: {
-        layers: keysToSnakeCase(
-          treeDataToSave.layers.map((layer) => {
-            return {
-              ...layer,
-              parentNodeId:
-                layer.parentNodeId === 0 ? null : layer.parentNodeId,
-            };
-          })
-        ),
-        nodes: keysToSnakeCase(
-          treeDataToSave.nodes.map((node) => {
-            return {
-              ...node,
-              parentId: node.parentId === 0 ? null : node.parentId,
-            };
-          })
-        ),
-      },
-    });
-
-    console.log("---------- REQUEST -----------");
-    console.log({
-      tree: {
-        layers: keysToSnakeCase(
-          treeDataToSave.layers.map((layer) => {
-            return {
-              ...layer,
-              parentNodeId:
-                layer.parentNodeId === 0 ? null : layer.parentNodeId,
-            };
-          })
-        ),
-        nodes: keysToSnakeCase(
-          treeDataToSave.nodes.map((node) => {
-            return {
-              ...node,
-              parentId: node.parentId === 0 ? null : node.parentId,
-            };
-          })
-        ),
-      },
-    });
-
+    const bodyData = JSON.stringify(
+      keysToSnakeCase({
+        tree: {
+          layers: treeDataToSave.layers,
+          nodes: treeDataToSave.nodes,
+        },
+      })
+    );
     try {
       const response = await fetch("/api/trees/" + treeData.tree.id, {
         method: "PATCH",
@@ -173,11 +140,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
       }
     }
   };
-
-  function token(): string {
-    const meta = document.querySelector('meta[name="csrf-token"]');
-    return meta ? meta.getAttribute("content") || "" : "";
-  }
 
   return (
     <>

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Tree pages', js: true do
+RSpec.describe 'Tree編集画面の表示', js: true do
   it('treeの詳細画面に、treeの図が表示されている') do
     tree1 = create(:tree)
     nodes1 = create_list(:node, 3, tree: tree1)

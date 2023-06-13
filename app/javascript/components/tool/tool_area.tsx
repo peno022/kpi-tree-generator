@@ -35,7 +35,13 @@ const ToolArea: React.FC<ToolAreaProps> = ({
   );
 
   if (!parentNode) {
-    return <RootNodeTool selectedRootNode={selectedNodes[0]} />;
+    return (
+      <RootNodeTool
+        selectedRootNode={selectedNodes[0]}
+        onUpdateSuccess={onUpdateSuccess}
+        treeData={treeData}
+      />
+    );
   }
 
   const selectedLayer = allLayers.find(
