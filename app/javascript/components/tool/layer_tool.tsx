@@ -35,9 +35,16 @@ const LayerTool: React.FC<LayerToolProps> = ({
     nodes: selectedNodes,
     layer: selectedLayer,
   });
+  const [inputFraction, setInputFraction] = useState<string>(
+    selectedLayer.fraction.toString()
+  );
   const [nodeValidationResults, setNodeValidationResults] = useState<boolean[]>(
     Array(selectedNodes.length).fill(true)
   );
+  const [fractionValidation, setFractionValidation] = useState(true);
+  const [fractionErrorMessage, setFractionErrorMessage] = useState<
+    string | null
+  >(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savedState, setSavedState] = useState<LayerToolState | null>(null);
   const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(true);
@@ -52,11 +59,16 @@ const LayerTool: React.FC<LayerToolProps> = ({
       nodes: selectedNodes,
       layer: selectedLayer,
     });
+    setInputFraction(selectedLayer.fraction.toString());
+    setFractionValidation(true);
+    setFractionErrorMessage(null);
   }, [selectedNodes, selectedLayer, parentNode]);
 
   useEffect(() => {
-    setIsUpdateButtonDisabled(!isAllValid(nodeValidationResults));
-  }, [nodeValidationResults]);
+    setIsUpdateButtonDisabled(
+      !isAllValid(nodeValidationResults) || !fractionValidation
+    );
+  }, [nodeValidationResults, fractionValidation]);
 
   const handleNodeInfoChange = (index: number, newNodeInfo: Node) => {
     const newValues = [...layerProperty.nodes];
@@ -85,9 +97,24 @@ const LayerTool: React.FC<LayerToolProps> = ({
     });
   };
 
-  const handleFractionChange = (fraction: number) => {
+  const handleFractionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputFraction = e.target.value;
     const newLayerValues = { ...layerProperty.layer };
-    newLayerValues.fraction = fraction;
+    setInputFraction(inputFraction);
+    const numericValue = Number(inputFraction);
+    if (isNaN(numericValue)) {
+      setFractionValidation(false);
+      setFractionErrorMessage("数値を入力してください");
+      newLayerValues.fraction = 0;
+      setlayerProperty({
+        ...layerProperty,
+        layer: newLayerValues,
+      });
+      return;
+    }
+    newLayerValues.fraction = numericValue;
+    setFractionValidation(true);
+    setFractionErrorMessage(null);
     setlayerProperty({
       ...layerProperty,
       layer: newLayerValues,
@@ -169,6 +196,9 @@ const LayerTool: React.FC<LayerToolProps> = ({
             <Calculation
               selectedNodes={layerProperty.nodes}
               selectedLayer={layerProperty.layer}
+              inputFraction={inputFraction}
+              fractionValidation={fractionValidation}
+              fractionErrorMessage={fractionErrorMessage}
               parentNode={parentNode}
               handleFractionChange={handleFractionChange}
             ></Calculation>

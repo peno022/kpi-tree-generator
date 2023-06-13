@@ -6,29 +6,27 @@ import MessageBubble from "./message_bubble";
 import { Node, Layer } from "../../../types";
 import calculateParentNodeValue from "../../../calculate_parent_node_value";
 
-type Props = {
+type CalculationProps = {
   selectedNodes: Node[];
   selectedLayer: Layer;
+  inputFraction: string;
+  fractionValidation: boolean;
   parentNode: Node;
-  handleFractionChange: (fraction: number) => void;
+  fractionErrorMessage: string | null;
+  handleFractionChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Calculation: React.FC<Props> = ({
-  parentNode,
-  selectedLayer,
+const Calculation: React.FC<CalculationProps> = ({
   selectedNodes,
+  selectedLayer,
+  inputFraction,
+  fractionValidation,
+  parentNode,
+  fractionErrorMessage,
   handleFractionChange,
 }) => {
   const maxId = Math.max(...selectedNodes.map((node) => node.id));
   const [calculationResult, setCalculationResult] = useState(0);
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === "") {
-      handleFractionChange(0);
-      return;
-    }
-
-    handleFractionChange(e.target.valueAsNumber);
-  };
 
   useEffect(() => {
     const newResult = calculateParentNodeValue(
@@ -36,7 +34,6 @@ const Calculation: React.FC<Props> = ({
       selectedNodes,
       selectedLayer
     );
-
     setCalculationResult(newResult);
   }, [selectedNodes, selectedLayer, parentNode]);
 
@@ -66,8 +63,10 @@ const Calculation: React.FC<Props> = ({
         <OperationSymbol operation="add" />
         <Fraction
           label="端数"
-          value={selectedLayer.fraction ?? 0}
-          onChange={handleInputChange}
+          value={inputFraction}
+          onChange={handleFractionChange}
+          fractionValidation={fractionValidation}
+          errorMessage={fractionErrorMessage}
         />
       </div>
       {parentNode.value !== calculationResult && (

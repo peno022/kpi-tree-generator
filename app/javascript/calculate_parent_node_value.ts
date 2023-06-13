@@ -7,7 +7,9 @@ export default function calculateParentNodeValue(
 ) {
   return getValueForDisplay(
     calculateNodes(selectedLayer.operation, selectedNodes) +
-      (selectedLayer.fraction ?? 0),
+      (isNaN(Number(selectedLayer.fraction))
+        ? 0
+        : Number(selectedLayer.fraction)),
     parentNode.valueFormat
   );
 }
