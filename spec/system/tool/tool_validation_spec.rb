@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.configure do |config|
-  config.before do
+RSpec.describe 'ツールエリアのバリデーションチェック', js: true do
+  before do
     # データの作成
     tree = create(:tree)
     root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
@@ -17,9 +17,7 @@ RSpec.configure do |config|
     visit edit_tree_path(tree)
     find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
   end
-end
 
-RSpec.describe 'ツールエリアのバリデーションチェック', js: true do
   describe 'ノードの単項目のチェック' do
     before do
       # データの作成
