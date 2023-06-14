@@ -61,6 +61,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
     });
     setInputFraction(selectedLayer.fraction.toString());
     setFractionValidation(true);
+    setNodeValidationResults(Array(selectedNodes.length).fill(true));
     setFractionErrorMessage(null);
   }, [selectedNodes, selectedLayer, parentNode]);
 
