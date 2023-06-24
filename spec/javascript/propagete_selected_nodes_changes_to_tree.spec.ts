@@ -269,11 +269,11 @@ describe("propagateSelectedNodesChangesToTree", () => {
       nodes: [
         {
           ...parentNode,
-          value: 300, //変更されない
+          value: 300, // 変更されない
         },
         {
           ...childNode1,
-          value: 100, //isValueLockedがtrueなので変更されない
+          value: 100, // isValueLockedがtrueなので変更されない
         },
         {
           ...childNode2,
@@ -478,7 +478,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
       nodes: [
         {
           ...parentNode,
-          value: 300, //isValueLockedがtrueのため、valueは変化しない
+          value: 300, // isValueLockedがtrueのため、valueは変化しない
         },
         {
           ...childNode1,
@@ -524,7 +524,4 @@ describe("propagateSelectedNodesChangesToTree", () => {
 
     expect(result).toEqual(expected);
   });
-
-  // ルートノードを選択した時は、このメソッドは呼ばれないので、ルートノードを選択した時のテストは不要
-  // it("ルートノードを選択");
 });

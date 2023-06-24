@@ -46,7 +46,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
     string | null
   >(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [savedState, setSavedState] = useState<LayerToolState | null>(null);
   const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(true);
 
   const isAllValid = (results: boolean[]): boolean => {
@@ -124,7 +123,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
 
   const saveLayerProperty = async () => {
     setErrorMessage(null);
-    setSavedState(layerProperty);
 
     const treeDataToSave = nullifyParentNodeId(
       propagateSelectedNodesChangesToTree(
@@ -174,7 +172,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
       <div className="relative flex flex-col h-full">
         <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
           <div className="flex justify-between items-center mb-1.5">
-            <div className="text-error">{errorMessage ? errorMessage : ""}</div>
+          <div className="text-error">{errorMessage || ""}</div>
             <div className="text-base font-semibold">要素間の関係</div>
             <ToolMenu
               menuItems={[

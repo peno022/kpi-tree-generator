@@ -27,7 +27,7 @@ export default function propagateSelectedNodesChangesToTree(
   }
 
   function updateParentNode(node: Node, layer: Layer): void {
-    if (node.parentId == null || node.parentId == 0) return;
+    if (node.parentId === null || node.parentId === 0) return;
     const parentNode = updatedTreeData.nodes.find(
       (n) => n.id === node.parentId
     );

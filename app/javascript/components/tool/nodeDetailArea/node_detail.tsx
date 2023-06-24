@@ -70,7 +70,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
     handleNodeInfoChange(index, updatedNodeInfo);
     // バリデーションチェック
     if (name === "name" || name === "value") {
-      if (value == null || value == "") {
+      if (value === null || value === "") {
         setFieldValidationResults((prev) => ({
           ...prev,
           [name]: false,

@@ -27,7 +27,7 @@ const NodeField: React.FC<Props> = ({
 }) => {
   let inputElement: JSX.Element;
   switch (type) {
-    case "checkbox":
+    case "checkbox": {
       inputElement = (
         <input
           type="checkbox"
@@ -38,8 +38,9 @@ const NodeField: React.FC<Props> = ({
         />
       );
       break;
+    }
     case "number":
-    case "text":
+    case "text": {
       const baseInputClass = "input input-sm input-bordered w-32";
       const inputClass = isValidField
         ? baseInputClass
@@ -56,7 +57,8 @@ const NodeField: React.FC<Props> = ({
         />
       );
       break;
-    case "dropdown":
+    }
+    case "dropdown": {
       const baseSelectClass = "input input-sm input-bordered w-32";
       const selectClass = isValidField
         ? baseSelectClass
@@ -74,6 +76,7 @@ const NodeField: React.FC<Props> = ({
           <option>万</option>
         </select>
       );
+    }
   }
 
   return (
