@@ -3,8 +3,8 @@ import NodeValue from "./node_value";
 import OperationSymbol from "./operation_symbol";
 import Fraction from "./fraction";
 import MessageBubble from "./message_bubble";
-import { Node, Layer } from "../../../types";
-import calculateParentNodeValue from "../../../calculate_parent_node_value";
+import { Node, Layer } from "../../../../types";
+import calculateParentNodeValue from "../../../../calculate_parent_node_value";
 
 type CalculationProps = {
   selectedNodes: Node[];

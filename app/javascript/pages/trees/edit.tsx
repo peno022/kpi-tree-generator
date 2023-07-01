@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import ToolArea from "./tool/tool_area";
-import TreeArea from "./tree/tree_area";
+import ToolArea from "../../components/trees/tool/tool_area";
+import TreeArea from "../../components/trees/tree/tree_area";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
-import * as types from "../types";
+import { TreeData } from "../../types";
 import { ErrorBoundary } from "react-error-boundary";
 import { FallbackProps } from "react-error-boundary/dist/react-error-boundary";
-import keysToCamelCase from "../keys_to_camel_case";
+import keysToCamelCase from "../../keys_to_camel_case";
 
 const EditTreePage = () => {
   const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
 
-  const [treeData, setTreeData] = useState<types.TreeData>({
+  const [treeData, setTreeData] = useState<TreeData>({
     tree: { id: 0, name: "" },
     nodes: [],
     layers: [],
@@ -56,7 +56,7 @@ const EditTreePage = () => {
     }
   };
 
-  const handleUpdateSuccess = (updatedTreeData: types.TreeData) => {
+  const handleUpdateSuccess = (updatedTreeData: TreeData) => {
     setTreeData(updatedTreeData);
     setSelectedNodeIds([]);
   };

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import NodeDetail from "./nodeDetailArea/node_detail";
-import OpenModalButton from "./common/open_modal_button";
-import { Node, TreeData } from "../../types";
-import keysToSnakeCase from "../../keys_to_snake_case";
-import keysToCamelCase from "../../keys_to_camel_case";
-import nullifyParentNodeId from "../../nullify_parent_node_id";
-import token from "../../token";
+import OpenModalButton from "../../shared/open_modal_button";
+import { Node, TreeData } from "../../../types";
+import keysToSnakeCase from "../../../keys_to_snake_case";
+import keysToCamelCase from "../../../keys_to_camel_case";
+import nullifyParentNodeId from "../../../nullify_parent_node_id";
+import token from "../../../token";
 
 type RootNodeToolProps = {
   selectedRootNode: Node;

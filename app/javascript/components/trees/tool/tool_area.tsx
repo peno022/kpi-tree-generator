@@ -1,13 +1,13 @@
 import React from "react";
-import * as types from "../../types";
+import { TreeData, Node } from "../../../types";
 import RootNodeTool from "./root_node_tool";
 import LayerTool from "./layer_tool";
 import Message from "./message";
 
 type ToolAreaProps = {
-  treeData: types.TreeData;
+  treeData: TreeData;
   selectedNodeIds: number[];
-  onUpdateSuccess: (updatedTreeData: types.TreeData) => void;
+  onUpdateSuccess: (updatedTreeData: TreeData) => void;
 };
 
 const ToolArea: React.FC<ToolAreaProps> = ({
@@ -22,7 +22,7 @@ const ToolArea: React.FC<ToolAreaProps> = ({
     return <Message text="要素を選択すると、ここに詳細が表示されます。" />;
   }
 
-  const selectedNodes: types.Node[] = allNodes.filter((node) =>
+  const selectedNodes: Node[] = allNodes.filter((node) =>
     selectedNodeIds.includes(node.id)
   );
 

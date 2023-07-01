@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import NodeDetail from "./nodeDetailArea/node_detail";
-import { Node, Layer, TreeData } from "../../types";
-import ToolMenu from "./common/tool_menu";
+import { Node, Layer, TreeData } from "../../../types";
+import ToolMenu from "../../shared/tool_menu";
 import Operations from "./operationArea/operations";
 import Calculation from "./calculationArea/calculation";
-import OpenModalButton from "./common/open_modal_button";
-import propagateSelectedNodesChangesToTree from "../../propagete_selected_nodes_changes_to_tree";
-import keysToSnakeCase from "../../keys_to_snake_case";
-import keysToCamelCase from "../../keys_to_camel_case";
-import nullifyParentNodeId from "../../nullify_parent_node_id";
-import token from "../../token";
+import OpenModalButton from "../../shared/open_modal_button";
+import propagateSelectedNodesChangesToTree from "../../../propagete_selected_nodes_changes_to_tree";
+import keysToSnakeCase from "../../../keys_to_snake_case";
+import keysToCamelCase from "../../../keys_to_camel_case";
+import nullifyParentNodeId from "../../../nullify_parent_node_id";
+import token from "../../../token";
 
 type LayerToolProps = {
   selectedNodes: Node[];

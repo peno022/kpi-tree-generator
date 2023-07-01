@@ -1,14 +1,14 @@
 import React from "react";
-import { convertNodesToRawNodeDatum } from "../../convert_nodes_list_to_raw_node_datum";
-import { selectNodes } from "../../select_nodes";
+import { convertNodesToRawNodeDatum } from "../../../convert_nodes_list_to_raw_node_datum";
+import { selectNodes } from "../../../select_nodes";
 import Tree from "react-d3-tree";
-import * as types from "../../types";
+import { TreeData } from "../../../types";
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
 import CustomNode from "./custom_node";
 
 type Props = {
-  treeData: types.TreeData;
+  treeData: TreeData;
   selectedNodeIds: number[];
   handleClick: TreeNodeEventCallback;
 };

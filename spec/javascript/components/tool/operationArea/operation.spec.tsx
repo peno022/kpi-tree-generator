@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Operation, {
   OperationProps,
-} from "../../../../../app/javascript/components/tool/operationArea/operation";
+} from "../../../../../app/javascript/components/trees/tool/operationArea/operation";
 
 describe("Operation", () => {
   it("かけ算・選択状態のとき", () => {
