@@ -6,10 +6,7 @@ import Operations from "./operationArea/operations";
 import Calculation from "./calculationArea/calculation";
 import OpenModalButton from "../../shared/open_modal_button";
 import propagateSelectedNodesChangesToTree from "../../../propagete_selected_nodes_changes_to_tree";
-import keysToSnakeCase from "../../../keys_to_snake_case";
-import keysToCamelCase from "../../../keys_to_camel_case";
-import nullifyParentNodeId from "../../../nullify_parent_node_id";
-import token from "../../../token";
+import { useTreeUpdate } from "../../../hooks/use_tree_update";
 
 type LayerToolProps = {
   selectedNodes: Node[];
@@ -31,6 +28,9 @@ const LayerTool: React.FC<LayerToolProps> = ({
   onUpdateSuccess,
   treeData,
 }) => {
+  const { errorMessage, sendUpdateRequest, setErrorMessage } = useTreeUpdate(
+    treeData.tree.id
+  );
   const [layerProperty, setlayerProperty] = useState<LayerToolState>({
     nodes: selectedNodes,
     layer: selectedLayer,
@@ -45,7 +45,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
   const [fractionErrorMessage, setFractionErrorMessage] = useState<
     string | null
   >(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(true);
 
   const isAllValid = (results: boolean[]): boolean => {
@@ -62,6 +61,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
     setFractionValidation(true);
     setNodeValidationResults(Array(selectedNodes.length).fill(true));
     setFractionErrorMessage(null);
+    setErrorMessage(null);
   }, [selectedNodes, selectedLayer, parentNode]);
 
   useEffect(() => {
@@ -122,48 +122,15 @@ const LayerTool: React.FC<LayerToolProps> = ({
   };
 
   const saveLayerProperty = async () => {
-    setErrorMessage(null);
-
-    const treeDataToSave = nullifyParentNodeId(
+    const result = await sendUpdateRequest(
       propagateSelectedNodesChangesToTree(
         layerProperty.nodes,
         layerProperty.layer,
         treeData
       )
     );
-
-    const bodyData = JSON.stringify(
-      keysToSnakeCase({
-        tree: {
-          layers: treeDataToSave.layers,
-          nodes: treeDataToSave.nodes,
-        },
-      })
-    );
-    try {
-      const response = await fetch("/api/trees/" + treeData.tree.id, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          "X-Requested-With": "XMLHttpRequest",
-          "X-CSRF-Token": token(),
-        },
-        credentials: "same-origin",
-        body: bodyData,
-      });
-      if (!response.ok) {
-        throw new Error("HTTP status " + response.status);
-      }
-      const json = await response.json();
-      console.log("---------- SUCCESS -----------");
-      console.dir(keysToCamelCase(json));
-      onUpdateSuccess(keysToCamelCase(json));
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      } else {
-        setErrorMessage("An unknown error occurred.");
-      }
+    if (result) {
+      onUpdateSuccess(result);
     }
   };
 
