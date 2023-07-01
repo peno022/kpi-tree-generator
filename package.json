@@ -25,7 +25,8 @@
     "lint": "run-p lint:*",
     "lint:eslint": "eslint 'app/javascript/**/*.{js,ts,tsx}' 'spec/javascript/**/*.{js,ts,tsx}'",
     "lint:prettier": "prettier app/javascript/**/*.{js,ts,tsx} --check",
-    "prettier": "npx prettier --write app/javascript/**/*.{js,ts,tsx}"
+    "prettier": "npx prettier --write app/javascript/**/*.{js,ts,tsx}",
+    "test": "yarn jest"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
