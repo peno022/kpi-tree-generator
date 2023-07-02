@@ -10,10 +10,14 @@ module Api
     end
 
     def update
-      update_nodes
-      update_layers
-      ActiveRecord::Base.transaction do
-        (@nodes + @layers).each(&:save!)
+      assign_nodes_attributes
+      assign_layers_attributes
+      begin
+        ActiveRecord::Base.transaction do
+          (@nodes + @layers).each(&:save!)
+        end
+      rescue ActiveRecord::RecordInvalid => e
+        render json: { errors: e.record.errors, record: e.record }, status: :unprocessable_entity
       end
     end
 
@@ -30,7 +34,7 @@ module Api
       )
     end
 
-    def update_nodes
+    def assign_nodes_attributes
       @nodes = tree_params[:nodes].map do |node_param|
         node = @tree.nodes.find(node_param[:id])
         node.assign_attributes(node_param.slice(:name, :value, :value_format, :unit, :is_value_locked))
@@ -38,7 +42,7 @@ module Api
       end
     end
 
-    def update_layers
+    def assign_layers_attributes
       @layers = tree_params[:layers].map do |layer_param|
         layer = @tree.layers.find(layer_param[:id])
         layer.operation = layer_param[:operation]

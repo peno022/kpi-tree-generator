@@ -3,6 +3,7 @@ import NodeDetail from "./nodeDetailArea/node_detail";
 import OpenModalButton from "../../shared/open_modal_button";
 import { Node, TreeData } from "../../../types";
 import { useTreeUpdate } from "../../../hooks/use_tree_update";
+import AlertError from "../../shared/alert_error";
 
 type RootNodeToolProps = {
   selectedRootNode: Node;
@@ -55,8 +56,8 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
   return (
     <>
       <div className="relative flex flex-col h-full">
+        {errorMessage && <AlertError message={errorMessage} buttonText="OK" />}
         <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
-          <div className="text-error">{errorMessage || ""}</div>
           <NodeDetail
             index={0}
             node={nodeInfo}

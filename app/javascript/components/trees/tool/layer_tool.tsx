@@ -7,6 +7,7 @@ import Calculation from "./calculationArea/calculation";
 import OpenModalButton from "../../shared/open_modal_button";
 import propagateSelectedNodesChangesToTree from "../../../propagete_selected_nodes_changes_to_tree";
 import { useTreeUpdate } from "../../../hooks/use_tree_update";
+import AlertError from "../../shared/alert_error";
 
 type LayerToolProps = {
   selectedNodes: Node[];
@@ -138,8 +139,10 @@ const LayerTool: React.FC<LayerToolProps> = ({
     <>
       <div className="relative flex flex-col h-full">
         <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
+          {errorMessage && (
+            <AlertError message={errorMessage} buttonText="OK" />
+          )}
           <div className="flex justify-between">
-            <div className="text-error">{errorMessage || ""}</div>
             <div className="text-base font-semibold">要素間の関係</div>
             <ToolMenu
               menuItems={[
