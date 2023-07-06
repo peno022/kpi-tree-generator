@@ -44,6 +44,7 @@ const Calculation: React.FC<CalculationProps> = ({
           name={parentNode.name}
           value={calculationResult}
           displayUnit={getDisplayUnit(parentNode)}
+          elementId="parent"
         />
         <OperationSymbol operation="equal" />
         {selectedNodes.map((node, index) => {
@@ -53,6 +54,7 @@ const Calculation: React.FC<CalculationProps> = ({
                 name={node.name}
                 value={node.value}
                 displayUnit={getDisplayUnit(node)}
+                elementId={index}
               />
               {!(node.id === maxId) && (
                 <OperationSymbol operation={selectedLayer.operation} />

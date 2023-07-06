@@ -1,6 +1,11 @@
-import { Node, Layer } from "../../../app/javascript/types";
+import { Node, Layer, Tree, TreeData } from "../../../app/javascript/types";
 
 export {};
+
+export const tree: Tree = {
+  id: 1,
+  name: "ツリー1",
+};
 
 export const parentNode: Node = {
   id: 1,
@@ -101,4 +106,19 @@ export const greatGrandChildLayer: Layer = {
   operation: "add",
   fraction: 0,
   parentNodeId: 4,
+};
+
+export const treeData: TreeData = {
+  tree: tree,
+  nodes: [
+    parentNode,
+    childNode1,
+    childNode2,
+    grandChildNode1,
+    grandChildNode2,
+    greatGrandChildNode1,
+    greatGrandChildNode2,
+    greatGrandChildNode3,
+  ],
+  layers: [childLayer, grandChildLayer, greatGrandChildLayer],
 };

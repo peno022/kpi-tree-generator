@@ -188,6 +188,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             handleInputChange={handleInputChange}
             isValidField={fieldValidationResults.name}
             errorMessage={errors.name}
+            index={index + 1}
           />
           <NodeField
             type="text"
@@ -197,6 +198,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             handleInputChange={handleInputChange}
             isValidField={fieldValidationResults.unit}
             errorMessage={errors.unit}
+            index={index + 1}
           />
         </div>
         <div className="flex flex-row space-x-4">
@@ -208,6 +210,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             handleInputChange={handleInputChange}
             isValidField={fieldValidationResults.value}
             errorMessage={errors.value}
+            index={index + 1}
           />
           <NodeField
             type="dropdown"
@@ -217,6 +220,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             handleInputChange={handleInputChange}
             isValidField={fieldValidationResults.valueFormat}
             errorMessage={errors.valueFormat}
+            index={index + 1}
           />
           <div className="ml-8">
             <NodeField
@@ -227,6 +231,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
               handleInputChange={handleInputChange}
               isValidField={fieldValidationResults.isValueLocked}
               errorMessage={errors.isValueLocked}
+              index={index + 1}
             />
           </div>
         </div>

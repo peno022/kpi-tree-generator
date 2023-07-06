@@ -12,6 +12,7 @@ type Props = {
   checked?: boolean;
   isValidField: boolean;
   errorMessage: string;
+  index: number;
 };
 
 const NodeField: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const NodeField: React.FC<Props> = ({
   checked = false,
   isValidField,
   errorMessage,
+  index,
 }) => {
   let inputElement: JSX.Element;
   switch (type) {
@@ -35,6 +37,7 @@ const NodeField: React.FC<Props> = ({
           onChange={handleInputChange}
           className={isValidField ? "checkbox" : "checkbox checkbox-error"}
           defaultChecked={checked}
+          id={`node-${index}-${name}`}
         />
       );
       break;
@@ -54,6 +57,7 @@ const NodeField: React.FC<Props> = ({
           className={inputClass}
           defaultValue={value}
           required
+          id={`node-${index}-${name}`}
         />
       );
       break;
@@ -69,6 +73,7 @@ const NodeField: React.FC<Props> = ({
           onChange={handleInputChange}
           className={selectClass}
           defaultValue={value}
+          id={`node-${index}-${name}`}
         >
           <option>なし</option>
           <option>%</option>
@@ -81,7 +86,9 @@ const NodeField: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col">
-      <div className="text-sm">{label}</div>
+      <label htmlFor={`node-${index}-${name}`} className="text-sm">
+        {label}
+      </label>
       {inputElement}
       {errorMessage && (
         <span className="label-text-alt text-error">{errorMessage}</span>

@@ -138,12 +138,14 @@ const LayerTool: React.FC<LayerToolProps> = ({
   return (
     <>
       <div className="relative flex flex-col h-full">
-        <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
+        <div className="absolute inset-0 overflow-y-auto p-2 pb-20 tool">
           {errorMessage && (
             <AlertError message={errorMessage} buttonText="OK" />
           )}
           <div className="flex justify-between">
-            <div className="text-base font-semibold">要素間の関係</div>
+            <div className="text-base font-semibold label-operation">
+              要素間の関係
+            </div>
             <ToolMenu
               menuItems={[
                 {
@@ -161,7 +163,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
               handleOperationChange={handleOperationChange}
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 calculation">
             <Calculation
               selectedNodes={layerProperty.nodes}
               selectedLayer={layerProperty.layer}

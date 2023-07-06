@@ -4,13 +4,13 @@ import RootNodeTool from "./root_node_tool";
 import LayerTool from "./layer_tool";
 import Message from "./message";
 
-type ToolAreaProps = {
+export type ToolAreaProps = {
   treeData: TreeData;
   selectedNodeIds: number[];
   onUpdateSuccess: (updatedTreeData: TreeData) => void;
 };
 
-const ToolArea: React.FC<ToolAreaProps> = ({
+export const ToolArea: React.FC<ToolAreaProps> = ({
   treeData,
   selectedNodeIds,
   onUpdateSuccess,
