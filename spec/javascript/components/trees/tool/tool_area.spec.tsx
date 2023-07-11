@@ -155,8 +155,10 @@ describe("選択したノードが子ノードのとき", () => {
         onUpdateSuccess: jest.fn(),
       };
       render(<ToolArea {...toolAreaProps} />);
-
-      // TODO:
+      const updateButton = screen.getByText("更新");
+      expect(updateButton).toBeInTheDocument();
+      expect(updateButton).toHaveClass("btn-primary");
+      expect(updateButton).not.toHaveClass("btn-disabled");
     });
   });
   describe("更新を実行する時", () => {
@@ -169,8 +171,9 @@ describe("選択したノードが子ノードのとき", () => {
       };
       render(<ToolArea {...toolAreaProps} />);
 
-      const updateButton = screen.getByLabelText("更新");
+      const updateButton = screen.getByText("更新");
       expect(updateButton).toBeInTheDocument();
+      expect(updateButton).toHaveClass("btn-primary");
       expect(updateButton).not.toHaveClass("btn-disabled");
       user.click(updateButton);
 
@@ -195,10 +198,10 @@ describe("入力値のバリデーション", () => {
 
   describe("エラーがないとき", () => {
     it("更新ボタンがアクティブな状態で表示されていること", () => {
-      //TODO: ボタンではなくモーダルを取得してしまっているため機能してない。ボタンを取得する方法を調べる
-      const updateButton = screen.getByLabelText("更新");
-      // expect(updateButton).toBeInTheDocument();
-      // expect(updateButton).not.toHaveClass("btn-disabled");
+      const updateButton = screen.getByText("更新");
+      expect(updateButton).toBeInTheDocument();
+      expect(updateButton).toHaveClass("btn-primary");
+      expect(updateButton).not.toHaveClass("btn-disabled");
     });
     it("エラーメッセージが表示されていないこと", () => {
       expect(screen.queryByText("必須項目です")).not.toBeInTheDocument();
