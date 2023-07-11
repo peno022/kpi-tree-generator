@@ -23,10 +23,13 @@ const Fraction: React.FC<FractionProps> = ({
     : `${baseInputClass} input-error`;
   return (
     <div className="flex flex-col">
-      <div className="text-xs">{label}</div>
+      <label htmlFor="fraction" className="text-xs">
+        {label}
+      </label>
       <input
         type="text"
         name="fraction"
+        id="fraction"
         placeholder={placeholder}
         className={inputClass}
         value={value}

@@ -91,7 +91,11 @@ const NodeField: React.FC<Props> = ({
       </label>
       {inputElement}
       {errorMessage && (
-        <span className="label-text-alt text-error">{errorMessage}</span>
+        <span
+          className={`label-text-alt text-error node-${index}-${name}-error`}
+        >
+          {errorMessage}
+        </span>
       )}
     </div>
   );
