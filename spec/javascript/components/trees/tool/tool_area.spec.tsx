@@ -727,12 +727,46 @@ describe("入力値のバリデーション", () => {
 
 describe("選択したノードがルートノードの時", () => {
   describe("初期表示時", () => {
-    it.todo("要素感の関係が表示されていないこと");
-    it.todo("ノード詳細が表示されていること");
-    it.todo("要素を追加ボタンが表示されていないこと");
-    it.todo("更新ボタンがアクティブな状態で表示されていること");
+    beforeEach(() => {
+      const toolAreaProps: ToolAreaProps = {
+        treeData: fixtures.treeData,
+        selectedNodeIds: [1],
+        onUpdateSuccess: jest.fn(),
+      };
+      render(<ToolArea {...toolAreaProps} />);
+    });
+
+    it("要素間の関係が表示されていないこと", () => {
+      expect(screen.queryByText("要素間の関係")).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: "かけ算" })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: "たし算" })
+      ).not.toBeInTheDocument();
+    });
+    it("ノード詳細が表示されていること", () => {
+      expect(getNodeField(1, "名前")).toHaveValue("親ノード");
+      expect(getNodeField(1, "単位")).toHaveValue("円");
+      expect(getNodeField(1, "数値")).toHaveValue("300");
+      expect(getNodeField(1, "表示形式")).toHaveValue("万");
+      expect(getNodeField(1, "数値を自動更新しない")).toBeChecked();
+    });
+    it("要素を追加ボタンが表示されていないこと", () => {
+      expect(
+        screen.queryByRole("button", { name: "要素を追加" })
+      ).not.toBeInTheDocument();
+    });
+    it("更新ボタンがアクティブな状態で表示されていること", () => {
+      const updateButton = getUpdateButton();
+      expect(updateButton).toBeInTheDocument();
+      expect(updateButton).toHaveClass("btn-primary");
+      expect(updateButton).not.toHaveClass("btn-disabled");
+    });
   });
   describe("更新を実行する時", () => {
-    it.todo("更新ボタンを押すとonUpdateSuccessをコールすること");
+    it.todo(
+      "更新ボタンを押した後にモーダル上の「更新する」ボタンを押すと更新処理を呼ぶこと"
+    );
   });
 });
