@@ -43,6 +43,14 @@ function getNodeField(
   }
 }
 
+function getUpdateButton() {
+  return screen.getByRole("button", { name: "更新" });
+}
+
+function getFractionField() {
+  return screen.getByRole("textbox", { name: "端数" });
+}
+
 describe("ノードが選択されていないとき", () => {
   it("'要素を選択すると、ここに詳細が表示されます。'というテキストが表示されること", () => {
     const toolAreaProps: ToolAreaProps = {
@@ -129,7 +137,7 @@ describe("選択したノードが子ノードのとき", () => {
       expect(screen.getByText("子ノード2")).toBeInTheDocument();
       expect(screen.getByText("200万円")).toBeInTheDocument();
       expect(screen.getByText("端数")).toBeInTheDocument();
-      expect(screen.getByRole("textbox", { name: "端数" })).toHaveValue("0");
+      expect(getFractionField()).toHaveValue("0");
       expect(calculationDiv.getElementsByClassName("fa-equals").length).toBe(1);
       expect(calculationDiv.getElementsByClassName("fa-plus").length).toBe(2);
     });
@@ -173,7 +181,7 @@ describe("選択したノードが子ノードのとき", () => {
         onUpdateSuccess: jest.fn(),
       };
       render(<ToolArea {...toolAreaProps} />);
-      const updateButton = screen.getByRole("button", { name: "更新" });
+      const updateButton = getUpdateButton();
       expect(updateButton).toBeInTheDocument();
       expect(updateButton).toHaveClass("btn-primary");
       expect(updateButton).not.toHaveClass("btn-disabled");
@@ -188,7 +196,7 @@ describe("選択したノードが子ノードのとき", () => {
       };
       render(<ToolArea {...toolAreaProps} />);
 
-      const updateButton = screen.getByRole("button", { name: "更新" });
+      const updateButton = getUpdateButton();
       expect(updateButton).toBeInTheDocument();
       expect(updateButton).toHaveClass("btn-primary");
       expect(updateButton).not.toHaveClass("btn-disabled");
@@ -217,7 +225,7 @@ describe("入力値のバリデーション", () => {
 
   describe("エラーがないとき", () => {
     it("更新ボタンがアクティブな状態で表示されていること", () => {
-      const updateButton = screen.getByRole("button", { name: "更新" });
+      const updateButton = getUpdateButton();
       expect(updateButton).toBeInTheDocument();
       expect(updateButton).toHaveClass("btn-primary");
       expect(updateButton).not.toHaveClass("btn-disabled");
@@ -242,7 +250,7 @@ describe("入力値のバリデーション", () => {
           });
         });
         it("更新ボタンが非アクティブな状態で表示されていること", async () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
         });
@@ -265,7 +273,7 @@ describe("入力値のバリデーション", () => {
         });
         it("文字列を入力するとエラーが消え、更新ボタンがアクティブになること", async () => {
           expect(await screen.findByText("必須項目です")).toBeInTheDocument();
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
           await act(async () => {
             await user.type(getNodeField(1, "名前"), "再入力した名前");
@@ -285,7 +293,7 @@ describe("入力値のバリデーション", () => {
           });
         });
         it("更新ボタンが非アクティブな状態で表示されていること", async () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
         });
@@ -308,7 +316,7 @@ describe("入力値のバリデーション", () => {
         });
         it("数値を入力するとエラーが消え、更新ボタンがアクティブになること", async () => {
           expect(await screen.findByText("必須項目です")).toBeInTheDocument();
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
           await act(async () => {
             await user.type(getNodeField(1, "数値"), "100");
@@ -333,7 +341,7 @@ describe("入力値のバリデーション", () => {
           });
         });
         it("更新ボタンが非アクティブな状態で表示されていること", async () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
         });
@@ -342,7 +350,7 @@ describe("入力値のバリデーション", () => {
           await waitFor(() => expect(requiredErros.length).toBe(2));
         });
         it("名前だけ入力するとエラーメッセージが1つ=表示され、更新ボタンは非アクティブのままなこと", async () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
           await act(async () => {
             await user.type(getNodeField(1, "名前"), "再入力した名前");
@@ -359,7 +367,7 @@ describe("入力値のバリデーション", () => {
           await waitFor(() =>
             expect(screen.queryByText("必須項目です")).not.toBeInTheDocument()
           );
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           await waitFor(() =>
             expect(updateButton).not.toHaveClass("btn-disabled")
           );
@@ -367,14 +375,14 @@ describe("入力値のバリデーション", () => {
       });
       describe("端数フィールドが空のとき", () => {
         beforeEach(async () => {
-          const fractionField = screen.getByRole("textbox", { name: "端数" });
+          const fractionField = getFractionField();
           await act(async () => {
             await user.clear(fractionField);
             expect(fractionField).toHaveValue("");
           });
         });
         it("更新ボタンがアクティブな状態で表示されていること", () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           expect(updateButton).toHaveClass("btn-primary");
           expect(updateButton).not.toHaveClass("btn-disabled");
@@ -392,7 +400,7 @@ describe("入力値のバリデーション", () => {
           });
         });
         it("更新ボタンがアクティブな状態で表示されていること", () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           expect(updateButton).toHaveClass("btn-primary");
           expect(updateButton).not.toHaveClass("btn-disabled");
@@ -407,14 +415,14 @@ describe("入力値のバリデーション", () => {
     describe("数値形式のチェック", () => {
       describe("端数フィールドに数値以外が入力されているとき", () => {
         beforeEach(async () => {
-          const fractionField = screen.getByRole("textbox", { name: "端数" });
+          const fractionField = getFractionField();
           await act(async () => {
             await user.clear(fractionField);
             await user.type(fractionField, "文字列");
           });
         });
         it("更新ボタンが非アクティブな状態で表示されていること", async () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
         });
@@ -427,7 +435,7 @@ describe("入力値のバリデーション", () => {
           expect(
             await screen.findByText("数値を入力してください")
           ).toBeInTheDocument();
-          const fractionField = screen.getByRole("textbox", { name: "端数" });
+          const fractionField = getFractionField();
           await act(async () => {
             await user.type(fractionField, "10");
             expect(fractionField).toHaveValue("文字列10");
@@ -446,7 +454,7 @@ describe("入力値のバリデーション", () => {
           });
         });
         it("更新ボタンが非アクティブな状態で表示されていること", async () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
         });
@@ -494,7 +502,7 @@ describe("入力値のバリデーション", () => {
           });
         });
         it("-を入力した時点では更新ボタンが非アクティブな状態で表示されていること", async () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
         });
@@ -517,7 +525,7 @@ describe("入力値のバリデーション", () => {
               screen.queryByText("数値を入力してください")
             ).not.toBeInTheDocument()
           );
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           await waitFor(() =>
             expect(updateButton).not.toHaveClass("btn-disabled")
           );
@@ -538,14 +546,14 @@ describe("入力値のバリデーション", () => {
       });
       describe("端数フィールドに負の数を入力するとき", () => {
         beforeEach(async () => {
-          const fractionField = screen.getByRole("textbox", { name: "端数" });
+          const fractionField = getFractionField();
           await act(async () => {
             await user.clear(fractionField);
             await user.type(fractionField, "-");
           });
         });
         it("-を入力した時点では更新ボタンが非アクティブな状態で表示されていること", async () => {
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           expect(updateButton).toBeInTheDocument();
           await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
         });
@@ -558,7 +566,7 @@ describe("入力値のバリデーション", () => {
           expect(
             await screen.findByText("数値を入力してください")
           ).toBeInTheDocument();
-          const fractionField = screen.getByRole("textbox", { name: "端数" });
+          const fractionField = getFractionField();
           await act(async () => {
             await user.type(fractionField, "100");
             expect(fractionField).toHaveValue("-100");
@@ -568,7 +576,7 @@ describe("入力値のバリデーション", () => {
               screen.queryByText("数値を入力してください")
             ).not.toBeInTheDocument()
           );
-          const updateButton = screen.getByRole("button", { name: "更新" });
+          const updateButton = getUpdateButton();
           await waitFor(() =>
             expect(updateButton).not.toHaveClass("btn-disabled")
           );
@@ -577,7 +585,7 @@ describe("入力値のバリデーション", () => {
           expect(
             await screen.findByText("数値を入力してください")
           ).toBeInTheDocument();
-          const fractionField = screen.getByRole("textbox", { name: "端数" });
+          const fractionField = getFractionField();
           await act(async () => {
             await user.type(fractionField, "ABC");
             expect(fractionField).toHaveValue("-ABC");
