@@ -23,7 +23,7 @@ const OpenModalButton: React.FC<OpenModalButtonProps> = ({
   return (
     <>
       {/* The button to open modal */}
-      <label htmlFor={modalId} className={buttonClass}>
+      <label htmlFor={modalId} className={buttonClass} role="button">
         {buttonText}
       </label>
 
@@ -40,10 +40,15 @@ const OpenModalButton: React.FC<OpenModalButtonProps> = ({
           <h3 className="font-bold text-lg">{modalHeadline}</h3>
           <p className="py-4">{modaltext}</p>
           <div className="modal-action">
-            <label htmlFor={modalId} className="btn btn-ghost">
+            <label htmlFor={modalId} className="btn btn-ghost" role="button">
               キャンセル
             </label>
-            <label htmlFor={modalId} className="btn" onClick={handleClick}>
+            <label
+              htmlFor={modalId}
+              className="btn"
+              role="button"
+              onClick={handleClick}
+            >
               {modalButtonText}
             </label>
           </div>

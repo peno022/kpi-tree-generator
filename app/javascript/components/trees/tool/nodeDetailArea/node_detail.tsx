@@ -161,13 +161,13 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   };
 
   return (
-    <>
-      <div
-        className="border border-base-300 p-2 my-2"
+    <div className="relative">
+      <fieldset
+        className="border border-base-300 p-2 my-2.5"
         id={`node-detail-${index + 1}`}
       >
-        <div className="flex justify-between items-center mb-1.5">
-          <div className="text-base font-semibold">{`要素${index + 1}`}</div>
+        <legend>{`要素${index + 1}`}</legend>
+        <div className="absolute right-0 top-2 mt-1.5">
           <ToolMenu
             menuItems={[
               {
@@ -235,8 +235,8 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             />
           </div>
         </div>
-      </div>
-    </>
+      </fieldset>
+    </div>
   );
 };
 

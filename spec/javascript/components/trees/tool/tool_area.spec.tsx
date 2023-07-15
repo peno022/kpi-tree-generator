@@ -1,12 +1,21 @@
 import React from "react";
-import { render, screen } from "@testing-library/react"; // TODO:エラー解消方法の調査
+import {
+  render,
+  screen,
+  logRoles,
+  within,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import "@testing-library/jest-dom";
-import userEvent from "@testing-library/user-event"; // TODO:エラー解消方法の調査
+import userEvent from "@testing-library/user-event";
 import {
   ToolArea,
   ToolAreaProps,
 } from "../../../../../app/javascript/components/trees/tool/tool_area";
 import * as fixtures from "../../../__fixtures__/sample_data";
+
+const user = userEvent.setup();
 
 describe("ノードが選択されていないとき", () => {
   it("'要素を選択すると、ここに詳細が表示されます。'というテキストが表示されること", () => {
@@ -67,12 +76,13 @@ describe("選択したノードが子ノードのとき", () => {
       expect(screen.getByText("要素間の関係")).toBeInTheDocument();
       const multiplyButton = screen.getByRole("button", { name: "かけ算" });
       expect(multiplyButton).toBeInTheDocument();
-      expect(multiplyButton).toHaveClass(
-        "bg-base-200 text-base-300 border border-base-200"
-      );
+      const activeButtonClass =
+        "bg-base-200 text-base-300 border border-base-200";
+      expect(multiplyButton).toHaveClass(activeButtonClass);
       const addButton = screen.getByRole("button", { name: "たし算" });
       expect(addButton).toBeInTheDocument();
-      expect(addButton).toHaveClass("bg-base-100 border border-neutral");
+      const inActiveButtonClass = "bg-base-100 border border-neutral";
+      expect(addButton).toHaveClass(inActiveButtonClass);
     });
 
     it("親子ノード間の計算式が表示されていること", () => {
@@ -82,21 +92,19 @@ describe("選択したノードが子ノードのとき", () => {
         onUpdateSuccess: jest.fn(),
       };
       const { container } = render(<ToolArea {...toolAreaProps} />);
-
-      // calculationクラスを持つdiv要素の子要素に、計算式の各要素が表示されていることを確認する
-      // containerを使うべきではない？（ｓcreenを使うべき？）
+      logRoles(container);
       const calculationDiv = container.querySelector(".calculation");
       if (!calculationDiv) {
         throw new Error("calculationDiv is null");
       }
-      expect(calculationDiv).toHaveTextContent("親ノード");
-      expect(calculationDiv).toHaveTextContent("300万円");
-      expect(calculationDiv).toHaveTextContent("子ノード1");
-      expect(calculationDiv).toHaveTextContent("100万円");
-      expect(calculationDiv).toHaveTextContent("子ノード2");
-      expect(calculationDiv).toHaveTextContent("200万円");
-      expect(calculationDiv).toHaveTextContent("端数");
-      expect(calculationDiv).toHaveTextContent("0");
+      expect(screen.getByText("親ノード")).toBeInTheDocument();
+      expect(screen.getByText("300万円")).toBeInTheDocument();
+      expect(screen.getByText("子ノード1")).toBeInTheDocument();
+      expect(screen.getByText("100万円")).toBeInTheDocument();
+      expect(screen.getByText("子ノード2")).toBeInTheDocument();
+      expect(screen.getByText("200万円")).toBeInTheDocument();
+      expect(screen.getByText("端数")).toBeInTheDocument();
+      expect(screen.getByRole("textbox", { name: "端数" })).toHaveValue("0");
       expect(calculationDiv.getElementsByClassName("fa-equals").length).toBe(1);
       expect(calculationDiv.getElementsByClassName("fa-plus").length).toBe(2);
     });
@@ -108,31 +116,42 @@ describe("選択したノードが子ノードのとき", () => {
         onUpdateSuccess: jest.fn(),
       };
       render(<ToolArea {...toolAreaProps} />);
-
-      const nameInputs = screen.getAllByRole("textbox", { name: "名前" });
-      expect(nameInputs.length).toBe(2);
-      expect(nameInputs[0]).toHaveValue("子ノード1");
-      expect(nameInputs[1]).toHaveValue("子ノード2");
-      const unitInputs = screen.getAllByRole("textbox", { name: "単位" });
-      expect(unitInputs.length).toBe(2);
-      expect(unitInputs[0]).toHaveValue("円");
-      expect(unitInputs[1]).toHaveValue("円");
-      const valueInputs = screen.getAllByRole("textbox", { name: "数値" });
-      expect(valueInputs.length).toBe(2);
-      expect(valueInputs[0]).toHaveValue("100");
-      expect(valueInputs[1]).toHaveValue("200");
-      const valueFormatDropdowns = screen.getAllByRole("combobox", {
-        name: "表示形式",
-      });
-      expect(valueFormatDropdowns.length).toBe(2);
-      expect(valueFormatDropdowns[0]).toHaveValue("万");
-      expect(valueFormatDropdowns[1]).toHaveValue("万");
-      const isValueLockedCheckboxes = screen.getAllByRole("checkbox", {
-        name: "数値を自動更新しない",
-      });
-      expect(isValueLockedCheckboxes.length).toBe(2);
-      expect(isValueLockedCheckboxes[0]).not.toBeChecked();
-      expect(isValueLockedCheckboxes[1]).not.toBeChecked();
+      const nodeDetail1 = screen.getByRole("group", { name: "要素1" });
+      expect(
+        within(nodeDetail1).getByRole("textbox", { name: "名前" })
+      ).toHaveValue("子ノード1");
+      expect(
+        within(nodeDetail1).getByRole("textbox", { name: "単位" })
+      ).toHaveValue("円");
+      expect(
+        within(nodeDetail1).getByRole("textbox", { name: "数値" })
+      ).toHaveValue("100");
+      expect(
+        within(nodeDetail1).getByRole("combobox", { name: "表示形式" })
+      ).toHaveValue("万");
+      expect(
+        within(nodeDetail1).getByRole("checkbox", {
+          name: "数値を自動更新しない",
+        })
+      ).not.toBeChecked();
+      const nodeDetail2 = screen.getByRole("group", { name: "要素2" });
+      expect(
+        within(nodeDetail2).getByRole("textbox", { name: "名前" })
+      ).toHaveValue("子ノード2");
+      expect(
+        within(nodeDetail2).getByRole("textbox", { name: "単位" })
+      ).toHaveValue("円");
+      expect(
+        within(nodeDetail2).getByRole("textbox", { name: "数値" })
+      ).toHaveValue("200");
+      expect(
+        within(nodeDetail2).getByRole("combobox", { name: "表示形式" })
+      ).toHaveValue("万");
+      expect(
+        within(nodeDetail2).getByRole("checkbox", {
+          name: "数値を自動更新しない",
+        })
+      ).not.toBeChecked();
     });
 
     it("要素を追加ボタンが表示されていること", () => {
@@ -155,15 +174,14 @@ describe("選択したノードが子ノードのとき", () => {
         onUpdateSuccess: jest.fn(),
       };
       render(<ToolArea {...toolAreaProps} />);
-      const updateButton = screen.getByText("更新");
+      const updateButton = screen.getByRole("button", { name: "更新" });
       expect(updateButton).toBeInTheDocument();
       expect(updateButton).toHaveClass("btn-primary");
       expect(updateButton).not.toHaveClass("btn-disabled");
     });
   });
   describe("更新を実行する時", () => {
-    it("更新ボタンを押した後にモーダル上の「更新する」ボタンを押すと更新処理を呼ぶこと", () => {
-      const user = userEvent.setup();
+    it("更新ボタンを押した後にモーダル上の「更新する」ボタンを押すと更新処理を呼ぶこと", async () => {
       const toolAreaProps: ToolAreaProps = {
         treeData: fixtures.treeData,
         selectedNodeIds: [2, 3], // 子ノード1と子ノード2を選択
@@ -171,15 +189,17 @@ describe("選択したノードが子ノードのとき", () => {
       };
       render(<ToolArea {...toolAreaProps} />);
 
-      const updateButton = screen.getByText("更新");
+      const updateButton = screen.getByRole("button", { name: "更新" });
       expect(updateButton).toBeInTheDocument();
       expect(updateButton).toHaveClass("btn-primary");
       expect(updateButton).not.toHaveClass("btn-disabled");
-      user.click(updateButton);
+      await user.click(updateButton);
 
-      const updateModalButton = screen.getByLabelText("更新する");
+      const updateModalButton = screen.getByRole("button", {
+        name: "更新する",
+      });
       expect(updateModalButton).toBeInTheDocument();
-      user.click(updateModalButton);
+      await user.click(updateModalButton);
 
       // TODO:更新するボタンを押すと、layerToolコンポーネントのsaveLayerPropertyメソッドが呼ばれること
     });
@@ -198,7 +218,7 @@ describe("入力値のバリデーション", () => {
 
   describe("エラーがないとき", () => {
     it("更新ボタンがアクティブな状態で表示されていること", () => {
-      const updateButton = screen.getByText("更新");
+      const updateButton = screen.getByRole("button", { name: "更新" });
       expect(updateButton).toBeInTheDocument();
       expect(updateButton).toHaveClass("btn-primary");
       expect(updateButton).not.toHaveClass("btn-disabled");
@@ -215,17 +235,62 @@ describe("入力値のバリデーション", () => {
   });
   describe("単項目のバリデーション", () => {
     describe("名前フィールドが空のとき", () => {
-      beforeEach(() => {
-        const nameInputs = screen.getAllByRole("textbox", { name: "名前" });
-        userEvent.clear(nameInputs[0]);
+      beforeEach(async () => {
+        const node1NameField = within(
+          screen.getByRole("group", { name: "要素1" })
+        ).getByRole("textbox", { name: "名前" });
+        await act(async () => {
+          await user.clear(node1NameField);
+        });
       });
-      it.todo("更新ボタンが非アクティブな状態で表示されていること");
-      it.todo("'必須項目です'というエラーメッセージが表示されていること");
-      it.todo("他の項目を変更してもエラーは消えないこと");
-      it.todo("スペースのみを入力してもエラーは消えないこと");
-      it.todo(
-        "文字列を入力するとエラーが消え、更新ボタンがアクティブになること"
-      );
+      it("更新ボタンが非アクティブな状態で表示されていること", async () => {
+        const updateButton = screen.getByRole("button", { name: "更新" });
+        expect(updateButton).toBeInTheDocument();
+        await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
+      });
+      it("'必須項目です'というエラーメッセージが表示されていること", async () => {
+        expect(await screen.findByText("必須項目です")).toBeInTheDocument();
+      });
+      it("他の項目を変更してもエラーは消えないこと", async () => {
+        expect(await screen.findByText("必須項目です")).toBeInTheDocument();
+        const nodeDetail1 = screen.getByRole("group", { name: "要素1" });
+        await act(async () => {
+          await user.type(
+            within(nodeDetail1).getByRole("textbox", { name: "単位" }),
+            "ドル"
+          );
+        });
+        expect(await screen.findByText("必須項目です")).toBeInTheDocument();
+      });
+      it("スペースのみを入力してもエラーは消えないこと", async () => {
+        expect(await screen.findByText("必須項目です")).toBeInTheDocument();
+        const nodeDetail1 = screen.getByRole("group", { name: "要素1" });
+        await act(async () => {
+          await user.type(
+            within(nodeDetail1).getByRole("textbox", { name: "名前" }),
+            " "
+          );
+        });
+        expect(await screen.findByText("必須項目です")).toBeInTheDocument();
+      });
+      it("文字列を入力するとエラーが消え、更新ボタンがアクティブになること", async () => {
+        expect(await screen.findByText("必須項目です")).toBeInTheDocument();
+        const updateButton = screen.getByRole("button", { name: "更新" });
+        await waitFor(() => expect(updateButton).toHaveClass("btn-disabled"));
+        const nodeDetail1 = screen.getByRole("group", { name: "要素1" });
+        await act(async () => {
+          await user.type(
+            within(nodeDetail1).getByRole("textbox", { name: "名前" }),
+            "再入力した名前"
+          );
+        });
+        await waitFor(() =>
+          expect(screen.queryByText("必須項目です")).not.toBeInTheDocument()
+        );
+        await waitFor(() =>
+          expect(updateButton).not.toHaveClass("btn-disabled")
+        );
+      });
     });
     describe("数値フィールドが空のとき", () => {
       it.todo("更新ボタンが非アクティブな状態で表示されていること");

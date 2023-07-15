@@ -184,7 +184,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
             />
           ))}
           <div className="flex justify-center">
-            <button className="btn btn-sm btn-outline">要素を追加</button>
+            <button className="btn btn-sm btn-outline mt-2">要素を追加</button>
           </div>
         </div>
         <div
