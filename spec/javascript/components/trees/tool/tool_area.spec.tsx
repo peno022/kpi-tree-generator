@@ -10,6 +10,43 @@ import * as fixtures from "../../../__fixtures__/sample_data";
 
 const user = userEvent.setup();
 
+function getNode1Field(
+  fieldName: "名前" | "数値" | "単位" | "表示形式" | "数値を自動更新しない"
+) {
+  switch (fieldName) {
+    case "名前": {
+      return within(screen.getByRole("group", { name: "要素1" })).getByRole(
+        "textbox",
+        { name: "数値" }
+      );
+    }
+    case "数値": {
+      return within(screen.getByRole("group", { name: "要素1" })).getByRole(
+        "textbox",
+        { name: "数値" }
+      );
+    }
+    case "単位": {
+      return within(screen.getByRole("group", { name: "要素1" })).getByRole(
+        "textbox",
+        { name: "単位" }
+      );
+    }
+    case "表示形式": {
+      return within(screen.getByRole("group", { name: "要素1" })).getByRole(
+        "combobox",
+        { name: "表示形式" }
+      );
+    }
+    case "数値を自動更新しない": {
+      return within(screen.getByRole("group", { name: "要素1" })).getByRole(
+        "checkbox",
+        { name: "数値を自動更新しない" }
+      );
+    }
+  }
+}
+
 describe("ノードが選択されていないとき", () => {
   it("'要素を選択すると、ここに詳細が表示されます。'というテキストが表示されること", () => {
     const toolAreaProps: ToolAreaProps = {
@@ -643,24 +680,129 @@ describe("入力値のバリデーション", () => {
   });
 
   describe("表示形式が%のときは、単位を空白にする", () => {
-    it.todo(
-      "単位入力なし・表示形式%の状態から、単位を入力するとエラーを表示すること"
-    );
-    it.todo(
-      "単位入力あり・表示形式万の状態から、表示形式を%に変更するとエラーを表示すること"
-    );
-    it.todo(
-      "単位入力あり・表示形式%でエラーを表示している状態で、表示形式を「なし」に変更するとエラーが消えること"
-    );
-    it.todo(
-      "単位入力あり・表示形式%でエラーを表示している状態で、単位を空に変更するとエラーが消えること"
-    );
-    it.todo(
-      "単位入力あり・表示形式%でエラーを表示している状態で、単位を空にしてエラーを消す→再び単位を入力するとエラーが表示さ.todoれること"
-    );
-    it.todo(
-      "単位入力あり・表示形式%でエラーを表示している状態で、表示形式を万にしてエラーを消す→再び表示形式を%にするとエラー.todoが表示されること"
-    );
+    describe("エラーがない状態→エラーがある状態の変化", () => {
+      it("単位入力なし・表示形式%の状態から、単位を入力するとエラーを表示すること", async () => {
+        const node1UnitField = getNode1Field("単位");
+        const node1ValueFormatField = getNode1Field("表示形式");
+        await act(async () => {
+          await user.clear(node1UnitField);
+          await user.selectOptions(node1ValueFormatField, "%");
+          expect(node1UnitField).toHaveValue("");
+          expect(node1ValueFormatField).toHaveValue("%");
+        });
+        await waitFor(() =>
+          expect(
+            screen.queryByText("％表示のときは単位を空にしてください")
+          ).not.toBeInTheDocument()
+        );
+        await act(async () => {
+          await user.type(node1UnitField, "円");
+          expect(node1UnitField).toHaveValue("円");
+        });
+        expect(
+          (await screen.findAllByText("％表示のときは単位を空にしてください"))
+            .length
+        ).toBe(2);
+      });
+      it("単位入力あり・表示形式万の状態から、表示形式を%に変更するとエラーを表示すること", async () => {
+        const node1UnitField = getNode1Field("単位");
+        const node1ValueFormatField = getNode1Field("表示形式");
+        expect(node1UnitField).toHaveValue("円");
+        expect(node1ValueFormatField).toHaveValue("万");
+        await waitFor(() =>
+          expect(
+            screen.queryByText("％表示のときは単位を空にしてください")
+          ).not.toBeInTheDocument()
+        );
+        await act(async () => {
+          await user.selectOptions(node1ValueFormatField, "%");
+          expect(node1ValueFormatField).toHaveValue("%");
+        });
+        expect(
+          (await screen.findAllByText("％表示のときは単位を空にしてください"))
+            .length
+        ).toBe(2);
+      });
+    });
+    describe("エラーがある状態→ない状態の変化", () => {
+      beforeEach(async () => {
+        const node1UnitField = getNode1Field("単位");
+        const node1ValueFormatField = getNode1Field("表示形式");
+        await act(async () => {
+          await user.selectOptions(node1ValueFormatField, "%");
+          expect(node1UnitField).toHaveValue("円");
+          expect(node1ValueFormatField).toHaveValue("%");
+        });
+        expect(
+          (await screen.findAllByText("％表示のときは単位を空にしてください"))
+            .length
+        ).toBe(2);
+      });
+      it("単位入力あり・表示形式%でエラーを表示している状態で、表示形式を「なし」に変更するとエラーが消えること", async () => {
+        const node1ValueFormatField = getNode1Field("表示形式");
+        await act(async () => {
+          await user.selectOptions(node1ValueFormatField, "なし");
+          expect(node1ValueFormatField).toHaveValue("なし");
+        });
+        await waitFor(() =>
+          expect(
+            screen.queryByText("％表示のときは単位を空にしてください")
+          ).not.toBeInTheDocument()
+        );
+      });
+      it("単位入力あり・表示形式%でエラーを表示している状態で、単位を空に変更するとエラーが消えること", async () => {
+        const node1UnitField = getNode1Field("単位");
+        await act(async () => {
+          await user.clear(node1UnitField);
+          expect(node1UnitField).toHaveValue("");
+        });
+        await waitFor(() =>
+          expect(
+            screen.queryByText("％表示のときは単位を空にしてください")
+          ).not.toBeInTheDocument()
+        );
+      });
+      it("単位入力あり・表示形式%でエラーを表示している状態で、単位を空にしてエラーを消す→再び単位を入力するとエラーが表示されること", async () => {
+        const node1UnitField = getNode1Field("単位");
+        await act(async () => {
+          await user.clear(node1UnitField);
+          expect(node1UnitField).toHaveValue("");
+        });
+        await waitFor(() =>
+          expect(
+            screen.queryByText("％表示のときは単位を空にしてください")
+          ).not.toBeInTheDocument()
+        );
+        await act(async () => {
+          await user.type(node1UnitField, "円");
+          expect(node1UnitField).toHaveValue("円");
+        });
+        expect(
+          (await screen.findAllByText("％表示のときは単位を空にしてください"))
+            .length
+        ).toBe(2);
+      });
+      it("単位入力あり・表示形式%でエラーを表示している状態で、表示形式を万にしてエラーを消す→再び表示形式を%にするとエラーが表示されること", async () => {
+        const node1ValueFormatField = getNode1Field("表示形式");
+        await act(async () => {
+          await user.selectOptions(node1ValueFormatField, "万");
+          expect(node1ValueFormatField).toHaveValue("万");
+        });
+        await waitFor(() =>
+          expect(
+            screen.queryByText("％表示のときは単位を空にしてください")
+          ).not.toBeInTheDocument()
+        );
+        await act(async () => {
+          await user.selectOptions(node1ValueFormatField, "%");
+          expect(node1ValueFormatField).toHaveValue("%");
+        });
+        expect(
+          (await screen.findAllByText("％表示のときは単位を空にしてください"))
+            .length
+        ).toBe(2);
+      });
+    });
   });
 });
 
