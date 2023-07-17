@@ -9,36 +9,29 @@ const CustomNode: types.RenderCustomNodeElementFn = ({
 }: types.CustomNodeElementProps) => {
   return (
     <g>
-      {nodeDatum.attributes?.isSelected && (
-        <rect
-          x="-75"
-          rx="5"
-          ry="5"
-          style={{
-            width: "150",
-            height: "85",
-            fill: "moccasin",
-            stroke: "dimgray",
-            strokeWidth: "1",
-          }}
-          onClick={onNodeClick}
-        />
-      )}
-      {!nodeDatum.attributes?.isSelected && (
-        <rect
-          x="-75"
-          rx="5"
-          ry="5"
-          style={{
-            width: "150",
-            height: "85",
-            fill: "ghostwhite",
-            stroke: "dimgray",
-            strokeWidth: "1",
-          }}
-          onClick={onNodeClick}
-        />
-      )}
+      <rect
+        x="-75"
+        rx="5"
+        ry="5"
+        style={
+          nodeDatum.attributes?.isSelected
+            ? {
+                width: "150",
+                height: "85",
+                fill: "moccasin",
+                stroke: "dimgray",
+                strokeWidth: "1",
+              }
+            : {
+                width: "150",
+                height: "85",
+                fill: "ghostwhite",
+                stroke: "dimgray",
+                strokeWidth: "1",
+              }
+        }
+        onClick={onNodeClick}
+      />
       <text
         x="-60"
         y="38"
