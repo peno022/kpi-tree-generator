@@ -7,13 +7,13 @@ import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
 import CustomNode from "./custom_node";
 
-type Props = {
+export type TreeAreaProps = {
   treeData: TreeData;
   selectedNodeIds: number[];
   handleClick: TreeNodeEventCallback;
 };
 
-const TreeArea: React.FC<Props> = ({
+export const TreeArea: React.FC<TreeAreaProps> = ({
   treeData,
   selectedNodeIds,
   handleClick,
@@ -38,5 +38,3 @@ const TreeArea: React.FC<Props> = ({
     />
   );
 };
-
-export default TreeArea;

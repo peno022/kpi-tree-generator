@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import ToolArea from "../../components/trees/tool/tool_area";
-import TreeArea from "../../components/trees/tree/tree_area";
+import { TreeArea } from "../../components/trees/tree/tree_area";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
 import { TreeData } from "../../types";
 import { ErrorBoundary } from "react-error-boundary";
@@ -45,6 +45,7 @@ const EditTreePage = () => {
       (node) => node.id === clickedNodeId
     );
     if (!clickedNode) {
+      // TODO: エラーメッセージの表示
       console.log("ERROR: clickedNode is not found");
     } else if (clickedNode.parentId === null) {
       setSelectedNodeIds([clickedNode.id]);
