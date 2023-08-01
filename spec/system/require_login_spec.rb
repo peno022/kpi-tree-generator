@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ページごとのログイン要否', type: :system do
+RSpec.describe 'ページごとのログイン要否' do
   describe 'ログインしていない時' do
     it('ルートにアクセスするとウェルカムページが表示されること') do
       visit root_path

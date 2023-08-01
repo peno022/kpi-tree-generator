@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
   def check_logged_in
     return if current_user
 
-    redirect_to root_path, alert: 'ログインしてください'
+    redirect_to root_path, alert: I18n.t('alert.require_login')
   end
 end
