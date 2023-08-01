@@ -57,7 +57,7 @@ RSpec.describe 'ページごとのログイン要否', type: :system do
       end
 
       it('ツリー編集画面にアクセスできること') do
-        tree = create(:tree)
+        tree = create(:tree, user: User.find_by(uid: '1234'))
         visit edit_tree_path(tree)
         expect(page).to have_content('要素を選択すると')
       end
