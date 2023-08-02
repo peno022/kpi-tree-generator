@@ -26,14 +26,14 @@ RSpec.describe 'ページごとのログイン要否' do
 
     it('ツリー一覧画面にアクセスできず、ウェルカムページにリダイレクトされること') do
       visit trees_path
-      expect(page).to have_content('ログインしてください')
+      expect(page).to have_content(I18n.t('alert.require_login'))
       expect(page).to have_content('KPIツリーを簡単に')
     end
 
     it('ツリー編集画面にアクセスできず、ウェルカムページにリダイレクトされること') do
       tree = create(:tree)
       visit edit_tree_path(tree)
-      expect(page).to have_content('ログインしてください')
+      expect(page).to have_content(I18n.t('alert.require_login'))
       expect(page).to have_content('KPIツリーを簡単に')
     end
   end
