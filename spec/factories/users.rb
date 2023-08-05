@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :user do
     provider { 'google_oauth2' }
-    sequence(:uid, &:to_s)
+    sequence(:uid) { |n| "000000#{n}" }
   end
 end
