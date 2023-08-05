@@ -96,3 +96,9 @@ jobs:
 
       - name: Run rspec
         run: bundle exec rspec
+
+      - name: Archive screenshots as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-screenshots
+          path: /__w/kpi-tree-generator/kpi-tree-generator/tmp/capybara/*.png
