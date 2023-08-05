@@ -6,7 +6,7 @@ RSpec.describe 'Tree pages', js: true do
   describe 'ツリー編集画面' do
     before do
       visit root_path
-      OmniAuthHelpers.set_omniauth
+      # OmniAuthHelpers.set_omniauth
       click_button 'Googleでログイン'
     end
 

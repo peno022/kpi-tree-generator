@@ -41,7 +41,7 @@ RSpec.describe 'ページごとのログイン要否' do
   describe 'ログインしている時' do
     before do
       visit root_path
-      OmniAuthHelpers.set_omniauth
+      # OmniAuthHelpers.set_omniauth
       click_button 'Googleでログイン'
     end
 

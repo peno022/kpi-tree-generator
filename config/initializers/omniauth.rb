@@ -5,7 +5,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     provider :google_oauth2,
              ENV.fetch('GOOGLE_CLIENT_ID', nil),
              ENV.fetch('GOOGLE_CLIENT_SECRET', nil)
-
   else
     provider :google_oauth2,
              Rails.application.credentials.google[:client_id],
