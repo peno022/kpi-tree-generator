@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_30_013602) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_05_105355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_30_013602) do
     t.string "name"
     t.string "email"
     t.string "image"
+    t.string "provider", default: "google_oauth2", null: false
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
   add_foreign_key "layers", "nodes", column: "parent_node_id"
