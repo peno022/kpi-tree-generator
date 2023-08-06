@@ -1,7 +1,6 @@
 .flex.flex-col.min-h-screen
   nav.navbar.bg-base-100.flex.items-center.border-b-2.border-base-300
-    / TODO: ログインしていない場合はLPに、ログインしている場合はツリー一覧画面に遷移する
-    = link_to trees_path, class: 'btn btn-ghost' do
+    = link_to root_path, class: 'btn btn-ghost' do
       p.mx-1
         i.fa.fa-lg.fa-angle-left[aria-hidden="true"]
         p.text-lg
@@ -20,7 +19,17 @@
         i.fa.fa-lg.fa-pencil.mx-1[aria-hidden="true"]
     a.btn.btn-outline.mx-1
       | 画像ダウンロード
-    / TODO: ログインしていない場合はアカウント作成ボタンを、ログインしている場合はアイコンを表示する
-    a.btn.btn-primary.mx-1
-      | アカウント作成
+    - if current_user
+      - if current_user.image
+        label.btn.btn-ghost.btn-circle.avatar tabindex="0"
+          .w-10.rounded-full
+            = image_tag current_user.image, alt: 'アイコン'
+      = link_to 'ログアウト', log_out_path, class: 'btn btn-ghost'
+    - else
+      li
+        = button_to 'Googleでログイン', \
+        '/auth/google_oauth2', \
+        method: :post, \
+        data: { turbo: false }, \
+        class: 'btn btn-ghost'
   .flex.grow#tree.w-full.mx-auto data-tree-id=@tree.id
