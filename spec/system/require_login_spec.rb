@@ -44,6 +44,11 @@ RSpec.describe 'ページごとのログイン要否' do
       click_button 'Googleでログイン'
     end
 
+    after do
+      visit root_path
+      click_link 'ログアウト'
+    end
+
     describe 'ログイン必須の画面' do
       it('ルートにアクセスするとツリー一覧ページが表示されること') do
         visit root_path

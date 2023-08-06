@@ -9,6 +9,11 @@ RSpec.describe 'Tree pages', js: true do
       click_button 'Googleでログイン'
     end
 
+    after do
+      visit root_path
+      click_link 'ログアウト'
+    end
+
     it('ログインユーザーのものでないツリーにはアクセスできない') do
       tree = create(:tree)
       nodes = create_list(:node, 3, tree:)
