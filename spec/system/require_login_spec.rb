@@ -48,6 +48,7 @@ RSpec.describe 'ページごとのログイン要否' do
     describe 'ログイン必須の画面' do
       it('ルートにアクセスするとツリー一覧ページが表示されること') do
         puts '111111 START ルートにアクセスするとツリー一覧ページが表示されること'
+        visit root_path
         visit log_out_path
         # visit root_path
         click_button 'Googleでログイン'
@@ -59,6 +60,7 @@ RSpec.describe 'ページごとのログイン要否' do
 
       it('ツリー一覧画面にアクセスできること') do
         puts '22222 START ツリー一覧画面にアクセスできること'
+        visit root_path
         visit log_out_path
         # visit root_path
         click_button 'Googleでログイン'
@@ -70,6 +72,7 @@ RSpec.describe 'ページごとのログイン要否' do
 
       it('ツリー編集画面にアクセスできること') do
         puts '33333 START ツリー編集画面にアクセスできること'
+        visit root_path
         visit log_out_path
         # visit root_path
         click_button 'Googleでログイン'
@@ -84,6 +87,7 @@ RSpec.describe 'ページごとのログイン要否' do
     describe 'ログイン不要の画面' do
       it('ウェルカムページにアクセスできること') do
         puts '44444 START ウェルカムページにアクセスできること'
+        visit root_path
         visit log_out_path
         # visit root_path
         click_button 'Googleでログイン'
@@ -95,6 +99,7 @@ RSpec.describe 'ページごとのログイン要否' do
 
       it('利用規約ページにアクセスできること') do
         puts '55555 START 利用規約ページにアクセスできること'
+        visit root_path
         visit log_out_path
         # visit root_path
         click_button 'Googleでログイン'
@@ -106,6 +111,7 @@ RSpec.describe 'ページごとのログイン要否' do
 
       it('プライバシーポリシーページにアクセスできること') do
         puts '66666 START プライバシーポリシーページにアクセスできること'
+        visit root_path
         visit log_out_path
         # visit root_path
         click_button 'Googleでログイン'

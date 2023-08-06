@@ -12,6 +12,7 @@ RSpec.describe 'Tree pages', js: true do
 
     it('ログインユーザーのものでないツリーにはアクセスできない') do
       puts '77777 START ログインユーザーのものでないツリーにはアクセスできない'
+      visit root_path
       visit log_out_path
       # visit root_path
       click_button 'Googleでログイン'
@@ -28,6 +29,7 @@ RSpec.describe 'Tree pages', js: true do
 
     it('treeの詳細画面に、treeの図が表示されている') do
       puts '88888 START treeの詳細画面に、treeの図が表示されている'
+      visit root_path
       visit log_out_path
       # visit root_path
       click_button 'Googleでログイン'
@@ -48,6 +50,7 @@ RSpec.describe 'Tree pages', js: true do
 
     it('treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。') do
       puts '99999 START treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。'
+      visit root_path
       visit log_out_path
       # visit root_path
       click_button 'Googleでログイン'
@@ -81,6 +84,7 @@ RSpec.describe 'Tree pages', js: true do
 
     it('treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。') do
       puts '10101010 START treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。'
+      visit root_path
       visit log_out_path
       # visit root_path
       click_button 'Googleでログイン'
