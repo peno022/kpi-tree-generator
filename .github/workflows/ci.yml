@@ -106,4 +106,7 @@ jobs:
           path: /__w/kpi-tree-generator/kpi-tree-generator/tmp/capybara/*.png
 
       - name: Check rspec result
-        run: exit ${{ steps.rspec.outcome == 'success' }}
+        run: |
+          if [ "${{ steps.rspec.outcome }}" != "success" ]; then
+            exit 1
+          fi
