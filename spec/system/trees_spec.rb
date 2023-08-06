@@ -11,7 +11,7 @@ RSpec.describe 'Tree pages', js: true do
     # end
 
     it('ログインユーザーのものでないツリーにはアクセスできない') do
-      puts 'ログインユーザーのものでないツリーにはアクセスできない'
+      puts 'START ログインユーザーのものでないツリーにはアクセスできない'
       visit log_out_path
       visit root_path
       click_button 'Googleでログイン'
@@ -23,10 +23,11 @@ RSpec.describe 'Tree pages', js: true do
       nodes[0].children = [nodes[1], nodes[2]]
       visit edit_tree_path(tree)
       expect(page).to have_content('The page you were looking for doesn\'t exist.')
+      puts 'END ログインユーザーのものでないツリーにはアクセスできない'
     end
 
     it('treeの詳細画面に、treeの図が表示されている') do
-      puts 'treeの詳細画面に、treeの図が表示されている'
+      puts 'START treeの詳細画面に、treeの図が表示されている'
       visit log_out_path
       visit root_path
       click_button 'Googleでログイン'
@@ -42,10 +43,11 @@ RSpec.describe 'Tree pages', js: true do
       expect(page).to have_css('g > text', text: nodes1[2].name)
       expect(page).to have_css('svg > g > path.rd3t-link', count: 2)
       expect(page).to have_content('要素を選択すると、ここに詳細が表示されます。')
+      puts 'END treeの詳細画面に、treeの図が表示されている'
     end
 
     it('treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。') do
-      puts 'treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。'
+      puts 'START treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。'
       visit log_out_path
       visit root_path
       click_button 'Googleでログイン'
@@ -74,14 +76,15 @@ RSpec.describe 'Tree pages', js: true do
       expect(page).to have_content('要素間の関係')
       expect(page).to have_css('input[value="子1"]')
       expect(page).to have_css('input[value="子1"]')
+      puts 'END treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。'
     end
 
     it('treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。') do
-      puts 'treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。'
+      puts 'START treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。'
       visit log_out_path
       visit root_path
       click_button 'Googleでログイン'
-      
+
       tree3 = create(:tree, user: User.find_by(uid: '1234'))
       create(:node, name: 'ルート', tree: tree3)
 
@@ -98,6 +101,7 @@ RSpec.describe 'Tree pages', js: true do
       expect(page).to have_content('ルート要素')
       expect(page).not_to have_content('要素間の関係')
       expect(page).to have_css('input[value="ルート"]')
+      puts 'END treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。'
     end
   end
 end
