@@ -5,13 +5,9 @@ require 'rails_helper'
 RSpec.describe 'Tree pages', js: true do
   describe 'ツリー編集画面' do
     before do
+      visit log_out_path
       visit root_path
       click_button 'Googleでログイン'
-    end
-
-    after do
-      visit root_path
-      click_link 'ログアウト'
     end
 
     it('ログインユーザーのものでないツリーにはアクセスできない') do

@@ -40,13 +40,9 @@ RSpec.describe 'ページごとのログイン要否' do
 
   describe 'ログインしている時' do
     before do
+      visit log_out_path
       visit root_path
       click_button 'Googleでログイン'
-    end
-
-    after do
-      visit root_path
-      click_link 'ログアウト'
     end
 
     describe 'ログイン必須の画面' do
