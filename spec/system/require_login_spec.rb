@@ -39,24 +39,39 @@ RSpec.describe 'ページごとのログイン要否' do
   end
 
   describe 'ログインしている時' do
-    before do
-      visit log_out_path
-      visit root_path
-      click_button 'Googleでログイン'
-    end
+    # before do
+    #   visit log_out_path
+    #   visit root_path
+    #   click_button 'Googleでログイン'
+    # end
 
     describe 'ログイン必須の画面' do
       it('ルートにアクセスするとツリー一覧ページが表示されること') do
+        puts 'ルートにアクセスするとツリー一覧ページが表示されること'
+        visit log_out_path
+        visit root_path
+        click_button 'Googleでログイン'
+
         visit root_path
         expect(page).to have_content('ツリー一覧')
       end
 
       it('ツリー一覧画面にアクセスできること') do
+        puts 'ツリー一覧画面にアクセスできること'
+        visit log_out_path
+        visit root_path
+        click_button 'Googleでログイン'
+
         visit trees_path
         expect(page).to have_content('ツリー一覧')
       end
 
       it('ツリー編集画面にアクセスできること') do
+        puts 'ツリー編集画面にアクセスできること'
+        visit log_out_path
+        visit root_path
+        click_button 'Googleでログイン'
+
         tree = create(:tree, user: User.find_by(uid: '1234'))
         visit edit_tree_path(tree)
         expect(page).to have_content('要素を選択すると')
@@ -65,16 +80,31 @@ RSpec.describe 'ページごとのログイン要否' do
 
     describe 'ログイン不要の画面' do
       it('ウェルカムページにアクセスできること') do
+        puts 'ウェルカムページにアクセスできること'
+        visit log_out_path
+        visit root_path
+        click_button 'Googleでログイン'
+
         visit welcome_path
         expect(page).to have_content('KPIツリーを簡単に')
       end
 
       it('利用規約ページにアクセスできること') do
+        puts '利用規約ページにアクセスできること'
+        visit log_out_path
+        visit root_path
+        click_button 'Googleでログイン'
+
         visit terms_of_use_path
         expect(page).to have_selector 'h1', text: '利用規約'
       end
 
       it('プライバシーポリシーページにアクセスできること') do
+        puts 'プライバシーポリシーページにアクセスできること'
+        visit log_out_path
+        visit root_path
+        click_button 'Googleでログイン'
+
         visit privacy_policy_path
         expect(page).to have_selector 'h1', text: 'プライバシーポリシー'
       end
