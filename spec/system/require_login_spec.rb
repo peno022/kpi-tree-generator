@@ -47,72 +47,72 @@ RSpec.describe 'ページごとのログイン要否' do
 
     describe 'ログイン必須の画面' do
       it('ルートにアクセスするとツリー一覧ページが表示されること') do
-        puts 'START ルートにアクセスするとツリー一覧ページが表示されること'
+        puts '111111 START ルートにアクセスするとツリー一覧ページが表示されること'
         visit log_out_path
-        visit root_path
+        # visit root_path
         click_button 'Googleでログイン'
 
         visit root_path
         expect(page).to have_content('ツリー一覧')
-        puts 'END ルートにアクセスするとツリー一覧ページが表示されること'
+        puts '111111 END ルートにアクセスするとツリー一覧ページが表示されること'
       end
 
       it('ツリー一覧画面にアクセスできること') do
-        puts 'START ツリー一覧画面にアクセスできること'
+        puts '22222 START ツリー一覧画面にアクセスできること'
         visit log_out_path
-        visit root_path
+        # visit root_path
         click_button 'Googleでログイン'
 
         visit trees_path
         expect(page).to have_content('ツリー一覧')
-        puts 'END ツリー一覧画面にアクセスできること'
+        puts '22222 END ツリー一覧画面にアクセスできること'
       end
 
       it('ツリー編集画面にアクセスできること') do
-        puts 'START ツリー編集画面にアクセスできること'
+        puts '33333 START ツリー編集画面にアクセスできること'
         visit log_out_path
-        visit root_path
+        # visit root_path
         click_button 'Googleでログイン'
 
         tree = create(:tree, user: User.find_by(uid: '1234'))
         visit edit_tree_path(tree)
         expect(page).to have_content('要素を選択すると')
-        puts 'END ツリー編集画面にアクセスできること'
+        puts '33333 END ツリー編集画面にアクセスできること'
       end
     end
 
     describe 'ログイン不要の画面' do
       it('ウェルカムページにアクセスできること') do
-        puts 'START ウェルカムページにアクセスできること'
+        puts '44444 START ウェルカムページにアクセスできること'
         visit log_out_path
-        visit root_path
+        # visit root_path
         click_button 'Googleでログイン'
 
         visit welcome_path
         expect(page).to have_content('KPIツリーを簡単に')
-        puts 'END ウェルカムページにアクセスできること'
+        puts '44444 END ウェルカムページにアクセスできること'
       end
 
       it('利用規約ページにアクセスできること') do
-        puts 'START 利用規約ページにアクセスできること'
+        puts '55555 START 利用規約ページにアクセスできること'
         visit log_out_path
-        visit root_path
+        # visit root_path
         click_button 'Googleでログイン'
 
         visit terms_of_use_path
         expect(page).to have_selector 'h1', text: '利用規約'
-        puts 'END 利用規約ページにアクセスできること'
+        puts '55555 END 利用規約ページにアクセスできること'
       end
 
       it('プライバシーポリシーページにアクセスできること') do
-        puts 'START プライバシーポリシーページにアクセスできること'
+        puts '66666 START プライバシーポリシーページにアクセスできること'
         visit log_out_path
-        visit root_path
+        # visit root_path
         click_button 'Googleでログイン'
 
         visit privacy_policy_path
         expect(page).to have_selector 'h1', text: 'プライバシーポリシー'
-        puts 'END プライバシーポリシーページにアクセスできること'
+        puts '66666 END プライバシーポリシーページにアクセスできること'
       end
     end
   end
