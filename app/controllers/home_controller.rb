@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
+  skip_before_action :check_logged_in, only: :index
+
   def index
-    # TODO: ログイン機能を実装後
-    # if current_user render home/index else render welcome/index にしたい
-    render template: 'welcome/index'
+    if current_user
+      render template: 'trees/index'
+    else
+      render template: 'welcome/index'
+    end
   end
 end

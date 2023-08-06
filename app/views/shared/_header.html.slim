@@ -1,0 +1,19 @@
+nav.navbar.bg-base-100
+  .flex-1
+    a.btn.btn-ghost.normal-case.text-xl
+      |KPIツリーメーカー
+  .flex-none
+    ul.menu.menu-horizontal.px-1
+      - if current_user
+        - if current_user.image
+          label.btn.btn-ghost.btn-circle.avatar tabindex="0"
+            .w-10.rounded-full
+              = image_tag current_user.image, alt: 'アイコン'
+        = link_to 'ログアウト', log_out_path, class: 'btn btn-ghost'
+      - else
+        li
+          = button_to 'Googleでログイン', \
+          '/auth/google_oauth2', \
+          method: :post, \
+          data: { turbo: false }, \
+          class: 'btn btn-ghost'

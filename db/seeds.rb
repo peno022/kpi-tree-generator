@@ -3,9 +3,9 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-user_with_trees = User.create
-user_with_one_tree = User.create
-User.create # user without trees
+user_with_trees = User.create(uid: '1')
+user_with_one_tree = User.create(uid: '2')
+User.create(uid: '3') # user without trees
 
 ### tree1
 tree1 = user_with_trees.trees.create(name: '売上構成ツリー')
