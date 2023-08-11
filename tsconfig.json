@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
-    "target": "es2020",
+    "target": "esnext",
     "jsx": "react",
     "sourceMap": true,
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": ["ES2022", "dom"],
     "rootDir": "./",
     "outDir": "app/assets/builds",
     "moduleResolution": "node",
