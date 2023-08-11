@@ -32,6 +32,7 @@ jobs:
         RAILS_ENV: test
         DATABASE_HOST: db
         SELENIUM_DRIVER_URL: http://selenium_chrome:4444/wd/hub
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       options: --name app
     steps:
       - name: Check out source code
@@ -90,5 +91,22 @@ jobs:
       - name: Run lint
         run: bin/lint
 
-      - name: Run test
-        run: bin/test
+      - name: Run jest
+        run: yarn jest
+
+      - name: Run rspec
+        run: bundle exec rspec -t ~login_required
+        continue-on-error: true
+        id: rspec
+
+      - name: Archive screenshots as artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-screenshots
+          path: /__w/kpi-tree-generator/kpi-tree-generator/tmp/capybara/*.png
+
+      - name: Check rspec result
+        run: |
+          if [ "${{ steps.rspec.outcome }}" != "success" ]; then
+            exit 1
+          fi

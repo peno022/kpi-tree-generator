@@ -5,8 +5,14 @@ module Api
     before_action :set_tree, only: %i[show update]
 
     def show
-      @nodes = @tree.nodes
-      @layers = @tree.layers
+      tree = Tree.find(params[:id])
+      if tree.user_id == current_user.id
+        @tree = tree
+        @nodes = @tree.nodes
+        @layers = @tree.layers
+      else
+        render status: :not_found
+      end
     end
 
     def update
