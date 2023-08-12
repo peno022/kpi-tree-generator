@@ -2,11 +2,8 @@ import React from "react";
 import { render, screen, within, waitFor, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
-import {
-  ToolArea,
-  ToolAreaProps,
-} from "../../../../../app/javascript/components/trees/tool/ToolArea";
-import * as fixtures from "../../../__fixtures__/sampleData";
+import { ToolArea, ToolAreaProps } from "@/components/trees/tool/ToolArea";
+import * as fixtures from "@/spec/__fixtures__/sampleData";
 
 const user = userEvent.setup();
 

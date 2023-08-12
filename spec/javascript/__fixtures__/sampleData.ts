@@ -1,4 +1,4 @@
-import { Node, Layer, Tree, TreeData } from "../../../app/javascript/types";
+import { Node, Layer, Tree, TreeData } from "@/types";
 
 export {};
 

@@ -1,11 +1,11 @@
 import React from "react";
-import { convertNodesToRawNodeDatum } from "../../../convertNodesToRawNodeDatum";
-import { selectNodes } from "../../../selectNodes";
+import { convertNodesToRawNodeDatum } from "@/convertNodesToRawNodeDatum";
+import { selectNodes } from "@/selectNodes";
 import Tree from "react-d3-tree";
-import { TreeData } from "../../../types";
+import { TreeData } from "@/types";
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
-import CustomNode from "./CustomNode";
+import CustomNode from "@/components/trees/tree/CustomNode";
 
 export type TreeAreaProps = {
   treeData: TreeData;

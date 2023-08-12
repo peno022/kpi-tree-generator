@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import NodeDetail from "./nodeDetailArea/NodeDetail";
-import OpenModalButton from "../../shared/OpenModalButton";
-import { Node, TreeData } from "../../../types";
-import { useTreeUpdate } from "../../../hooks/useTreeUpdate";
-import AlertError from "../../shared/AlertError";
+import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
+import OpenModalButton from "@/components/shared/OpenModalButton";
+import { Node, TreeData } from "@/types";
+import { useTreeUpdate } from "@/hooks/useTreeUpdate";
+import AlertError from "@/components/shared/AlertError";
 
 type RootNodeToolProps = {
   selectedRootNode: Node;

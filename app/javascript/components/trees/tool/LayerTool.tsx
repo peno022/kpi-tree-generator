@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import NodeDetail from "./nodeDetailArea/NodeDetail";
-import { Node, Layer, TreeData } from "../../../types";
-import ToolMenu from "../../shared/ToolMenu";
-import Operations from "./operationArea/Operations";
-import Calculation from "./calculationArea/Calculation";
-import OpenModalButton from "../../shared/OpenModalButton";
-import propagateSelectedNodesChangesToTree from "../../../propagateSelectedNodesChangesToTree";
-import { useTreeUpdate } from "../../../hooks/useTreeUpdate";
-import AlertError from "../../shared/AlertError";
+import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
+import { Node, Layer, TreeData } from "@/types";
+import ToolMenu from "@/components/shared/ToolMenu";
+import Operations from "@/components/trees/tool/operationArea/Operations";
+import Calculation from "@/components/trees/tool/calculationArea/Calculation";
+import OpenModalButton from "@/components/shared/OpenModalButton";
+import propagateSelectedNodesChangesToTree from "@/propagateSelectedNodesChangesToTree";
+import { useTreeUpdate } from "@/hooks/useTreeUpdate";
+import AlertError from "@/components/shared/AlertError";
 
 type LayerToolProps = {
   selectedNodes: Node[];

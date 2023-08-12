@@ -1,5 +1,5 @@
-import { Node, Layer, TreeData } from "./types";
-import calculateParentNodeValue from "./calculateParentNodeValue";
+import { Node, Layer, TreeData } from "@/types";
+import calculateParentNodeValue from "@/calculateParentNodeValue";
 
 export default function propagateSelectedNodesChangesToTree(
   selectedNodes: Node[],

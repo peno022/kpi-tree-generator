@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { TreeData } from "../types";
-import keysToSnakeCase from "../keysToSnakeCase";
-import keysToCamelCase from "../keysToCamelCase";
-import nullifyParentNodeId from "../nullifyParentNodeId";
-import token from "../token";
+import { TreeData } from "@/types";
+import keysToSnakeCase from "@/keysToSnakeCase";
+import keysToCamelCase from "@/keysToCamelCase";
+import nullifyParentNodeId from "@/nullifyParentNodeId";
+import token from "@/token";
 
 export type TreeUpdateHook = {
   errorMessage: string | null;
