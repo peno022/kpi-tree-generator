@@ -38,6 +38,8 @@
 !/app/assets/builds/.keep
 
 /node_modules
+/.yarn/*
+!/.yarn/releases/
 
 .DS_Store
 
