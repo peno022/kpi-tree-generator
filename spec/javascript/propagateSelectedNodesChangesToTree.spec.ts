@@ -4,7 +4,7 @@
 
 import propagateSelectedNodesChangesToTree from "../../app/javascript/propagete_selected_nodes_changes_to_tree";
 import { Node, Layer, TreeData } from "../../app/javascript/types";
-import * as fixtures from "./__fixtures__/sample_data";
+import * as fixtures from "./__fixtures__/sampleData";
 
 describe("propagateSelectedNodesChangesToTree", () => {
   it("ひ孫ノードを選択、ロックノードなし", () => {

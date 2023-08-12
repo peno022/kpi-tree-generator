@@ -5,7 +5,7 @@ import {
   TreeArea,
   TreeAreaProps,
 } from "../../../../../app/javascript/components/trees/tree/TreeArea";
-import * as fixtures from "../../../__fixtures__/sample_data";
+import * as fixtures from "../../../__fixtures__/sampleData";
 
 // TypeError: Cannot read properties of undefined (reading 'baseVal') が出る
 // ツリー表示はsystemテストで動作確認できているため、いったんskip

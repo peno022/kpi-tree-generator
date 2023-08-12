@@ -6,7 +6,7 @@ import {
   ToolArea,
   ToolAreaProps,
 } from "../../../../../app/javascript/components/trees/tool/ToolArea";
-import * as fixtures from "../../../__fixtures__/sample_data";
+import * as fixtures from "../../../__fixtures__/sampleData";
 
 const user = userEvent.setup();
 
