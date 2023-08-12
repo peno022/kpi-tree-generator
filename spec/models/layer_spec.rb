@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Layer do
-  it 'operation、parent_node、tree_idがあれば有効になる' do
+  it 'operation、parent_node、fraction、tree_idがあれば有効になる' do
     node = create(:node)
-    layer = described_class.new(parent_node: node, operation: 'multiply', tree: create(:tree))
+    layer = described_class.new(parent_node: node, operation: 'multiply', fraction: 0, tree: create(:tree))
     expect(layer).to be_valid
   end
 
@@ -51,9 +51,9 @@ RSpec.describe Layer do
     expect(layer.errors[:fraction]).to include('is not a number')
   end
 
-  it 'fraction はnilを設定できる' do
+  it 'fractionがnilだと無効になる' do
     layer = described_class.new(fraction: nil)
     layer.valid?
-    expect(layer.errors[:fraction]).to be_empty
+    expect(layer.errors[:fraction]).to include('is not a number')
   end
 end

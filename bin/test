@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo '> bundle exec rspec'
+bundle exec rspec
+
+echo '> yarn jest'
+yarn jest

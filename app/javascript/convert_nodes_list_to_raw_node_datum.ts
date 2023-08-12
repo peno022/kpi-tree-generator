@@ -4,6 +4,12 @@ import LTT from "list-to-tree";
 
 export {};
 
+type preparedNode = types.Node & {
+  operation?: string;
+  isLastInLayer?: boolean;
+  childLayer?: types.Layer;
+};
+
 export function convertNodesToRawNodeDatum(
   nodes: types.Node[],
   layers: types.Layer[]
@@ -19,7 +25,7 @@ export function convertNodesToRawNodeDatum(
 function prepareNodeProperties(
   nodes: types.Node[],
   layers: types.Layer[]
-): types.Node[] {
+): preparedNode[] {
   const nodesWithIsLastInLayerProperty = addIsLastInLayerProperty(nodes);
   const nodesWithChildLayer = addLayerToNode(
     nodesWithIsLastInLayerProperty,
@@ -49,31 +55,31 @@ function convertNodesListToTree(nodes: types.Node[]): types.TreeStructureNode {
 }
 
 // 自分がchildrenの中の最後のノードかどうかを判定し、isLastInLayerプロパティを追加する関数
-function addIsLastInLayerProperty(nodes: types.Node[]): types.Node[] {
-  nodes.forEach((node) => {
+function addIsLastInLayerProperty(nodes: types.Node[]): preparedNode[] {
+  return nodes.map((node) => {
+    const nodeWithIsLastInLayerProperty = { ...node, isLastInLayer: false };
     const parentNode = findNodeById(node.parentId, nodes);
     if (parentNode) {
       const childrenNodes = nodes.filter((n) => n.parentId === node.parentId);
       // childrenNodesの中で一番大きいidを持つノードが自分自身であれば、isLastInLayerをtrueにする
       const maxId = Math.max(...childrenNodes.map((n) => n.id));
       if (node.id === maxId) {
-        node.isLastInLayer = true;
+        nodeWithIsLastInLayerProperty.isLastInLayer = true;
       } else {
-        node.isLastInLayer = false;
+        nodeWithIsLastInLayerProperty.isLastInLayer = false;
       }
     } else {
-      node.isLastInLayer = true;
+      nodeWithIsLastInLayerProperty.isLastInLayer = true;
     }
+    return nodeWithIsLastInLayerProperty;
   });
-
-  return nodes;
 }
 
 // LayerのparentNodeIdをidに持つNodeを探し、そのNodeのプロパティにchildLayerを追加する関数
 function addLayerToNode(
-  nodes: types.Node[],
+  nodes: preparedNode[],
   layers: types.Layer[]
-): types.Node[] {
+): preparedNode[] {
   layers.forEach((layer) => {
     const parentNode = findNodeById(layer.parentNodeId, nodes);
     if (parentNode) {
@@ -85,7 +91,7 @@ function addLayerToNode(
 }
 
 // 親ノードのchildLayerのoperationを子ノードに引き継ぐ関数
-function inheritOperationFromParentNode(nodes: types.Node[]): types.Node[] {
+function inheritOperationFromParentNode(nodes: preparedNode[]): preparedNode[] {
   nodes.forEach((node) => {
     const parentNode = findNodeById(node.parentId, nodes);
     if (parentNode) {
@@ -122,6 +128,9 @@ function convertTreeStructureNodeToRawNodeDatum(
 }
 
 // idとnodesを渡すと、そのidを持つNodeを返す関数
-function findNodeById(id: number, nodes: types.Node[]): types.Node | undefined {
+function findNodeById(
+  id: number,
+  nodes: preparedNode[]
+): preparedNode | undefined {
   return nodes.find((node) => node.id === id);
 }

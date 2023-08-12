@@ -7,21 +7,28 @@ extends:
   - prettier
 overrides:
   - files:
-    - "*.ts"
-    - "*.tsx"
+      - "*.ts"
+      - "*.tsx"
     parser: "@typescript-eslint/parser"
     plugins:
       - "@typescript-eslint"
+      - testing-library
     extends:
       - plugin:@typescript-eslint/eslint-recommended
       - plugin:@typescript-eslint/recommended
   - files:
-    - "spec/**/*.ts"
+      - "spec/**/*.ts"
     plugins:
       - jest
     extends:
       - plugin:jest/recommended
-    rules: {}
+    rules:
+      {
+        "testing-library/await-async-query": "error",
+        "testing-library/no-await-sync-query": "error",
+        "testing-library/no-debugging-utils": "warn",
+        "testing-library/no-dom-import": "off",
+      }
 parserOptions:
   ecmaVersion: latest
   sourceType: module

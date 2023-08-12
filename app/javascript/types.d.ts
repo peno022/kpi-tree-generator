@@ -14,9 +14,6 @@ export type Node = {
   valueFormat: "なし" | "%" | "千" | "万";
   unit: string;
   isValueLocked: boolean;
-  operation?: string;
-  isLastInLayer?: boolean;
-  childLayer?: Layer;
   parentId: number;
 };
 
