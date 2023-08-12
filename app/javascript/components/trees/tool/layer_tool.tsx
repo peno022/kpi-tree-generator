@@ -139,9 +139,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
     <>
       <div className="relative flex flex-col h-full">
         <div className="absolute inset-0 overflow-y-auto p-2 pb-20 tool">
-          {errorMessage && (
-            <AlertError message={errorMessage} buttonText="OK" />
-          )}
+          {errorMessage && <AlertError message={errorMessage} />}
           <div className="flex justify-between">
             <div className="text-base font-semibold label-operation">
               要素間の関係

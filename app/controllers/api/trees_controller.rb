@@ -23,7 +23,7 @@ module Api
           (@nodes + @layers).each(&:save!)
         end
       rescue ActiveRecord::RecordInvalid => e
-        render json: { errors: e.record.errors, record: e.record }, status: :unprocessable_entity
+        render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
       end
     end
 

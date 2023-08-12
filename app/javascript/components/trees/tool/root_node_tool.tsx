@@ -56,7 +56,7 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
   return (
     <>
       <div className="relative flex flex-col h-full">
-        {errorMessage && <AlertError message={errorMessage} buttonText="OK" />}
+        {errorMessage && <AlertError message={errorMessage} />}
         <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
           <NodeDetail
             index={0}

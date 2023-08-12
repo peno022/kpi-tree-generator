@@ -34,15 +34,21 @@ export const useTreeUpdate = (treeId: number): TreeUpdateHook => {
     });
     if (!response.ok) {
       if (response.status === 422) {
-        window.location.href = "/422.html";
+        const json = await response.json();
+        setErrorMessage(json.errors.join("／"));
+        return null;
       } else if (response.status >= 500) {
-        window.location.href = "/500.html";
+        setErrorMessage(
+          "システムエラーが発生しました。時間を置いてもう一度お試しください。"
+        );
         return null;
       } else if (response.status >= 400) {
         window.location.href = "/404.html";
         return null;
       } else {
-        window.location.href = "/500.html";
+        setErrorMessage(
+          "システムエラーが発生しました。時間を置いてもう一度お試しください。"
+        );
         return null;
       }
     }
