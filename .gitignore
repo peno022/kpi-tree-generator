@@ -39,7 +39,7 @@
 
 /node_modules
 /.yarn/*
-!/.yarn/releases/*
+!/.yarn/releases/
 
 .DS_Store
 
