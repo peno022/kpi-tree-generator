@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import NodeField from "./node_field";
+import NodeField from "./NodeField";
 import { Node } from "../../../../types";
 import ToolMenu from "../../../shared/ToolMenu";
 

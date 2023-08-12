@@ -2,7 +2,7 @@ import React from "react";
 import { TreeData, Node } from "../../../types";
 import RootNodeTool from "./RootNodeTool";
 import LayerTool from "./LayerTool";
-import Message from "./message";
+import Message from "./Message";
 
 export type ToolAreaProps = {
   treeData: TreeData;

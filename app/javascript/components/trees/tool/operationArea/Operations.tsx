@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Operation from "./operation";
+import Operation from "./Operation";
 import { Layer } from "../../../../types";
 
 type OperationsProps = {
