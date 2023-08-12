@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import {
   ToolArea,
   ToolAreaProps,
-} from "../../../../../app/javascript/components/trees/tool/tool_area";
+} from "../../../../../app/javascript/components/trees/tool/ToolArea";
 import * as fixtures from "../../../__fixtures__/sample_data";
 
 const user = userEvent.setup();

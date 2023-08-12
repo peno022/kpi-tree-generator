@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import NodeValue from "./node_value";
-import OperationSymbol from "./operation_symbol";
+import NodeValue from "./NodeValue";
+import OperationSymbol from "./OperationSymbol";
 import Fraction from "./fraction";
-import MessageBubble from "./message_bubble";
+import MessageBubble from "./MessageBubble";
 import { Node, Layer } from "../../../../types";
-import calculateParentNodeValue from "../../../../calculate_parent_node_value";
+import calculateParentNodeValue from "../../../../calculateParentNodeValue";
 
 type CalculationProps = {
   selectedNodes: Node[];

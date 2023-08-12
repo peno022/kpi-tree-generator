@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import {
   TreeArea,
   TreeAreaProps,
-} from "../../../../../app/javascript/components/trees/tree/tree_area";
+} from "../../../../../app/javascript/components/trees/tree/TreeArea";
 import * as fixtures from "../../../__fixtures__/sample_data";
 
 // TypeError: Cannot read properties of undefined (reading 'baseVal') が出る

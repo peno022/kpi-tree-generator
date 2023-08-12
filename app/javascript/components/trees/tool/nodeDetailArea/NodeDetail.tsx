@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NodeField from "./node_field";
 import { Node } from "../../../../types";
-import ToolMenu from "../../../shared/tool_menu";
+import ToolMenu from "../../../shared/ToolMenu";
 
 export type NodeDetailProps = {
   index: number;
