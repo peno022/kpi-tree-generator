@@ -2,11 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe '階層・ノードのプロパティを編集・更新', js: true do
+RSpec.describe '階層・ノードのプロパティを編集・更新', js: true, login_required: true do
+  before do
+    visit log_out_path
+    visit root_path
+    click_button 'Googleでログイン'
+  end
+
   describe('選択した階層のプロパティを編集・更新') do
     before do
       # データの作成
-      tree = create(:tree)
+      tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
       create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
                     parent: root_node)
@@ -315,7 +321,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
   describe('選択した階層の更新を、祖先ノードにも反映') do
     it('孫ノードを選択して更新すると、その祖先ノードの値も更新される、数値を自動更新しないにチェックが入っているノードの値は更新されない') do
       # データの作成
-      tree = create(:tree)
+      tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
       child_node1 = create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
                                   parent: root_node)
@@ -366,7 +372,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
   describe('ルートノードのみのツリー') do
     it('ルートノードを選択し、値を更新できる') do
       # ルートのみのツリーを作成
-      tree = create(:tree)
+      tree = create(:tree, user: User.find_by(uid: '1234'))
       create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
 
       # ツリー編集画面を表示し、ノードをクリックしてツールエリアを開く

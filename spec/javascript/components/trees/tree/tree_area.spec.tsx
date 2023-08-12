@@ -16,7 +16,7 @@ describe.skip("ツリーの表示", () => {
       const props: TreeAreaProps = {
         treeData: fixtures.treeData,
         selectedNodeIds: [],
-        handleClick: handleClick,
+        handleClick,
       };
       const { container } = render(<TreeArea {...props} />);
       const nodes = container.querySelectorAll(".rd3t-leaf-node, .rd3t-node");

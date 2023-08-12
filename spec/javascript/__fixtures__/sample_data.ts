@@ -109,7 +109,7 @@ export const greatGrandChildLayer: Layer = {
 };
 
 export const treeData: TreeData = {
-  tree: tree,
+  tree,
   nodes: [
     parentNode,
     childNode1,

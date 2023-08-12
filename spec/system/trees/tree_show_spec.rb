@@ -75,7 +75,7 @@ RSpec.describe 'Tree pages', js: true do
       expect(target_node_after.find('rect')[:style]).to include('fill: moccasin')
 
       # ツールエリアにクリックしたノードの階層の詳細が表示されていること
-      expect(page).to have_content('ルート要素')
+      expect(page).to have_content('要素1')
       expect(page).not_to have_content('要素間の関係')
       expect(page).to have_css('input[value="ルート"]')
     end

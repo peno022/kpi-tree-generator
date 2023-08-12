@@ -2,10 +2,15 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ツールエリアのバリデーションチェック', js: true do
+RSpec.describe 'ツールエリアのバリデーションチェック', js: true, login_required: true do
   before do
+    # ログイン
+    visit log_out_path
+    visit root_path
+    click_button 'Googleでログイン'
+
     # データの作成
-    tree = create(:tree)
+    tree = create(:tree, user: User.find_by(uid: '1234'))
     root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
     create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
                   parent: root_node)
@@ -19,21 +24,6 @@ RSpec.describe 'ツールエリアのバリデーションチェック', js: tru
   end
 
   describe 'ノードの単項目のチェック' do
-    before do
-      # データの作成
-      tree = create(:tree)
-      root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
-      create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
-                    parent: root_node)
-      create(:node, tree:, name: '子2', value: 2000, value_format: 'なし', unit: '円', is_value_locked: false,
-                    parent: root_node)
-      create(:layer, tree:, operation: 'multiply', fraction: 0, parent_node: root_node)
-
-      # ツリー編集画面を表示し、ノードをクリックしてツールエリアを開く
-      visit edit_tree_path(tree)
-      find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
-    end
-
     it('バリデーションエラーがないときは、エラー文言が表示されず、更新ボタンが押せる') do
       # 初期表示でバリデーションエラーがない状態
       expect(page).not_to have_css('span.text-error')
@@ -128,21 +118,6 @@ RSpec.describe 'ツールエリアのバリデーションチェック', js: tru
   end
 
   describe '端数の数値形式チェック' do
-    before do
-      # データの作成
-      tree = create(:tree)
-      root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
-      create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
-                    parent: root_node)
-      create(:node, tree:, name: '子2', value: 2000, value_format: 'なし', unit: '円', is_value_locked: false,
-                    parent: root_node)
-      create(:layer, tree:, operation: 'multiply', fraction: 0, parent_node: root_node)
-
-      # ツリー編集画面を表示し、ノードをクリックしてツールエリアを開く
-      visit edit_tree_path(tree)
-      find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
-    end
-
     it('端数が空白のときは、エラーは表示されない') do
       find('input[name="fraction"]').set('')
       expect(page).not_to have_css('span.text-error')
@@ -192,7 +167,7 @@ RSpec.describe 'ツールエリアのバリデーションチェック', js: tru
 
   describe '表示形式が%のときは、単位は入力できない' do
     it('単位入力なし・表示形式%の状態から、単位を入力するとエラーを表示する') do
-      tree = create(:tree)
+      tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
       create(:node, tree:, name: '子1', value: 5000, value_format: '%', unit: '', is_value_locked: false,
                     parent: root_node)
@@ -266,7 +241,7 @@ RSpec.describe 'ツールエリアのバリデーションチェック', js: tru
   describe 'ルートノードのときにもバリデーションチェックが存在する' do
     before do
       # データの作成
-      tree = create(:tree)
+      tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
       create(:node, tree:, name: '子1', parent: root_node)
       create(:node, tree:, name: '子2', parent: root_node)
@@ -294,7 +269,7 @@ RSpec.describe 'ツールエリアのバリデーションチェック', js: tru
 
   describe 'バリデーションエラーが出ている状態で別な階層を開く' do
     before do
-      tree = create(:tree)
+      tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
       child_node1 = create(:node, tree:, name: '子1', parent: root_node)
       create(:node, tree:, name: '子2', parent: root_node)
