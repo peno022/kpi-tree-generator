@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NodeValue from "./NodeValue";
 import OperationSymbol from "./OperationSymbol";
-import Fraction from "./fraction";
+import Fraction from "./Fraction";
 import MessageBubble from "./MessageBubble";
 import { Node, Layer } from "../../../../types";
 import calculateParentNodeValue from "../../../../calculateParentNodeValue";
