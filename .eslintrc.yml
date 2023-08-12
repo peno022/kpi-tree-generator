@@ -22,12 +22,13 @@ overrides:
       - jest
     extends:
       - plugin:jest/recommended
-    rules: {
-      'testing-library/await-async-query': 'error',
-		  'testing-library/no-await-sync-query': 'error',
-		  'testing-library/no-debugging-utils': 'warn',
-		  'testing-library/no-dom-import': 'off',
-    }
+    rules:
+      {
+        "testing-library/await-async-query": "error",
+        "testing-library/no-await-sync-query": "error",
+        "testing-library/no-debugging-utils": "warn",
+        "testing-library/no-dom-import": "off",
+      }
 parserOptions:
   ecmaVersion: latest
   sourceType: module
