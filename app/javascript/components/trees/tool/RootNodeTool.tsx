@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NodeDetail from "./nodeDetailArea/NodeDetail";
 import OpenModalButton from "../../shared/OpenModalButton";
 import { Node, TreeData } from "../../../types";
-import { useTreeUpdate } from "../../../hooks/use_tree_update";
+import { useTreeUpdate } from "../../../hooks/useTreeUpdate";
 import AlertError from "../../shared/AlertError";
 
 type RootNodeToolProps = {

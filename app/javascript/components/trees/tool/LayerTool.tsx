@@ -5,8 +5,8 @@ import ToolMenu from "../../shared/ToolMenu";
 import Operations from "./operationArea/Operations";
 import Calculation from "./calculationArea/Calculation";
 import OpenModalButton from "../../shared/OpenModalButton";
-import propagateSelectedNodesChangesToTree from "../../../propagete_selected_nodes_changes_to_tree";
-import { useTreeUpdate } from "../../../hooks/use_tree_update";
+import propagateSelectedNodesChangesToTree from "../../../propagateSelectedNodesChangesToTree";
+import { useTreeUpdate } from "../../../hooks/useTreeUpdate";
 import AlertError from "../../shared/AlertError";
 
 type LayerToolProps = {
