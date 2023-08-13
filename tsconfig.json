@@ -7,6 +7,11 @@
     "module": "esnext",
     "lib": ["ES2022", "dom"],
     "rootDir": "./",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["app/javascript/*"],
+      "@spec/*": ["spec/javascript/*"]
+    },
     "outDir": "app/assets/builds",
     "moduleResolution": "node",
     "esModuleInterop": true,

@@ -1,4 +1,4 @@
-import { Node, Layer } from "./types";
+import { Node, Layer } from "@/types";
 
 export default function calculateParentNodeValue(
   parentNode: Node,

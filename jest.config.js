@@ -16,4 +16,8 @@ module.exports = {
   transformIgnorePatterns: [
     "/node_modules/(?!d3-color|d3-dispatch|d3-drag|d3-ease|d3-hierarchy|d3-interpolate|d3-path|d3-selection|d3-shape|d3-timer|d3-transition|d3-zoom|uuid)",
   ],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/app/javascript/$1",
+    "^@spec/(.*)$": "<rootDir>/spec/javascript/$1",
+  },
 };

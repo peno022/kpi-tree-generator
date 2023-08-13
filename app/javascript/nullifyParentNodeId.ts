@@ -1,4 +1,4 @@
-import { Node, Layer, TreeData } from "./types";
+import { Node, Layer, TreeData } from "@/types";
 
 export default function nullifyParentNodeId(treeData: TreeData) {
   return JSON.parse(

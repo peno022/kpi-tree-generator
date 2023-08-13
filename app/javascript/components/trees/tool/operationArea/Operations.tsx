@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Operation from "./operation";
-import { Layer } from "../../../../types";
+import Operation from "@/components/trees/tool/operationArea/Operation";
+import { Layer } from "@/types";
 
 type OperationsProps = {
   selectedLayer: Layer;

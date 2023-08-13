@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import keysToCamelCase from "../../app/javascript/keys_to_camel_case";
+import keysToCamelCase from "@/keysToCamelCase";
 
 describe("keysToCamelCase", () => {
   it("should convert top level keys to camelCase", () => {

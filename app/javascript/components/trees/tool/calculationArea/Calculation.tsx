@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import NodeValue from "./node_value";
-import OperationSymbol from "./operation_symbol";
-import Fraction from "./fraction";
-import MessageBubble from "./message_bubble";
-import { Node, Layer } from "../../../../types";
-import calculateParentNodeValue from "../../../../calculate_parent_node_value";
+import NodeValue from "@/components/trees/tool/calculationArea/NodeValue";
+import OperationSymbol from "@/components/trees/tool/calculationArea/OperationSymbol";
+import Fraction from "@/components/trees/tool/calculationArea/Fraction";
+import MessageBubble from "@/components/trees/tool/calculationArea/MessageBubble";
+import { Node, Layer } from "@/types";
+import calculateParentNodeValue from "@/calculateParentNodeValue";
 
 type CalculationProps = {
   selectedNodes: Node[];

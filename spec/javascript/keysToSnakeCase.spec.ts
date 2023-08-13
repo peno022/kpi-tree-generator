@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import keysToSnakeCase from "../../app/javascript/keys_to_snake_case";
+import keysToSnakeCase from "@/keysToSnakeCase";
 
 describe("keysToSnakeCase", () => {
   it("should convert top level keys to snake_case", () => {

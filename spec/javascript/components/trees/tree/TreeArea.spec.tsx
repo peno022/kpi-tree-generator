@@ -1,11 +1,8 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import {
-  TreeArea,
-  TreeAreaProps,
-} from "../../../../../app/javascript/components/trees/tree/tree_area";
-import * as fixtures from "../../../__fixtures__/sample_data";
+import { TreeArea, TreeAreaProps } from "@/components/trees/tree/TreeArea";
+import * as fixtures from "@spec/__fixtures__/sampleData";
 
 // TypeError: Cannot read properties of undefined (reading 'baseVal') が出る
 // ツリー表示はsystemテストで動作確認できているため、いったんskip

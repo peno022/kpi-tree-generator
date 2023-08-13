@@ -1,5 +1,5 @@
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
-import * as types from "./types";
+import * as types from "@/types";
 import LTT from "list-to-tree";
 
 export {};
