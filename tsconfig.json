@@ -10,8 +10,7 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["app/javascript/*"],
-      "@/components/*": ["app/javascript/components/*"],
-      "@/spec/*": ["spec/javascript/*"]
+      "@spec/*": ["spec/javascript/*"]
     },
     "outDir": "app/assets/builds",
     "moduleResolution": "node",

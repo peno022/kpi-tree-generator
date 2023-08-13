@@ -4,7 +4,7 @@
 
 import propagateSelectedNodesChangesToTree from "@/propagateSelectedNodesChangesToTree";
 import { Node, Layer, TreeData } from "@/types";
-import * as fixtures from "@/spec/__fixtures__/sampleData";
+import * as fixtures from "@spec/__fixtures__/sampleData";
 
 describe("propagateSelectedNodesChangesToTree", () => {
   it("ひ孫ノードを選択、ロックノードなし", () => {

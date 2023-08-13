@@ -20,7 +20,7 @@
     "tree-model": "^1.0.7"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx --define:process.env.NODE_ENV=\\\"'development'\\\"",
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets --loader:.js=jsx --define:process.env.NODE_ENV=\\\"'development'\\\" --alias:@=./app/javascript/ --alias:@spec=./spec/javascript/",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
     "lint": "run-p lint:*",
     "lint:eslint": "eslint 'app/javascript/**/*.{js,ts,tsx}' 'spec/javascript/**/*.{js,ts,tsx}'",
