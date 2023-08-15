@@ -25,7 +25,7 @@ const Calculation: React.FC<CalculationProps> = ({
   fractionErrorMessage,
   handleFractionChange,
 }) => {
-  const maxId = Math.max(...selectedNodes.map((node) => node.id));
+  const maxIndex = selectedNodes.length - 1;
   const [calculationResult, setCalculationResult] = useState(0);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const Calculation: React.FC<CalculationProps> = ({
                 displayUnit={getDisplayUnit(node)}
                 elementId={index}
               />
-              {!(node.id === maxId) && (
+              {!(index === maxIndex) && (
                 <OperationSymbol operation={selectedLayer.operation} />
               )}
             </div>
