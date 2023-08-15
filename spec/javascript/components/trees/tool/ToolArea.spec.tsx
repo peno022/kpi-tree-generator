@@ -64,7 +64,7 @@ describe("ノードが選択されていないとき", () => {
 
 describe("正常なデータでは起きないはずのエラー", () => {
   describe("選択したノードIDに該当するノードがツリーに存在しないとき", () => {
-    it("'選択されたノードIDが不正です。'というテキストが表示されること", () => {
+    it("'選択された要素のIDが不正です。'というテキストが表示されること", () => {
       const toolAreaProps: ToolAreaProps = {
         treeData: fixtures.treeData,
         selectedNodeIds: [999999, 9999999],
@@ -72,7 +72,9 @@ describe("正常なデータでは起きないはずのエラー", () => {
       };
       render(<ToolArea {...toolAreaProps} />);
       expect(
-        screen.getByText("選択されたノードIDが不正です。")
+        screen.getByText(
+          "選択された要素のIDが不正です。画面を再読み込みしてもう一度お試しください。"
+        )
       ).toBeInTheDocument();
     });
   });

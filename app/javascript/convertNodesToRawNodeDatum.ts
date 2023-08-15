@@ -4,15 +4,15 @@ import LTT from "list-to-tree";
 
 export {};
 
-type preparedNode = types.Node & {
+type preparedNode = types.NodeFromApi & {
   operation?: string;
   isLastInLayer?: boolean;
-  childLayer?: types.Layer;
+  childLayer?: types.LayerFromApi;
 };
 
 export function convertNodesToRawNodeDatum(
-  nodes: types.Node[],
-  layers: types.Layer[]
+  nodes: types.NodeFromApi[],
+  layers: types.LayerFromApi[]
 ): RawNodeDatum {
   const preparedNodes = prepareNodeProperties(nodes, layers);
   const treeStructureNode = convertNodesListToTree(preparedNodes);
@@ -23,8 +23,8 @@ export function convertNodesToRawNodeDatum(
 }
 
 function prepareNodeProperties(
-  nodes: types.Node[],
-  layers: types.Layer[]
+  nodes: types.NodeFromApi[],
+  layers: types.LayerFromApi[]
 ): preparedNode[] {
   const nodesWithIsLastInLayerProperty = addIsLastInLayerProperty(nodes);
   const nodesWithChildLayer = addLayerToNode(
@@ -37,7 +37,9 @@ function prepareNodeProperties(
   return nodesWithInheritedOperation;
 }
 
-function convertNodesListToTree(nodes: types.Node[]): types.TreeStructureNode {
+function convertNodesListToTree(
+  nodes: preparedNode[]
+): types.TreeStructureNode {
   // nodesのparentIdがnullの場合、parentIdを0に変更する
   nodes.forEach((node) => {
     if (node.parentId === null) {
@@ -55,7 +57,7 @@ function convertNodesListToTree(nodes: types.Node[]): types.TreeStructureNode {
 }
 
 // 自分がchildrenの中の最後のノードかどうかを判定し、isLastInLayerプロパティを追加する関数
-function addIsLastInLayerProperty(nodes: types.Node[]): preparedNode[] {
+function addIsLastInLayerProperty(nodes: types.NodeFromApi[]): preparedNode[] {
   return nodes.map((node) => {
     const nodeWithIsLastInLayerProperty = { ...node, isLastInLayer: false };
     const parentNode = findNodeById(node.parentId, nodes);
@@ -78,7 +80,7 @@ function addIsLastInLayerProperty(nodes: types.Node[]): preparedNode[] {
 // LayerのparentNodeIdをidに持つNodeを探し、そのNodeのプロパティにchildLayerを追加する関数
 function addLayerToNode(
   nodes: preparedNode[],
-  layers: types.Layer[]
+  layers: types.LayerFromApi[]
 ): preparedNode[] {
   layers.forEach((layer) => {
     const parentNode = findNodeById(layer.parentNodeId, nodes);

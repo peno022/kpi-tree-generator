@@ -3,7 +3,7 @@
  */
 
 import propagateSelectedNodesChangesToTree from "@/propagateSelectedNodesChangesToTree";
-import { Node, Layer, TreeData } from "@/types";
+import { Node, Layer, TreeDataFromApi } from "@/types";
 import * as fixtures from "@spec/__fixtures__/sampleData";
 
 describe("propagateSelectedNodesChangesToTree", () => {
@@ -23,7 +23,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
     } = JSON.parse(JSON.stringify(fixtures));
     parentNode.isValueLocked = false;
 
-    const treeData: TreeData = {
+    const treeData: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         parentNode,
@@ -59,7 +59,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
       treeData
     );
 
-    const expected: TreeData = {
+    const expected: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         {
@@ -128,7 +128,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
     parentNode.isValueLocked = false;
     grandChildNode1.isValueLocked = true;
 
-    const treeData: TreeData = {
+    const treeData: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         parentNode,
@@ -164,7 +164,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
       treeData
     );
 
-    const expected: TreeData = {
+    const expected: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         {
@@ -228,7 +228,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
     parentNode.isValueLocked = false;
     childNode1.isValueLocked = true;
 
-    const treeData: TreeData = {
+    const treeData: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         parentNode,
@@ -264,7 +264,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
       treeData
     );
 
-    const expected: TreeData = {
+    const expected: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         {
@@ -333,7 +333,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
     parentNode.isValueLocked = false;
     greatGrandChildNode1.isValueLocked = true;
 
-    const treeData: TreeData = {
+    const treeData: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         parentNode,
@@ -369,7 +369,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
       treeData
     );
 
-    const expected: TreeData = {
+    const expected: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         {
@@ -437,7 +437,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
     } = JSON.parse(JSON.stringify(fixtures));
     parentNode.isValueLocked = true;
 
-    const treeData: TreeData = {
+    const treeData: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         parentNode,
@@ -473,7 +473,7 @@ describe("propagateSelectedNodesChangesToTree", () => {
       treeData
     );
 
-    const expected: TreeData = {
+    const expected: TreeDataFromApi = {
       tree: { id: 1, name: "Tree1" },
       nodes: [
         {

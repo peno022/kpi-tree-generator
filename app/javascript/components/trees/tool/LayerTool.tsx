@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
-import { Node, Layer, TreeData } from "@/types";
+import { Node, Layer, NodeFromApi, TreeDataFromApi } from "@/types";
 import ToolMenu from "@/components/shared/ToolMenu";
 import Operations from "@/components/trees/tool/operationArea/Operations";
 import Calculation from "@/components/trees/tool/calculationArea/Calculation";
@@ -10,15 +10,23 @@ import { useTreeUpdate } from "@/hooks/useTreeUpdate";
 import AlertError from "@/components/shared/AlertError";
 
 type LayerToolProps = {
-  selectedNodes: Node[];
+  selectedNodes: NodeFromApi[];
   selectedLayer: Layer;
-  parentNode: Node;
-  onUpdateSuccess: (updatedTreeData: TreeData) => void;
-  treeData: TreeData;
+  parentNode: NodeFromApi;
+  onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
+  treeData: TreeDataFromApi;
 };
 
 export type LayerToolState = {
-  nodes: Node[];
+  nodes: {
+    id?: number;
+    name: string;
+    value: number;
+    valueFormat: "なし" | "%" | "千" | "万";
+    unit: string;
+    isValueLocked: boolean;
+    parentId: number;
+  }[];
   layer: Layer;
 };
 

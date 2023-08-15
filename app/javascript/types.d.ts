@@ -1,6 +1,13 @@
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 
 export type Layer = {
+  id?: number;
+  operation: "multiply" | "add";
+  fraction: number;
+  parentNodeId: number;
+};
+
+export type LayerFromApi = {
   id: number;
   operation: "multiply" | "add";
   fraction: number;
@@ -8,6 +15,16 @@ export type Layer = {
 };
 
 export type Node = {
+  id?: number;
+  name: string;
+  value: number;
+  valueFormat: "なし" | "%" | "千" | "万";
+  unit: string;
+  isValueLocked: boolean;
+  parentId: number;
+};
+
+export type NodeFromApi = {
   id: number;
   name: string;
   value: number;
@@ -26,7 +43,7 @@ export type TreeStructureNode = {
   isValueLocked: boolean;
   operation: string;
   isLastInLayer: boolean;
-  childLayer?: Layer;
+  childLayer?: LayerFromApi;
   parentId: number;
   children: TreeStructureNode[];
 };
@@ -46,6 +63,12 @@ export type WrappedRawNodeDatum = RawNodeDatum & {
 export type Tree = {
   id: number;
   name: string;
+};
+
+export type TreeDataFromApi = {
+  tree: Tree;
+  nodes: NodeFromApi[];
+  layers: LayerFromApi[];
 };
 
 export type TreeData = {
