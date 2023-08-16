@@ -18,15 +18,7 @@ type LayerToolProps = {
 };
 
 export type LayerToolState = {
-  nodes: {
-    id?: number;
-    name: string;
-    value: number;
-    valueFormat: "なし" | "%" | "千" | "万";
-    unit: string;
-    isValueLocked: boolean;
-    parentId: number;
-  }[];
+  nodes: Node[];
   layer: Layer;
 };
 
@@ -130,6 +122,28 @@ const LayerTool: React.FC<LayerToolProps> = ({
     });
   };
 
+  const addNode = () => {
+    const newNodes = [...layerProperty.nodes];
+    let initialValue: number;
+    if (layerProperty.layer.operation === "multiply") {
+      initialValue = 1;
+    } else {
+      initialValue = 0;
+    }
+    newNodes.push({
+      name: `要素${newNodes.length + 1}`,
+      value: initialValue,
+      unit: "",
+      valueFormat: "なし",
+      isValueLocked: false,
+      parentId: parentNode.id,
+    });
+    setlayerProperty({
+      ...layerProperty,
+      nodes: newNodes,
+    });
+  };
+
   const saveLayerProperty = async () => {
     const result = await sendUpdateRequest(
       propagateSelectedNodesChangesToTree(
@@ -190,7 +204,9 @@ const LayerTool: React.FC<LayerToolProps> = ({
             />
           ))}
           <div className="flex justify-center">
-            <button className="btn btn-sm btn-outline mt-2">要素を追加</button>
+            <button className="btn btn-sm btn-outline mt-2" onClick={addNode}>
+              要素を追加
+            </button>
           </div>
         </div>
         <div
