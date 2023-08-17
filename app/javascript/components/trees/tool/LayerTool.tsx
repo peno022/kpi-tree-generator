@@ -196,7 +196,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
           </div>
           {layerProperty.nodes.map((node, index) => (
             <NodeDetail
-              key={node.id}
+              key={index}
               index={index}
               node={node}
               handleNodeInfoChange={handleNodeInfoChange}
