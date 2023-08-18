@@ -1,13 +1,13 @@
 import React from "react";
-import { TreeData, Node } from "@/types";
+import { TreeDataFromApi, NodeFromApi } from "@/types";
 import RootNodeTool from "@/components/trees/tool/RootNodeTool";
 import LayerTool from "@/components/trees/tool/LayerTool";
 import Message from "@/components/trees/tool/Message";
 
 export type ToolAreaProps = {
-  treeData: TreeData;
+  treeData: TreeDataFromApi;
   selectedNodeIds: number[];
-  onUpdateSuccess: (updatedTreeData: TreeData) => void;
+  onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
 };
 
 export const ToolArea: React.FC<ToolAreaProps> = ({
@@ -22,12 +22,14 @@ export const ToolArea: React.FC<ToolAreaProps> = ({
     return <Message text="要素を選択すると、ここに詳細が表示されます。" />;
   }
 
-  const selectedNodes: Node[] = allNodes.filter((node) =>
+  const selectedNodes: NodeFromApi[] = allNodes.filter((node) =>
     selectedNodeIds.includes(node.id)
   );
 
   if (selectedNodes.length === 0) {
-    return <Message text="選択されたノードIDが不正です。" />;
+    return (
+      <Message text="選択された要素のIDが不正です。画面を再読み込みしてもう一度お試しください。" />
+    );
   }
 
   const parentNode = allNodes.find(

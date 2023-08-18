@@ -9,7 +9,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
     click_button 'Googleでログイン'
   end
 
-  describe('選択した階層のプロパティを編集・更新') do
+  describe('選択した階層のノードのプロパティを編集・更新') do
     before do
       # データの作成
       tree = create(:tree, user: User.find_by(uid: '1234'))
@@ -31,31 +31,28 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      root_node_svg_after = find('g > text', text: 'ルート').ancestor('g.rd3t-node')
       expect_node_display(
-        node_svg: root_node_svg_after,
         name: 'ルート',
         display_value: '1000万円',
         is_value_locked: true,
-        operation: ''
+        operation: '',
+        is_leaf: false
       )
 
-      child_node1_svg_after = find('g > text', text: '子1').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node1_svg_after,
         name: '子1',
         display_value: '5000人',
         is_value_locked: false,
-        operation: 'multiply'
+        operation: 'multiply',
+        is_leaf: true
       )
 
-      child_node2_svg_after = find('g > text', text: '子2').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node2_svg_after,
         name: '子2',
         display_value: '2000円',
         is_value_locked: false,
-        operation: ''
+        operation: '',
+        is_leaf: true
       )
 
       # 要素未選択状態に戻り、ツールエリアが閉じていることを確認
@@ -84,30 +81,27 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      root_node_svg_after = find('g > text', text: 'ルート').ancestor('g.rd3t-node')
       expect_node_display(
-        node_svg: root_node_svg_after,
         name: 'ルート',
         display_value: '1000万円',
         is_value_locked: true,
-        operation: ''
+        operation: '',
+        is_leaf: false
       )
-      child_node1_svg_after = find('g > text', text: '変更後のノード名1').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node1_svg_after,
         name: '変更後のノード名1',
         display_value: '2千人（変更後）',
         is_value_locked: true,
-        operation: 'multiply'
+        operation: 'multiply',
+        is_leaf: true
       )
 
-      child_node2_svg_after = find('g > text', text: '変更後のノード名2').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node2_svg_after,
         name: '変更後のノード名2',
         display_value: '4000円（変更後）',
         is_value_locked: true,
-        operation: ''
+        operation: '',
+        is_leaf: true
       )
     end
 
@@ -120,31 +114,28 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      root_node_svg_after = find('g > text', text: 'ルート').ancestor('g.rd3t-node')
       expect_node_display(
-        node_svg: root_node_svg_after,
         name: 'ルート',
         display_value: '1000万円',
         is_value_locked: true,
-        operation: ''
+        operation: '',
+        is_leaf: false
       )
 
-      child_node1_svg_after = find('g > text', text: '子1').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node1_svg_after,
         name: '子1',
         display_value: '5000人',
         is_value_locked: false,
-        operation: 'add'
+        operation: 'add',
+        is_leaf: true
       )
 
-      child_node2_svg_after = find('g > text', text: '子2').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node2_svg_after,
         name: '子2',
         display_value: '2000円',
         is_value_locked: false,
-        operation: ''
+        operation: '',
+        is_leaf: true
       )
     end
 
@@ -185,30 +176,27 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      root_node_svg_after = find('g > text', text: 'ルート').ancestor('g.rd3t-node')
       expect_node_display(
-        node_svg: root_node_svg_after,
         name: 'ルート',
         display_value: '1000万円',
         is_value_locked: true,
-        operation: ''
+        operation: '',
+        is_leaf: false
       )
-      child_node1_svg_after = find('g > text', text: '子1\'').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node1_svg_after,
         name: '子1\'',
         display_value: '2千人（変更後）',
         is_value_locked: true,
-        operation: 'add'
+        operation: 'add',
+        is_leaf: true
       )
 
-      child_node2_svg_after = find('g > text', text: '子2\'').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node2_svg_after,
         name: '子2\'',
         display_value: '4000円（変更後）',
         is_value_locked: true,
-        operation: ''
+        operation: '',
+        is_leaf: true
       )
 
       find('g > text', text: '子2\'').ancestor('g.rd3t-leaf-node').click
@@ -231,29 +219,26 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      root_node_svg_after = find('g > text', text: 'ルート').ancestor('g.rd3t-node')
       expect_node_display(
-        node_svg: root_node_svg_after,
         name: 'ルート\'',
         display_value: '500千円\'',
         is_value_locked: false,
-        operation: ''
+        operation: '',
+        is_leaf: false
       )
-      child_node1_svg_after = find('g > text', text: '子1').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node1_svg_after,
         name: '子1',
         display_value: '5000人',
         is_value_locked: false,
-        operation: 'multiply'
+        operation: 'multiply',
+        is_leaf: true
       )
-      child_node2_svg_after = find('g > text', text: '子2').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node2_svg_after,
         name: '子2',
         display_value: '2000円',
         is_value_locked: false,
-        operation: ''
+        operation: '',
+        is_leaf: true
       )
     end
 
@@ -265,13 +250,12 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
 
-      child_node1_first = find('g > text', text: '子1\'').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node1_first,
         name: '子1\'',
         display_value: '4千人',
         is_value_locked: false,
-        operation: 'multiply'
+        operation: 'multiply',
+        is_leaf: true
       )
 
       # 編集と更新（2回目）
@@ -282,13 +266,12 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
 
-      child_node1_second = find('g > text', text: '子1\'\'').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node1_second,
         name: '子1\'\'',
         display_value: '1.5万人',
         is_value_locked: false,
-        operation: 'multiply'
+        operation: 'multiply',
+        is_leaf: true
       )
 
       # 編集と更新（3回目）
@@ -299,13 +282,12 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
 
-      child_node1_third = find('g > text', text: '子1\'\'\'').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: child_node1_third,
         name: '子1\'\'\'',
         display_value: '2500.1人',
         is_value_locked: false,
-        operation: 'multiply'
+        operation: 'multiply',
+        is_leaf: true
       )
     end
 
@@ -350,21 +332,19 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 選択したノードの更新に基づいて親ノードの値も更新されていること、さらにその親ノードはisValueLocked: true なので、値は変わらないことを確認
-      root_node_svg_after = find('g > text', text: 'ルート').ancestor('g.rd3t-node')
       expect_node_display(
-        node_svg: root_node_svg_after,
         name: 'ルート',
         display_value: '1000万円', # isValueLocked: true なので、値は変わらない
         is_value_locked: true,
-        operation: ''
+        operation: '',
+        is_leaf: false
       )
-      child_node1_svg_after = find('g > text', text: '子1').ancestor('g.rd3t-node')
       expect_node_display(
-        node_svg: child_node1_svg_after,
         name: '子1',
         display_value: '14500人', # 1万 + 2500 + 2000 に更新される
         is_value_locked: false,
-        operation: 'multiply'
+        operation: 'multiply',
+        is_leaf: false
       )
     end
   end
@@ -392,21 +372,152 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      root_node_svg_after = find('g > text', text: 'ルート').ancestor('g.rd3t-leaf-node')
       expect_node_display(
-        node_svg: root_node_svg_after,
         name: 'ルート\'',
         display_value: '500千円\'',
         is_value_locked: false,
-        operation: ''
+        operation: '',
+        is_leaf: true
+      )
+    end
+  end
+
+  describe('選択した階層にノードを追加') do
+    before do
+      # データの作成
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
+      create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
+                    parent: root_node)
+      create(:node, tree:, name: '子2', value: 2000, value_format: 'なし', unit: '円', is_value_locked: false,
+                    parent: root_node)
+      create(:layer, tree:, operation: 'multiply', fraction: 0, parent_node: root_node)
+
+      # ツリー編集画面を表示し、ノードをクリックしてツールエリアを開く
+      visit edit_tree_path(tree)
+      find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
+    end
+
+    it('要素を追加ボタンを押すと、新しい要素のエリアが表示される。') do
+      click_button '要素を追加'
+      expect(page).to have_selector('#node-detail-3')
+      expect(page).to have_content('要素3')
+      expect(page).to have_selector('#node-detail-3 input[name="name"][value="要素3"]')
+      expect(page).to have_selector('#node-detail-3 input[name="value"][value="1"]')
+      expect(page).to have_selector('#node-detail-3 input[name="unit"][value=""]')
+      expect(page).to have_select('node-3-valueFormat', selected: 'なし')
+      expect(page).to have_selector('#node-detail-3 input[name="isValueLocked"][type="checkbox"]:not(:checked)')
+    end
+
+    it('追加された要素のデフォルトの数値値が、階層内の要素間の関係ごとに設定されている。') do
+      expect(page).to have_button('かけ算', class: 'bg-base-100 border border-neutral')
+      click_button '要素を追加'
+      expect(page).to have_selector('#node-detail-3 input[name="value"][value="1"]')
+      click_button 'たし算'
+      click_button '要素を追加'
+      expect(page).to have_selector('#node-detail-4 input[name="value"][value="0"]')
+    end
+
+    it('要素を追加ボタンを押すと、計算式に要素が追加されている。') do
+      click_button '要素を追加'
+      within('#calc-member-2') do
+        expect(page).to have_text('要素3')
+        expect(page).to have_text('1')
+      end
+    end
+
+    it('要素を追加ボタンを押しても、ツリーの表示はまだ変わらない。') do
+      click_button '要素を追加'
+      expect(page).not_to have_selector('g > text', text: '要素3')
+      expect(page).to have_selector('g > text', text: '子1')
+    end
+
+    it('要素を追加ボタンを押して、更新ボタン→更新するを押すと、ツリーに要素が追加される。') do
+      click_button '要素を追加'
+      find('#updateButton label', text: '更新').click
+      find('.modal-action label', text: '更新する').click
+      expect_node_display(
+        name: '子1',
+        display_value: '5000人',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_node_display(
+        name: '子2',
+        display_value: '2000円',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_node_display(
+        name: '要素3',
+        display_value: '1',
+        is_value_locked: false,
+        operation: '',
+        is_leaf: true
+      )
+    end
+
+    it('要素を追加ボタンを押して、追加した要素と既存の要素のプロパティを編集し、更新ボタン→更新するを押すと、ツリーにすべての編集内容が反映される。') do
+      click_button '要素を追加'
+      node_detail1 = find_by_id('node-detail-1')
+      node_detail1.find('input[name="name"]').set('変更後のノード名1')
+      node_detail1.find('input[name="unit"]').set('人（変更後）')
+      node_detail1.find('input[name="value"]').set(2)
+      node_detail1.find('select[name="valueFormat"]').select('千')
+      node_detail1.find('input[name="isValueLocked"]').set(true)
+
+      node_detail2 = find_by_id('node-detail-2')
+      node_detail2.find('input[name="name"]').set('変更後のノード名2')
+      node_detail2.find('input[name="unit"]').set('円（変更後）')
+      node_detail2.find('input[name="value"]').set(4000)
+      node_detail2.find('select[name="valueFormat"]').select('なし')
+      node_detail2.find('input[name="isValueLocked"]').set(true)
+
+      node_detail3 = find_by_id('node-detail-3')
+      node_detail3.find('input[name="name"]').set('変更後のノード名3')
+      node_detail3.find('input[name="unit"]').set('円')
+      node_detail3.find('input[name="value"]').set(0.1)
+      node_detail3.find('select[name="valueFormat"]').select('千')
+      node_detail3.find('input[name="isValueLocked"]').set(true)
+
+      find('#updateButton label', text: '更新').click
+      find('.modal-action label', text: '更新する').click
+
+      expect_node_display(
+        name: '変更後のノード名1',
+        display_value: '2千人（変更後）',
+        is_value_locked: true,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_node_display(
+        name: '変更後のノード名2',
+        display_value: '4000円（変更後）',
+        is_value_locked: true,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_node_display(
+        name: '変更後のノード名3',
+        display_value: '0.1千円',
+        is_value_locked: true,
+        operation: '',
+        is_leaf: true
       )
     end
   end
 end
 
-def expect_node_display(node_svg:, name:, display_value:, is_value_locked:, operation: nil)
-  expect(node_svg).to have_text(name).and have_text(display_value)
-  if is_value_locked == true
+def expect_node_display(name:, display_value:, is_value_locked:, is_leaf:, operation: nil)
+  node_svg = if is_leaf
+               find('g > text', text: name).ancestor('g.rd3t-leaf-node')
+             else
+               find('g > text', text: name).ancestor('g.rd3t-node')
+             end
+  expect(node_svg).to have_text(display_value)
+  if is_value_locked
     expect(node_svg).to have_css('svg.fa-lock')
   else
     expect(node_svg).not_to have_css('svg.fa-lock')

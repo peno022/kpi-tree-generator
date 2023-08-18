@@ -4,7 +4,7 @@
 
 import { convertNodesToRawNodeDatum } from "@/convertNodesToRawNodeDatum";
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
-import { Node, Layer } from "@/types";
+import { LayerFromApi, NodeFromApi } from "@/types";
 import * as fixtures from "@spec/__fixtures__/sampleData";
 
 const {
@@ -20,8 +20,8 @@ const {
 describe("convertNodesToRawNodeDatum", () => {
   describe("Childrenがない単体のノード", () => {
     it("単体ノード1つに対して、1つのRawNodeDatumを返す", () => {
-      const nodes: Node[] = [parentNode];
-      const layers: Layer[] = [];
+      const nodes: NodeFromApi[] = [parentNode];
+      const layers: LayerFromApi[] = [];
       const expected: RawNodeDatum = {
         name: parentNode.name,
         attributes: {
@@ -39,8 +39,8 @@ describe("convertNodesToRawNodeDatum", () => {
   });
   describe("Childrenがあるノード", () => {
     it("子ノードのRawNodeDatumをchildrenに持つRawNodeDatumを返す", () => {
-      const nodes: Node[] = [parentNode, childNode1, childNode2];
-      const layers: Layer[] = [childLayer];
+      const nodes: NodeFromApi[] = [parentNode, childNode1, childNode2];
+      const layers: LayerFromApi[] = [childLayer];
       const expected: RawNodeDatum = {
         name: parentNode.name,
         attributes: {
@@ -84,14 +84,14 @@ describe("convertNodesToRawNodeDatum", () => {
   });
   describe("孫ノードがあるノード", () => {
     it("孫ノードのRawNodeDatumをchildrenに持つRawNodeDatumを返す", () => {
-      const nodes: Node[] = [
+      const nodes: NodeFromApi[] = [
         parentNode,
         childNode1,
         childNode2,
         grandChildNode1,
         grandChildNode2,
       ];
-      const layers: Layer[] = [childLayer, grandChildLayer];
+      const layers: LayerFromApi[] = [childLayer, grandChildLayer];
       const expected: RawNodeDatum = {
         name: parentNode.name,
         attributes: {

@@ -1,4 +1,4 @@
-import { Node, Layer, Tree, TreeData } from "@/types";
+import { NodeFromApi, LayerFromApi, Tree, TreeDataFromApi } from "@/types";
 
 export {};
 
@@ -7,7 +7,7 @@ export const tree: Tree = {
   name: "ツリー1",
 };
 
-export const parentNode: Node = {
+export const parentNode: NodeFromApi = {
   id: 1,
   name: "親ノード",
   value: 300,
@@ -17,7 +17,7 @@ export const parentNode: Node = {
   parentId: 0,
 };
 
-export const childNode1: Node = {
+export const childNode1: NodeFromApi = {
   id: 2,
   name: "子ノード1",
   value: 100,
@@ -27,7 +27,7 @@ export const childNode1: Node = {
   parentId: 1,
 };
 
-export const childNode2: Node = {
+export const childNode2: NodeFromApi = {
   id: 3,
   name: "子ノード2",
   value: 200,
@@ -37,14 +37,14 @@ export const childNode2: Node = {
   parentId: 1,
 };
 
-export const childLayer: Layer = {
+export const childLayer: LayerFromApi = {
   id: 1,
   operation: "add",
   fraction: 0,
   parentNodeId: 1,
 };
 
-export const grandChildNode1: Node = {
+export const grandChildNode1: NodeFromApi = {
   id: 4,
   name: "孫ノード1",
   value: 1000,
@@ -54,7 +54,7 @@ export const grandChildNode1: Node = {
   parentId: 2,
 };
 
-export const grandChildNode2: Node = {
+export const grandChildNode2: NodeFromApi = {
   id: 5,
   name: "孫ノード2",
   value: 10,
@@ -64,14 +64,14 @@ export const grandChildNode2: Node = {
   parentId: 2,
 };
 
-export const grandChildLayer: Layer = {
+export const grandChildLayer: LayerFromApi = {
   id: 2,
   operation: "multiply",
   fraction: 0,
   parentNodeId: 2,
 };
 
-export const greatGrandChildNode1: Node = {
+export const greatGrandChildNode1: NodeFromApi = {
   id: 6,
   name: "ひ孫ノード1",
   value: 950,
@@ -81,7 +81,7 @@ export const greatGrandChildNode1: Node = {
   parentId: 4,
 };
 
-export const greatGrandChildNode2: Node = {
+export const greatGrandChildNode2: NodeFromApi = {
   id: 7,
   name: "ひ孫ノード2",
   value: 20,
@@ -91,7 +91,7 @@ export const greatGrandChildNode2: Node = {
   parentId: 4,
 };
 
-export const greatGrandChildNode3: Node = {
+export const greatGrandChildNode3: NodeFromApi = {
   id: 8,
   name: "ひ孫ノード3",
   value: 30,
@@ -101,14 +101,14 @@ export const greatGrandChildNode3: Node = {
   parentId: 4,
 };
 
-export const greatGrandChildLayer: Layer = {
+export const greatGrandChildLayer: LayerFromApi = {
   id: 3,
   operation: "add",
   fraction: 0,
   parentNodeId: 4,
 };
 
-export const treeData: TreeData = {
+export const treeData: TreeDataFromApi = {
   tree,
   nodes: [
     parentNode,

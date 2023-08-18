@@ -42,17 +42,26 @@ module Api
 
     def assign_nodes_attributes
       @nodes = tree_params[:nodes].map do |node_param|
-        node = @tree.nodes.find(node_param[:id])
-        node.assign_attributes(node_param.slice(:name, :value, :value_format, :unit, :is_value_locked))
+        node = if node_param[:id]
+                 @tree.nodes.find(node_param[:id])
+               else
+                 Node.new(tree_id: @tree.id)
+               end
+        node.assign_attributes(node_param.slice(:name, :value, :value_format, :unit, :is_value_locked, :parent_id))
         node
       end
     end
 
     def assign_layers_attributes
       @layers = tree_params[:layers].map do |layer_param|
-        layer = @tree.layers.find(layer_param[:id])
+        layer = if layer_param[:id]
+                  @tree.layers.find(layer_param[:id])
+                else
+                  Layer.new(tree_id: @tree.id)
+                end
         layer.operation = layer_param[:operation]
         layer.fraction = layer_param[:fraction] || 0
+        layer.parent_node_id = layer_param[:parent_node_id]
         layer
       end
     end

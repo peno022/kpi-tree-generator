@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import ToolArea from "@/components/trees/tool/ToolArea";
 import { TreeArea } from "@/components/trees/tree/TreeArea";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
-import { TreeData } from "@/types";
+import { TreeDataFromApi } from "@/types";
 import { ErrorBoundary } from "react-error-boundary";
 import { FallbackProps } from "react-error-boundary/dist/react-error-boundary";
 import keysToCamelCase from "@/keysToCamelCase";
@@ -11,7 +11,7 @@ import keysToCamelCase from "@/keysToCamelCase";
 const EditTreePage = () => {
   const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
 
-  const [treeData, setTreeData] = useState<TreeData>({
+  const [treeData, setTreeData] = useState<TreeDataFromApi>({
     tree: { id: 0, name: "" },
     nodes: [],
     layers: [],
@@ -57,7 +57,7 @@ const EditTreePage = () => {
     }
   };
 
-  const handleUpdateSuccess = (updatedTreeData: TreeData) => {
+  const handleUpdateSuccess = (updatedTreeData: TreeDataFromApi) => {
     setTreeData(updatedTreeData);
     setSelectedNodeIds([]);
   };

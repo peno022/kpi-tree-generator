@@ -4,7 +4,7 @@
 
 import { convertNodesToRawNodeDatum } from "@/convertNodesToRawNodeDatum";
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
-import { Node, Layer } from "@/types";
+import { NodeFromApi, LayerFromApi } from "@/types";
 import * as fixtures from "@spec/__fixtures__/sampleData";
 import { selectNodes } from "@/selectNodes";
 
@@ -17,14 +17,14 @@ const {
   grandChildNode2,
   grandChildLayer,
 } = fixtures;
-const nodes: Node[] = [
+const nodes: NodeFromApi[] = [
   parentNode,
   childNode1,
   childNode2,
   grandChildNode1,
   grandChildNode2,
 ];
-const layers: Layer[] = [childLayer, grandChildLayer];
+const layers: LayerFromApi[] = [childLayer, grandChildLayer];
 const rawNodeDatum = convertNodesToRawNodeDatum(nodes, layers);
 
 describe("selectNodes", () => {

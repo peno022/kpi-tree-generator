@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TreeData } from "@/types";
+import { TreeData, TreeDataFromApi } from "@/types";
 import keysToSnakeCase from "@/keysToSnakeCase";
 import keysToCamelCase from "@/keysToCamelCase";
 import nullifyParentNodeId from "@/nullifyParentNodeId";
@@ -7,7 +7,7 @@ import token from "@/token";
 
 export type TreeUpdateHook = {
   errorMessage: string | null;
-  sendUpdateRequest: (treeData: TreeData) => Promise<TreeData | null>;
+  sendUpdateRequest: (treeData: TreeData) => Promise<TreeDataFromApi | null>;
   setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
@@ -53,6 +53,7 @@ export const useTreeUpdate = (treeId: number): TreeUpdateHook => {
       }
     }
     const json = await response.json();
+    console.dir(json);
     return keysToCamelCase(json);
   };
 

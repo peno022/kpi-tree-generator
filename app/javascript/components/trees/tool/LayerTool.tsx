@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
-import { Node, Layer, TreeData } from "@/types";
+import { Node, Layer, NodeFromApi, TreeDataFromApi } from "@/types";
 import ToolMenu from "@/components/shared/ToolMenu";
 import Operations from "@/components/trees/tool/operationArea/Operations";
 import Calculation from "@/components/trees/tool/calculationArea/Calculation";
@@ -10,11 +10,11 @@ import { useTreeUpdate } from "@/hooks/useTreeUpdate";
 import AlertError from "@/components/shared/AlertError";
 
 type LayerToolProps = {
-  selectedNodes: Node[];
+  selectedNodes: NodeFromApi[];
   selectedLayer: Layer;
-  parentNode: Node;
-  onUpdateSuccess: (updatedTreeData: TreeData) => void;
-  treeData: TreeData;
+  parentNode: NodeFromApi;
+  onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
+  treeData: TreeDataFromApi;
 };
 
 export type LayerToolState = {
@@ -122,6 +122,28 @@ const LayerTool: React.FC<LayerToolProps> = ({
     });
   };
 
+  const addNode = () => {
+    const newNodes = [...layerProperty.nodes];
+    let initialValue: number;
+    if (layerProperty.layer.operation === "multiply") {
+      initialValue = 1;
+    } else {
+      initialValue = 0;
+    }
+    newNodes.push({
+      name: `要素${newNodes.length + 1}`,
+      value: initialValue,
+      unit: "",
+      valueFormat: "なし",
+      isValueLocked: false,
+      parentId: parentNode.id,
+    });
+    setlayerProperty({
+      ...layerProperty,
+      nodes: newNodes,
+    });
+  };
+
   const saveLayerProperty = async () => {
     const result = await sendUpdateRequest(
       propagateSelectedNodesChangesToTree(
@@ -174,7 +196,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
           </div>
           {layerProperty.nodes.map((node, index) => (
             <NodeDetail
-              key={node.id}
+              key={index}
               index={index}
               node={node}
               handleNodeInfoChange={handleNodeInfoChange}
@@ -182,7 +204,9 @@ const LayerTool: React.FC<LayerToolProps> = ({
             />
           ))}
           <div className="flex justify-center">
-            <button className="btn btn-sm btn-outline mt-2">要素を追加</button>
+            <button className="btn btn-sm btn-outline mt-2" onClick={addNode}>
+              要素を追加
+            </button>
           </div>
         </div>
         <div

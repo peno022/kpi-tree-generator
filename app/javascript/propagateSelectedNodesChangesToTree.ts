@@ -1,21 +1,25 @@
-import { Node, Layer, TreeData } from "@/types";
+import { Node, Layer, TreeData, TreeDataFromApi } from "@/types";
 import calculateParentNodeValue from "@/calculateParentNodeValue";
 
 export default function propagateSelectedNodesChangesToTree(
   selectedNodes: Node[],
   selectedLayer: Layer,
-  treeData: TreeData
+  treeData: TreeDataFromApi
 ): TreeData {
   const updatedTreeData: TreeData = JSON.parse(JSON.stringify(treeData));
 
   selectedNodes.forEach((node) => {
-    const updatedNode = updatedTreeData.nodes.find((n) => n.id === node.id);
-    if (!updatedNode) return;
-    updatedNode.name = node.name;
-    updatedNode.value = node.value;
-    updatedNode.valueFormat = node.valueFormat;
-    updatedNode.unit = node.unit;
-    updatedNode.isValueLocked = node.isValueLocked;
+    if (node.id === undefined || node.id === null) {
+      updatedTreeData.nodes.push(node);
+    } else {
+      const updatedNode = updatedTreeData.nodes.find((n) => n.id === node.id);
+      if (!updatedNode) return;
+      updatedNode.name = node.name;
+      updatedNode.value = node.value;
+      updatedNode.valueFormat = node.valueFormat;
+      updatedNode.unit = node.unit;
+      updatedNode.isValueLocked = node.isValueLocked;
+    }
   });
 
   const updatedLayer = updatedTreeData.layers.find(

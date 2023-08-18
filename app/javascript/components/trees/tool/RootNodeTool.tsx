@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
 import OpenModalButton from "@/components/shared/OpenModalButton";
-import { Node, TreeData } from "@/types";
+import { Node, NodeFromApi, TreeDataFromApi, TreeData } from "@/types";
 import { useTreeUpdate } from "@/hooks/useTreeUpdate";
 import AlertError from "@/components/shared/AlertError";
 
 type RootNodeToolProps = {
-  selectedRootNode: Node;
-  onUpdateSuccess: (updatedTreeData: TreeData) => void;
-  treeData: TreeData;
+  selectedRootNode: NodeFromApi;
+  onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
+  treeData: TreeDataFromApi;
 };
 
 const RootNodeTool: React.FC<RootNodeToolProps> = ({
@@ -33,6 +33,12 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
 
   const saveNodeInfo = async () => {
     setErrorMessage(null);
+    if (nodeInfo.id === undefined || nodeInfo.id === null) {
+      setErrorMessage(
+        "システムエラーが発生しました。画面を再読み込みしてもう一度お試しください。"
+      );
+      return;
+    }
     const newNodes = treeData.nodes.map((node) => {
       if (node.id === nodeInfo.id) {
         return nodeInfo;
