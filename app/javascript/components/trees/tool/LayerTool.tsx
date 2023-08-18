@@ -54,7 +54,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
 
   useEffect(() => {
     setlayerProperty({
-      ...layerProperty,
       nodes: selectedNodes,
       layer: selectedLayer,
     });

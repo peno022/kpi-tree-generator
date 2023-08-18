@@ -31,7 +31,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      expect_node_display(
+      expect_tree_node(
         name: 'ルート',
         display_value: '1000万円',
         is_value_locked: true,
@@ -39,7 +39,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         is_leaf: false
       )
 
-      expect_node_display(
+      expect_tree_node(
         name: '子1',
         display_value: '5000人',
         is_value_locked: false,
@@ -47,7 +47,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         is_leaf: true
       )
 
-      expect_node_display(
+      expect_tree_node(
         name: '子2',
         display_value: '2000円',
         is_value_locked: false,
@@ -81,14 +81,14 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      expect_node_display(
+      expect_tree_node(
         name: 'ルート',
         display_value: '1000万円',
         is_value_locked: true,
         operation: '',
         is_leaf: false
       )
-      expect_node_display(
+      expect_tree_node(
         name: '変更後のノード名1',
         display_value: '2千人（変更後）',
         is_value_locked: true,
@@ -96,7 +96,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         is_leaf: true
       )
 
-      expect_node_display(
+      expect_tree_node(
         name: '変更後のノード名2',
         display_value: '4000円（変更後）',
         is_value_locked: true,
@@ -114,7 +114,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      expect_node_display(
+      expect_tree_node(
         name: 'ルート',
         display_value: '1000万円',
         is_value_locked: true,
@@ -122,7 +122,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         is_leaf: false
       )
 
-      expect_node_display(
+      expect_tree_node(
         name: '子1',
         display_value: '5000人',
         is_value_locked: false,
@@ -130,7 +130,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         is_leaf: true
       )
 
-      expect_node_display(
+      expect_tree_node(
         name: '子2',
         display_value: '2000円',
         is_value_locked: false,
@@ -176,14 +176,14 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      expect_node_display(
+      expect_tree_node(
         name: 'ルート',
         display_value: '1000万円',
         is_value_locked: true,
         operation: '',
         is_leaf: false
       )
-      expect_node_display(
+      expect_tree_node(
         name: '子1\'',
         display_value: '2千人（変更後）',
         is_value_locked: true,
@@ -191,7 +191,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         is_leaf: true
       )
 
-      expect_node_display(
+      expect_tree_node(
         name: '子2\'',
         display_value: '4000円（変更後）',
         is_value_locked: true,
@@ -219,21 +219,21 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      expect_node_display(
+      expect_tree_node(
         name: 'ルート\'',
         display_value: '500千円\'',
         is_value_locked: false,
         operation: '',
         is_leaf: false
       )
-      expect_node_display(
+      expect_tree_node(
         name: '子1',
         display_value: '5000人',
         is_value_locked: false,
         operation: 'multiply',
         is_leaf: true
       )
-      expect_node_display(
+      expect_tree_node(
         name: '子2',
         display_value: '2000円',
         is_value_locked: false,
@@ -250,7 +250,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
 
-      expect_node_display(
+      expect_tree_node(
         name: '子1\'',
         display_value: '4千人',
         is_value_locked: false,
@@ -266,7 +266,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
 
-      expect_node_display(
+      expect_tree_node(
         name: '子1\'\'',
         display_value: '1.5万人',
         is_value_locked: false,
@@ -282,7 +282,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
 
-      expect_node_display(
+      expect_tree_node(
         name: '子1\'\'\'',
         display_value: '2500.1人',
         is_value_locked: false,
@@ -332,14 +332,14 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 選択したノードの更新に基づいて親ノードの値も更新されていること、さらにその親ノードはisValueLocked: true なので、値は変わらないことを確認
-      expect_node_display(
+      expect_tree_node(
         name: 'ルート',
         display_value: '1000万円', # isValueLocked: true なので、値は変わらない
         is_value_locked: true,
         operation: '',
         is_leaf: false
       )
-      expect_node_display(
+      expect_tree_node(
         name: '子1',
         display_value: '14500人', # 1万 + 2500 + 2000 に更新される
         is_value_locked: false,
@@ -372,7 +372,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('.modal-action label', text: '更新する').click
 
       # 更新後のツリー表示が想定どおりであることを確認
-      expect_node_display(
+      expect_tree_node(
         name: 'ルート\'',
         display_value: '500千円\'',
         is_value_locked: false,
@@ -436,21 +436,21 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       click_button '要素を追加'
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
-      expect_node_display(
+      expect_tree_node(
         name: '子1',
         display_value: '5000人',
         is_value_locked: false,
         operation: 'multiply',
         is_leaf: true
       )
-      expect_node_display(
+      expect_tree_node(
         name: '子2',
         display_value: '2000円',
         is_value_locked: false,
         operation: 'multiply',
         is_leaf: true
       )
-      expect_node_display(
+      expect_tree_node(
         name: '要素3',
         display_value: '1',
         is_value_locked: false,
@@ -485,21 +485,21 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
 
-      expect_node_display(
+      expect_tree_node(
         name: '変更後のノード名1',
         display_value: '2千人（変更後）',
         is_value_locked: true,
         operation: 'multiply',
         is_leaf: true
       )
-      expect_node_display(
+      expect_tree_node(
         name: '変更後のノード名2',
         display_value: '4000円（変更後）',
         is_value_locked: true,
         operation: 'multiply',
         is_leaf: true
       )
-      expect_node_display(
+      expect_tree_node(
         name: '変更後のノード名3',
         display_value: '0.1千円',
         is_value_locked: true,
@@ -507,31 +507,5 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         is_leaf: true
       )
     end
-  end
-end
-
-def expect_node_display(name:, display_value:, is_value_locked:, is_leaf:, operation: nil)
-  node_svg = if is_leaf
-               find('g > text', text: name).ancestor('g.rd3t-leaf-node')
-             else
-               find('g > text', text: name).ancestor('g.rd3t-node')
-             end
-  expect(node_svg).to have_text(display_value)
-  if is_value_locked
-    expect(node_svg).to have_css('svg.fa-lock')
-  else
-    expect(node_svg).not_to have_css('svg.fa-lock')
-  end
-  expect_operation_display(node_svg:, operation:) if operation.present?
-end
-
-def expect_operation_display(node_svg:, operation:)
-  case operation
-  when 'multiply'
-    expect(node_svg).to have_text('×').and have_no_text('＋')
-  when 'add'
-    expect(node_svg).to have_text('＋').and have_no_text('×')
-  else
-    expect(node_svg).to have_no_text('×').and have_no_text('＋')
   end
 end
