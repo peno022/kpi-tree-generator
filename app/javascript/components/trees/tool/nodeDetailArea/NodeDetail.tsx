@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import NodeField from "@/components/trees/tool/nodeDetailArea/NodeField";
 import { Node } from "@/types";
 import ToolMenu from "@/components/shared/ToolMenu";
+import useNodeDetailLogic from "@/hooks/useNodeDetailLogic";
 
 export type NodeDetailProps = {
   index: number;
@@ -9,156 +10,19 @@ export type NodeDetailProps = {
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
   setNodeValidationResult: (index: number, isValid: boolean) => void;
 };
-export interface FieldValidationResults {
-  name: boolean;
-  unit: boolean;
-  value: boolean;
-  valueFormat: boolean;
-  isValueLocked: boolean;
-}
-
-export interface validationErrors {
-  name: string;
-  unit: string;
-  value: string;
-  valueFormat: string;
-  isValueLocked: string;
-}
-
 const NodeDetail: React.FC<NodeDetailProps> = ({
   index,
   node,
   handleNodeInfoChange,
   setNodeValidationResult,
 }) => {
-  const [fieldValidationResults, setFieldValidationResults] =
-    useState<FieldValidationResults>({
-      name: true,
-      unit: true,
-      value: true,
-      valueFormat: true,
-      isValueLocked: true,
-    });
-
-  const [errors, setErrors] = useState<validationErrors>({
-    name: "",
-    unit: "",
-    value: "",
-    valueFormat: "",
-    isValueLocked: "",
-  });
-
-  useEffect(() => {
-    setNodeValidationResult(
+  const { fieldValidationResults, fieldValidationErrors, handleInputChange } =
+    useNodeDetailLogic(
       index,
-      Object.values(fieldValidationResults).every((result) => result)
+      node,
+      handleNodeInfoChange,
+      setNodeValidationResult
     );
-  }, [fieldValidationResults]);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const name = e.target.name;
-    let value: string | number | boolean;
-    if (e.target instanceof HTMLInputElement) {
-      value =
-        e.target.type === "checkbox" ? e.target.checked : e.target.value.trim();
-    } else {
-      value = e.target.value.trim();
-    }
-    const updatedNodeInfo = { ...node, [name]: value };
-    handleNodeInfoChange(index, updatedNodeInfo);
-    // バリデーションチェック
-    if (name === "name" || name === "value") {
-      if (value === null || value === "") {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          [name]: false,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          [name]: "必須項目です",
-        }));
-        return;
-      }
-    }
-    if (name === "value") {
-      if (isNaN(Number(value))) {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          [name]: false,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          [name]: "数値を入力してください",
-        }));
-        return;
-      }
-    }
-
-    if (name === "valueFormat") {
-      if (value === "%" && updatedNodeInfo.unit !== "") {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          unit: false,
-          valueFormat: false,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          unit: "％表示のときは単位を空にしてください",
-          valueFormat: "％表示のときは単位を空にしてください",
-        }));
-        return;
-      } else {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          unit: true,
-          valueFormat: true,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          unit: "",
-          valueFormat: "",
-        }));
-      }
-    }
-
-    if (name === "unit") {
-      if (value !== "" && updatedNodeInfo.valueFormat === "%") {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          unit: false,
-          valueFormat: false,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          unit: "％表示のときは単位を空にしてください",
-          valueFormat: "％表示のときは単位を空にしてください",
-        }));
-        return;
-      } else {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          unit: true,
-          valueFormat: true,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          unit: "",
-          valueFormat: "",
-        }));
-      }
-    }
-
-    setFieldValidationResults((prev) => ({
-      ...prev,
-      [name]: true,
-    }));
-    setErrors((prev) => ({
-      ...prev,
-      [name]: "",
-    }));
-  };
 
   return (
     <div className="relative">
@@ -187,7 +51,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             value={node.name}
             handleInputChange={handleInputChange}
             isValidField={fieldValidationResults.name}
-            errorMessage={errors.name}
+            errorMessage={fieldValidationErrors.name}
             index={index + 1}
           />
           <NodeField
@@ -197,7 +61,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             value={node.unit}
             handleInputChange={handleInputChange}
             isValidField={fieldValidationResults.unit}
-            errorMessage={errors.unit}
+            errorMessage={fieldValidationErrors.unit}
             index={index + 1}
           />
         </div>
@@ -209,7 +73,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             value={node.value}
             handleInputChange={handleInputChange}
             isValidField={fieldValidationResults.value}
-            errorMessage={errors.value}
+            errorMessage={fieldValidationErrors.value}
             index={index + 1}
           />
           <NodeField
@@ -219,7 +83,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             value={node.valueFormat}
             handleInputChange={handleInputChange}
             isValidField={fieldValidationResults.valueFormat}
-            errorMessage={errors.valueFormat}
+            errorMessage={fieldValidationErrors.valueFormat}
             index={index + 1}
           />
           <div className="ml-8">
@@ -230,7 +94,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
               checked={node.isValueLocked}
               handleInputChange={handleInputChange}
               isValidField={fieldValidationResults.isValueLocked}
-              errorMessage={errors.isValueLocked}
+              errorMessage={fieldValidationErrors.isValueLocked}
               index={index + 1}
             />
           </div>
