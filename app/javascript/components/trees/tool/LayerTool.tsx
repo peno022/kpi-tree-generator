@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
-import { Node, Layer, NodeFromApi, TreeDataFromApi } from "@/types";
+import { Layer, NodeFromApi, TreeDataFromApi } from "@/types";
 import ToolMenu from "@/components/shared/ToolMenu";
 import Operations from "@/components/trees/tool/operationArea/Operations";
 import Calculation from "@/components/trees/tool/calculationArea/Calculation";
@@ -8,6 +8,8 @@ import OpenModalButton from "@/components/shared/OpenModalButton";
 import propagateSelectedNodesChangesToTree from "@/propagateSelectedNodesChangesToTree";
 import { useTreeUpdate } from "@/hooks/useTreeUpdate";
 import AlertError from "@/components/shared/AlertError";
+import useValidationLogic from "@/hooks/useValidationLogic";
+import useLayerToolLogic from "@/hooks/useLayerToolLogic";
 
 type LayerToolProps = {
   selectedNodes: NodeFromApi[];
@@ -15,11 +17,6 @@ type LayerToolProps = {
   parentNode: NodeFromApi;
   onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
   treeData: TreeDataFromApi;
-};
-
-export type LayerToolState = {
-  nodes: Node[];
-  layer: Layer;
 };
 
 const LayerTool: React.FC<LayerToolProps> = ({
@@ -32,25 +29,35 @@ const LayerTool: React.FC<LayerToolProps> = ({
   const { errorMessage, sendUpdateRequest, setErrorMessage } = useTreeUpdate(
     treeData.tree.id
   );
-  const [layerProperty, setlayerProperty] = useState<LayerToolState>({
-    nodes: selectedNodes,
-    layer: selectedLayer,
-  });
-  const [inputFraction, setInputFraction] = useState<string>(
-    selectedLayer.fraction.toString()
-  );
-  const [nodeValidationResults, setNodeValidationResults] = useState<boolean[]>(
-    Array(selectedNodes.length).fill(true)
-  );
-  const [fractionValidation, setFractionValidation] = useState(true);
-  const [fractionErrorMessage, setFractionErrorMessage] = useState<
-    string | null
-  >(null);
-  const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(true);
 
-  const isAllValid = (results: boolean[]): boolean => {
-    return results.every((result) => result);
-  };
+  const {
+    setNodeValidationResults,
+    handleNodeValidationResultsChange,
+    fractionValidation,
+    setFractionValidation,
+    fractionErrorMessage,
+    setFractionErrorMessage,
+    useUpdateButtonStatus,
+  } = useValidationLogic(selectedNodes.length);
+
+  const isUpdateButtonDisabled = useUpdateButtonStatus();
+
+  const {
+    layerProperty,
+    setlayerProperty,
+    addNode,
+    handleNodeInfoChange,
+    handleOperationChange,
+    handleFractionChange,
+    inputFraction,
+    setInputFraction,
+  } = useLayerToolLogic(
+    selectedNodes,
+    selectedLayer,
+    parentNode,
+    setFractionValidation,
+    setFractionErrorMessage
+  );
 
   useEffect(() => {
     setlayerProperty({
@@ -63,85 +70,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
     setFractionErrorMessage(null);
     setErrorMessage(null);
   }, [selectedNodes, selectedLayer, parentNode]);
-
-  useEffect(() => {
-    setIsUpdateButtonDisabled(
-      !isAllValid(nodeValidationResults) || !fractionValidation
-    );
-  }, [nodeValidationResults, fractionValidation]);
-
-  const handleNodeInfoChange = (index: number, newNodeInfo: Node) => {
-    const newValues = [...layerProperty.nodes];
-    newValues[index] = newNodeInfo;
-    setlayerProperty({
-      ...layerProperty,
-      nodes: newValues,
-    });
-  };
-
-  const handleNodeValidationResultsChange = (
-    index: number,
-    isValid: boolean
-  ) => {
-    const newValues = [...nodeValidationResults];
-    newValues[index] = isValid;
-    setNodeValidationResults(newValues);
-  };
-
-  const handleOperationChange = (operation: "multiply" | "add") => {
-    const newLayerValues = { ...layerProperty.layer };
-    newLayerValues.operation = operation;
-    setlayerProperty({
-      ...layerProperty,
-      layer: newLayerValues,
-    });
-  };
-
-  const handleFractionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputFraction = e.target.value;
-    const newLayerValues = { ...layerProperty.layer };
-    setInputFraction(inputFraction);
-    const numericValue = Number(inputFraction);
-    if (isNaN(numericValue)) {
-      setFractionValidation(false);
-      setFractionErrorMessage("数値を入力してください");
-      newLayerValues.fraction = 0;
-      setlayerProperty({
-        ...layerProperty,
-        layer: newLayerValues,
-      });
-      return;
-    }
-    newLayerValues.fraction = numericValue;
-    setFractionValidation(true);
-    setFractionErrorMessage(null);
-    setlayerProperty({
-      ...layerProperty,
-      layer: newLayerValues,
-    });
-  };
-
-  const addNode = () => {
-    const newNodes = [...layerProperty.nodes];
-    let initialValue: number;
-    if (layerProperty.layer.operation === "multiply") {
-      initialValue = 1;
-    } else {
-      initialValue = 0;
-    }
-    newNodes.push({
-      name: `要素${newNodes.length + 1}`,
-      value: initialValue,
-      unit: "",
-      valueFormat: "なし",
-      isValueLocked: false,
-      parentId: parentNode.id,
-    });
-    setlayerProperty({
-      ...layerProperty,
-      nodes: newNodes,
-    });
-  };
 
   const saveLayerProperty = async () => {
     const result = await sendUpdateRequest(
