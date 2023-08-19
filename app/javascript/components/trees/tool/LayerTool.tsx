@@ -8,7 +8,6 @@ import OpenModalButton from "@/components/shared/OpenModalButton";
 import propagateSelectedNodesChangesToTree from "@/propagateSelectedNodesChangesToTree";
 import { useTreeUpdate } from "@/hooks/useTreeUpdate";
 import AlertError from "@/components/shared/AlertError";
-import useValidationLogic from "@/hooks/useValidationLogic";
 import useLayerToolLogic from "@/hooks/useLayerToolLogic";
 
 type LayerToolProps = {
@@ -31,18 +30,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
   );
 
   const {
-    setNodeValidationResults,
-    handleNodeValidationResultsChange,
-    fractionValidation,
-    setFractionValidation,
-    fractionErrorMessage,
-    setFractionErrorMessage,
-    useUpdateButtonStatus,
-  } = useValidationLogic(selectedNodes.length);
-
-  const isUpdateButtonDisabled = useUpdateButtonStatus();
-
-  const {
     layerProperty,
     setlayerProperty,
     addNode,
@@ -51,13 +38,17 @@ const LayerTool: React.FC<LayerToolProps> = ({
     handleFractionChange,
     inputFraction,
     setInputFraction,
-  } = useLayerToolLogic(
-    selectedNodes,
-    selectedLayer,
-    parentNode,
-    setFractionValidation,
-    setFractionErrorMessage
-  );
+    fieldValidationResults,
+    fieldValidationErrors,
+    fractionValidation,
+    fractionErrorMessage,
+    useUpdateButtonStatus,
+    handleFieldValidationResultsChange,
+    handleFieldValidationErrorsChange,
+    resetValidationResults,
+  } = useLayerToolLogic(selectedNodes, selectedLayer, parentNode);
+
+  const isUpdateButtonDisabled = useUpdateButtonStatus();
 
   useEffect(() => {
     setlayerProperty({
@@ -65,9 +56,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
       layer: selectedLayer,
     });
     setInputFraction(selectedLayer.fraction.toString());
-    setFractionValidation(true);
-    setNodeValidationResults(Array(selectedNodes.length).fill(true));
-    setFractionErrorMessage(null);
+    resetValidationResults(selectedNodes.length);
     setErrorMessage(null);
   }, [selectedNodes, selectedLayer, parentNode]);
 
@@ -127,7 +116,14 @@ const LayerTool: React.FC<LayerToolProps> = ({
               index={index}
               node={node}
               handleNodeInfoChange={handleNodeInfoChange}
-              setNodeValidationResult={handleNodeValidationResultsChange}
+              fieldValidationResults={fieldValidationResults[index]}
+              fieldValidationErrors={fieldValidationErrors[index]}
+              handleFieldValidationResultsChange={
+                handleFieldValidationResultsChange
+              }
+              handleFieldValidationErrorsChange={
+                handleFieldValidationErrorsChange
+              }
             />
           ))}
           <div className="flex justify-center">

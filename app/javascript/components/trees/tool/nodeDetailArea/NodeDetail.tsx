@@ -1,6 +1,6 @@
 import React from "react";
 import NodeField from "@/components/trees/tool/nodeDetailArea/NodeField";
-import { Node } from "@/types";
+import { Node, FieldValidationResults, FieldValidationErrors } from "@/types";
 import ToolMenu from "@/components/shared/ToolMenu";
 import useNodeDetailLogic from "@/hooks/useNodeDetailLogic";
 
@@ -8,21 +8,35 @@ export type NodeDetailProps = {
   index: number;
   node: Node;
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
-  setNodeValidationResult: (index: number, isValid: boolean) => void;
+  fieldValidationResults: FieldValidationResults;
+  fieldValidationErrors: FieldValidationErrors;
+  handleFieldValidationResultsChange: (
+    index: number,
+    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
+    isValid: boolean
+  ) => void;
+  handleFieldValidationErrorsChange: (
+    index: number,
+    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
+    errorMessage: string
+  ) => void;
 };
 const NodeDetail: React.FC<NodeDetailProps> = ({
   index,
   node,
   handleNodeInfoChange,
-  setNodeValidationResult,
+  fieldValidationResults,
+  fieldValidationErrors,
+  handleFieldValidationResultsChange,
+  handleFieldValidationErrorsChange,
 }) => {
-  const { fieldValidationResults, fieldValidationErrors, handleInputChange } =
-    useNodeDetailLogic(
-      index,
-      node,
-      handleNodeInfoChange,
-      setNodeValidationResult
-    );
+  const { handleInputChange } = useNodeDetailLogic(
+    index,
+    node,
+    handleNodeInfoChange,
+    handleFieldValidationResultsChange,
+    handleFieldValidationErrorsChange
+  );
 
   return (
     <div className="relative">

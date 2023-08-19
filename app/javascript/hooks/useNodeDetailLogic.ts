@@ -1,56 +1,35 @@
-import { useState, useEffect } from "react";
 import { Node } from "@/types";
-
-export interface FieldValidationResults {
-  name: boolean;
-  unit: boolean;
-  value: boolean;
-  valueFormat: boolean;
-  isValueLocked: boolean;
-}
-
-export interface FieldValidationErrors {
-  name: string;
-  unit: string;
-  value: string;
-  valueFormat: string;
-  isValueLocked: string;
-}
 
 const useNodeDetailLogic = (
   index: number,
   node: Node,
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void,
-  setNodeValidationResult: (index: number, isValid: boolean) => void
+  handleFieldValidationResultsChange: (
+    index: number,
+    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
+    isValid: boolean
+  ) => void,
+  handleFieldValidationErrorsChange: (
+    index: number,
+    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
+    errorMessage: string
+  ) => void
 ) => {
-  const [fieldValidationResults, setFieldValidationResults] =
-    useState<FieldValidationResults>({
-      name: true,
-      unit: true,
-      value: true,
-      valueFormat: true,
-      isValueLocked: true,
-    });
-
-  const [fieldValidationErrors, setErrors] = useState<FieldValidationErrors>({
-    name: "",
-    unit: "",
-    value: "",
-    valueFormat: "",
-    isValueLocked: "",
-  });
-
-  useEffect(() => {
-    setNodeValidationResult(
-      index,
-      Object.values(fieldValidationResults).every((result) => result)
-    );
-  }, [fieldValidationResults]);
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const name = e.target.name;
+    if (
+      !(
+        name === "name" ||
+        name === "unit" ||
+        name === "value" ||
+        name === "valueFormat" ||
+        name === "isValueLocked"
+      )
+    ) {
+      return;
+    }
     let value: string | number | boolean;
     if (e.target instanceof HTMLInputElement) {
       value =
@@ -63,98 +42,74 @@ const useNodeDetailLogic = (
     // バリデーションチェック
     if (name === "name" || name === "value") {
       if (value === null || value === "") {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          [name]: false,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          [name]: "必須項目です",
-        }));
+        handleFieldValidationResultsChange(index, name, false);
+        handleFieldValidationErrorsChange(index, name, "必須項目です");
         return;
       }
     }
     if (name === "value") {
       if (isNaN(Number(value))) {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          [name]: false,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          [name]: "数値を入力してください",
-        }));
+        handleFieldValidationResultsChange(index, name, false);
+        handleFieldValidationErrorsChange(
+          index,
+          name,
+          "数値を入力してください"
+        );
         return;
       }
     }
 
     if (name === "valueFormat") {
       if (value === "%" && updatedNodeInfo.unit !== "") {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          unit: false,
-          valueFormat: false,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          unit: "％表示のときは単位を空にしてください",
-          valueFormat: "％表示のときは単位を空にしてください",
-        }));
+        handleFieldValidationResultsChange(index, "unit", false);
+        handleFieldValidationResultsChange(index, "valueFormat", false);
+        handleFieldValidationErrorsChange(
+          index,
+          "unit",
+          "％表示のときは単位を空にしてください"
+        );
+        handleFieldValidationErrorsChange(
+          index,
+          "valueFormat",
+          "％表示のときは単位を空にしてください"
+        );
         return;
       } else {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          unit: true,
-          valueFormat: true,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          unit: "",
-          valueFormat: "",
-        }));
+        handleFieldValidationResultsChange(index, "unit", true);
+        handleFieldValidationResultsChange(index, "valueFormat", true);
+        handleFieldValidationErrorsChange(index, "unit", "");
+        handleFieldValidationErrorsChange(index, "valueFormat", "");
       }
     }
 
     if (name === "unit") {
       if (value !== "" && updatedNodeInfo.valueFormat === "%") {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          unit: false,
-          valueFormat: false,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          unit: "％表示のときは単位を空にしてください",
-          valueFormat: "％表示のときは単位を空にしてください",
-        }));
+        handleFieldValidationResultsChange(index, "unit", false);
+        handleFieldValidationResultsChange(index, "valueFormat", false);
+        handleFieldValidationErrorsChange(
+          index,
+          "unit",
+          "％表示のときは単位を空にしてください"
+        );
+        handleFieldValidationErrorsChange(
+          index,
+          "valueFormat",
+          "％表示のときは単位を空にしてください"
+        );
         return;
       } else {
-        setFieldValidationResults((prev) => ({
-          ...prev,
-          unit: true,
-          valueFormat: true,
-        }));
-        setErrors((prev) => ({
-          ...prev,
-          unit: "",
-          valueFormat: "",
-        }));
+        handleFieldValidationResultsChange(index, "unit", true);
+        handleFieldValidationResultsChange(index, "valueFormat", true);
+        handleFieldValidationErrorsChange(index, "unit", "");
+        handleFieldValidationErrorsChange(index, "valueFormat", "");
       }
     }
 
-    setFieldValidationResults((prev) => ({
-      ...prev,
-      [name]: true,
-    }));
-    setErrors((prev) => ({
-      ...prev,
-      [name]: "",
-    }));
+    handleFieldValidationResultsChange(index, name, true);
+    handleFieldValidationErrorsChange(index, name, "");
   };
 
   return {
-    fieldValidationResults,
-    fieldValidationErrors,
     handleInputChange,
   };
 };

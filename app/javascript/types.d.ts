@@ -76,3 +76,19 @@ export type TreeData = {
   nodes: Node[];
   layers: Layer[];
 };
+
+export interface FieldValidationResults {
+  name: boolean;
+  unit: boolean;
+  value: boolean;
+  valueFormat: boolean;
+  isValueLocked: boolean;
+}
+
+export interface FieldValidationErrors {
+  name: string;
+  unit: string;
+  value: string;
+  valueFormat: string;
+  isValueLocked: string;
+}
