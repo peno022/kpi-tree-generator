@@ -9,6 +9,7 @@ import propagateSelectedNodesChangesToTree from "@/propagateSelectedNodesChanges
 import { useTreeUpdate } from "@/hooks/useTreeUpdate";
 import AlertError from "@/components/shared/AlertError";
 import useLayerToolLogic from "@/hooks/useLayerToolLogic";
+import useUpdateButtonStatus from "@/hooks/useUpdateButtonStatus";
 
 type LayerToolProps = {
   selectedNodes: NodeFromApi[];
@@ -42,13 +43,16 @@ const LayerTool: React.FC<LayerToolProps> = ({
     fieldValidationErrors,
     fractionValidation,
     fractionErrorMessage,
-    useUpdateButtonStatus,
     handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange,
     resetValidationResults,
   } = useLayerToolLogic(selectedNodes, selectedLayer, parentNode);
 
-  const isUpdateButtonDisabled = useUpdateButtonStatus();
+  const isUpdateButtonDisabled = useUpdateButtonStatus(
+    fieldValidationResults,
+    false,
+    fractionValidation
+  );
 
   useEffect(() => {
     setlayerProperty({

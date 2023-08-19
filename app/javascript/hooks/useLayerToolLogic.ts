@@ -1,11 +1,6 @@
-import { useState, useEffect } from "react";
-import {
-  Node,
-  Layer,
-  NodeFromApi,
-  FieldValidationResults,
-  FieldValidationErrors,
-} from "@/types";
+import { useState } from "react";
+import useFieldValidation from "@/hooks/useFieldValidation";
+import { Node, Layer, NodeFromApi } from "@/types";
 
 const useLayerToolLogic = (
   selectedNodes: NodeFromApi[],
@@ -66,6 +61,15 @@ const useLayerToolLogic = (
     });
   };
 
+  const {
+    fieldValidationResults,
+    fieldValidationErrors,
+    handleFieldValidationResultsChange,
+    handleFieldValidationErrorsChange,
+    setFieldValidationErrors,
+    setFieldValidationResults,
+  } = useFieldValidation(layerProperty.nodes.length);
+
   const addNode = () => {
     let initialValue: number;
     if (layerProperty.layer.operation === "multiply") {
@@ -114,75 +118,10 @@ const useLayerToolLogic = (
     ]);
   };
 
-  const [fieldValidationResults, setFieldValidationResults] = useState<
-    FieldValidationResults[]
-  >(
-    Array(layerProperty.nodes.length).fill({
-      name: true,
-      unit: true,
-      value: true,
-      valueFormat: true,
-      isValueLocked: true,
-    })
-  );
-
-  const [fieldValidationErrors, setFieldValidationErrors] = useState<
-    FieldValidationErrors[]
-  >(
-    Array(layerProperty.nodes.length).fill({
-      name: "",
-      unit: "",
-      value: "",
-      valueFormat: "",
-      isValueLocked: "",
-    })
-  );
-  const handleFieldValidationResultsChange: (
-    index: number,
-    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
-    isValid: boolean
-  ) => void = (index, fieldName, isValid) => {
-    const newResults = [...fieldValidationResults];
-    newResults[index] = { ...newResults[index], [fieldName]: isValid };
-    setFieldValidationResults(newResults);
-  };
-
-  const handleFieldValidationErrorsChange: (
-    index: number,
-    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
-    errorMessage: string
-  ) => void = (index, fieldName, errorMessage) => {
-    const newFieldValidationErrors = [...fieldValidationErrors];
-    newFieldValidationErrors[index] = {
-      ...newFieldValidationErrors[index],
-      [fieldName]: errorMessage,
-    };
-    setFieldValidationErrors(newFieldValidationErrors);
-  };
-
   const [fractionValidation, setFractionValidation] = useState(true);
   const [fractionErrorMessage, setFractionErrorMessage] = useState<
     string | null
   >(null);
-
-  const useUpdateButtonStatus = () => {
-    const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(true);
-    const areAllFieldValidationsTrue = (
-      fieldValidationResults: FieldValidationResults[]
-    ): boolean => {
-      return fieldValidationResults.every((result) => {
-        return Object.values(result).every((property) => property === true);
-      });
-    };
-
-    useEffect(() => {
-      setIsUpdateButtonDisabled(
-        !areAllFieldValidationsTrue(fieldValidationResults) ||
-          !fractionValidation
-      );
-    }, [fieldValidationResults, fractionValidation]);
-    return isUpdateButtonDisabled;
-  };
 
   const resetValidationResults = (length: number) => {
     setFieldValidationResults(
@@ -220,7 +159,6 @@ const useLayerToolLogic = (
     fieldValidationErrors,
     fractionValidation,
     fractionErrorMessage,
-    useUpdateButtonStatus,
     handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange,
     resetValidationResults,
