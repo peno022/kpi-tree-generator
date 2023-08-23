@@ -77,14 +77,6 @@ export type TreeData = {
   layers: Layer[];
 };
 
-export interface FieldValidationResults {
-  name: boolean;
-  unit: boolean;
-  value: boolean;
-  valueFormat: boolean;
-  isValueLocked: boolean;
-}
-
 export interface FieldValidationErrors {
   name: string;
   unit: string;

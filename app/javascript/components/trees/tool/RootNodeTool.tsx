@@ -25,14 +25,12 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
   const {
     nodeInfo,
     handleNodeInfoChange,
-    fieldValidationResults,
     fieldValidationErrors,
-    handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange,
   } = useRootNodeToolLogic(selectedRootNode);
 
   const isUpdateButtonDisabled = useUpdateButtonStatus(
-    fieldValidationResults,
+    fieldValidationErrors,
     true
   );
 
@@ -69,11 +67,7 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
             index={0}
             node={nodeInfo}
             handleNodeInfoChange={handleNodeInfoChange}
-            fieldValidationResults={fieldValidationResults[0]}
             fieldValidationErrors={fieldValidationErrors[0]}
-            handleFieldValidationResultsChange={
-              handleFieldValidationResultsChange
-            }
             handleFieldValidationErrorsChange={
               handleFieldValidationErrorsChange
             }

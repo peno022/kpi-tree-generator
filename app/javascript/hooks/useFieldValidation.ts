@@ -1,23 +1,7 @@
 import { useState } from "react";
-import {
-  FieldValidationResults,
-  FieldValidationErrors,
-  FieldValidationError,
-} from "@/types";
+import { FieldValidationErrors, FieldValidationError } from "@/types";
 
 const useFieldValidation = (initialNodesLength: number) => {
-  const [fieldValidationResults, setFieldValidationResults] = useState<
-    FieldValidationResults[]
-  >(
-    Array(initialNodesLength).fill({
-      name: true,
-      unit: true,
-      value: true,
-      valueFormat: true,
-      isValueLocked: true,
-    })
-  );
-
   const [fieldValidationErrors, setFieldValidationErrors] = useState<
     FieldValidationErrors[]
   >(
@@ -29,15 +13,6 @@ const useFieldValidation = (initialNodesLength: number) => {
       isValueLocked: "",
     })
   );
-  const handleFieldValidationResultsChange: (
-    index: number,
-    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
-    isValid: boolean
-  ) => void = (index, fieldName, isValid) => {
-    const newResults = [...fieldValidationResults];
-    newResults[index] = { ...newResults[index], [fieldName]: isValid };
-    setFieldValidationResults(newResults);
-  };
 
   const handleFieldValidationErrorsChange: (
     errors: FieldValidationError[]
@@ -54,12 +29,9 @@ const useFieldValidation = (initialNodesLength: number) => {
   };
 
   return {
-    fieldValidationResults,
     fieldValidationErrors,
-    handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange,
     setFieldValidationErrors,
-    setFieldValidationResults,
   };
 };
 

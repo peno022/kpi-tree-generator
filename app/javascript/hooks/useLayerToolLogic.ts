@@ -62,12 +62,9 @@ const useLayerToolLogic = (
   };
 
   const {
-    fieldValidationResults,
     fieldValidationErrors,
-    handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange,
     setFieldValidationErrors,
-    setFieldValidationResults,
   } = useFieldValidation(layerProperty.nodes.length);
 
   const addNode = () => {
@@ -107,10 +104,10 @@ const useLayerToolLogic = (
       nodes: [...prevLayerProperty.nodes, newNode],
     }));
 
-    setFieldValidationResults((prevResults) => [
-      ...prevResults,
-      newFieldValidationResult,
-    ]);
+    // setFieldValidationResults((prevResults) => [
+    //   ...prevResults,
+    //   newFieldValidationResult,
+    // ]);
 
     setFieldValidationErrors((prevErrors) => [
       ...prevErrors,
@@ -124,15 +121,15 @@ const useLayerToolLogic = (
   >(null);
 
   const resetValidationResults = (length: number) => {
-    setFieldValidationResults(
-      Array(length).fill({
-        name: true,
-        unit: true,
-        value: true,
-        valueFormat: true,
-        isValueLocked: true,
-      })
-    );
+    // setFieldValidationResults(
+    //   Array(length).fill({
+    //     name: true,
+    //     unit: true,
+    //     value: true,
+    //     valueFormat: true,
+    //     isValueLocked: true,
+    //   })
+    // );
     setFieldValidationErrors(
       Array(length).fill({
         name: "",
@@ -155,11 +152,9 @@ const useLayerToolLogic = (
     handleFractionChange,
     inputFraction,
     setInputFraction,
-    fieldValidationResults,
     fieldValidationErrors,
     fractionValidation,
     fractionErrorMessage,
-    handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange,
     resetValidationResults,
   };

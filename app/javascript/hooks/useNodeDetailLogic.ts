@@ -4,11 +4,6 @@ const useNodeDetailLogic = (
   index: number,
   node: Node,
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void,
-  handleFieldValidationResultsChange: (
-    index: number,
-    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
-    isValid: boolean
-  ) => void,
   handleFieldValidationErrorsChange: (errors: FieldValidationError[]) => void
 ) => {
   const handleInputChange = (
@@ -38,7 +33,6 @@ const useNodeDetailLogic = (
     // バリデーションチェック
     if (name === "name" || name === "value") {
       if (value === null || value === "") {
-        handleFieldValidationResultsChange(index, name, false);
         handleFieldValidationErrorsChange([
           { index: index, fieldName: name, errorMessage: "必須項目です" },
         ]);
@@ -47,7 +41,6 @@ const useNodeDetailLogic = (
     }
     if (name === "value") {
       if (isNaN(Number(value))) {
-        handleFieldValidationResultsChange(index, name, false);
         handleFieldValidationErrorsChange([
           {
             index: index,
@@ -61,8 +54,6 @@ const useNodeDetailLogic = (
 
     if (name === "valueFormat") {
       if (value === "%" && updatedNodeInfo.unit !== "") {
-        handleFieldValidationResultsChange(index, "unit", false);
-        handleFieldValidationResultsChange(index, "valueFormat", false);
         handleFieldValidationErrorsChange([
           {
             index: index,
@@ -77,8 +68,6 @@ const useNodeDetailLogic = (
         ]);
         return;
       } else {
-        handleFieldValidationResultsChange(index, "unit", true);
-        handleFieldValidationResultsChange(index, "valueFormat", true);
         handleFieldValidationErrorsChange([
           {
             index: index,
@@ -96,8 +85,6 @@ const useNodeDetailLogic = (
 
     if (name === "unit") {
       if (value !== "" && updatedNodeInfo.valueFormat === "%") {
-        handleFieldValidationResultsChange(index, "unit", false);
-        handleFieldValidationResultsChange(index, "valueFormat", false);
         handleFieldValidationErrorsChange([
           {
             index: index,
@@ -112,8 +99,6 @@ const useNodeDetailLogic = (
         ]);
         return;
       } else {
-        handleFieldValidationResultsChange(index, "unit", true);
-        handleFieldValidationResultsChange(index, "valueFormat", true);
         handleFieldValidationErrorsChange([
           {
             index: index,
@@ -128,15 +113,8 @@ const useNodeDetailLogic = (
         ]);
       }
     }
-
-    handleFieldValidationResultsChange(index, name, true);
-
     handleFieldValidationErrorsChange([
-      { index: index, fieldName: "name", errorMessage: "" },
-      { index: index, fieldName: "unit", errorMessage: "" },
-      { index: index, fieldName: "value", errorMessage: "" },
-      { index: index, fieldName: "valueFormat", errorMessage: "" },
-      { index: index, fieldName: "isValueLocked", errorMessage: "" },
+      { index: index, fieldName: name, errorMessage: "" },
     ]);
   };
 

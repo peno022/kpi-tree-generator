@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
-import { FieldValidationResults, FieldValidationErrors } from "@/types";
+import { FieldValidationErrors } from "@/types";
 
 const useUpdateButtonStatus = (
-  fieldValidationResults: FieldValidationResults[],
+  fieldValidationErrors: FieldValidationErrors[],
   isRoot: boolean,
   fractionValidation?: boolean
 ) => {
   const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(true);
 
   useEffect(() => {
-    const areAllFieldValidationsTrue = fieldValidationResults.every(
-      (result) => {
-        return Object.values(result).every((property) => property === true);
-      }
-    );
+    const areAllFieldValidationsTrue = fieldValidationErrors.every((result) => {
+      return Object.values(result).every((property) => property === "");
+    });
     if (isRoot) {
       setIsUpdateButtonDisabled(!areAllFieldValidationsTrue);
       return;
@@ -21,7 +19,7 @@ const useUpdateButtonStatus = (
     setIsUpdateButtonDisabled(
       !areAllFieldValidationsTrue || !fractionValidation
     );
-  }, [fieldValidationResults, fractionValidation]);
+  }, [fieldValidationErrors, fractionValidation]);
 
   return isUpdateButtonDisabled;
 };

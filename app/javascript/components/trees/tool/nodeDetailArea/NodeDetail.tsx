@@ -1,11 +1,6 @@
 import React from "react";
 import NodeField from "@/components/trees/tool/nodeDetailArea/NodeField";
-import {
-  Node,
-  FieldValidationResults,
-  FieldValidationErrors,
-  FieldValidationError,
-} from "@/types";
+import { Node, FieldValidationErrors, FieldValidationError } from "@/types";
 import ToolMenu from "@/components/shared/ToolMenu";
 import useNodeDetailLogic from "@/hooks/useNodeDetailLogic";
 
@@ -13,29 +8,20 @@ export type NodeDetailProps = {
   index: number;
   node: Node;
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
-  fieldValidationResults: FieldValidationResults;
   fieldValidationErrors: FieldValidationErrors;
-  handleFieldValidationResultsChange: (
-    index: number,
-    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
-    isValid: boolean
-  ) => void;
   handleFieldValidationErrorsChange: (errors: FieldValidationError[]) => void;
 };
 const NodeDetail: React.FC<NodeDetailProps> = ({
   index,
   node,
   handleNodeInfoChange,
-  fieldValidationResults,
   fieldValidationErrors,
-  handleFieldValidationResultsChange,
   handleFieldValidationErrorsChange,
 }) => {
   const { handleInputChange } = useNodeDetailLogic(
     index,
     node,
     handleNodeInfoChange,
-    handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange
   );
 
@@ -65,7 +51,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             label="名前"
             value={node.name}
             handleInputChange={handleInputChange}
-            isValidField={fieldValidationResults.name}
+            isValidField={fieldValidationErrors.name === ""}
             errorMessage={fieldValidationErrors.name}
             index={index + 1}
           />
@@ -75,7 +61,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             label="単位"
             value={node.unit}
             handleInputChange={handleInputChange}
-            isValidField={fieldValidationResults.unit}
+            isValidField={fieldValidationErrors.unit === ""}
             errorMessage={fieldValidationErrors.unit}
             index={index + 1}
           />
@@ -87,7 +73,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             label="数値"
             value={node.value}
             handleInputChange={handleInputChange}
-            isValidField={fieldValidationResults.value}
+            isValidField={fieldValidationErrors.value === ""}
             errorMessage={fieldValidationErrors.value}
             index={index + 1}
           />
@@ -97,7 +83,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             label="表示形式"
             value={node.valueFormat}
             handleInputChange={handleInputChange}
-            isValidField={fieldValidationResults.valueFormat}
+            isValidField={fieldValidationErrors.valueFormat === ""}
             errorMessage={fieldValidationErrors.valueFormat}
             index={index + 1}
           />
@@ -108,7 +94,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
               label="数値を自動更新しない"
               checked={node.isValueLocked}
               handleInputChange={handleInputChange}
-              isValidField={fieldValidationResults.isValueLocked}
+              isValidField={fieldValidationErrors.isValueLocked === ""}
               errorMessage={fieldValidationErrors.isValueLocked}
               index={index + 1}
             />

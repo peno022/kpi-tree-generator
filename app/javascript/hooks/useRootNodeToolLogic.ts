@@ -5,12 +5,8 @@ import useFieldValidation from "@/hooks/useFieldValidation";
 const useRootNodeToolLogic = (selectedRootNode: NodeFromApi) => {
   const [nodeInfo, setNodeInfo] = useState<Node>(selectedRootNode);
 
-  const {
-    fieldValidationResults,
-    fieldValidationErrors,
-    handleFieldValidationResultsChange,
-    handleFieldValidationErrorsChange,
-  } = useFieldValidation(1);
+  const { fieldValidationErrors, handleFieldValidationErrorsChange } =
+    useFieldValidation(1);
 
   const handleNodeInfoChange = (_index = 0, newNodeInfo: Node) => {
     setNodeInfo(newNodeInfo);
@@ -19,9 +15,7 @@ const useRootNodeToolLogic = (selectedRootNode: NodeFromApi) => {
   return {
     nodeInfo,
     handleNodeInfoChange,
-    fieldValidationResults,
     fieldValidationErrors,
-    handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange,
   };
 };

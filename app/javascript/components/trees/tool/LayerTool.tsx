@@ -39,17 +39,15 @@ const LayerTool: React.FC<LayerToolProps> = ({
     handleFractionChange,
     inputFraction,
     setInputFraction,
-    fieldValidationResults,
     fieldValidationErrors,
     fractionValidation,
     fractionErrorMessage,
-    handleFieldValidationResultsChange,
     handleFieldValidationErrorsChange,
     resetValidationResults,
   } = useLayerToolLogic(selectedNodes, selectedLayer, parentNode);
 
   const isUpdateButtonDisabled = useUpdateButtonStatus(
-    fieldValidationResults,
+    fieldValidationErrors,
     false,
     fractionValidation
   );
@@ -120,11 +118,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
               index={index}
               node={node}
               handleNodeInfoChange={handleNodeInfoChange}
-              fieldValidationResults={fieldValidationResults[index]}
               fieldValidationErrors={fieldValidationErrors[index]}
-              handleFieldValidationResultsChange={
-                handleFieldValidationResultsChange
-              }
               handleFieldValidationErrorsChange={
                 handleFieldValidationErrorsChange
               }
