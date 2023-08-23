@@ -31,16 +31,24 @@ const useNodeDetailLogic = (
     const updatedNodeInfo = { ...node, [name]: value };
     handleNodeInfoChange(index, updatedNodeInfo);
     // バリデーションチェック
-    if (name === "name" || name === "value") {
+    if (name === "name") {
+      if (value === null || value === "") {
+        handleFieldValidationErrorsChange([
+          { index: index, fieldName: "name", errorMessage: "必須項目です" },
+        ]);
+      } else {
+        handleFieldValidationErrorsChange([
+          { index: index, fieldName: "name", errorMessage: "" },
+        ]);
+      }
+      return;
+    }
+    if (name === "value") {
       if (value === null || value === "") {
         handleFieldValidationErrorsChange([
           { index: index, fieldName: name, errorMessage: "必須項目です" },
         ]);
-        return;
-      }
-    }
-    if (name === "value") {
-      if (isNaN(Number(value))) {
+      } else if (isNaN(Number(value))) {
         handleFieldValidationErrorsChange([
           {
             index: index,
@@ -48,8 +56,12 @@ const useNodeDetailLogic = (
             errorMessage: "数値を入力してください",
           },
         ]);
-        return;
+      } else {
+        handleFieldValidationErrorsChange([
+          { index: index, fieldName: name, errorMessage: "" },
+        ]);
       }
+      return;
     }
 
     if (name === "valueFormat") {
@@ -66,7 +78,6 @@ const useNodeDetailLogic = (
             errorMessage: "％表示のときは単位を空にしてください",
           },
         ]);
-        return;
       } else {
         handleFieldValidationErrorsChange([
           {
@@ -81,6 +92,7 @@ const useNodeDetailLogic = (
           },
         ]);
       }
+      return;
     }
 
     if (name === "unit") {
@@ -97,7 +109,6 @@ const useNodeDetailLogic = (
             errorMessage: "％表示のときは単位を空にしてください",
           },
         ]);
-        return;
       } else {
         handleFieldValidationErrorsChange([
           {
@@ -112,6 +123,7 @@ const useNodeDetailLogic = (
           },
         ]);
       }
+      return;
     }
     handleFieldValidationErrorsChange([
       { index: index, fieldName: name, errorMessage: "" },
