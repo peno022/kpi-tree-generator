@@ -83,14 +83,6 @@ const useLayerToolLogic = (
       parentId: parentNode.id,
     };
 
-    const newFieldValidationResult = {
-      name: true,
-      unit: true,
-      value: true,
-      valueFormat: true,
-      isValueLocked: true,
-    };
-
     const newFieldValidationError = {
       name: "",
       unit: "",
@@ -104,11 +96,6 @@ const useLayerToolLogic = (
       nodes: [...prevLayerProperty.nodes, newNode],
     }));
 
-    // setFieldValidationResults((prevResults) => [
-    //   ...prevResults,
-    //   newFieldValidationResult,
-    // ]);
-
     setFieldValidationErrors((prevErrors) => [
       ...prevErrors,
       newFieldValidationError,
@@ -121,15 +108,6 @@ const useLayerToolLogic = (
   >(null);
 
   const resetValidationResults = (length: number) => {
-    // setFieldValidationResults(
-    //   Array(length).fill({
-    //     name: true,
-    //     unit: true,
-    //     value: true,
-    //     valueFormat: true,
-    //     isValueLocked: true,
-    //   })
-    // );
     setFieldValidationErrors(
       Array(length).fill({
         name: "",
