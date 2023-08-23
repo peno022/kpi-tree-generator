@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
 import OpenModalButton from "@/components/shared/OpenModalButton";
-import { Node, NodeFromApi, TreeDataFromApi, TreeData } from "@/types";
+import { NodeFromApi, TreeDataFromApi } from "@/types";
 import { useTreeUpdate } from "@/hooks/useTreeUpdate";
 import AlertError from "@/components/shared/AlertError";
+import useRootNodeToolLogic from "@/hooks/useRootNodeToolLogic";
+import useUpdateButtonStatus from "@/hooks/useUpdateButtonStatus";
 
 type RootNodeToolProps = {
   selectedRootNode: NodeFromApi;
@@ -19,17 +21,18 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
   const { errorMessage, sendUpdateRequest, setErrorMessage } = useTreeUpdate(
     treeData.tree.id
   );
-  const [nodeInfo, setNodeInfo] = useState<Node>(selectedRootNode);
-  const [validatinResult, setValidationResult] = useState<boolean>(true);
-  const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(true);
 
-  useEffect(() => {
-    setIsUpdateButtonDisabled(!validatinResult);
-  }, [validatinResult]);
+  const {
+    nodeInfo,
+    handleNodeInfoChange,
+    fieldValidationErrors,
+    handleFieldValidationErrorsChange,
+  } = useRootNodeToolLogic(selectedRootNode);
 
-  const handleNodeInfoChange = (_index = 0, updatedNodeInfo: Node) => {
-    setNodeInfo(updatedNodeInfo);
-  };
+  const isUpdateButtonDisabled = useUpdateButtonStatus(
+    fieldValidationErrors,
+    true
+  );
 
   const saveNodeInfo = async () => {
     setErrorMessage(null);
@@ -55,10 +58,6 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
     }
   };
 
-  const handleNodeValidationResultChange = (_index = 0, isValid: boolean) => {
-    setValidationResult(isValid);
-  };
-
   return (
     <>
       <div className="relative flex flex-col h-full">
@@ -68,7 +67,10 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
             index={0}
             node={nodeInfo}
             handleNodeInfoChange={handleNodeInfoChange}
-            setNodeValidationResult={handleNodeValidationResultChange}
+            fieldValidationErrors={fieldValidationErrors[0]}
+            handleFieldValidationErrorsChange={
+              handleFieldValidationErrorsChange
+            }
           />
         </div>
         <div

@@ -36,7 +36,7 @@ const NodeField: React.FC<Props> = ({
           name={name}
           onChange={handleInputChange}
           className={isValidField ? "checkbox" : "checkbox checkbox-error"}
-          defaultChecked={checked}
+          checked={checked}
           id={`node-${index}-${name}`}
         />
       );
@@ -55,7 +55,7 @@ const NodeField: React.FC<Props> = ({
           onChange={handleInputChange}
           placeholder={placeholder}
           className={inputClass}
-          defaultValue={value}
+          value={value}
           required
           id={`node-${index}-${name}`}
         />
@@ -72,7 +72,7 @@ const NodeField: React.FC<Props> = ({
           name={name}
           onChange={handleInputChange}
           className={selectClass}
-          defaultValue={value}
+          value={value}
           id={`node-${index}-${name}`}
         >
           <option>なし</option>

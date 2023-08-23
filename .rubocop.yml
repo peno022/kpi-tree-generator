@@ -17,6 +17,10 @@ Metrics/MethodLength:
   Exclude:
     - spec/**/*
 
+Metrics/ParameterLists:
+  Exclude:
+    - spec/**/*
+
 ### RSpec
 
 # 1つのテストケースあたりの行数

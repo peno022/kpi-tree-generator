@@ -8,43 +8,30 @@ RSpec.describe 'Tree pages', js: true do
       visit log_out_path
       visit root_path
       click_button 'Googleでログイン'
+
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      root = create(:node, name: 'ルート', tree:)
+      create(:node, name: '子1', tree:, parent: root)
+      create(:node, name: '子2', tree:, parent: root)
+      create(:layer, parent_node: root, tree:)
+      visit edit_tree_path(tree)
     end
 
     it('ログインユーザーのものでないツリーにはアクセスできない') do
       tree = create(:tree)
-      nodes = create_list(:node, 3, tree:)
-      nodes[1].name = '子1'
-      nodes[2].name = '子2'
-      nodes[0].children = [nodes[1], nodes[2]]
       visit edit_tree_path(tree)
       expect(page).to have_content('The page you were looking for doesn\'t exist.')
     end
 
     it('treeの詳細画面に、treeの図が表示されている') do
-      tree1 = create(:tree, user: User.find_by(uid: '1234'))
-      nodes1 = create_list(:node, 3, tree: tree1)
-      nodes1[1].name = '子1'
-      nodes1[2].name = '子2'
-      nodes1[0].children = [nodes1[1], nodes1[2]]
-      visit edit_tree_path(tree1)
-      expect(page).to have_css('g > text', text: nodes1[0].name)
-      expect(page).to have_css('g > text', text: nodes1[1].name)
-      expect(page).to have_css('g > text', text: nodes1[2].name)
+      expect(page).to have_css('g > text', text: 'ルート')
+      expect(page).to have_css('g > text', text: '子1')
+      expect(page).to have_css('g > text', text: '子2')
       expect(page).to have_css('svg > g > path.rd3t-link', count: 2)
       expect(page).to have_content('要素を選択すると、ここに詳細が表示されます。')
     end
 
     it('treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。') do
-      tree2 = create(:tree, user: User.find_by(uid: '1234'))
-      nodes2 = create_list(:node, 3, tree: tree2)
-      create(:layer, tree: tree2, parent_node: nodes2[0])
-      nodes2[1].name = '子1'
-      nodes2[2].name = '子2'
-      nodes2[0].children = [nodes2[1], nodes2[2]]
-
-      visit edit_tree_path(tree2)
-
-      # クリックしたノードとその兄弟ノードの色が変わること
       target_node_before = find('g > text', text: '子1').ancestor('g.rd3t-leaf-node')
       sibling_node_before = find('g > text', text: '子2').ancestor('g.rd3t-leaf-node')
       expect(target_node_before.find('rect')[:style]).to include('fill: ghostwhite')
@@ -78,6 +65,45 @@ RSpec.describe 'Tree pages', js: true do
       expect(page).to have_content('要素1')
       expect(page).not_to have_content('要素間の関係')
       expect(page).to have_css('input[value="ルート"]')
+    end
+
+    it('任意の要素をクリック後に別な階層の要素をクリックすると、表示される項目が変わること') do
+      # データの作成
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
+      child_node1 = create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
+                                  parent: root_node)
+      create(:node, tree:, name: '子2', value: 2000, value_format: 'なし', unit: '円', is_value_locked: false,
+                    parent: root_node)
+      create(:layer, tree:, operation: 'multiply', fraction: 0, parent_node: root_node)
+      create(:node, tree:, name: '孫1-1', value: 500, value_format: 'なし', unit: '人', is_value_locked: false,
+                    parent: child_node1)
+      create(:node, tree:, name: '孫1-2', value: 2.5, value_format: '千', unit: '円', is_value_locked: false,
+                    parent: child_node1)
+      create(:node, tree:, name: '孫1-3', value: 1, value_format: '%', unit: '', is_value_locked: false,
+                    parent: child_node1)
+      create(:layer, tree:, operation: 'add', fraction: 0, parent_node: child_node1)
+
+      # ツリー編集画面を表示し、ノードをクリックしてツールエリアを開く
+      visit edit_tree_path(tree)
+      find('g > text', text: '孫1-1').ancestor('g.rd3t-leaf-node').click
+      expect_node_detail(
+        index: 1, name: '孫1-1', value: '500', value_format: 'なし', unit: '人', is_value_locked: false
+      )
+      expect_node_detail(
+        index: 2, name: '孫1-2', value: '2.5', value_format: '千', unit: '円', is_value_locked: false
+      )
+      expect_node_detail(
+        index: 3, name: '孫1-3', value: '1', value_format: '%', unit: '', is_value_locked: false
+      )
+
+      find('g > text', text: '子2').ancestor('g.rd3t-leaf-node').click
+      expect_node_detail(
+        index: 1, name: '子1', value: '5000', value_format: 'なし', unit: '人', is_value_locked: false
+      )
+      expect_node_detail(
+        index: 2, name: '子2', value: '2000', value_format: 'なし', unit: '円', is_value_locked: false
+      )
     end
   end
 end
