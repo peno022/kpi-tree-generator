@@ -1,6 +1,11 @@
 import React from "react";
 import NodeField from "@/components/trees/tool/nodeDetailArea/NodeField";
-import { Node, FieldValidationResults, FieldValidationErrors } from "@/types";
+import {
+  Node,
+  FieldValidationResults,
+  FieldValidationErrors,
+  FieldValidationError,
+} from "@/types";
 import ToolMenu from "@/components/shared/ToolMenu";
 import useNodeDetailLogic from "@/hooks/useNodeDetailLogic";
 
@@ -15,11 +20,7 @@ export type NodeDetailProps = {
     fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
     isValid: boolean
   ) => void;
-  handleFieldValidationErrorsChange: (
-    index: number,
-    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
-    errorMessage: string
-  ) => void;
+  handleFieldValidationErrorsChange: (errors: FieldValidationError[]) => void;
 };
 const NodeDetail: React.FC<NodeDetailProps> = ({
   index,

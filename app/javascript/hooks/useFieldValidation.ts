@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { FieldValidationResults, FieldValidationErrors } from "@/types";
+import {
+  FieldValidationResults,
+  FieldValidationErrors,
+  FieldValidationError,
+} from "@/types";
 
 const useFieldValidation = (initialNodesLength: number) => {
   const [fieldValidationResults, setFieldValidationResults] = useState<
@@ -36,15 +40,16 @@ const useFieldValidation = (initialNodesLength: number) => {
   };
 
   const handleFieldValidationErrorsChange: (
-    index: number,
-    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
-    errorMessage: string
-  ) => void = (index, fieldName, errorMessage) => {
+    errors: FieldValidationError[]
+  ) => void = (errors) => {
     const newFieldValidationErrors = [...fieldValidationErrors];
-    newFieldValidationErrors[index] = {
-      ...newFieldValidationErrors[index],
-      [fieldName]: errorMessage,
-    };
+    errors.forEach((error: FieldValidationError) => {
+      const { index, fieldName, errorMessage } = error;
+      newFieldValidationErrors[index] = {
+        ...newFieldValidationErrors[index],
+        [fieldName]: errorMessage,
+      };
+    });
     setFieldValidationErrors(newFieldValidationErrors);
   };
 

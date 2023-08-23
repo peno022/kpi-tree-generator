@@ -1,4 +1,4 @@
-import { Node } from "@/types";
+import { Node, FieldValidationError } from "@/types";
 
 const useNodeDetailLogic = (
   index: number,
@@ -9,11 +9,7 @@ const useNodeDetailLogic = (
     fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
     isValid: boolean
   ) => void,
-  handleFieldValidationErrorsChange: (
-    index: number,
-    fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked",
-    errorMessage: string
-  ) => void
+  handleFieldValidationErrorsChange: (errors: FieldValidationError[]) => void
 ) => {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -43,18 +39,22 @@ const useNodeDetailLogic = (
     if (name === "name" || name === "value") {
       if (value === null || value === "") {
         handleFieldValidationResultsChange(index, name, false);
-        handleFieldValidationErrorsChange(index, name, "必須項目です");
+        handleFieldValidationErrorsChange([
+          { index: index, fieldName: name, errorMessage: "必須項目です" },
+        ]);
         return;
       }
     }
     if (name === "value") {
       if (isNaN(Number(value))) {
         handleFieldValidationResultsChange(index, name, false);
-        handleFieldValidationErrorsChange(
-          index,
-          name,
-          "数値を入力してください"
-        );
+        handleFieldValidationErrorsChange([
+          {
+            index: index,
+            fieldName: name,
+            errorMessage: "数値を入力してください",
+          },
+        ]);
         return;
       }
     }
@@ -63,22 +63,34 @@ const useNodeDetailLogic = (
       if (value === "%" && updatedNodeInfo.unit !== "") {
         handleFieldValidationResultsChange(index, "unit", false);
         handleFieldValidationResultsChange(index, "valueFormat", false);
-        handleFieldValidationErrorsChange(
-          index,
-          "unit",
-          "％表示のときは単位を空にしてください"
-        );
-        handleFieldValidationErrorsChange(
-          index,
-          "valueFormat",
-          "％表示のときは単位を空にしてください"
-        );
+        handleFieldValidationErrorsChange([
+          {
+            index: index,
+            fieldName: "unit",
+            errorMessage: "％表示のときは単位を空にしてください",
+          },
+          {
+            index: index,
+            fieldName: "valueFormat",
+            errorMessage: "％表示のときは単位を空にしてください",
+          },
+        ]);
         return;
       } else {
         handleFieldValidationResultsChange(index, "unit", true);
         handleFieldValidationResultsChange(index, "valueFormat", true);
-        handleFieldValidationErrorsChange(index, "unit", "");
-        handleFieldValidationErrorsChange(index, "valueFormat", "");
+        handleFieldValidationErrorsChange([
+          {
+            index: index,
+            fieldName: "unit",
+            errorMessage: "",
+          },
+          {
+            index: index,
+            fieldName: "valueFormat",
+            errorMessage: "",
+          },
+        ]);
       }
     }
 
@@ -86,27 +98,46 @@ const useNodeDetailLogic = (
       if (value !== "" && updatedNodeInfo.valueFormat === "%") {
         handleFieldValidationResultsChange(index, "unit", false);
         handleFieldValidationResultsChange(index, "valueFormat", false);
-        handleFieldValidationErrorsChange(
-          index,
-          "unit",
-          "％表示のときは単位を空にしてください"
-        );
-        handleFieldValidationErrorsChange(
-          index,
-          "valueFormat",
-          "％表示のときは単位を空にしてください"
-        );
+        handleFieldValidationErrorsChange([
+          {
+            index: index,
+            fieldName: "unit",
+            errorMessage: "％表示のときは単位を空にしてください",
+          },
+          {
+            index: index,
+            fieldName: "valueFormat",
+            errorMessage: "％表示のときは単位を空にしてください",
+          },
+        ]);
         return;
       } else {
         handleFieldValidationResultsChange(index, "unit", true);
         handleFieldValidationResultsChange(index, "valueFormat", true);
-        handleFieldValidationErrorsChange(index, "unit", "");
-        handleFieldValidationErrorsChange(index, "valueFormat", "");
+        handleFieldValidationErrorsChange([
+          {
+            index: index,
+            fieldName: "unit",
+            errorMessage: "",
+          },
+          {
+            index: index,
+            fieldName: "valueFormat",
+            errorMessage: "",
+          },
+        ]);
       }
     }
 
     handleFieldValidationResultsChange(index, name, true);
-    handleFieldValidationErrorsChange(index, name, "");
+
+    handleFieldValidationErrorsChange([
+      { index: index, fieldName: "name", errorMessage: "" },
+      { index: index, fieldName: "unit", errorMessage: "" },
+      { index: index, fieldName: "value", errorMessage: "" },
+      { index: index, fieldName: "valueFormat", errorMessage: "" },
+      { index: index, fieldName: "isValueLocked", errorMessage: "" },
+    ]);
   };
 
   return {

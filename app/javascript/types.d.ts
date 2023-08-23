@@ -92,3 +92,9 @@ export interface FieldValidationErrors {
   valueFormat: string;
   isValueLocked: string;
 }
+
+export interface FieldValidationError {
+  index: number;
+  fieldName: "name" | "unit" | "value" | "valueFormat" | "isValueLocked";
+  errorMessage: string;
+}
