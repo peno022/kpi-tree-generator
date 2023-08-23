@@ -122,6 +122,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
               handleFieldValidationErrorsChange={
                 handleFieldValidationErrorsChange
               }
+              showToolMenu={layerProperty.nodes.length > 2}
             />
           ))}
           <div className="flex justify-center">

@@ -10,6 +10,7 @@ export type NodeDetailProps = {
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
   fieldValidationErrors: FieldValidationErrors;
   handleFieldValidationErrorsChange: (errors: FieldValidationError[]) => void;
+  showToolMenu: boolean;
 };
 const NodeDetail: React.FC<NodeDetailProps> = ({
   index,
@@ -17,6 +18,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   handleNodeInfoChange,
   fieldValidationErrors,
   handleFieldValidationErrorsChange,
+  showToolMenu,
 }) => {
   const { handleInputChange } = useNodeDetailLogic(
     index,
@@ -33,16 +35,18 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
       >
         <legend>{`要素${index + 1}`}</legend>
         <div className="absolute right-0 top-2 mt-1.5">
-          <ToolMenu
-            menuItems={[
-              {
-                label: "要素を削除",
-                onClick: () => {
-                  console.log("要素を削除");
+          {showToolMenu && (
+            <ToolMenu
+              menuItems={[
+                {
+                  label: "要素を削除",
+                  onClick: () => {
+                    console.log("要素を削除");
+                  },
                 },
-              },
-            ]}
-          />
+              ]}
+            />
+          )}
         </div>
         <div className="flex flex-row space-x-4 mb-1.5">
           <NodeField

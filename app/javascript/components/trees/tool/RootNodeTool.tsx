@@ -71,6 +71,7 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
             handleFieldValidationErrorsChange={
               handleFieldValidationErrorsChange
             }
+            showToolMenu={false}
           />
         </div>
         <div
