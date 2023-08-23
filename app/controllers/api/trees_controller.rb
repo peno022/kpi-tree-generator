@@ -21,6 +21,7 @@ module Api
       begin
         ActiveRecord::Base.transaction do
           (@nodes + @layers).each(&:save!)
+          delete_nodes_not_in_params
         end
       rescue ActiveRecord::RecordInvalid => e
         render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
@@ -64,6 +65,12 @@ module Api
         layer.parent_node_id = layer_param[:parent_node_id]
         layer
       end
+    end
+
+    def delete_nodes_not_in_params
+      node_ids_in_params = tree_params[:nodes].pluck(:id).compact
+      nodes_to_delete = @tree.nodes.where.not(id: node_ids_in_params)
+      nodes_to_delete.destroy_all
     end
   end
 end

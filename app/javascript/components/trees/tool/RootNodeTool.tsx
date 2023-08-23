@@ -72,6 +72,7 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
               handleFieldValidationErrorsChange
             }
             showToolMenu={false}
+            deleteNode={() => {}}
           />
         </div>
         <div

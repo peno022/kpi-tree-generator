@@ -8,6 +8,18 @@ export default function propagateSelectedNodesChangesToTree(
 ): TreeData {
   const updatedTreeData: TreeData = JSON.parse(JSON.stringify(treeData));
 
+  // selectedLayer.parentNodeIdと同じparentIdを持つノードの配列を取得する
+  const siblingNodes = updatedTreeData.nodes.filter(
+    (n) => n.parentId === selectedLayer.parentNodeId
+  );
+  // siblingNodesには含まれていて、selectedNodesには含まれていないidを持つノードを削除する
+  siblingNodes.forEach((node) => {
+    if (!selectedNodes.find((n) => n.id === node.id)) {
+      const index = updatedTreeData.nodes.findIndex((n) => n.id === node.id);
+      updatedTreeData.nodes.splice(index, 1);
+    }
+  });
+
   selectedNodes.forEach((node) => {
     if (node.id === undefined || node.id === null) {
       updatedTreeData.nodes.push(node);

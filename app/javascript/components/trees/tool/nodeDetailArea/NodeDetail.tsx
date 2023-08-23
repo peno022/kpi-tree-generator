@@ -11,6 +11,7 @@ export type NodeDetailProps = {
   fieldValidationErrors: FieldValidationErrors;
   handleFieldValidationErrorsChange: (errors: FieldValidationError[]) => void;
   showToolMenu: boolean;
+  deleteNode: (index: number) => void;
 };
 const NodeDetail: React.FC<NodeDetailProps> = ({
   index,
@@ -19,6 +20,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   fieldValidationErrors,
   handleFieldValidationErrorsChange,
   showToolMenu,
+  deleteNode,
 }) => {
   const { handleInputChange } = useNodeDetailLogic(
     index,
@@ -40,9 +42,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
               menuItems={[
                 {
                   label: "要素を削除",
-                  onClick: () => {
-                    console.log("要素を削除");
-                  },
+                  onClick: () => deleteNode(index),
                 },
               ]}
             />

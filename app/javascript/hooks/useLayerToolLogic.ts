@@ -102,6 +102,25 @@ const useLayerToolLogic = (
     ]);
   };
 
+  const deleteNode = (index: number) => {
+    const newNodes = [...layerProperty.nodes];
+    newNodes.splice(index, 1);
+    console.log("deleteNode");
+    console.log({
+      ...layerProperty,
+      nodes: newNodes,
+    });
+    setLayerProperty({
+      ...layerProperty,
+      nodes: newNodes,
+    });
+    setFieldValidationErrors((prevErrors) => {
+      const newErrors = [...prevErrors];
+      newErrors.splice(index, 1);
+      return newErrors;
+    });
+  };
+
   const [fractionValidation, setFractionValidation] = useState(true);
   const [fractionErrorMessage, setFractionErrorMessage] = useState<
     string | null
@@ -125,6 +144,7 @@ const useLayerToolLogic = (
     layerProperty,
     setlayerProperty: setLayerProperty,
     addNode,
+    deleteNode,
     handleNodeInfoChange,
     handleOperationChange,
     handleFractionChange,

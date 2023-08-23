@@ -34,6 +34,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
     layerProperty,
     setlayerProperty,
     addNode,
+    deleteNode,
     handleNodeInfoChange,
     handleOperationChange,
     handleFractionChange,
@@ -123,6 +124,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
                 handleFieldValidationErrorsChange
               }
               showToolMenu={layerProperty.nodes.length > 2}
+              deleteNode={deleteNode}
             />
           ))}
           <div className="flex justify-center">

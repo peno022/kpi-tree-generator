@@ -5,7 +5,8 @@ class Node < ApplicationRecord
 
   belongs_to :tree
   belongs_to :parent, class_name: 'Node', optional: true
-  has_one :child_layer, class_name: 'Layer', dependent: :destroy
+  has_one :child_layer, class_name: 'Layer', foreign_key: 'parent_node_id', dependent: :destroy,
+                        inverse_of: :parent_node
   has_many :children, class_name: 'Node', foreign_key: 'parent_id', dependent: :destroy, inverse_of: :parent
 
   validates :name, presence: true
