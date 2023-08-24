@@ -53,6 +53,7 @@ export const useTreeUpdate = (treeId: number): TreeUpdateHook => {
       }
     }
     const json = await response.json();
+    console.log("-----result.json------");
     console.dir(json);
     return keysToCamelCase(json);
   };

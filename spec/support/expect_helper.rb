@@ -24,6 +24,10 @@ module ExpectHelper
     expect_operation_display(node_svg:, operation:) if operation.present?
   end
 
+  def node_details
+    all(:xpath, "//*[starts-with(@id, 'node-detail-')]")
+  end
+
   private
 
   def expect_selector(index, attribute, value)

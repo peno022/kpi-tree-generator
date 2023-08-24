@@ -18,14 +18,15 @@ module Api
     def update
       assign_nodes_attributes
       assign_layers_attributes
-      begin
-        ActiveRecord::Base.transaction do
-          (@nodes + @layers).each(&:save!)
-          delete_nodes_not_in_params
-        end
-      rescue ActiveRecord::RecordInvalid => e
-        render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
+      initial_nodes_to_delete = extract_initial_nodes_to_delete
+      exclude_objects_to_be_deleted(initial_nodes_to_delete)
+
+      ActiveRecord::Base.transaction do
+        (@nodes + @layers).each(&:save!)
+        initial_nodes_to_delete.each(&:destroy!)
       end
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
     end
 
     private
@@ -67,10 +68,20 @@ module Api
       end
     end
 
-    def delete_nodes_not_in_params
+    def exclude_objects_to_be_deleted(initial_nodes_to_delete)
+      nodes_to_delete = initial_nodes_to_delete + gather_descendants(initial_nodes_to_delete)
+      layers_to_delete = @tree.layers.where(parent_node_id: nodes_to_delete.map(&:id))
+      @nodes = @nodes.reject { |node| nodes_to_delete.include?(node) }
+      @layers = @layers.reject { |layer| layers_to_delete.include?(layer) }
+    end
+
+    def extract_initial_nodes_to_delete
       node_ids_in_params = tree_params[:nodes].pluck(:id).compact
-      nodes_to_delete = @tree.nodes.where.not(id: node_ids_in_params)
-      nodes_to_delete.destroy_all
+      @tree.nodes.where.not(id: node_ids_in_params).where.not(id: nil)
+    end
+
+    def gather_descendants(nodes)
+      nodes.flat_map { |node| node.children + gather_descendants(node.children) }
     end
   end
 end

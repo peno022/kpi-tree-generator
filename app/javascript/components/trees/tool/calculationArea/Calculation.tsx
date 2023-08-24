@@ -54,7 +54,7 @@ const Calculation: React.FC<CalculationProps> = ({
                 name={node.name}
                 value={node.value}
                 displayUnit={getDisplayUnit(node)}
-                elementId={index}
+                elementId={index + 1}
               />
               {!(index === maxIndex) && (
                 <OperationSymbol operation={selectedLayer.operation} />

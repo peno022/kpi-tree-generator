@@ -105,11 +105,6 @@ const useLayerToolLogic = (
   const deleteNode = (index: number) => {
     const newNodes = [...layerProperty.nodes];
     newNodes.splice(index, 1);
-    console.log("deleteNode");
-    console.log({
-      ...layerProperty,
-      nodes: newNodes,
-    });
     setLayerProperty({
       ...layerProperty,
       nodes: newNodes,

@@ -4,7 +4,7 @@ class Node < ApplicationRecord
   enum :value_format, { 'なし': 0, '%': 1, '千': 2, '万': 3 }
 
   belongs_to :tree
-  belongs_to :parent, class_name: 'Node', optional: true
+  belongs_to :parent, class_name: 'Node', optional: true, inverse_of: :children
   has_one :child_layer, class_name: 'Layer', foreign_key: 'parent_node_id', dependent: :destroy,
                         inverse_of: :parent_node
   has_many :children, class_name: 'Node', foreign_key: 'parent_id', dependent: :destroy, inverse_of: :parent

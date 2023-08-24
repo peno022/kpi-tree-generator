@@ -13,7 +13,7 @@ type Props = {
 const ToolMenu: React.FC<Props> = ({ menuItems }) => {
   return (
     <>
-      <div className="dropdown dropdown-bottom dropdown-end">
+      <div className="dropdown dropdown-bottom dropdown-end tool-menu">
         <label tabIndex={0} className="btn btn-ghost btn-sm">
           <FontAwesomeIcon icon={faEllipsis} />
         </label>

@@ -420,7 +420,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
 
     it('要素を追加ボタンを押すと、計算式に要素が追加されている。') do
       click_button '要素を追加'
-      within('#calc-member-2') do
+      within('#calc-member-3') do
         expect(page).to have_text('要素3')
         expect(page).to have_text('1')
       end
@@ -506,6 +506,395 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         operation: '',
         is_leaf: true
       )
+    end
+
+    it('子要素を持つ階層に要素を追加できる。') do
+      # データの作成
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
+      child_node1 = create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
+                                  parent: root_node)
+      create(:node, tree:, name: '子2', value: 2000, value_format: 'なし', unit: '円', is_value_locked: false,
+                    parent: root_node)
+      create(:layer, tree:, operation: 'multiply', fraction: 0, parent_node: root_node)
+      create(:node, tree:, name: '孫1-1', value: 500, value_format: 'なし', unit: '人', is_value_locked: false,
+                    parent: child_node1)
+      create(:node, tree:, name: '孫1-2', value: 2500, value_format: 'なし', unit: '人', is_value_locked: false,
+                    parent: child_node1)
+      create(:node, tree:, name: '孫1-3', value: 2000, value_format: 'なし', unit: '人', is_value_locked: false,
+                    parent: child_node1)
+      create(:layer, tree:, operation: 'add', fraction: 0, parent_node: child_node1)
+
+      # ツリー編集画面を表示し、ノードをクリックしてツールエリアを開く
+      visit edit_tree_path(tree)
+      find('g > text', text: '子1').ancestor('g.rd3t-node').click
+
+      click_button '要素を追加'
+      find('#updateButton label', text: '更新').click
+      find('.modal-action label', text: '更新する').click
+
+      expect_tree_node(
+        name: '要素3',
+        display_value: '1',
+        is_value_locked: false,
+        operation: '',
+        is_leaf: true
+      )
+    end
+
+    it('一度の更新で複数の要素を追加できる。') do
+      click_button '要素を追加'
+      click_button '要素を追加'
+      find('#updateButton label', text: '更新').click
+      find('.modal-action label', text: '更新する').click
+      expect_tree_node(
+        name: '子1',
+        display_value: '5000人',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_tree_node(
+        name: '子2',
+        display_value: '2000円',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_tree_node(
+        name: '要素3',
+        display_value: '1',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_tree_node(
+        name: '要素4',
+        display_value: '1',
+        is_value_locked: false,
+        operation: '',
+        is_leaf: true
+      )
+    end
+
+    it('要素の追加を繰り返して行うことができる。') do
+      click_button '要素を追加'
+      find('#updateButton label', text: '更新').click
+      find('.modal-action label', text: '更新する').click
+      expect_tree_node(
+        name: '子1',
+        display_value: '5000人',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_tree_node(
+        name: '子2',
+        display_value: '2000円',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_tree_node(
+        name: '要素3',
+        display_value: '1',
+        is_value_locked: false,
+        operation: '',
+        is_leaf: true
+      )
+
+      find('g > text', text: '子2').ancestor('g.rd3t-leaf-node').click
+      click_button '要素を追加'
+      find('#updateButton label', text: '更新').click
+      find('.modal-action label', text: '更新する').click
+      expect_tree_node(
+        name: '子1',
+        display_value: '5000人',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_tree_node(
+        name: '子2',
+        display_value: '2000円',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_tree_node(
+        name: '要素3',
+        display_value: '1',
+        is_value_locked: false,
+        operation: 'multiply',
+        is_leaf: true
+      )
+      expect_tree_node(
+        name: '要素4',
+        display_value: '1',
+        is_value_locked: false,
+        operation: '',
+        is_leaf: true
+      )
+    end
+  end
+
+  describe('選択した階層のノードを削除') do
+    before do
+      # データの作成
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
+      create(:node, tree:, name: '子1', value: 5000, value_format: 'なし', unit: '人', is_value_locked: false,
+                    parent: root_node)
+      child_node2 = create(:node, tree:, name: '子2', value: 2000, value_format: 'なし', unit: '円', is_value_locked: false,
+                                  parent: root_node)
+      create(:layer, tree:, operation: 'multiply', fraction: 0, parent_node: root_node)
+      create(:node, tree:, name: '孫2-1', value: 200, value_format: 'なし', unit: '円', is_value_locked: false,
+                    parent: child_node2)
+      create(:node, tree:, name: '孫2-2', value: 1000, value_format: 'なし', unit: '円', is_value_locked: false,
+                    parent: child_node2)
+      create(:node, tree:, name: '孫2-3', value: 800, value_format: 'なし', unit: '円', is_value_locked: false,
+                    parent: child_node2)
+      create(:layer, tree:, operation: 'add', fraction: 0, parent_node: child_node2)
+
+      # ツリー編集画面を表示し、ノードをクリックしてツールエリアを開く
+      visit edit_tree_path(tree)
+      find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
+    end
+
+    describe('削除ボタンの表示・非表示') do
+      it('ルートノードを選択すると、要素のツールメニューが表示されない。') do
+        find('g > text', text: 'ルート').ancestor('g.rd3t-node').click
+        expect(find_by_id('node-detail-1')).not_to have_css('.tool-menu')
+      end
+
+      it('ルートノード以外のノードを選択したとき、ノードが2つの場合は要素のツールメニューが表示されない。') do
+        find('g > text', text: '子2').ancestor('g.rd3t-node').click
+        expect(find_by_id('node-detail-1')).not_to have_css('.tool-menu')
+      end
+
+      it('ルートノード以外のノードを選択したとき、ノードが3つ以上ある場合は要素のツールメニューが表示される。') do
+        find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
+        expect(find_by_id('node-detail-1')).to have_css('.tool-menu')
+      end
+
+      it('ノードが3つの状態から1つの要素を削除ボタンを押すと、要素のツールメニューは表示されなくなる。') do
+        find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
+        expect(find_by_id('node-detail-1')).to have_css('.tool-menu')
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        expect(node_details.length).to eq 2
+        node_details.each do |node_detail|
+          expect(node_detail).not_to have_css('.tool-menu')
+        end
+      end
+    end
+
+    describe('ツールエリア上の挙動') do
+      it('要素を削除ボタンを押すと、ツールエリアからそのノードの表示が消える。') do
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        expect(page).not_to have_selector('#node-detail-3')
+      end
+
+      it('要素を削除ボタンを押すと、計算式からそのノードの表示が消える。計算結果の値も変わる。ツリーの表示は変わらない。') do
+        expect(find_by_id('calc-member-parent')).to have_text('2,000')
+        expect(page).to have_selector('#calc-member-3')
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        expect(page).not_to have_selector('#calc-member-3')
+        expect(find_by_id('calc-member-parent')).to have_text('1,200')
+        expect_tree_node(
+          name: '孫2-3',
+          display_value: '800円',
+          is_value_locked: false,
+          operation: '',
+          is_leaf: true
+        )
+      end
+
+      it('要素を削除ボタンを押して、更新を実行せずに別な階層を選択し、再び元の階層に戻ると、要素は削除前の状態に戻っている。') do
+        expect(node_details.length).to eq 3
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        expect(node_details.length).to eq 2
+        find('g > text', text: '子2').ancestor('g.rd3t-node').click
+        find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
+        expect(node_details.length).to eq 3
+      end
+    end
+
+    describe('削除を実行') do
+      it('葉ノードについて、要素をを押してから、更新ボタン→更新するを押すと、ツリーからそのノードが削除される。') do
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect_tree_node(
+          name: '孫2-1',
+          display_value: '200円',
+          is_value_locked: false,
+          operation: 'add',
+          is_leaf: true
+        )
+        expect_tree_node(
+          name: '孫2-2',
+          display_value: '1000円',
+          is_value_locked: false,
+          operation: '',
+          is_leaf: true
+        )
+        expect(page).not_to have_selector('g > text', text: '孫2-3')
+      end
+
+      it('葉ノードでないノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードが削除される。') do
+        find('g > text', text: '子2').ancestor('g.rd3t-node').click
+        click_button '要素を追加'
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        find('g > text', text: '子2').ancestor('g.rd3t-node').click
+        find_by_id('node-detail-2').find('.tool-menu').click
+        click_link '要素を削除'
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect_tree_node(
+          name: '子1',
+          display_value: '5000人',
+          is_value_locked: false,
+          operation: 'multiply',
+          is_leaf: true
+        )
+        expect_tree_node(
+          name: '要素3',
+          display_value: '1',
+          is_value_locked: false,
+          operation: '',
+          is_leaf: true
+        )
+        expect(page).not_to have_selector('g > text', text: '子2')
+      end
+
+      it('要素を削除ボタンを押して、更新ボタン→更新するを押すと、親ノードの値も計算結果に応じて更新される。') do
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect_tree_node(
+          name: 'ルート',
+          display_value: '1000万円',
+          is_value_locked: true,
+          operation: '',
+          is_leaf: false
+        )
+        expect_tree_node(
+          name: '子1',
+          display_value: '5000人',
+          is_value_locked: false,
+          operation: 'multiply',
+          is_leaf: true
+        )
+        expect_tree_node(
+          name: '子2',
+          display_value: '1200円',
+          is_value_locked: false,
+          operation: '',
+          is_leaf: false
+        )
+      end
+
+      it('新しい要素の追加と既存の要素の削除を同時に行うことができる。') do
+        click_button '要素を追加'
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect_tree_node(
+          name: '孫2-1',
+          display_value: '200円',
+          is_value_locked: false,
+          operation: 'add',
+          is_leaf: true
+        )
+        expect_tree_node(
+          name: '孫2-2',
+          display_value: '1000円',
+          is_value_locked: false,
+          operation: 'add',
+          is_leaf: true
+        )
+        expect_tree_node(
+          name: '要素4',
+          display_value: '0',
+          is_value_locked: false,
+          operation: '',
+          is_leaf: true
+        )
+      end
+
+      it('要素の追加と削除を繰り返し行うことができる。') do
+        3.times do
+          find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
+          click_button '要素を追加'
+          find('#updateButton label', text: '更新').click
+          find('.modal-action label', text: '更新する').click
+          expect_tree_node(
+            name: '孫2-1',
+            display_value: '200円',
+            is_value_locked: false,
+            operation: 'add',
+            is_leaf: true
+          )
+          expect_tree_node(
+            name: '孫2-2',
+            display_value: '1000円',
+            is_value_locked: false,
+            operation: 'add',
+            is_leaf: true
+          )
+          expect_tree_node(
+            name: '孫2-3',
+            display_value: '800円',
+            is_value_locked: false,
+            operation: 'add',
+            is_leaf: true
+          )
+          expect_tree_node(
+            name: '要素4',
+            display_value: '0',
+            is_value_locked: false,
+            operation: '',
+            is_leaf: true
+          )
+
+          find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
+          find_by_id('node-detail-4').find('.tool-menu').click
+          click_link '要素を削除'
+          find('#updateButton label', text: '更新').click
+          find('.modal-action label', text: '更新する').click
+
+          expect_tree_node(
+            name: '孫2-1',
+            display_value: '200円',
+            is_value_locked: false,
+            operation: 'add',
+            is_leaf: true
+          )
+          expect_tree_node(
+            name: '孫2-2',
+            display_value: '1000円',
+            is_value_locked: false,
+            operation: 'add',
+            is_leaf: true
+          )
+          expect_tree_node(
+            name: '孫2-3',
+            display_value: '800円',
+            is_value_locked: false,
+            operation: '',
+            is_leaf: true
+          )
+          expect(page).not_to have_selector('g > text', text: '要素4')
+        end
+      end
     end
   end
 end
