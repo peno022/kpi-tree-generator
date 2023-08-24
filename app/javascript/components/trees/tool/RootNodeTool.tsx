@@ -58,6 +58,10 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
     }
   };
 
+  const mockDeleteNode = (index = 0) => {
+    console.log(`delete node ${index}`);
+  };
+
   return (
     <>
       <div className="relative flex flex-col h-full">
@@ -72,7 +76,7 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
               handleFieldValidationErrorsChange
             }
             showToolMenu={false}
-            deleteNode={() => {}}
+            deleteNode={mockDeleteNode}
           />
         </div>
         <div
