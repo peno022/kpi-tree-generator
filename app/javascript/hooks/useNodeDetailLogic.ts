@@ -34,11 +34,11 @@ const useNodeDetailLogic = (
     if (name === "name") {
       if (value === null || value === "") {
         handleFieldValidationErrorsChange([
-          { index: index, fieldName: "name", errorMessage: "必須項目です" },
+          { index, fieldName: "name", errorMessage: "必須項目です" },
         ]);
       } else {
         handleFieldValidationErrorsChange([
-          { index: index, fieldName: "name", errorMessage: "" },
+          { index, fieldName: "name", errorMessage: "" },
         ]);
       }
       return;
@@ -46,19 +46,19 @@ const useNodeDetailLogic = (
     if (name === "value") {
       if (value === null || value === "") {
         handleFieldValidationErrorsChange([
-          { index: index, fieldName: name, errorMessage: "必須項目です" },
+          { index, fieldName: name, errorMessage: "必須項目です" },
         ]);
       } else if (isNaN(Number(value))) {
         handleFieldValidationErrorsChange([
           {
-            index: index,
+            index,
             fieldName: name,
             errorMessage: "数値を入力してください",
           },
         ]);
       } else {
         handleFieldValidationErrorsChange([
-          { index: index, fieldName: name, errorMessage: "" },
+          { index, fieldName: name, errorMessage: "" },
         ]);
       }
       return;
@@ -68,12 +68,12 @@ const useNodeDetailLogic = (
       if (value === "%" && updatedNodeInfo.unit !== "") {
         handleFieldValidationErrorsChange([
           {
-            index: index,
+            index,
             fieldName: "unit",
             errorMessage: "％表示のときは単位を空にしてください",
           },
           {
-            index: index,
+            index,
             fieldName: "valueFormat",
             errorMessage: "％表示のときは単位を空にしてください",
           },
@@ -81,12 +81,12 @@ const useNodeDetailLogic = (
       } else {
         handleFieldValidationErrorsChange([
           {
-            index: index,
+            index,
             fieldName: "unit",
             errorMessage: "",
           },
           {
-            index: index,
+            index,
             fieldName: "valueFormat",
             errorMessage: "",
           },
@@ -99,12 +99,12 @@ const useNodeDetailLogic = (
       if (value !== "" && updatedNodeInfo.valueFormat === "%") {
         handleFieldValidationErrorsChange([
           {
-            index: index,
+            index,
             fieldName: "unit",
             errorMessage: "％表示のときは単位を空にしてください",
           },
           {
-            index: index,
+            index,
             fieldName: "valueFormat",
             errorMessage: "％表示のときは単位を空にしてください",
           },
@@ -112,12 +112,12 @@ const useNodeDetailLogic = (
       } else {
         handleFieldValidationErrorsChange([
           {
-            index: index,
+            index,
             fieldName: "unit",
             errorMessage: "",
           },
           {
-            index: index,
+            index,
             fieldName: "valueFormat",
             errorMessage: "",
           },
@@ -126,7 +126,7 @@ const useNodeDetailLogic = (
       return;
     }
     handleFieldValidationErrorsChange([
-      { index: index, fieldName: name, errorMessage: "" },
+      { index, fieldName: name, errorMessage: "" },
     ]);
   };
 

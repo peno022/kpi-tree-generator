@@ -83,14 +83,6 @@ const useLayerToolLogic = (
       parentId: parentNode.id,
     };
 
-    const newFieldValidationResult = {
-      name: true,
-      unit: true,
-      value: true,
-      valueFormat: true,
-      isValueLocked: true,
-    };
-
     const newFieldValidationError = {
       name: "",
       unit: "",
@@ -104,15 +96,24 @@ const useLayerToolLogic = (
       nodes: [...prevLayerProperty.nodes, newNode],
     }));
 
-    // setFieldValidationResults((prevResults) => [
-    //   ...prevResults,
-    //   newFieldValidationResult,
-    // ]);
-
     setFieldValidationErrors((prevErrors) => [
       ...prevErrors,
       newFieldValidationError,
     ]);
+  };
+
+  const deleteNode = (index: number) => {
+    const newNodes = [...layerProperty.nodes];
+    newNodes.splice(index, 1);
+    setLayerProperty({
+      ...layerProperty,
+      nodes: newNodes,
+    });
+    setFieldValidationErrors((prevErrors) => {
+      const newErrors = [...prevErrors];
+      newErrors.splice(index, 1);
+      return newErrors;
+    });
   };
 
   const [fractionValidation, setFractionValidation] = useState(true);
@@ -121,15 +122,6 @@ const useLayerToolLogic = (
   >(null);
 
   const resetValidationResults = (length: number) => {
-    // setFieldValidationResults(
-    //   Array(length).fill({
-    //     name: true,
-    //     unit: true,
-    //     value: true,
-    //     valueFormat: true,
-    //     isValueLocked: true,
-    //   })
-    // );
     setFieldValidationErrors(
       Array(length).fill({
         name: "",
@@ -147,6 +139,7 @@ const useLayerToolLogic = (
     layerProperty,
     setlayerProperty: setLayerProperty,
     addNode,
+    deleteNode,
     handleNodeInfoChange,
     handleOperationChange,
     handleFractionChange,
