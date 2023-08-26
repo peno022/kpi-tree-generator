@@ -1,14 +1,28 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faCircleDown } from "@fortawesome/free-solid-svg-icons";
-import * as types from "react-d3-tree/lib/types/types/common";
+import { CustomNodeElementProps } from "react-d3-tree/lib/types/types/common";
 
-const CustomNode: types.RenderCustomNodeElementFn = ({
+export interface CustomNodeProps extends CustomNodeElementProps {
+  createNewChildLayerAndNodes: (parentNodeId: number) => void;
+}
+
+const CustomNode = ({
   nodeDatum,
   onNodeClick,
   onNodeMouseOver,
   onNodeMouseOut,
-}: types.CustomNodeElementProps) => {
+  createNewChildLayerAndNodes,
+}: CustomNodeProps) => {
+  const handleAddLayerButtonClick = () => {
+    console.log("CustomNode handleClick");
+    if (
+      nodeDatum.attributes?.id &&
+      typeof nodeDatum.attributes?.id === "number"
+    ) {
+      createNewChildLayerAndNodes(nodeDatum.attributes.id);
+    }
+  };
   return (
     <g>
       <g>
@@ -117,10 +131,9 @@ const CustomNode: types.RenderCustomNodeElementFn = ({
       </g>
       {nodeDatum.attributes?.isHovered && nodeDatum.attributes?.isLeaf && (
         <g
-          onClick={() => {
-            console.log("ホバーボタンをクリック");
-          }}
+          onClick={handleAddLayerButtonClick}
           onMouseOver={onNodeMouseOver}
+          className="add-layer-button"
         >
           <rect
             width={40}

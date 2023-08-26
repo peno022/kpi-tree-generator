@@ -58,13 +58,15 @@ const EditTreePage = () => {
     }
   };
 
-  const handleUpdateSuccess = (updatedTreeData: TreeDataFromApi) => {
+  const handleUpdateSuccess = (
+    updatedTreeData: TreeDataFromApi,
+    selectedNodeIds: number[] = []
+  ) => {
     setTreeData(updatedTreeData);
-    setSelectedNodeIds([]);
+    setSelectedNodeIds(selectedNodeIds);
   };
 
   const handleMouseOver: TreeNodeEventCallback = (node) => {
-    // console.log(`id:${node.data?.attributes?.id}: ${node.data.name}をホバー`);
     const hoveredNode = treeData.nodes.find(
       (nodeData) => nodeData.id === node.data?.attributes?.id
     );
@@ -74,10 +76,7 @@ const EditTreePage = () => {
     setHoveredNodeId(hoveredNode.id);
   };
 
-  const handleMouseOut: TreeNodeEventCallback = (node) => {
-    // console.log(
-    //   `id:${node.data?.attributes?.id}: ${node.data.name}をホバー解除`
-    // );
+  const handleMouseOut: TreeNodeEventCallback = () => {
     setHoveredNodeId(null);
   };
 
@@ -100,6 +99,7 @@ const EditTreePage = () => {
               hoveredNodeId={hoveredNodeId}
               handleMouseOver={handleMouseOver}
               handleMouseOut={handleMouseOut}
+              onUpdateSuccess={handleUpdateSuccess}
             />
           </ErrorBoundary>
           ;

@@ -1,4 +1,3 @@
-import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 import * as types from "@/types";
 import LTT from "list-to-tree";
 
@@ -133,10 +132,9 @@ function convertTreeStructureNodeToRawNodeDatum(
       isLastInLayer: treeStructureNode.isLastInLayer,
       isSelected: treeStructureNode.isSelected,
       isHovered: treeStructureNode.isHovered,
-      isLeaf:
+      isLeaf: !!(
         !treeStructureNode.children || treeStructureNode.children.length === 0
-          ? true
-          : false,
+      ),
     },
     children: treeStructureNode.children?.map((child) =>
       convertTreeStructureNodeToRawNodeDatum(child)

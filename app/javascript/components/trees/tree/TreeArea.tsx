@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { convertNodesToRawNodeDatum } from "@/convertNodesToRawNodeDatum";
 import { selectNodes } from "@/selectNodes";
 import Tree from "react-d3-tree";
-import { TreeDataFromApi, WrappedRawNodeDatum } from "@/types";
-import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
+import {
+  TreeDataFromApi,
+  WrappedRawNodeDatum,
+  TreeData,
+  Node,
+  Layer,
+} from "@/types";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
 import CustomNode from "@/components/trees/tree/CustomNode";
 import { updateAttributeByIds } from "@/updateAttributeByIds";
+import { useTreeUpdate } from "@/hooks/useTreeUpdate";
+import AlertError from "@/components/shared/AlertError";
+import { RenderCustomNodeElementFn } from "react-d3-tree/lib/types/types/common";
 
 export type TreeAreaProps = {
   treeData: TreeDataFromApi;
@@ -15,6 +23,10 @@ export type TreeAreaProps = {
   hoveredNodeId: number | null;
   handleMouseOver: TreeNodeEventCallback;
   handleMouseOut: TreeNodeEventCallback;
+  onUpdateSuccess: (
+    updatedTreeData: TreeDataFromApi,
+    selectedNodeIds?: number[]
+  ) => void;
 };
 
 export const TreeArea: React.FC<TreeAreaProps> = ({
@@ -24,7 +36,10 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
   hoveredNodeId,
   handleMouseOver,
   handleMouseOut,
+  onUpdateSuccess,
 }) => {
+  const { errorMessage, sendUpdateRequest } = useTreeUpdate(treeData.tree.id);
+
   let rawNodeDatum: WrappedRawNodeDatum;
   rawNodeDatum = convertNodesToRawNodeDatum(treeData.nodes, treeData.layers);
 
@@ -35,14 +50,55 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
   const targetNodeIds: number[] = hoveredNodeId !== null ? [hoveredNodeId] : [];
   rawNodeDatum = updateAttributeByIds("isHovered", targetNodeIds, rawNodeDatum);
 
+  const createNewChildLayerAndNodes = async (parentNodeId: number) => {
+    console.log("createNewChildLayerAndNodes");
+    const newChildLayer: Layer = {
+      operation: "multiply",
+      fraction: 0,
+      parentNodeId,
+    };
+    const newChildNode: Node = {
+      name: "新規の要素",
+      value: 1,
+      valueFormat: "なし",
+      unit: "",
+      isValueLocked: false,
+      parentId: parentNodeId,
+    };
+    const newTreeData: TreeData = {
+      ...treeData,
+      layers: [...treeData.layers, newChildLayer],
+      nodes: [...treeData.nodes, { ...newChildNode }, { ...newChildNode }],
+    };
+    const result = await sendUpdateRequest(newTreeData);
+    if (result) {
+      console.log("createNewChildLayerAndNodes success");
+      console.dir(result);
+      const newNodeIds = result.nodes
+        .filter((node) => node.parentId === parentNodeId)
+        .map((node) => node.id);
+      onUpdateSuccess(result, newNodeIds);
+    }
+  };
+
+  const CustomNodeWrapper: RenderCustomNodeElementFn = (rd3tNodeProps) => {
+    return (
+      <CustomNode
+        {...rd3tNodeProps}
+        createNewChildLayerAndNodes={createNewChildLayerAndNodes}
+      />
+    );
+  };
+
   return (
     <>
+      {errorMessage && <AlertError message={errorMessage} />}
       <Tree
         translate={{ x: 350, y: 20 }}
         data={rawNodeDatum}
         pathFunc="diagonal"
         orientation="vertical"
-        renderCustomNodeElement={CustomNode}
+        renderCustomNodeElement={CustomNodeWrapper}
         onNodeClick={handleClick}
         separation={{ siblings: 2, nonSiblings: 2 }}
         zoom={0.7}
