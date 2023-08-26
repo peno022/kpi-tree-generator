@@ -42,6 +42,7 @@ describe("selectNodes", () => {
           operation: "",
           isLastInLayer: true,
           isSelected: true,
+          isHovered: false,
         },
         children: [
           {
@@ -55,6 +56,7 @@ describe("selectNodes", () => {
               operation: childLayer.operation,
               isLastInLayer: false,
               isSelected: false,
+              isHovered: false,
             },
             children: [
               {
@@ -68,6 +70,7 @@ describe("selectNodes", () => {
                   operation: grandChildLayer.operation,
                   isLastInLayer: false,
                   isSelected: false,
+                  isHovered: false,
                 },
               },
               {
@@ -81,6 +84,7 @@ describe("selectNodes", () => {
                   operation: grandChildLayer.operation,
                   isLastInLayer: true,
                   isSelected: false,
+                  isHovered: false,
                 },
               },
             ],
@@ -96,6 +100,7 @@ describe("selectNodes", () => {
               operation: childLayer.operation,
               isLastInLayer: true,
               isSelected: false,
+              isHovered: false,
             },
           },
         ],
@@ -117,6 +122,7 @@ describe("selectNodes", () => {
           operation: "",
           isLastInLayer: true,
           isSelected: false,
+          isHovered: false,
         },
         children: [
           {
@@ -130,6 +136,7 @@ describe("selectNodes", () => {
               operation: childLayer.operation,
               isLastInLayer: false,
               isSelected: true,
+              isHovered: false,
             },
             children: [
               {
@@ -143,6 +150,7 @@ describe("selectNodes", () => {
                   operation: grandChildLayer.operation,
                   isLastInLayer: false,
                   isSelected: false,
+                  isHovered: false,
                 },
               },
               {
@@ -156,6 +164,7 @@ describe("selectNodes", () => {
                   operation: grandChildLayer.operation,
                   isLastInLayer: true,
                   isSelected: false,
+                  isHovered: false,
                 },
               },
             ],
@@ -171,6 +180,7 @@ describe("selectNodes", () => {
               operation: childLayer.operation,
               isLastInLayer: true,
               isSelected: true,
+              isHovered: false,
             },
           },
         ],
@@ -193,6 +203,7 @@ describe("selectNodes", () => {
           operation: "",
           isLastInLayer: true,
           isSelected: false,
+          isHovered: false,
         },
         children: [
           {
@@ -206,6 +217,7 @@ describe("selectNodes", () => {
               operation: childLayer.operation,
               isLastInLayer: false,
               isSelected: true,
+              isHovered: false,
             },
             children: [
               {
@@ -219,6 +231,7 @@ describe("selectNodes", () => {
                   operation: grandChildLayer.operation,
                   isLastInLayer: false,
                   isSelected: false,
+                  isHovered: false,
                 },
               },
               {
@@ -232,6 +245,7 @@ describe("selectNodes", () => {
                   operation: grandChildLayer.operation,
                   isLastInLayer: true,
                   isSelected: false,
+                  isHovered: false,
                 },
               },
             ],
@@ -247,6 +261,7 @@ describe("selectNodes", () => {
               operation: childLayer.operation,
               isLastInLayer: true,
               isSelected: true,
+              isHovered: false,
             },
           },
         ],
@@ -267,6 +282,7 @@ describe("selectNodes", () => {
           operation: "",
           isLastInLayer: true,
           isSelected: false,
+          isHovered: false,
         },
         children: [
           {
@@ -280,6 +296,7 @@ describe("selectNodes", () => {
               operation: childLayer.operation,
               isLastInLayer: false,
               isSelected: false,
+              isHovered: false,
             },
             children: [
               {
@@ -293,6 +310,7 @@ describe("selectNodes", () => {
                   operation: grandChildLayer.operation,
                   isLastInLayer: false,
                   isSelected: true,
+                  isHovered: false,
                 },
               },
               {
@@ -306,6 +324,7 @@ describe("selectNodes", () => {
                   operation: grandChildLayer.operation,
                   isLastInLayer: true,
                   isSelected: true,
+                  isHovered: false,
                 },
               },
             ],
@@ -321,6 +340,7 @@ describe("selectNodes", () => {
               operation: childLayer.operation,
               isLastInLayer: true,
               isSelected: false,
+              isHovered: false,
             },
           },
         ],

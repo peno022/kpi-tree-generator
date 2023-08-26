@@ -14,6 +14,9 @@ describe.skip("ツリーの表示", () => {
         treeData: fixtures.treeData,
         selectedNodeIds: [],
         handleClick,
+        hoveredNodeId: null,
+        handleMouseOver: jest.fn(),
+        handleMouseOut: jest.fn(),
       };
       const { container } = render(<TreeArea {...props} />);
       const nodes = container.querySelectorAll(".rd3t-leaf-node, .rd3t-node");

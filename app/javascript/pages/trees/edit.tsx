@@ -18,6 +18,7 @@ const EditTreePage = () => {
   });
   const [selectedNodeIds, setSelectedNodeIds] = useState<number[]>([]);
   const [isLoading, setisLoading] = useState(true);
+  const [hoveredNodeId, setHoveredNodeId] = useState<number | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -62,6 +63,24 @@ const EditTreePage = () => {
     setSelectedNodeIds([]);
   };
 
+  const handleMouseOver: TreeNodeEventCallback = (node) => {
+    // console.log(`id:${node.data?.attributes?.id}: ${node.data.name}をホバー`);
+    const hoveredNode = treeData.nodes.find(
+      (nodeData) => nodeData.id === node.data?.attributes?.id
+    );
+    if (!hoveredNode) {
+      return;
+    }
+    setHoveredNodeId(hoveredNode.id);
+  };
+
+  const handleMouseOut: TreeNodeEventCallback = (node) => {
+    // console.log(
+    //   `id:${node.data?.attributes?.id}: ${node.data.name}をホバー解除`
+    // );
+    setHoveredNodeId(null);
+  };
+
   return (
     <>
       <div className="flex w-full">
@@ -78,6 +97,9 @@ const EditTreePage = () => {
               treeData={treeData}
               selectedNodeIds={selectedNodeIds}
               handleClick={handleClick}
+              hoveredNodeId={hoveredNodeId}
+              handleMouseOver={handleMouseOver}
+              handleMouseOut={handleMouseOut}
             />
           </ErrorBoundary>
           ;

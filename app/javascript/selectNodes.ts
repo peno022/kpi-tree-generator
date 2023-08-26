@@ -1,12 +1,13 @@
 import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 import TreeModel from "tree-model";
+import { WrappedRawNodeDatum } from "@/types";
 
 export {};
 
 export function selectNodes(
   clickedNodeId: number,
-  rawNodeDatum: RawNodeDatum
-): RawNodeDatum {
+  rawNodeDatum: WrappedRawNodeDatum
+): WrappedRawNodeDatum {
   const treeModel = new TreeModel();
   const tree = treeModel.parse(rawNodeDatum);
 
