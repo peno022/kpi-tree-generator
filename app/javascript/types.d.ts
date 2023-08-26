@@ -45,6 +45,7 @@ export type TreeStructureNode = {
   isLastInLayer: boolean;
   isSelected: boolean;
   isHovered: boolean;
+  isLeaf: boolean;
   childLayer?: LayerFromApi;
   parentId: number;
   children: TreeStructureNode[];
@@ -61,6 +62,7 @@ export type WrappedRawNodeDatum = RawNodeDatum & {
     isLastInLayer: boolean;
     isSelected: boolean;
     isHovered: boolean;
+    isLeaf: boolean;
   };
 };
 

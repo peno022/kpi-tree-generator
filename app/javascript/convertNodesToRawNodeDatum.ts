@@ -9,6 +9,7 @@ type preparedNode = types.NodeFromApi & {
   isLastInLayer: boolean;
   isSelected: boolean;
   isHovered: boolean;
+  isLeaf: boolean;
   childLayer?: types.LayerFromApi;
 };
 
@@ -60,7 +61,6 @@ function convertNodesListToTree(
   return treeStructureNode[0];
 }
 
-// 自分がchildrenの中の最後のノードかどうかを判定し、isLastInLayerプロパティを追加する関数
 function addDisplayProperties(nodes: types.NodeFromApi[]): preparedNode[] {
   return nodes.map((node) => {
     const nodeWithDisplayProperties = {
@@ -68,6 +68,7 @@ function addDisplayProperties(nodes: types.NodeFromApi[]): preparedNode[] {
       isLastInLayer: false,
       isSelected: false,
       isHovered: false,
+      isLeaf: false,
     };
     const parentNode = nodes.find((n) => n.id === node.parentId);
     if (parentNode) {
@@ -82,6 +83,7 @@ function addDisplayProperties(nodes: types.NodeFromApi[]): preparedNode[] {
     } else {
       nodeWithDisplayProperties.isLastInLayer = true;
     }
+
     return nodeWithDisplayProperties;
   });
 }
@@ -131,6 +133,10 @@ function convertTreeStructureNodeToRawNodeDatum(
       isLastInLayer: treeStructureNode.isLastInLayer,
       isSelected: treeStructureNode.isSelected,
       isHovered: treeStructureNode.isHovered,
+      isLeaf:
+        !treeStructureNode.children || treeStructureNode.children.length === 0
+          ? true
+          : false,
     },
     children: treeStructureNode.children?.map((child) =>
       convertTreeStructureNodeToRawNodeDatum(child)

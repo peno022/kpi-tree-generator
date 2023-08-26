@@ -43,6 +43,7 @@ describe("selectNodes", () => {
           isLastInLayer: true,
           isSelected: true,
           isHovered: false,
+          isLeaf: false,
         },
         children: [
           {
@@ -57,6 +58,7 @@ describe("selectNodes", () => {
               isLastInLayer: false,
               isSelected: false,
               isHovered: false,
+              isLeaf: false,
             },
             children: [
               {
@@ -71,6 +73,7 @@ describe("selectNodes", () => {
                   isLastInLayer: false,
                   isSelected: false,
                   isHovered: false,
+                  isLeaf: false,
                 },
               },
               {
@@ -85,6 +88,7 @@ describe("selectNodes", () => {
                   isLastInLayer: true,
                   isSelected: false,
                   isHovered: false,
+                  isLeaf: false,
                 },
               },
             ],
@@ -101,6 +105,7 @@ describe("selectNodes", () => {
               isLastInLayer: true,
               isSelected: false,
               isHovered: false,
+              isLeaf: false,
             },
           },
         ],
@@ -123,6 +128,7 @@ describe("selectNodes", () => {
           isLastInLayer: true,
           isSelected: false,
           isHovered: false,
+          isLeaf: false,
         },
         children: [
           {
@@ -137,6 +143,7 @@ describe("selectNodes", () => {
               isLastInLayer: false,
               isSelected: true,
               isHovered: false,
+              isLeaf: false,
             },
             children: [
               {
@@ -151,6 +158,7 @@ describe("selectNodes", () => {
                   isLastInLayer: false,
                   isSelected: false,
                   isHovered: false,
+                  isLeaf: false,
                 },
               },
               {
@@ -165,6 +173,7 @@ describe("selectNodes", () => {
                   isLastInLayer: true,
                   isSelected: false,
                   isHovered: false,
+                  isLeaf: false,
                 },
               },
             ],
@@ -181,6 +190,7 @@ describe("selectNodes", () => {
               isLastInLayer: true,
               isSelected: true,
               isHovered: false,
+              isLeaf: false,
             },
           },
         ],
@@ -204,6 +214,7 @@ describe("selectNodes", () => {
           isLastInLayer: true,
           isSelected: false,
           isHovered: false,
+          isLeaf: false,
         },
         children: [
           {
@@ -218,6 +229,7 @@ describe("selectNodes", () => {
               isLastInLayer: false,
               isSelected: true,
               isHovered: false,
+              isLeaf: false,
             },
             children: [
               {
@@ -232,6 +244,7 @@ describe("selectNodes", () => {
                   isLastInLayer: false,
                   isSelected: false,
                   isHovered: false,
+                  isLeaf: false,
                 },
               },
               {
@@ -246,6 +259,7 @@ describe("selectNodes", () => {
                   isLastInLayer: true,
                   isSelected: false,
                   isHovered: false,
+                  isLeaf: false,
                 },
               },
             ],
@@ -262,6 +276,7 @@ describe("selectNodes", () => {
               isLastInLayer: true,
               isSelected: true,
               isHovered: false,
+              isLeaf: false,
             },
           },
         ],
@@ -283,6 +298,7 @@ describe("selectNodes", () => {
           isLastInLayer: true,
           isSelected: false,
           isHovered: false,
+          isLeaf: false,
         },
         children: [
           {
@@ -297,6 +313,7 @@ describe("selectNodes", () => {
               isLastInLayer: false,
               isSelected: false,
               isHovered: false,
+              isLeaf: false,
             },
             children: [
               {
@@ -311,6 +328,7 @@ describe("selectNodes", () => {
                   isLastInLayer: false,
                   isSelected: true,
                   isHovered: false,
+                  isLeaf: false,
                 },
               },
               {
@@ -325,6 +343,7 @@ describe("selectNodes", () => {
                   isLastInLayer: true,
                   isSelected: true,
                   isHovered: false,
+                  isLeaf: false,
                 },
               },
             ],
@@ -341,6 +360,7 @@ describe("selectNodes", () => {
               isLastInLayer: true,
               isSelected: false,
               isHovered: false,
+              isLeaf: false,
             },
           },
         ],

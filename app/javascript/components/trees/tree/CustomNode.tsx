@@ -115,7 +115,7 @@ const CustomNode: types.RenderCustomNodeElementFn = ({
             "×"}
         </text>
       </g>
-      {nodeDatum.attributes?.isHovered && (
+      {nodeDatum.attributes?.isHovered && nodeDatum.attributes?.isLeaf && (
         <g
           onClick={() => {
             console.log("ホバーボタンをクリック");
