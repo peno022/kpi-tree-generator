@@ -1,8 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faCircleDown } from "@fortawesome/free-solid-svg-icons";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { CustomNodeElementProps } from "react-d3-tree/lib/types/types/common";
-
+import CustomNodeButton from "./CustomNodeButton";
 export interface CustomNodeProps extends CustomNodeElementProps {
   createNewChildLayerAndNodes: (parentNodeId: number) => void;
 }
@@ -130,27 +130,10 @@ const CustomNode = ({
         </text>
       </g>
       {nodeDatum.attributes?.isHovered && nodeDatum.attributes?.isLeaf && (
-        <g
-          onClick={handleAddLayerButtonClick}
+        <CustomNodeButton
+          handleClick={handleAddLayerButtonClick}
           onMouseOver={onNodeMouseOver}
-          className="add-layer-button"
-        >
-          <rect
-            width={40}
-            height={40}
-            x={-20}
-            y={110}
-            fill="transparent"
-            stroke="transparent"
-          ></rect>
-          <FontAwesomeIcon
-            icon={faCircleDown}
-            width={40}
-            height={40}
-            x={-20}
-            y={110}
-          />
-        </g>
+        ></CustomNodeButton>
       )}
     </g>
   );
