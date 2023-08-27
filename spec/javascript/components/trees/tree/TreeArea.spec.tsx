@@ -17,6 +17,7 @@ describe.skip("ツリーの表示", () => {
         hoveredNodeId: null,
         handleMouseOver: jest.fn(),
         handleMouseOut: jest.fn(),
+        onUpdateSuccess: jest.fn(),
       };
       const { container } = render(<TreeArea {...props} />);
       const nodes = container.querySelectorAll(".rd3t-leaf-node, .rd3t-node");

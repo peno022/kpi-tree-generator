@@ -34,6 +34,7 @@ describe("convertNodesToRawNodeDatum", () => {
           isLastInLayer: true,
           isSelected: false,
           isHovered: false,
+          isLeaf: true,
         },
       };
       expect(convertNodesToRawNodeDatum(nodes, layers)).toEqual(expected);
@@ -55,6 +56,7 @@ describe("convertNodesToRawNodeDatum", () => {
           isLastInLayer: true,
           isSelected: false,
           isHovered: false,
+          isLeaf: false,
         },
         children: [
           {
@@ -69,6 +71,7 @@ describe("convertNodesToRawNodeDatum", () => {
               isLastInLayer: false,
               isSelected: false,
               isHovered: false,
+              isLeaf: true,
             },
           },
           {
@@ -83,6 +86,7 @@ describe("convertNodesToRawNodeDatum", () => {
               isLastInLayer: true,
               isSelected: false,
               isHovered: false,
+              isLeaf: true,
             },
           },
         ],
@@ -112,6 +116,7 @@ describe("convertNodesToRawNodeDatum", () => {
           isLastInLayer: true,
           isSelected: false,
           isHovered: false,
+          isLeaf: false,
         },
         children: [
           {
@@ -126,6 +131,7 @@ describe("convertNodesToRawNodeDatum", () => {
               isLastInLayer: false,
               isSelected: false,
               isHovered: false,
+              isLeaf: false,
             },
             children: [
               {
@@ -140,6 +146,7 @@ describe("convertNodesToRawNodeDatum", () => {
                   isLastInLayer: false,
                   isSelected: false,
                   isHovered: false,
+                  isLeaf: true,
                 },
               },
               {
@@ -154,6 +161,7 @@ describe("convertNodesToRawNodeDatum", () => {
                   isLastInLayer: true,
                   isSelected: false,
                   isHovered: false,
+                  isLeaf: true,
                 },
               },
             ],
@@ -170,6 +178,7 @@ describe("convertNodesToRawNodeDatum", () => {
               isLastInLayer: true,
               isSelected: false,
               isHovered: false,
+              isLeaf: true,
             },
           },
         ],
