@@ -18,6 +18,7 @@ const EditTreePage = () => {
   });
   const [selectedNodeIds, setSelectedNodeIds] = useState<number[]>([]);
   const [isLoading, setisLoading] = useState(true);
+  const [hoveredNodeId, setHoveredNodeId] = useState<number | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -57,9 +58,26 @@ const EditTreePage = () => {
     }
   };
 
-  const handleUpdateSuccess = (updatedTreeData: TreeDataFromApi) => {
+  const handleUpdateSuccess = (
+    updatedTreeData: TreeDataFromApi,
+    selectedNodeIds: number[] = []
+  ) => {
     setTreeData(updatedTreeData);
-    setSelectedNodeIds([]);
+    setSelectedNodeIds(selectedNodeIds);
+  };
+
+  const handleMouseOver: TreeNodeEventCallback = (node) => {
+    const hoveredNode = treeData.nodes.find(
+      (nodeData) => nodeData.id === node.data?.attributes?.id
+    );
+    if (!hoveredNode) {
+      return;
+    }
+    setHoveredNodeId(hoveredNode.id);
+  };
+
+  const handleMouseOut: TreeNodeEventCallback = () => {
+    setHoveredNodeId(null);
   };
 
   return (
@@ -78,6 +96,10 @@ const EditTreePage = () => {
               treeData={treeData}
               selectedNodeIds={selectedNodeIds}
               handleClick={handleClick}
+              hoveredNodeId={hoveredNodeId}
+              handleMouseOver={handleMouseOver}
+              handleMouseOut={handleMouseOut}
+              onUpdateSuccess={handleUpdateSuccess}
             />
           </ErrorBoundary>
           ;

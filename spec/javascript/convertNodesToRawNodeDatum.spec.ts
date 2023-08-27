@@ -32,6 +32,9 @@ describe("convertNodesToRawNodeDatum", () => {
           isValueLocked: parentNode.isValueLocked,
           operation: "",
           isLastInLayer: true,
+          isSelected: false,
+          isHovered: false,
+          isLeaf: true,
         },
       };
       expect(convertNodesToRawNodeDatum(nodes, layers)).toEqual(expected);
@@ -51,6 +54,9 @@ describe("convertNodesToRawNodeDatum", () => {
           isValueLocked: parentNode.isValueLocked,
           operation: "",
           isLastInLayer: true,
+          isSelected: false,
+          isHovered: false,
+          isLeaf: false,
         },
         children: [
           {
@@ -63,6 +69,9 @@ describe("convertNodesToRawNodeDatum", () => {
               isValueLocked: childNode1.isValueLocked,
               operation: childLayer.operation,
               isLastInLayer: false,
+              isSelected: false,
+              isHovered: false,
+              isLeaf: true,
             },
           },
           {
@@ -75,6 +84,9 @@ describe("convertNodesToRawNodeDatum", () => {
               isValueLocked: childNode2.isValueLocked,
               operation: childLayer.operation,
               isLastInLayer: true,
+              isSelected: false,
+              isHovered: false,
+              isLeaf: true,
             },
           },
         ],
@@ -102,6 +114,9 @@ describe("convertNodesToRawNodeDatum", () => {
           isValueLocked: parentNode.isValueLocked,
           operation: "",
           isLastInLayer: true,
+          isSelected: false,
+          isHovered: false,
+          isLeaf: false,
         },
         children: [
           {
@@ -114,6 +129,9 @@ describe("convertNodesToRawNodeDatum", () => {
               isValueLocked: childNode1.isValueLocked,
               operation: childLayer.operation,
               isLastInLayer: false,
+              isSelected: false,
+              isHovered: false,
+              isLeaf: false,
             },
             children: [
               {
@@ -126,6 +144,9 @@ describe("convertNodesToRawNodeDatum", () => {
                   isValueLocked: grandChildNode1.isValueLocked,
                   operation: grandChildLayer.operation,
                   isLastInLayer: false,
+                  isSelected: false,
+                  isHovered: false,
+                  isLeaf: true,
                 },
               },
               {
@@ -138,6 +159,9 @@ describe("convertNodesToRawNodeDatum", () => {
                   isValueLocked: grandChildNode2.isValueLocked,
                   operation: grandChildLayer.operation,
                   isLastInLayer: true,
+                  isSelected: false,
+                  isHovered: false,
+                  isLeaf: true,
                 },
               },
             ],
@@ -152,6 +176,9 @@ describe("convertNodesToRawNodeDatum", () => {
               isValueLocked: childNode2.isValueLocked,
               operation: childLayer.operation,
               isLastInLayer: true,
+              isSelected: false,
+              isHovered: false,
+              isLeaf: true,
             },
           },
         ],

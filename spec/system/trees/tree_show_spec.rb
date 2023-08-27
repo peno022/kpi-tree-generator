@@ -32,14 +32,14 @@ RSpec.describe 'Tree pages', js: true do
     end
 
     it('treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。') do
-      target_node_before = find('g > text', text: '子1').ancestor('g.rd3t-leaf-node')
-      sibling_node_before = find('g > text', text: '子2').ancestor('g.rd3t-leaf-node')
+      target_node_before = find('g > text', text: '子1').ancestor('g.custom-node')
+      sibling_node_before = find('g > text', text: '子2').ancestor('g.custom-node')
       expect(target_node_before.find('rect')[:style]).to include('fill: ghostwhite')
       expect(sibling_node_before.find('rect')[:style]).to include('fill: ghostwhite')
       target_node_before.click
-      target_node_after = find('g > text', text: '子1').ancestor('g.rd3t-leaf-node')
+      target_node_after = find('g > text', text: '子1').ancestor('g.custom-node')
       expect(target_node_after.find('rect')[:style]).to include('fill: moccasin')
-      sibling_node_after = find('g > text', text: '子2').ancestor('g.rd3t-leaf-node')
+      sibling_node_after = find('g > text', text: '子2').ancestor('g.custom-node')
       expect(sibling_node_after.find('rect')[:style]).to include('fill: moccasin')
 
       # ツールエリアにクリックしたノードの階層の詳細が表示されていること
@@ -55,10 +55,10 @@ RSpec.describe 'Tree pages', js: true do
       visit edit_tree_path(tree3)
 
       # クリックしたルートノードの色が変わること
-      target_node_before = find('g > text', text: 'ルート').ancestor('g:not([class])')
+      target_node_before = find('g > text', text: 'ルート').ancestor('g.custom-node')
       expect(target_node_before.find('rect')[:style]).to include('fill: ghostwhite')
       target_node_before.click
-      target_node_after = find('g > text', text: 'ルート').ancestor('g:not([class])')
+      target_node_after = find('g > text', text: 'ルート').ancestor('g.custom-node')
       expect(target_node_after.find('rect')[:style]).to include('fill: moccasin')
 
       # ツールエリアにクリックしたノードの階層の詳細が表示されていること

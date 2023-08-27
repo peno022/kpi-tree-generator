@@ -1,4 +1,3 @@
-import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
 import * as types from "@/types";
 import LTT from "list-to-tree";
 
@@ -6,19 +5,24 @@ export {};
 
 type preparedNode = types.NodeFromApi & {
   operation?: string;
-  isLastInLayer?: boolean;
+  isLastInLayer: boolean;
+  isSelected: boolean;
+  isHovered: boolean;
+  isLeaf: boolean;
   childLayer?: types.LayerFromApi;
 };
 
 export function convertNodesToRawNodeDatum(
   nodes: types.NodeFromApi[],
   layers: types.LayerFromApi[]
-): RawNodeDatum {
+): types.WrappedRawNodeDatum {
   const preparedNodes = prepareNodeProperties(nodes, layers);
   const treeStructureNode = convertNodesListToTree(preparedNodes);
   const rawNodeDatum =
     convertTreeStructureNodeToRawNodeDatum(treeStructureNode);
 
+  // console.log("--------rawNodeDatum--------");
+  // console.dir(rawNodeDatum, { depth: null });
   return rawNodeDatum;
 }
 
@@ -26,9 +30,9 @@ function prepareNodeProperties(
   nodes: types.NodeFromApi[],
   layers: types.LayerFromApi[]
 ): preparedNode[] {
-  const nodesWithIsLastInLayerProperty = addIsLastInLayerProperty(nodes);
+  const nodesWithDisplayProperties = addDisplayProperties(nodes);
   const nodesWithChildLayer = addLayerToNode(
-    nodesWithIsLastInLayerProperty,
+    nodesWithDisplayProperties,
     layers
   );
   const nodesWithInheritedOperation =
@@ -56,24 +60,30 @@ function convertNodesListToTree(
   return treeStructureNode[0];
 }
 
-// 自分がchildrenの中の最後のノードかどうかを判定し、isLastInLayerプロパティを追加する関数
-function addIsLastInLayerProperty(nodes: types.NodeFromApi[]): preparedNode[] {
+function addDisplayProperties(nodes: types.NodeFromApi[]): preparedNode[] {
   return nodes.map((node) => {
-    const nodeWithIsLastInLayerProperty = { ...node, isLastInLayer: false };
-    const parentNode = findNodeById(node.parentId, nodes);
+    const nodeWithDisplayProperties = {
+      ...node,
+      isLastInLayer: false,
+      isSelected: false,
+      isHovered: false,
+      isLeaf: false,
+    };
+    const parentNode = nodes.find((n) => n.id === node.parentId);
     if (parentNode) {
       const childrenNodes = nodes.filter((n) => n.parentId === node.parentId);
       // childrenNodesの中で一番大きいidを持つノードが自分自身であれば、isLastInLayerをtrueにする
       const maxId = Math.max(...childrenNodes.map((n) => n.id));
       if (node.id === maxId) {
-        nodeWithIsLastInLayerProperty.isLastInLayer = true;
+        nodeWithDisplayProperties.isLastInLayer = true;
       } else {
-        nodeWithIsLastInLayerProperty.isLastInLayer = false;
+        nodeWithDisplayProperties.isLastInLayer = false;
       }
     } else {
-      nodeWithIsLastInLayerProperty.isLastInLayer = true;
+      nodeWithDisplayProperties.isLastInLayer = true;
     }
-    return nodeWithIsLastInLayerProperty;
+
+    return nodeWithDisplayProperties;
   });
 }
 
@@ -109,7 +119,7 @@ function inheritOperationFromParentNode(nodes: preparedNode[]): preparedNode[] {
 // nodeTreeをRawNodeDatum型に変換する関数
 function convertTreeStructureNodeToRawNodeDatum(
   treeStructureNode: types.TreeStructureNode
-): RawNodeDatum {
+): types.WrappedRawNodeDatum {
   const rawNodeDatum = {
     name: treeStructureNode.name,
     attributes: {
@@ -120,6 +130,11 @@ function convertTreeStructureNodeToRawNodeDatum(
       isValueLocked: treeStructureNode.isValueLocked,
       operation: treeStructureNode.operation,
       isLastInLayer: treeStructureNode.isLastInLayer,
+      isSelected: treeStructureNode.isSelected,
+      isHovered: treeStructureNode.isHovered,
+      isLeaf: !!(
+        !treeStructureNode.children || treeStructureNode.children.length === 0
+      ),
     },
     children: treeStructureNode.children?.map((child) =>
       convertTreeStructureNodeToRawNodeDatum(child)

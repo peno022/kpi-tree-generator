@@ -41,8 +41,11 @@ export type TreeStructureNode = {
   valueFormat: "なし" | "%" | "千" | "万";
   unit: string;
   isValueLocked: boolean;
-  operation: string;
+  operation: "multiply" | "add" | "";
   isLastInLayer: boolean;
+  isSelected: boolean;
+  isHovered: boolean;
+  isLeaf: boolean;
   childLayer?: LayerFromApi;
   parentId: number;
   children: TreeStructureNode[];
@@ -55,8 +58,11 @@ export type WrappedRawNodeDatum = RawNodeDatum & {
     valueFormat: "なし" | "%" | "千" | "万";
     unit: string;
     isValueLocked: boolean;
-    operation?: "multiply" | "add";
+    operation: "multiply" | "add" | "";
     isLastInLayer: boolean;
+    isSelected: boolean;
+    isHovered: boolean;
+    isLeaf: boolean;
   };
 };
 

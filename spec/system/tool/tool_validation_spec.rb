@@ -249,7 +249,7 @@ RSpec.describe 'ツールエリアのバリデーションチェック', js: tru
 
       # ツリー編集画面を表示し、ノードをクリックしてツールエリアを開く
       visit edit_tree_path(tree)
-      find('g > text', text: 'ルート').ancestor('g:not([class])').click
+      find('g > text', text: 'ルート').ancestor('g.custom-node').click
     end
 
     it('名前の必須チェック') do
