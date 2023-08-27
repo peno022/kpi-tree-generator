@@ -28,7 +28,7 @@ const CustomNodeButton: React.FC<CustomNodeButtonProps> = ({
       <g
         onClick={handleClick}
         onMouseOver={onMouseOver}
-        className="add-layer-button"
+        className={`add-layer-button ${isHovered ? "hovered" : ""}`}
       >
         <rect
           width={40}

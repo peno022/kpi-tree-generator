@@ -24,7 +24,7 @@ const CustomNode = ({
     }
   };
   return (
-    <g>
+    <g id={`custom-node-${nodeDatum.attributes?.id.toString()}`}>
       <g>
         <rect
           x="-85"
