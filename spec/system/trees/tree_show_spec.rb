@@ -31,7 +31,7 @@ RSpec.describe 'Tree pages', js: true do
       expect(page).to have_content('要素を選択すると、ここに詳細が表示されます。')
     end
 
-    it('treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が表示される。') do
+    it('treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が要素のid順で表示される。') do
       target_node_before = find('g > text', text: '子1').ancestor('g.custom-node')
       sibling_node_before = find('g > text', text: '子2').ancestor('g.custom-node')
       expect(target_node_before.find('rect')[:style]).to include('fill: ghostwhite')
@@ -44,8 +44,8 @@ RSpec.describe 'Tree pages', js: true do
 
       # ツールエリアにクリックしたノードの階層の詳細が表示されていること
       expect(page).to have_content('要素間の関係')
-      expect(page).to have_css('input[value="子1"]')
-      expect(page).to have_css('input[value="子1"]')
+      expect(find_by_id('node-detail-1')).to have_css('input[value="子1"]')
+      expect(find_by_id('node-detail-2')).to have_css('input[value="子2"]')
     end
 
     it('treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。') do

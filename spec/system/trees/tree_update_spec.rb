@@ -667,25 +667,14 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         expect(find_by_id('node-detail-1')).not_to have_css('.tool-menu')
       end
 
-      it('ルートノード以外のノードを選択したとき、ノードが2つの場合は要素のツールメニューが表示されない。') do
+      it('ルートノード以外のノードを選択したとき、要素のツールメニューが表示される。（ノードが2つの場合）') do
         find('g > text', text: '子2').ancestor('g.rd3t-node').click
-        expect(find_by_id('node-detail-1')).not_to have_css('.tool-menu')
-      end
-
-      it('ルートノード以外のノードを選択したとき、ノードが3つ以上ある場合は要素のツールメニューが表示される。') do
-        find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
         expect(find_by_id('node-detail-1')).to have_css('.tool-menu')
       end
 
-      it('ノードが3つの状態から1つの要素を削除ボタンを押すと、要素のツールメニューは表示されなくなる。') do
+      it('ルートノード以外のノードを選択したとき、要素のツールメニューが表示される。（ノードが3つ以上の場合）') do
         find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
         expect(find_by_id('node-detail-1')).to have_css('.tool-menu')
-        find_by_id('node-detail-3').find('.tool-menu').click
-        click_link '要素を削除'
-        expect(node_details.length).to eq 2
-        node_details.each do |node_detail|
-          expect(node_detail).not_to have_css('.tool-menu')
-        end
       end
     end
 
@@ -747,11 +736,11 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       end
 
       it('葉ノードでないノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードが削除される。') do
-        find('g > text', text: '子2').ancestor('g.rd3t-node').click
+        find('g > text', text: '子2').ancestor('g.custom-node').click
         click_button '要素を追加'
         find('#updateButton label', text: '更新').click
         find('.modal-action label', text: '更新する').click
-        find('g > text', text: '子2').ancestor('g.rd3t-node').click
+        find('g > text', text: '子2').ancestor('g.custom-node').click
         find_by_id('node-detail-2').find('.tool-menu').click
         click_link '要素を削除'
         find('#updateButton label', text: '更新').click

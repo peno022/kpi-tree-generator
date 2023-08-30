@@ -22,9 +22,10 @@ export const ToolArea: React.FC<ToolAreaProps> = ({
     return <Message text="要素を選択すると、ここに詳細が表示されます。" />;
   }
 
-  const selectedNodes: NodeFromApi[] = allNodes.filter((node) =>
-    selectedNodeIds.includes(node.id)
-  );
+  const selectedNodeIdsSet = new Set(selectedNodeIds);
+  const selectedNodes: NodeFromApi[] = allNodes
+    .filter((node) => selectedNodeIdsSet.has(node.id))
+    .sort((a, b) => a.id - b.id);
 
   if (selectedNodes.length === 0) {
     return (
