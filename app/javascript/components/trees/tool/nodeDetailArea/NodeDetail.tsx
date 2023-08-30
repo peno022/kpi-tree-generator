@@ -10,7 +10,7 @@ export type NodeDetailProps = {
   handleNodeInfoChange: (index: number, newNodeInfo: Node) => void;
   fieldValidationErrors: FieldValidationErrors;
   handleFieldValidationErrorsChange: (errors: FieldValidationError[]) => void;
-  showToolMenu: boolean;
+  isRoot: boolean;
   deleteNode: (index: number) => void;
 };
 const NodeDetail: React.FC<NodeDetailProps> = ({
@@ -19,7 +19,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   handleNodeInfoChange,
   fieldValidationErrors,
   handleFieldValidationErrorsChange,
-  showToolMenu,
+  isRoot,
   deleteNode,
 }) => {
   const { handleInputChange } = useNodeDetailLogic(
@@ -37,7 +37,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
       >
         <legend>{`要素${index + 1}`}</legend>
         <div className="absolute right-0 top-2 mt-1.5">
-          {showToolMenu && (
+          {!isRoot && (
             <ToolMenu
               menuItems={[
                 {

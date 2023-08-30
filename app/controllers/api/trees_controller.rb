@@ -20,11 +20,13 @@ module Api
       assign_layers_attributes
       initial_nodes_to_delete = extract_initial_nodes_to_delete
       exclude_objects_to_be_deleted(initial_nodes_to_delete)
-
       ActiveRecord::Base.transaction do
         (@nodes + @layers).each(&:save!)
         initial_nodes_to_delete.each(&:destroy!)
+        prune_isolated_layers
       end
+      reload_tree
+      render json: { tree: @tree, nodes: @tree.nodes, layers: @tree.layers }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
     end
@@ -82,6 +84,18 @@ module Api
 
     def gather_descendants(nodes)
       nodes.flat_map { |node| node.children + gather_descendants(node.children) }
+    end
+
+    def prune_isolated_layers
+      layers_parent_node_ids = @tree.layers.map(&:parent_node_id).uniq.compact
+      nodes_parent_ids = @tree.nodes.map(&:parent_id).uniq.compact
+      # layers_parent_node_idsには含まれていて、nodes_parent_idsには含まれていないparent_node_idを持つLayerを削除する
+      @tree.layers.where(parent_node_id: layers_parent_node_ids - nodes_parent_ids).destroy_all
+    end
+
+    def reload_tree
+      @tree.nodes.reload
+      @tree.layers.reload
     end
   end
 end
