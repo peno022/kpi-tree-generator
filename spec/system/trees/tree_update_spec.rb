@@ -762,6 +762,51 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         expect(page).not_to have_selector('g > text', text: '子2')
       end
 
+      it('葉ノードについて、階層内のすべてのノードを削除できる') do
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        find_by_id('node-detail-2').find('.tool-menu').click
+        click_link '要素を削除'
+        find_by_id('node-detail-1').find('.tool-menu').click
+        click_link '要素を削除'
+        expect(page).not_to have_selector('[id^="node-detail-"]')
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect(page).not_to have_selector('g > text', text: '孫2-1')
+        expect(page).not_to have_selector('g > text', text: '孫2-2')
+        expect(page).not_to have_selector('g > text', text: '孫2-3')
+        expect_tree_node(
+          name: '子2',
+          display_value: '2000円',
+          is_value_locked: false,
+          operation: '',
+          is_leaf: true
+        )
+      end
+
+      it('非葉ノードについて、階層内のすべてのノードを削除できる') do
+        find('g > text', text: '子2').ancestor('g.custom-node').click
+        find_by_id('node-detail-2').find('.tool-menu').click
+        click_link '要素を削除'
+        find_by_id('node-detail-1').find('.tool-menu').click
+        click_link '要素を削除'
+        expect(page).not_to have_selector('[id^="node-detail-"]')
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect(page).not_to have_selector('g > text', text: '子1')
+        expect(page).not_to have_selector('g > text', text: '子2')
+        expect(page).not_to have_selector('g > text', text: '孫2-1')
+        expect(page).not_to have_selector('g > text', text: '孫2-2')
+        expect(page).not_to have_selector('g > text', text: '孫2-3')
+        expect_tree_node(
+          name: 'ルート',
+          display_value: '1000万円',
+          is_value_locked: true,
+          operation: '',
+          is_leaf: true
+        )
+      end
+
       it('要素を削除ボタンを押して、更新ボタン→更新するを押すと、親ノードの値も計算結果に応じて更新される。') do
         find_by_id('node-detail-3').find('.tool-menu').click
         click_link '要素を削除'
