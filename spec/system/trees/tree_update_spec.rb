@@ -667,25 +667,14 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         expect(find_by_id('node-detail-1')).not_to have_css('.tool-menu')
       end
 
-      it('ルートノード以外のノードを選択したとき、ノードが2つの場合は要素のツールメニューが表示されない。') do
+      it('ルートノード以外のノードを選択したとき、要素のツールメニューが表示される。（ノードが2つの場合）') do
         find('g > text', text: '子2').ancestor('g.rd3t-node').click
-        expect(find_by_id('node-detail-1')).not_to have_css('.tool-menu')
-      end
-
-      it('ルートノード以外のノードを選択したとき、ノードが3つ以上ある場合は要素のツールメニューが表示される。') do
-        find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
         expect(find_by_id('node-detail-1')).to have_css('.tool-menu')
       end
 
-      it('ノードが3つの状態から1つの要素を削除ボタンを押すと、要素のツールメニューは表示されなくなる。') do
+      it('ルートノード以外のノードを選択したとき、要素のツールメニューが表示される。（ノードが3つ以上の場合）') do
         find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
         expect(find_by_id('node-detail-1')).to have_css('.tool-menu')
-        find_by_id('node-detail-3').find('.tool-menu').click
-        click_link '要素を削除'
-        expect(node_details.length).to eq 2
-        node_details.each do |node_detail|
-          expect(node_detail).not_to have_css('.tool-menu')
-        end
       end
     end
 
@@ -724,7 +713,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
     end
 
     describe('削除を実行') do
-      it('葉ノードについて、要素をを押してから、更新ボタン→更新するを押すと、ツリーからそのノードが削除される。') do
+      it('葉ノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードが削除される。') do
         find_by_id('node-detail-3').find('.tool-menu').click
         click_link '要素を削除'
         find('#updateButton label', text: '更新').click
@@ -746,12 +735,48 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         expect(page).not_to have_selector('g > text', text: '孫2-3')
       end
 
-      it('葉ノードでないノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードが削除される。') do
-        find('g > text', text: '子2').ancestor('g.rd3t-node').click
-        click_button '要素を追加'
+      it('階層内のノードが全て葉ノードのとき、階層内のすべてのノードを削除できる') do
+        find_by_id('node-detail-3').find('.tool-menu').click
+        click_link '要素を削除'
+        find_by_id('node-detail-2').find('.tool-menu').click
+        click_link '要素を削除'
+        find_by_id('node-detail-1').find('.tool-menu').click
+        click_link '要素を削除'
+        expect(page).not_to have_selector('[id^="node-detail-"]')
         find('#updateButton label', text: '更新').click
         find('.modal-action label', text: '更新する').click
-        find('g > text', text: '子2').ancestor('g.rd3t-node').click
+        expect(page).not_to have_selector('g > text', text: '孫2-1')
+        expect(page).not_to have_selector('g > text', text: '孫2-2')
+        expect(page).not_to have_selector('g > text', text: '孫2-3')
+        expect_tree_node(
+          name: '子2',
+          display_value: '2000円',
+          is_value_locked: false,
+          operation: '',
+          is_leaf: true
+        )
+      end
+
+      it('階層内のノードが全て葉ノードのとき、「選択中の全要素を削除」ボタンを押してから更新を実行すると、階層内のすべてのノードを削除できる') do
+        find('.layer-tool-menu').click
+        click_link '選択中の全要素を削除'
+        expect(page).not_to have_selector('[id^="node-detail-"]')
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect(page).not_to have_selector('g > text', text: '孫2-1')
+        expect(page).not_to have_selector('g > text', text: '孫2-2')
+        expect(page).not_to have_selector('g > text', text: '孫2-3')
+        expect_tree_node(
+          name: '子2',
+          display_value: '2000円',
+          is_value_locked: false,
+          operation: '',
+          is_leaf: true
+        )
+      end
+
+      it('非葉ノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードと子孫ノードが削除される。') do
+        find('g > text', text: '子2').ancestor('g.custom-node').click
         find_by_id('node-detail-2').find('.tool-menu').click
         click_link '要素を削除'
         find('#updateButton label', text: '更新').click
@@ -760,17 +785,57 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
           name: '子1',
           display_value: '5000人',
           is_value_locked: false,
-          operation: 'multiply',
-          is_leaf: true
-        )
-        expect_tree_node(
-          name: '要素3',
-          display_value: '1',
-          is_value_locked: false,
           operation: '',
           is_leaf: true
         )
         expect(page).not_to have_selector('g > text', text: '子2')
+        expect(page).not_to have_selector('g > text', text: '孫2-1')
+        expect(page).not_to have_selector('g > text', text: '孫2-2')
+        expect(page).not_to have_selector('g > text', text: '孫2-3')
+      end
+
+      it('階層内に非葉ノードが含まれるとき、階層内のすべてのノードを削除でき、一緒に子孫のノードも削除される') do
+        find('g > text', text: '子2').ancestor('g.custom-node').click
+        find_by_id('node-detail-2').find('.tool-menu').click
+        click_link '要素を削除'
+        find_by_id('node-detail-1').find('.tool-menu').click
+        click_link '要素を削除'
+        expect(page).not_to have_selector('[id^="node-detail-"]')
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect(page).not_to have_selector('g > text', text: '子1')
+        expect(page).not_to have_selector('g > text', text: '子2')
+        expect(page).not_to have_selector('g > text', text: '孫2-1')
+        expect(page).not_to have_selector('g > text', text: '孫2-2')
+        expect(page).not_to have_selector('g > text', text: '孫2-3')
+        expect_tree_node(
+          name: 'ルート',
+          display_value: '1000万円',
+          is_value_locked: true,
+          operation: '',
+          is_leaf: true
+        )
+      end
+
+      it('階層内に非葉ノードが含まれるとき、「選択中の全要素を削除」ボタンを押してから更新を実行すると階層内のノードがすべて削除され、一緒に子孫のノードも削除される。') do
+        find('g > text', text: '子2').ancestor('g.custom-node').click
+        find('.layer-tool-menu').click
+        click_link '選択中の全要素を削除'
+        expect(page).not_to have_selector('[id^="node-detail-"]')
+        find('#updateButton label', text: '更新').click
+        find('.modal-action label', text: '更新する').click
+        expect(page).not_to have_selector('g > text', text: '子1')
+        expect(page).not_to have_selector('g > text', text: '子2')
+        expect(page).not_to have_selector('g > text', text: '孫2-1')
+        expect(page).not_to have_selector('g > text', text: '孫2-2')
+        expect(page).not_to have_selector('g > text', text: '孫2-3')
+        expect_tree_node(
+          name: 'ルート',
+          display_value: '1000万円',
+          is_value_locked: true,
+          operation: '',
+          is_leaf: true
+        )
       end
 
       it('要素を削除ボタンを押して、更新ボタン→更新するを押すと、親ノードの値も計算結果に応じて更新される。') do

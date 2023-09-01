@@ -116,6 +116,14 @@ const useLayerToolLogic = (
     });
   };
 
+  const deleteAllNodes = () => {
+    setLayerProperty({
+      ...layerProperty,
+      nodes: [],
+    });
+    setFieldValidationErrors([]);
+  };
+
   const [fractionValidation, setFractionValidation] = useState(true);
   const [fractionErrorMessage, setFractionErrorMessage] = useState<
     string | null
@@ -150,6 +158,7 @@ const useLayerToolLogic = (
     fractionErrorMessage,
     handleFieldValidationErrorsChange,
     resetValidationResults,
+    deleteAllNodes,
   };
 };
 

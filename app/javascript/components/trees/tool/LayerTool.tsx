@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
-import { Layer, NodeFromApi, TreeDataFromApi } from "@/types";
+import { Layer, NodeFromApi, TreeDataFromApi, TreeData } from "@/types";
 import ToolMenu from "@/components/shared/ToolMenu";
 import Operations from "@/components/trees/tool/operationArea/Operations";
 import Calculation from "@/components/trees/tool/calculationArea/Calculation";
@@ -45,6 +45,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
     fractionErrorMessage,
     handleFieldValidationErrorsChange,
     resetValidationResults,
+    deleteAllNodes,
   } = useLayerToolLogic(selectedNodes, selectedLayer, parentNode);
 
   const isUpdateButtonDisabled = useUpdateButtonStatus(
@@ -64,13 +65,26 @@ const LayerTool: React.FC<LayerToolProps> = ({
   }, [selectedNodes, selectedLayer, parentNode]);
 
   const saveLayerProperty = async () => {
-    const result = await sendUpdateRequest(
-      propagateSelectedNodesChangesToTree(
+    let newTreeData: TreeData = JSON.parse(JSON.stringify(treeData));
+    if (layerProperty.nodes.length === 0) {
+      // treeDataのnodesからselectedNodesを削除する
+      const newNodes = treeData.nodes.filter((node) => {
+        return !selectedNodes.some((selectedNode) => {
+          return node.id === selectedNode.id;
+        });
+      });
+      newTreeData = {
+        ...newTreeData,
+        nodes: newNodes,
+      };
+    } else {
+      newTreeData = propagateSelectedNodesChangesToTree(
         layerProperty.nodes,
         layerProperty.layer,
         treeData
-      )
-    );
+      );
+    }
+    const result = await sendUpdateRequest(newTreeData);
     if (result) {
       onUpdateSuccess(result);
     }
@@ -85,16 +99,18 @@ const LayerTool: React.FC<LayerToolProps> = ({
             <div className="text-base font-semibold label-operation">
               要素間の関係
             </div>
-            <ToolMenu
-              menuItems={[
-                {
-                  label: "階層を削除",
-                  onClick: () => {
-                    console.log("階層を削除");
+            <div className="layer-tool-menu">
+              <ToolMenu
+                menuItems={[
+                  {
+                    label: "選択中の全要素を削除",
+                    onClick: () => {
+                      deleteAllNodes();
+                    },
                   },
-                },
-              ]}
-            />
+                ]}
+              />
+            </div>
           </div>
           <div className="mb-4">
             <Operations
@@ -123,7 +139,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
               handleFieldValidationErrorsChange={
                 handleFieldValidationErrorsChange
               }
-              showToolMenu={layerProperty.nodes.length > 2}
+              isRoot={false}
               deleteNode={deleteNode}
             />
           ))}

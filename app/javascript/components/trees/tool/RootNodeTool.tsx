@@ -75,7 +75,7 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
             handleFieldValidationErrorsChange={
               handleFieldValidationErrorsChange
             }
-            showToolMenu={false}
+            isRoot={true}
             deleteNode={mockDeleteNode}
           />
         </div>

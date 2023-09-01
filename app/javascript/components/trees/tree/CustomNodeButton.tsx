@@ -15,11 +15,9 @@ const CustomNodeButton: React.FC<CustomNodeButtonProps> = ({
   const [isHovered, setIsHovered] = React.useState(false);
 
   const handleMouseOut = () => {
-    console.log("CustomNodeButton handleMouseOut");
     setIsHovered(false);
   };
   const handleMouseOver = () => {
-    console.log("CustomNodeButton handleMouseOver");
     setIsHovered(true);
   };
 
