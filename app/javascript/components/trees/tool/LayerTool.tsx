@@ -45,6 +45,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
     fractionErrorMessage,
     handleFieldValidationErrorsChange,
     resetValidationResults,
+    deleteAllNodes,
   } = useLayerToolLogic(selectedNodes, selectedLayer, parentNode);
 
   const isUpdateButtonDisabled = useUpdateButtonStatus(
@@ -98,16 +99,18 @@ const LayerTool: React.FC<LayerToolProps> = ({
             <div className="text-base font-semibold label-operation">
               要素間の関係
             </div>
-            <ToolMenu
-              menuItems={[
-                {
-                  label: "編集中の要素をすべて削除",
-                  onClick: () => {
-                    console.log("編集中の要素をすべて削除");
+            <div className="layer-tool-menu">
+              <ToolMenu
+                menuItems={[
+                  {
+                    label: "選択中の全要素を削除",
+                    onClick: () => {
+                      deleteAllNodes();
+                    },
                   },
-                },
-              ]}
-            />
+                ]}
+              />
+            </div>
           </div>
           <div className="mb-4">
             <Operations
