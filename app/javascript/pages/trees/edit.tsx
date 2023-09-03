@@ -7,6 +7,7 @@ import { TreeDataFromApi } from "@/types";
 import { ErrorBoundary } from "react-error-boundary";
 import { FallbackProps } from "react-error-boundary/dist/react-error-boundary";
 import keysToCamelCase from "@/keysToCamelCase";
+import html2canvas from "html2canvas";
 
 const EditTreePage = () => {
   const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
@@ -18,6 +19,55 @@ const EditTreePage = () => {
   });
   const [selectedNodeIds, setSelectedNodeIds] = useState<number[]>([]);
   const [isLoading, setisLoading] = useState(true);
+
+  const getTreeSize = () => {
+    const svgElement = document.querySelector("#treeWrapper svg");
+    if (!svgElement) return null;
+
+    const bbox = (svgElement as SVGSVGElement).getBBox();
+    return {
+      width: bbox.width,
+      height: bbox.height,
+      x: bbox.x,
+      y: bbox.y,
+    };
+  };
+
+  const fitTreeToView = () => {
+    const treeSize = getTreeSize();
+    if (!treeSize) return;
+
+    const svgElement = document.querySelector("#treeWrapper svg");
+    if (!svgElement) return;
+
+    svgElement.setAttribute(
+      "viewBox",
+      `${treeSize.x} ${treeSize.y} ${treeSize.width} ${treeSize.height}`
+    );
+  };
+
+  const downloadImage = async () => {
+    fitTreeToView();
+    const treeElement = document.getElementById("treeWrapper");
+    console.log("treeElement", treeElement);
+    if (!treeElement) return;
+    const canvas = await html2canvas(treeElement);
+    const dataURL = canvas.toDataURL("image/png");
+
+    const a = document.createElement("a");
+    a.href = dataURL;
+    a.download = "tree.png";
+    a.click();
+  };
+
+  useEffect(() => {
+    const button = document.querySelector("[data-action='download-image']");
+    button?.addEventListener("click", downloadImage);
+
+    return () => {
+      button?.removeEventListener("click", downloadImage);
+    };
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -77,6 +127,13 @@ const EditTreePage = () => {
           }}
         >
           <ErrorBoundary fallbackRender={fallbackRender}>
+            <button
+              className="btn btn-ghost absolute"
+              id="focus"
+              onClick={fitTreeToView}
+            >
+              ツリー全体を表示
+            </button>
             <TreeArea
               treeData={treeData}
               selectedNodeIds={selectedNodeIds}
