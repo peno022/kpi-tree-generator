@@ -17,7 +17,7 @@
         | #{@tree.name}
       a.btn.btn-ghost
         i.fa.fa-lg.fa-pencil.mx-1[aria-hidden="true"]
-    a.btn.btn-outline.mx-1
+    a.btn.btn-outline.mx-1 data-action="download-image"
       | 画像ダウンロード
     - if current_user
       - if current_user.image
