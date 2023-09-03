@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { convertNodesToRawNodeDatum } from "@/convertNodesToRawNodeDatum";
 import { selectNodes } from "@/selectNodes";
 import Tree from "react-d3-tree";
@@ -20,9 +20,6 @@ export type TreeAreaProps = {
   treeData: TreeDataFromApi;
   selectedNodeIds: number[];
   handleClick: TreeNodeEventCallback;
-  hoveredNodeId: number | null;
-  handleMouseOver: TreeNodeEventCallback;
-  handleMouseOut: TreeNodeEventCallback;
   onUpdateSuccess: (
     updatedTreeData: TreeDataFromApi,
     selectedNodeIds?: number[]
@@ -33,12 +30,10 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
   treeData,
   selectedNodeIds,
   handleClick,
-  hoveredNodeId,
-  handleMouseOver,
-  handleMouseOut,
   onUpdateSuccess,
 }) => {
   const { errorMessage, sendUpdateRequest } = useTreeUpdate(treeData.tree.id);
+  const [hoveredNodeId, setHoveredNodeId] = useState<number | null>(null);
 
   let rawNodeDatum: WrappedRawNodeDatum;
   rawNodeDatum = convertNodesToRawNodeDatum(treeData.nodes, treeData.layers);
@@ -79,6 +74,20 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
         .map((node) => node.id);
       onUpdateSuccess(result, newNodeIds);
     }
+  };
+
+  const handleMouseOver: TreeNodeEventCallback = (node) => {
+    const hoveredNode = treeData.nodes.find(
+      (nodeData) => nodeData.id === node.data?.attributes?.id
+    );
+    if (!hoveredNode) {
+      return;
+    }
+    setHoveredNodeId(hoveredNode.id);
+  };
+
+  const handleMouseOut: TreeNodeEventCallback = () => {
+    setHoveredNodeId(null);
   };
 
   const CustomNodeWrapper: RenderCustomNodeElementFn = (rd3tNodeProps) => {
