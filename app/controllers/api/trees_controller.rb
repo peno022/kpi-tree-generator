@@ -6,8 +6,8 @@ module Api
     before_action :ensure_tree_belongs_to_current_user, only: %i[show update]
 
     def show
-      @nodes = @tree.nodes
-      @layers = @tree.layers
+      @nodes = @tree.nodes.order(:id)
+      @layers = @tree.layers.order(:id)
     end
 
     def update
@@ -15,8 +15,8 @@ module Api
       reload_tree
       render json: {
         tree: @tree.as_json(except: %i[created_at updated_at]),
-        nodes: @tree.nodes.as_json(except: %i[created_at updated_at]),
-        layers: @tree.layers.as_json(except: %i[created_at updated_at])
+        nodes: @tree.nodes.order(:id).as_json(except: %i[created_at updated_at]),
+        layers: @tree.layers.order(:id).as_json(except: %i[created_at updated_at])
       }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
