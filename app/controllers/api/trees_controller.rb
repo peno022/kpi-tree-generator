@@ -5,14 +5,10 @@ module Api
     before_action :set_tree, only: %i[show update]
 
     def show
-      tree = Tree.find(params[:id])
-      if tree.user_id == current_user.id
-        @tree = tree
-        @nodes = @tree.nodes
-        @layers = @tree.layers
-      else
-        render status: :not_found
-      end
+      render json: { error: 'Not Found' }, status: :not_found and return unless @tree.user_id == current_user.id
+
+      @nodes = @tree.nodes
+      @layers = @tree.layers
     end
 
     def update
@@ -31,6 +27,8 @@ module Api
 
     def set_tree
       @tree = Tree.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Not Found' }, status: :not_found and return
     end
 
     def tree_params

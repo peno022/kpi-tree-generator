@@ -2,6 +2,13 @@
 
 module Api
   class BaseController < ApplicationController
-    # TODO: 認証の処理を書く
+    include SessionsHelper
+    before_action :check_logged_in
+
+    def check_logged_in
+      return if current_user
+
+      render json: { errors: [I18n.t('alert.require_login')] }, status: :unauthorized
+    end
   end
 end
