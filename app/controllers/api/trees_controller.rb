@@ -3,16 +3,11 @@
 module Api
   class TreesController < BaseController
     before_action :set_tree, only: %i[show update]
+    before_action :ensure_tree_belongs_to_current_user, only: %i[show update]
 
     def show
-      tree = Tree.find(params[:id])
-      if tree.user_id == current_user.id
-        @tree = tree
-        @nodes = @tree.nodes
-        @layers = @tree.layers
-      else
-        render status: :not_found
-      end
+      @nodes = @tree.nodes.order(:id)
+      @layers = @tree.layers.order(:id)
     end
 
     def update
@@ -20,8 +15,8 @@ module Api
       reload_tree
       render json: {
         tree: @tree.as_json(except: %i[created_at updated_at]),
-        nodes: @tree.nodes.as_json(except: %i[created_at updated_at]),
-        layers: @tree.layers.as_json(except: %i[created_at updated_at])
+        nodes: @tree.nodes.order(:id).as_json(except: %i[created_at updated_at]),
+        layers: @tree.layers.order(:id).as_json(except: %i[created_at updated_at])
       }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
@@ -31,6 +26,8 @@ module Api
 
     def set_tree
       @tree = Tree.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Not Found' }, status: :not_found and return
     end
 
     def tree_params
@@ -43,6 +40,10 @@ module Api
     def reload_tree
       @tree.nodes.reload
       @tree.layers.reload
+    end
+
+    def ensure_tree_belongs_to_current_user
+      render json: { error: 'Not Found' }, status: :not_found and return unless @tree.user_id == current_user.id
     end
   end
 end
