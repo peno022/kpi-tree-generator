@@ -53,7 +53,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             type="text"
             name="name"
             label="名前"
-            value={node.name}
+            value={node.name ?? ""}
             handleInputChange={handleInputChange}
             isValidField={fieldValidationErrors.name === ""}
             errorMessage={fieldValidationErrors.name}
@@ -63,7 +63,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             type="text"
             name="unit"
             label="単位"
-            value={node.unit}
+            value={node.unit ?? ""}
             handleInputChange={handleInputChange}
             isValidField={fieldValidationErrors.unit === ""}
             errorMessage={fieldValidationErrors.unit}
@@ -75,7 +75,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             type="text"
             name="value"
             label="数値"
-            value={node.value}
+            value={node.value ?? ""}
             handleInputChange={handleInputChange}
             isValidField={fieldValidationErrors.value === ""}
             errorMessage={fieldValidationErrors.value}
@@ -85,7 +85,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             type="dropdown"
             name="valueFormat"
             label="表示形式"
-            value={node.valueFormat}
+            value={node.valueFormat ?? "なし"}
             handleInputChange={handleInputChange}
             isValidField={fieldValidationErrors.valueFormat === ""}
             errorMessage={fieldValidationErrors.valueFormat}
@@ -96,7 +96,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
               type="checkbox"
               name="isValueLocked"
               label="数値を自動更新しない"
-              checked={node.isValueLocked}
+              checked={node.isValueLocked ?? false}
               handleInputChange={handleInputChange}
               isValidField={fieldValidationErrors.isValueLocked === ""}
               errorMessage={fieldValidationErrors.isValueLocked}
