@@ -298,6 +298,23 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       find('label[for="updateLayerModal"]', text: 'キャンセル').click
       expect(page).not_to have_css('.modal-box')
     end
+
+    it('項目を編集してからツリー上で任意のノードをホバーしても、ツールエリアの表示は変わらない') do
+      find_by_id('node-detail-1').find('input[name="name"]').set('変更後のノード名1')
+      click_button 'たし算'
+      find('g.custom-node', text: '子1').hover
+      expect(find_by_id('node-detail-1').find('input[name="name"]').value).to eq '変更後のノード名1'
+      expect(page).to have_button('たし算', class: 'bg-base-100 border border-neutral')
+    end
+
+    it('項目を編集してからツリー上で任意のノードをクリックすると、編集内容は失われてクリックしたノードを含む階層の情報でツールエリアが表示される') do
+      find_by_id('node-detail-1').find('input[name="name"]').set('変更後のノード名1')
+      click_button 'たし算'
+      find('g.custom-node', text: '子1').click
+      expect(find_by_id('node-detail-1').find('input[name="name"]').value).not_to eq '変更後のノード名1'
+      expect(find_by_id('node-detail-1').find('input[name="name"]').value).to eq '子1'
+      expect(page).to have_button('かけ算', class: 'bg-base-100 border border-neutral')
+    end
   end
 
   describe('選択した階層の更新を、祖先ノードにも反映') do
