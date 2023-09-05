@@ -118,13 +118,6 @@ const EditTreePage = () => {
   return (
     <>
       <div className="flex w-full">
-        <button
-          className="btn btn-ghost absolute"
-          id="focus"
-          onClick={fitTreeToView}
-        >
-          ツリー全体を表示
-        </button>
         <div
           className="flex-1 ml-1"
           id="treeWrapper"
