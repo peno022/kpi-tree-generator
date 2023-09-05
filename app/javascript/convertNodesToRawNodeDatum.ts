@@ -22,7 +22,7 @@ export function convertNodesToRawNodeDatum(
   const treeStructureNode = convertNodesListToTree(preparedNodes);
   const rawNodeDatum =
     convertTreeStructureNodeToRawNodeDatum(treeStructureNode);
-    
+
   return rawNodeDatum;
 }
 

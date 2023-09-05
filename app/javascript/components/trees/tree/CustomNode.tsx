@@ -1,6 +1,9 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLock,
+  faTriangleExclamation,
+} from "@fortawesome/free-solid-svg-icons";
 import { CustomNodeElementProps } from "react-d3-tree/lib/types/types/common";
 import CustomNodeButton from "./CustomNodeButton";
 export interface CustomNodeProps extends CustomNodeElementProps {
@@ -110,6 +113,20 @@ const CustomNode = ({
       </g>
 
       <g>
+        <g className="inconsistent-value-icon">
+          {nodeDatum.attributes?.hasInconsistentValue && (
+            <FontAwesomeIcon
+              icon={faTriangleExclamation}
+              width={30}
+              height={30}
+              x={-35}
+              y={-37}
+              style={{
+                color: "#F87272",
+              }}
+            />
+          )}
+        </g>
         <text
           x="130"
           y="42"
