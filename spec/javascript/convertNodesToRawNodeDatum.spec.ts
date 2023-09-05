@@ -3,8 +3,7 @@
  */
 
 import { convertNodesToRawNodeDatum } from "@/convertNodesToRawNodeDatum";
-import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
-import { LayerFromApi, NodeFromApi } from "@/types";
+import { LayerFromApi, NodeFromApi, WrappedRawNodeDatum } from "@/types";
 import * as fixtures from "@spec/__fixtures__/sampleData";
 
 const {
@@ -22,7 +21,7 @@ describe("convertNodesToRawNodeDatum", () => {
     it("単体ノード1つに対して、1つのRawNodeDatumを返す", () => {
       const nodes: NodeFromApi[] = [parentNode];
       const layers: LayerFromApi[] = [];
-      const expected: RawNodeDatum = {
+      const expected: WrappedRawNodeDatum = {
         name: parentNode.name,
         attributes: {
           id: parentNode.id,
@@ -35,6 +34,7 @@ describe("convertNodesToRawNodeDatum", () => {
           isSelected: false,
           isHovered: false,
           isLeaf: true,
+          hasInconsistentValue: false,
         },
       };
       expect(convertNodesToRawNodeDatum(nodes, layers)).toEqual(expected);
@@ -44,7 +44,7 @@ describe("convertNodesToRawNodeDatum", () => {
     it("子ノードのRawNodeDatumをchildrenに持つRawNodeDatumを返す", () => {
       const nodes: NodeFromApi[] = [parentNode, childNode1, childNode2];
       const layers: LayerFromApi[] = [childLayer];
-      const expected: RawNodeDatum = {
+      const expected: WrappedRawNodeDatum = {
         name: parentNode.name,
         attributes: {
           id: parentNode.id,
@@ -57,6 +57,7 @@ describe("convertNodesToRawNodeDatum", () => {
           isSelected: false,
           isHovered: false,
           isLeaf: false,
+          hasInconsistentValue: false,
         },
         children: [
           {
@@ -72,6 +73,7 @@ describe("convertNodesToRawNodeDatum", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
             },
           },
           {
@@ -87,6 +89,76 @@ describe("convertNodesToRawNodeDatum", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
+            },
+          },
+        ],
+      };
+      expect(convertNodesToRawNodeDatum(nodes, layers)).toEqual(expected);
+    });
+    it("子ノード・子レイヤーの計算結果が親ノードの値と合わない時、子ノード全員のhasInconsistentValueがtrueになる", () => {
+      const inconsistentChild1: NodeFromApi = {
+        ...childNode1,
+        value: 50,
+        valueFormat: "万",
+      };
+      const inconsistentChild2: NodeFromApi = {
+        ...childNode2,
+        value: 60,
+        valueFormat: "万",
+      };
+      const nodes: NodeFromApi[] = [
+        parentNode,
+        inconsistentChild1,
+        inconsistentChild2,
+      ];
+      const layers: LayerFromApi[] = [childLayer];
+      const expected: WrappedRawNodeDatum = {
+        name: parentNode.name,
+        attributes: {
+          id: parentNode.id,
+          value: parentNode.value,
+          valueFormat: parentNode.valueFormat,
+          unit: parentNode.unit,
+          isValueLocked: parentNode.isValueLocked,
+          operation: "",
+          isLastInLayer: true,
+          isSelected: false,
+          isHovered: false,
+          isLeaf: false,
+          hasInconsistentValue: false,
+        },
+        children: [
+          {
+            name: inconsistentChild1.name,
+            attributes: {
+              id: inconsistentChild1.id,
+              value: inconsistentChild1.value,
+              valueFormat: inconsistentChild1.valueFormat,
+              unit: inconsistentChild1.unit,
+              isValueLocked: inconsistentChild1.isValueLocked,
+              operation: childLayer.operation,
+              isLastInLayer: false,
+              isSelected: false,
+              isHovered: false,
+              isLeaf: true,
+              hasInconsistentValue: true,
+            },
+          },
+          {
+            name: inconsistentChild2.name,
+            attributes: {
+              id: inconsistentChild2.id,
+              value: inconsistentChild2.value,
+              valueFormat: inconsistentChild2.valueFormat,
+              unit: inconsistentChild2.unit,
+              isValueLocked: inconsistentChild2.isValueLocked,
+              operation: childLayer.operation,
+              isLastInLayer: true,
+              isSelected: false,
+              isHovered: false,
+              isLeaf: true,
+              hasInconsistentValue: true,
             },
           },
         ],
@@ -104,7 +176,7 @@ describe("convertNodesToRawNodeDatum", () => {
         grandChildNode2,
       ];
       const layers: LayerFromApi[] = [childLayer, grandChildLayer];
-      const expected: RawNodeDatum = {
+      const expected: WrappedRawNodeDatum = {
         name: parentNode.name,
         attributes: {
           id: parentNode.id,
@@ -117,6 +189,7 @@ describe("convertNodesToRawNodeDatum", () => {
           isSelected: false,
           isHovered: false,
           isLeaf: false,
+          hasInconsistentValue: false,
         },
         children: [
           {
@@ -132,6 +205,7 @@ describe("convertNodesToRawNodeDatum", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: false,
+              hasInconsistentValue: false,
             },
             children: [
               {
@@ -147,6 +221,7 @@ describe("convertNodesToRawNodeDatum", () => {
                   isSelected: false,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
               {
@@ -162,6 +237,7 @@ describe("convertNodesToRawNodeDatum", () => {
                   isSelected: false,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
             ],
@@ -179,6 +255,7 @@ describe("convertNodesToRawNodeDatum", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
             },
           },
         ],

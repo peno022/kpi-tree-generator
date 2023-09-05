@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { updateAttributeByIds } from "@/updateAttributeByIds";
 import { WrappedRawNodeDatum } from "@/types";
 
@@ -15,6 +19,7 @@ describe("updateAttributeByIds", () => {
       isSelected: false,
       isHovered: false,
       isLeaf: false,
+      hasInconsistentValue: false,
     },
     children: [
       {
@@ -30,6 +35,7 @@ describe("updateAttributeByIds", () => {
           isSelected: false,
           isHovered: false,
           isLeaf: true,
+          hasInconsistentValue: false,
         },
         children: [],
       },
@@ -46,6 +52,7 @@ describe("updateAttributeByIds", () => {
           isSelected: false,
           isHovered: false,
           isLeaf: false,
+          hasInconsistentValue: false,
         },
         children: [
           {
@@ -61,6 +68,7 @@ describe("updateAttributeByIds", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
             },
             children: [],
           },
@@ -77,6 +85,7 @@ describe("updateAttributeByIds", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
             },
             children: [],
           },
