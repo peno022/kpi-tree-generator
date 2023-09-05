@@ -3,8 +3,7 @@
  */
 
 import { convertNodesToRawNodeDatum } from "@/convertNodesToRawNodeDatum";
-import { RawNodeDatum } from "react-d3-tree/lib/types/types/common";
-import { NodeFromApi, LayerFromApi } from "@/types";
+import { NodeFromApi, LayerFromApi, WrappedRawNodeDatum } from "@/types";
 import * as fixtures from "@spec/__fixtures__/sampleData";
 import { selectNodes } from "@/selectNodes";
 
@@ -31,7 +30,7 @@ describe("selectNodes", () => {
   describe("クリックしたノードが兄弟ノードを持たないノードの場合", () => {
     it("クリックしたノードのみが選択される", () => {
       const result = selectNodes(parentNode.id, rawNodeDatum);
-      const expected: RawNodeDatum = {
+      const expected: WrappedRawNodeDatum = {
         name: parentNode.name,
         attributes: {
           id: parentNode.id,
@@ -44,6 +43,7 @@ describe("selectNodes", () => {
           isSelected: true,
           isHovered: false,
           isLeaf: false,
+          hasInconsistentValue: false,
         },
         children: [
           {
@@ -59,6 +59,7 @@ describe("selectNodes", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: false,
+              hasInconsistentValue: false,
             },
             children: [
               {
@@ -74,6 +75,7 @@ describe("selectNodes", () => {
                   isSelected: false,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
               {
@@ -89,6 +91,7 @@ describe("selectNodes", () => {
                   isSelected: false,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
             ],
@@ -106,6 +109,7 @@ describe("selectNodes", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
             },
           },
         ],
@@ -116,7 +120,7 @@ describe("selectNodes", () => {
   describe("クリックしたノードが兄弟ノードを持つノードの場合", () => {
     it("クリックしたノードとその兄弟ノードが選択される", () => {
       const result = selectNodes(childNode1.id, rawNodeDatum);
-      const expected: RawNodeDatum = {
+      const expected: WrappedRawNodeDatum = {
         name: parentNode.name,
         attributes: {
           id: parentNode.id,
@@ -129,6 +133,7 @@ describe("selectNodes", () => {
           isSelected: false,
           isHovered: false,
           isLeaf: false,
+          hasInconsistentValue: false,
         },
         children: [
           {
@@ -144,6 +149,7 @@ describe("selectNodes", () => {
               isSelected: true,
               isHovered: false,
               isLeaf: false,
+              hasInconsistentValue: false,
             },
             children: [
               {
@@ -159,6 +165,7 @@ describe("selectNodes", () => {
                   isSelected: false,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
               {
@@ -174,6 +181,7 @@ describe("selectNodes", () => {
                   isSelected: false,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
             ],
@@ -191,6 +199,7 @@ describe("selectNodes", () => {
               isSelected: true,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
             },
           },
         ],
@@ -202,7 +211,7 @@ describe("selectNodes", () => {
     it("クリックしたノードが選択済みの場合、選択されたままになる", () => {
       const firstSelected = selectNodes(childNode1.id, rawNodeDatum);
       const result = selectNodes(childNode1.id, firstSelected);
-      const expected: RawNodeDatum = {
+      const expected: WrappedRawNodeDatum = {
         name: parentNode.name,
         attributes: {
           id: parentNode.id,
@@ -215,6 +224,7 @@ describe("selectNodes", () => {
           isSelected: false,
           isHovered: false,
           isLeaf: false,
+          hasInconsistentValue: false,
         },
         children: [
           {
@@ -230,6 +240,7 @@ describe("selectNodes", () => {
               isSelected: true,
               isHovered: false,
               isLeaf: false,
+              hasInconsistentValue: false,
             },
             children: [
               {
@@ -245,6 +256,7 @@ describe("selectNodes", () => {
                   isSelected: false,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
               {
@@ -260,6 +272,7 @@ describe("selectNodes", () => {
                   isSelected: false,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
             ],
@@ -277,6 +290,7 @@ describe("selectNodes", () => {
               isSelected: true,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
             },
           },
         ],
@@ -286,7 +300,7 @@ describe("selectNodes", () => {
     it("クリックしたノードが選択されていない場合、選択される。前回選択されていたノードの選択は解除される", () => {
       const firstSelected = selectNodes(childNode1.id, rawNodeDatum);
       const result = selectNodes(grandChildNode1.id, firstSelected);
-      const expected: RawNodeDatum = {
+      const expected: WrappedRawNodeDatum = {
         name: parentNode.name,
         attributes: {
           id: parentNode.id,
@@ -299,6 +313,7 @@ describe("selectNodes", () => {
           isSelected: false,
           isHovered: false,
           isLeaf: false,
+          hasInconsistentValue: false,
         },
         children: [
           {
@@ -314,6 +329,7 @@ describe("selectNodes", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: false,
+              hasInconsistentValue: false,
             },
             children: [
               {
@@ -329,6 +345,7 @@ describe("selectNodes", () => {
                   isSelected: true,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
               {
@@ -344,6 +361,7 @@ describe("selectNodes", () => {
                   isSelected: true,
                   isHovered: false,
                   isLeaf: true,
+                  hasInconsistentValue: false,
                 },
               },
             ],
@@ -361,6 +379,7 @@ describe("selectNodes", () => {
               isSelected: false,
               isHovered: false,
               isLeaf: true,
+              hasInconsistentValue: false,
             },
           },
         ],

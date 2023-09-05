@@ -1,5 +1,6 @@
 import * as types from "@/types";
 import LTT from "list-to-tree";
+import calculateParentNodeValue from "@/calculateParentNodeValue";
 
 export {};
 
@@ -9,6 +10,7 @@ type preparedNode = types.NodeFromApi & {
   isSelected: boolean;
   isHovered: boolean;
   isLeaf: boolean;
+  hasInconsistentValue: boolean;
   childLayer?: types.LayerFromApi;
 };
 
@@ -21,8 +23,6 @@ export function convertNodesToRawNodeDatum(
   const rawNodeDatum =
     convertTreeStructureNodeToRawNodeDatum(treeStructureNode);
 
-  // console.log("--------rawNodeDatum--------");
-  // console.dir(rawNodeDatum, { depth: null });
   return rawNodeDatum;
 }
 
@@ -30,7 +30,7 @@ function prepareNodeProperties(
   nodes: types.NodeFromApi[],
   layers: types.LayerFromApi[]
 ): preparedNode[] {
-  const nodesWithDisplayProperties = addDisplayProperties(nodes);
+  const nodesWithDisplayProperties = addDisplayProperties(nodes, layers);
   const nodesWithChildLayer = addLayerToNode(
     nodesWithDisplayProperties,
     layers
@@ -60,7 +60,10 @@ function convertNodesListToTree(
   return treeStructureNode[0];
 }
 
-function addDisplayProperties(nodes: types.NodeFromApi[]): preparedNode[] {
+function addDisplayProperties(
+  nodes: types.NodeFromApi[],
+  layers: types.LayerFromApi[]
+): preparedNode[] {
   return nodes.map((node) => {
     const nodeWithDisplayProperties = {
       ...node,
@@ -68,19 +71,31 @@ function addDisplayProperties(nodes: types.NodeFromApi[]): preparedNode[] {
       isSelected: false,
       isHovered: false,
       isLeaf: false,
+      hasInconsistentValue: false,
     };
     const parentNode = nodes.find((n) => n.id === node.parentId);
-    if (parentNode) {
-      const childrenNodes = nodes.filter((n) => n.parentId === node.parentId);
-      // childrenNodesの中で一番大きいidを持つノードが自分自身であれば、isLastInLayerをtrueにする
-      const maxId = Math.max(...childrenNodes.map((n) => n.id));
+    const layer = layers.find((l) => l.parentNodeId === node.parentId);
+
+    if (parentNode && layer) {
+      const siblings = nodes.filter((n) => n.parentId === node.parentId);
+      // siblingsの中で一番大きいidを持つノードが自分自身であれば、isLastInLayerをtrueにする
+      const maxId = Math.max(...siblings.map((n) => n.id));
       if (node.id === maxId) {
         nodeWithDisplayProperties.isLastInLayer = true;
       } else {
         nodeWithDisplayProperties.isLastInLayer = false;
       }
+      if (
+        parentNode.value ===
+        calculateParentNodeValue(parentNode, siblings, layer)
+      ) {
+        nodeWithDisplayProperties.hasInconsistentValue = false;
+      } else {
+        nodeWithDisplayProperties.hasInconsistentValue = true;
+      }
     } else {
       nodeWithDisplayProperties.isLastInLayer = true;
+      nodeWithDisplayProperties.hasInconsistentValue = false;
     }
 
     return nodeWithDisplayProperties;
@@ -135,6 +150,7 @@ function convertTreeStructureNodeToRawNodeDatum(
       isLeaf: !!(
         !treeStructureNode.children || treeStructureNode.children.length === 0
       ),
+      hasInconsistentValue: treeStructureNode.hasInconsistentValue,
     },
     children: treeStructureNode.children?.map((child) =>
       convertTreeStructureNodeToRawNodeDatum(child)

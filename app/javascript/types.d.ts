@@ -46,6 +46,7 @@ export type TreeStructureNode = {
   isSelected: boolean;
   isHovered: boolean;
   isLeaf: boolean;
+  hasInconsistentValue: boolean;
   childLayer?: LayerFromApi;
   parentId: number;
   children: TreeStructureNode[];
@@ -63,7 +64,9 @@ export type WrappedRawNodeDatum = RawNodeDatum & {
     isSelected: boolean;
     isHovered: boolean;
     isLeaf: boolean;
+    hasInconsistentValue: boolean;
   };
+  children?: WrappedRawNodeDatum[];
 };
 
 export type Tree = {
