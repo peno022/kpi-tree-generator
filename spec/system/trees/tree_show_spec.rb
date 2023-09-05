@@ -105,5 +105,22 @@ RSpec.describe 'Tree pages', js: true do
         index: 2, name: '子2', value: '2000', value_format: 'なし', unit: '円', is_value_locked: false
       )
     end
+
+    it('親ノードとの数値が合っていない階層は、！アイコンが各ノードとツールエリアに表示される') do
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      root = create(:node, name: 'ルート', value: 1000, unit: '円', tree:)
+      create(:node, name: '子1', value: 200, unit: '円', tree:, parent: root)
+      create(:node, name: '子2', value: 700, unit: '円', tree:, parent: root)
+      create(:layer, operation: 'add', parent_node: root, tree:, fraction: 0)
+      visit edit_tree_path(tree)
+      expect_tree_node(name: 'ルート', display_value: '1000円', is_value_locked: false, is_leaf: false,
+                       has_inconsistent_value: false)
+      expect_tree_node(name: '子1', display_value: '200円', is_value_locked: false, is_leaf: true,
+                       has_inconsistent_value: true)
+      expect_tree_node(name: '子2', display_value: '700円', is_value_locked: false, is_leaf: true,
+                       has_inconsistent_value: true)
+      find('g > text', text: '子2').ancestor('g.rd3t-leaf-node').click
+      expect(find('.calculation')).to have_css('svg.fa-triangle-exclamation')
+    end
   end
 end

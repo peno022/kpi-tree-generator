@@ -93,7 +93,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '2千人（変更後）',
         is_value_locked: true,
         operation: 'multiply',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
 
       expect_tree_node(
@@ -101,7 +102,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '4000円（変更後）',
         is_value_locked: true,
         operation: '',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
     end
 
@@ -127,7 +129,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '5000人',
         is_value_locked: false,
         operation: 'add',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
 
       expect_tree_node(
@@ -135,7 +138,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '2000円',
         is_value_locked: false,
         operation: '',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
     end
 
@@ -188,7 +192,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '2千人（変更後）',
         is_value_locked: true,
         operation: 'add',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
 
       expect_tree_node(
@@ -196,7 +201,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '4000円（変更後）',
         is_value_locked: true,
         operation: '',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
 
       find('g > text', text: '子2\'').ancestor('g.rd3t-leaf-node').click
@@ -231,14 +237,16 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '5000人',
         is_value_locked: false,
         operation: 'multiply',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
       expect_tree_node(
         name: '子2',
         display_value: '2000円',
         is_value_locked: false,
         operation: '',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
     end
 
@@ -255,7 +263,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '4千人',
         is_value_locked: false,
         operation: 'multiply',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
 
       # 編集と更新（2回目）
@@ -271,7 +280,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '1.5万人',
         is_value_locked: false,
         operation: 'multiply',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
 
       # 編集と更新（3回目）
@@ -287,7 +297,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '2500.1人',
         is_value_locked: false,
         operation: 'multiply',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
     end
 
@@ -314,6 +325,39 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       expect(find_by_id('node-detail-1').find('input[name="name"]').value).not_to eq '変更後のノード名1'
       expect(find_by_id('node-detail-1').find('input[name="name"]').value).to eq '子1'
       expect(page).to have_button('かけ算', class: 'bg-base-100 border border-neutral')
+    end
+
+    it('親ノードの数値と合わない状態で！アイコンが表示されているノードについて、数値が合うように編集して更新すると！アイコンが消える') do
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      root_node = create(:node, tree:, name: 'ルート', value: 1000, unit: '円', is_value_locked: true)
+      create(:node, tree:, name: '子1', value: 500, unit: '円', is_value_locked: false,
+                    parent: root_node)
+      create(:node, tree:, name: '子2', value: 200, unit: '円', is_value_locked: false,
+                    parent: root_node)
+      create(:layer, tree:, operation: 'add', fraction: 10, parent_node: root_node)
+
+      visit edit_tree_path(tree)
+      expect_tree_node(name: 'ルート', display_value: '1000円', is_value_locked: true, is_leaf: false)
+      expect_tree_node(name: '子1', display_value: '500円', is_value_locked: false, is_leaf: true,
+                       has_inconsistent_value: true)
+      expect_tree_node(name: '子2', display_value: '200円', is_value_locked: false, is_leaf: true,
+                       has_inconsistent_value: true)
+      find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
+      expect(find('.calculation')).to have_css('svg.fa-triangle-exclamation')
+      find_by_id('node-detail-2').find('input[name="value"]').set(490)
+
+      find('#updateButton label', text: '更新').click
+      find('.modal-action label', text: '更新する').click
+
+      expect_tree_node(name: 'ルート', display_value: '1000円', is_value_locked: true, is_leaf: false,
+                       has_inconsistent_value: false)
+      expect_tree_node(name: '子1', display_value: '500円', is_value_locked: false, is_leaf: true,
+                       has_inconsistent_value: false)
+      expect_tree_node(name: '子2', display_value: '490円', is_value_locked: false, is_leaf: true,
+                       has_inconsistent_value: false)
+
+      find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
+      expect(find('.calculation')).not_to have_css('svg.fa-triangle-exclamation')
     end
   end
 
@@ -361,7 +405,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '14500人', # 1万 + 2500 + 2000 に更新される
         is_value_locked: false,
         operation: 'multiply',
-        is_leaf: false
+        is_leaf: false,
+        has_inconsistent_value: true
       )
     end
   end
@@ -507,21 +552,24 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
         display_value: '2千人（変更後）',
         is_value_locked: true,
         operation: 'multiply',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
       expect_tree_node(
         name: '変更後のノード名2',
         display_value: '4000円（変更後）',
         is_value_locked: true,
         operation: 'multiply',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
       expect_tree_node(
         name: '変更後のノード名3',
         display_value: '0.1千円',
         is_value_locked: true,
         operation: '',
-        is_leaf: true
+        is_leaf: true,
+        has_inconsistent_value: true
       )
     end
 
@@ -803,7 +851,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
           display_value: '5000人',
           is_value_locked: false,
           operation: '',
-          is_leaf: true
+          is_leaf: true,
+          has_inconsistent_value: true
         )
         expect(page).not_to have_selector('g > text', text: '子2')
         expect(page).not_to have_selector('g > text', text: '孫2-1')
@@ -851,7 +900,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
           display_value: '1000万円',
           is_value_locked: true,
           operation: '',
-          is_leaf: true
+          is_leaf: true,
+          has_inconsistent_value: false
         )
       end
 
@@ -872,14 +922,16 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
           display_value: '5000人',
           is_value_locked: false,
           operation: 'multiply',
-          is_leaf: true
+          is_leaf: true,
+          has_inconsistent_value: true
         )
         expect_tree_node(
           name: '子2',
           display_value: '1200円',
           is_value_locked: false,
           operation: '',
-          is_leaf: false
+          is_leaf: false,
+          has_inconsistent_value: true
         )
       end
 

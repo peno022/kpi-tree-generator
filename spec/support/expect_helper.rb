@@ -9,18 +9,15 @@ module ExpectHelper
     expect_value_locked(index, is_value_locked)
   end
 
-  def expect_tree_node(name:, display_value:, is_value_locked:, is_leaf:, operation: nil)
+  def expect_tree_node(name:, display_value:, is_value_locked:, is_leaf:, operation: nil, has_inconsistent_value: false)
     node_svg = if is_leaf
                  find('g > text', text: name).ancestor('g.rd3t-leaf-node')
                else
                  find('g > text', text: name).ancestor('g.rd3t-node')
                end
     expect(node_svg).to have_text(display_value)
-    if is_value_locked
-      expect(node_svg).to have_css('svg.fa-lock')
-    else
-      expect(node_svg).not_to have_css('svg.fa-lock')
-    end
+    expect_locked_icon(node_svg:, is_value_locked:)
+    expect_inconsisten_value_icon(node_svg:, has_inconsistent_value:)
     expect_operation_display(node_svg:, operation:) if operation.present?
   end
 
@@ -50,6 +47,22 @@ module ExpectHelper
       expect(node_svg).to have_text('＋').and have_no_text('×')
     else
       expect(node_svg).to have_no_text('×').and have_no_text('＋')
+    end
+  end
+
+  def expect_locked_icon(node_svg:, is_value_locked:)
+    if is_value_locked
+      expect(node_svg).to have_css('svg.fa-lock')
+    else
+      expect(node_svg).not_to have_css('svg.fa-lock')
+    end
+  end
+
+  def expect_inconsisten_value_icon(node_svg:, has_inconsistent_value:)
+    if has_inconsistent_value
+      expect(node_svg).to have_css('g.inconsistent-value-icon')
+    else
+      expect(node_svg).not_to have_css('g.inconsistent-value-icon')
     end
   end
 end
