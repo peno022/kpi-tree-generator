@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { convertNodesToRawNodeDatum } from "@/convertNodesToRawNodeDatum";
 import { selectNodes } from "@/selectNodes";
 import Tree from "react-d3-tree";
@@ -24,6 +24,7 @@ export type TreeAreaProps = {
     updatedTreeData: TreeDataFromApi,
     selectedNodeIds?: number[]
   ) => void;
+  onUpdateStatusChange: (isUpdating: boolean) => void;
 };
 
 export const TreeArea: React.FC<TreeAreaProps> = ({
@@ -31,9 +32,15 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
   selectedNodeIds,
   handleClick,
   onUpdateSuccess,
+  onUpdateStatusChange,
 }) => {
-  const { errorMessage, sendUpdateRequest } = useTreeUpdate(treeData.tree.id);
+  const { errorMessage, sendUpdateRequest, setErrorMessage, isUpdating } =
+    useTreeUpdate(treeData.tree.id);
   const [hoveredNodeId, setHoveredNodeId] = useState<number | null>(null);
+
+  useEffect(() => {
+    onUpdateStatusChange(isUpdating);
+  }, [isUpdating]);
 
   let rawNodeDatum: WrappedRawNodeDatum;
   rawNodeDatum = convertNodesToRawNodeDatum(treeData.nodes, treeData.layers);
@@ -46,6 +53,7 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
   rawNodeDatum = updateAttributeByIds("isHovered", targetNodeIds, rawNodeDatum);
 
   const createNewChildLayerAndNodes = async (parentNodeId: number) => {
+    setErrorMessage(null);
     console.log("createNewChildLayerAndNodes");
     const newChildLayer: Layer = {
       operation: "multiply",

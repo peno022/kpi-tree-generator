@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NodeDetail from "@/components/trees/tool/nodeDetailArea/NodeDetail";
 import OpenModalButton from "@/components/shared/OpenModalButton";
 import { NodeFromApi, TreeDataFromApi } from "@/types";
@@ -11,16 +11,17 @@ type RootNodeToolProps = {
   selectedRootNode: NodeFromApi;
   onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
   treeData: TreeDataFromApi;
+  onUpdateStatusChange: (isUpdating: boolean) => void;
 };
 
 const RootNodeTool: React.FC<RootNodeToolProps> = ({
   selectedRootNode,
   treeData,
   onUpdateSuccess,
+  onUpdateStatusChange,
 }) => {
-  const { errorMessage, sendUpdateRequest, setErrorMessage } = useTreeUpdate(
-    treeData.tree.id
-  );
+  const { errorMessage, sendUpdateRequest, setErrorMessage, isUpdating } =
+    useTreeUpdate(treeData.tree.id);
 
   const {
     nodeInfo,
@@ -28,6 +29,10 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
     fieldValidationErrors,
     handleFieldValidationErrorsChange,
   } = useRootNodeToolLogic(selectedRootNode);
+
+  useEffect(() => {
+    onUpdateStatusChange(isUpdating);
+  }, [isUpdating]);
 
   const isUpdateButtonDisabled = useUpdateButtonStatus(
     fieldValidationErrors,

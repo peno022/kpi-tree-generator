@@ -8,6 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { FallbackProps } from "react-error-boundary/dist/react-error-boundary";
 import keysToCamelCase from "@/keysToCamelCase";
 import html2canvas from "html2canvas";
+import Loading from "@/components/shared/Loading";
 
 const EditTreePage = () => {
   const treeId = document.getElementById("tree")?.getAttribute("data-tree-id");
@@ -19,6 +20,7 @@ const EditTreePage = () => {
   });
   const [selectedNodeIds, setSelectedNodeIds] = useState<number[]>([]);
   const [isLoading, setisLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const getTreeSize = () => {
     const svgElement = document.querySelector("#treeWrapper svg");
@@ -85,7 +87,7 @@ const EditTreePage = () => {
     load();
   }, [treeId]);
 
-  if (isLoading) return <>ロード中…</>;
+  if (isLoading) return <Loading></Loading>;
 
   const handleClick: TreeNodeEventCallback = (node) => {
     const clickedNodeId = node.data?.attributes?.id;
@@ -118,6 +120,7 @@ const EditTreePage = () => {
   return (
     <>
       <div className="flex w-full">
+        <div>{isUpdating && <Loading></Loading>}</div>
         <div
           className="flex-1 ml-1"
           id="treeWrapper"
@@ -132,6 +135,7 @@ const EditTreePage = () => {
               selectedNodeIds={selectedNodeIds}
               handleClick={handleClick}
               onUpdateSuccess={handleUpdateSuccess}
+              onUpdateStatusChange={(status: boolean) => setIsUpdating(status)}
             />
           </ErrorBoundary>
           ;
@@ -149,6 +153,7 @@ const EditTreePage = () => {
               treeData={treeData}
               selectedNodeIds={selectedNodeIds}
               onUpdateSuccess={handleUpdateSuccess}
+              onUpdateStatusChange={(status: boolean) => setIsUpdating(status)}
             />
           </ErrorBoundary>
         </div>
