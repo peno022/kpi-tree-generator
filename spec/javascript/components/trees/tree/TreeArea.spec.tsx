@@ -15,6 +15,7 @@ describe.skip("ツリーの表示", () => {
         selectedNodeIds: [],
         handleClick,
         onUpdateSuccess: jest.fn(),
+        onUpdateStatusChange: jest.fn(),
       };
       const { container } = render(<TreeArea {...props} />);
       const nodes = container.querySelectorAll(".rd3t-leaf-node, .rd3t-node");
