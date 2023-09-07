@@ -15,6 +15,12 @@ RSpec.describe 'TreesApi' do
       put "/api/trees/#{tree.id}.json", params: { tree: { nodes: [], layers: [] } }
       expect(response).to have_http_status(:unauthorized)
     end
+
+    it 'PATCH /api/trees/:id/update_name は401エラーを返すこと' do
+      tree = create(:tree)
+      patch "/api/trees/#{tree.id}/update_name.json", params: { name: 'new name' }
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 
   describe 'GET /api/trees/:id' do
@@ -199,6 +205,40 @@ RSpec.describe 'TreesApi' do
         expect(tree.nodes.count).to eq(1)
         expect(tree.layers.count).to eq(0)
       end
+    end
+  end
+
+  describe 'PATCH /api/trees/:id/update_name' do
+    let!(:user) { User.find_or_create_from_auth_hash(OmniAuth.config.mock_auth[:google_oauth2]) }
+
+    before do
+      get '/auth/google_oauth2/callback'
+    end
+
+    it 'ログイン済みで、存在しないツリー（ID=0）の場合は404エラーを返すこと' do
+      patch '/api/trees/0/update_name.json', params: { name: 'new name' }
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'ログインユーザーのツリーでない場合は404エラーを返すこと' do
+      tree = create(:tree)
+      patch "/api/trees/#{tree.id}.json", params: { name: 'new name' }
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it('不正なパラメータを送信した場合、422エラーを返すこと') do
+      tree = create(:tree, user_id: user.id)
+      patch "/api/trees/#{tree.id}/update_name.json", params: { name: nil }
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)['errors']).to eq("Name can't be blank")
+    end
+
+    it('ログインユーザーのツリーの名前を更新すること') do
+      tree = create(:tree, user_id: user.id)
+      patch "/api/trees/#{tree.id}/update_name.json", params: { name: 'new name' }
+      expect(response).to have_http_status(:ok)
+      expect(JSON.parse(response.body)['name']).to eq('new name')
+      expect(tree.reload.name).to eq('new name')
     end
   end
 end
