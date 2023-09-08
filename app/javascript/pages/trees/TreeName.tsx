@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { useTreeNameUpdate } from "@/hooks/useTreeNameUpdate";
 
-const TreeName = () => {
+export const TreeName = () => {
   const treeId = Number(
     document.getElementById("tree-name")?.getAttribute("data-tree-id")
   );
@@ -51,10 +51,12 @@ const TreeName = () => {
   };
 
   const handleEditButtonClick = () => {
+    setErrorMessage(null);
     setIsEditing(true);
   };
 
   const handleCancelEditButtonClick = () => {
+    setErrorMessage(null);
     setTreeNameEditing(treeName);
     setIsEditing(false);
   };
@@ -70,15 +72,17 @@ const TreeName = () => {
             className="input input-bordered input-primary w-full max-w-xs"
             value={treeNameEditing}
             onChange={handleTreeNameChange}
+            name="tree-name-input"
+            aria-label="tree-name-input"
           />
           <button
-            className="btn btn-ghost btn-sm"
+            className="btn btn-ghost btn-sm edit-tree-name-ok"
             onClick={handleTreeNameSubmit}
           >
             OK
           </button>
           <button
-            className="btn btn-ghost btn-sm"
+            className="btn btn-ghost btn-sm edit-tree-name-cancel"
             onClick={handleCancelEditButtonClick}
           >
             キャンセル
@@ -87,7 +91,11 @@ const TreeName = () => {
       ) : (
         <>
           <h1 className="text-xl font-bold mr-4">{treeNameEditing}</h1>
-          <button className="btn btn-ghost" onClick={handleEditButtonClick}>
+          <button
+            className="btn btn-ghost edit-tree-name-button"
+            aria-label="Edit tree name"
+            onClick={handleEditButtonClick}
+          >
             <i className="fa fa-lg fa-pencil mx-1" aria-hidden="true"></i>
           </button>
         </>

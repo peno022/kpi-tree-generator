@@ -1,8 +1,4 @@
 import { useState } from "react";
-import { Tree } from "@/types";
-import keysToSnakeCase from "@/keysToSnakeCase";
-import keysToCamelCase from "@/keysToCamelCase";
-import nullifyParentNodeId from "@/nullifyParentNodeId";
 import token from "@/token";
 
 export type TreeNameUpdateHook = {
@@ -12,6 +8,20 @@ export type TreeNameUpdateHook = {
   isUpdating: boolean;
 };
 
+export const patchTreeName = async (name: string, treeId: number) => {
+  const response = await fetch(`/api/trees/${treeId}/update_name.json"`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Requested-With": "XMLHttpRequest",
+      "X-CSRF-Token": token(),
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({ name }),
+  });
+  return response;
+};
+
 export const useTreeNameUpdate = (treeId: number): TreeNameUpdateHook => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
@@ -19,16 +29,7 @@ export const useTreeNameUpdate = (treeId: number): TreeNameUpdateHook => {
   const sendTreeNameUpdateRequest = async (name: string) => {
     setErrorMessage(null);
     setIsUpdating(true);
-    const response = await fetch(`/api/trees/${treeId}/update_name.json"`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "X-Requested-With": "XMLHttpRequest",
-        "X-CSRF-Token": token(),
-      },
-      credentials: "same-origin",
-      body: JSON.stringify({ name: name }),
-    });
+    const response = await patchTreeName(name, treeId);
     if (!response.ok) {
       if (response.status === 422) {
         const json = await response.json();
