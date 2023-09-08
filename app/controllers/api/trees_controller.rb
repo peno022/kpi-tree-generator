@@ -2,8 +2,8 @@
 
 module Api
   class TreesController < BaseController
-    before_action :set_tree, only: %i[show update]
-    before_action :ensure_tree_belongs_to_current_user, only: %i[show update]
+    before_action :set_tree
+    before_action :ensure_tree_belongs_to_current_user
 
     def show
       @nodes = @tree.nodes.order(:id)
@@ -20,6 +20,15 @@ module Api
       }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
+    end
+
+    def update_name
+      Rails.logger.info "Updating tree name to #{params[:name]}"
+      if @tree.update(name: params[:name])
+        render json: { name: @tree.reload.name }, status: :ok
+      else
+        render json: { errors: @tree.errors.full_messages.join(', ') }, status: :unprocessable_entity
+      end
     end
 
     private
