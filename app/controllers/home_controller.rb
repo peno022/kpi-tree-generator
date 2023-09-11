@@ -5,6 +5,7 @@ class HomeController < ApplicationController
 
   def index
     if current_user
+      @trees = current_user.trees.order(updated_at: :desc).page(params[:page]).per(10)
       render template: 'trees/index'
     else
       render template: 'welcome/index'
