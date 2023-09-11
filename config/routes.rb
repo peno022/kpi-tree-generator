@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :trees, only: %i[index edit destroy]
+  resources :trees, only: %i[edit destroy]
 
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')

@@ -1,7 +1,31 @@
 = render 'shared/header'
-.container.mx-10
+.container.mx-16
   h1.text-xl
-    | ツリー一覧（仮画面）
-  button.btn.my-3
-    = link_to edit_tree_path(1) do
-      | ツリー1の編集画面へ
+    | ツリー一覧
+  - if @trees.any?
+    .overflow-x-auto.m-3
+      table.table.table-lg
+        thead
+          tr
+            th 名前
+            th 最終更新
+            th
+        tbody
+          - @trees.each do |tree|
+            tr
+              td.td-tree-name = link_to tree.name, edit_tree_path(tree)
+              td.td-tree-updated-at = tree.updated_at
+              td.td-tree-action
+                button.btn.btn-sm.mr-3
+                  = link_to edit_tree_path(tree) do
+                    | 編集
+                button.btn.btn-sm.btn-ghost.mr-3
+                  | 削除
+
+      = paginate @trees
+  - else
+    .text-base.mt-6.mb-4
+      |まだツリーがありません。
+    button.btn.btn-primary.my-2
+      |ツリーを作成する
+    / = link_to 'ツリーを作成する', create_and_edit_trees_path

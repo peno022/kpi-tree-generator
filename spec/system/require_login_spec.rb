@@ -24,12 +24,6 @@ RSpec.describe 'ページごとのログイン要否' do
       expect(page).to have_selector 'h1', text: 'プライバシーポリシー'
     end
 
-    it('ツリー一覧画面にアクセスできず、ウェルカムページにリダイレクトされること') do
-      visit trees_path
-      expect(page).to have_content(I18n.t('alert.require_login'))
-      expect(page).to have_content('KPIツリーを簡単に')
-    end
-
     it('ツリー編集画面にアクセスできず、ウェルカムページにリダイレクトされること') do
       tree = create(:tree)
       visit edit_tree_path(tree)
@@ -48,11 +42,6 @@ RSpec.describe 'ページごとのログイン要否' do
     describe 'ログイン必須の画面' do
       it('ルートにアクセスするとツリー一覧ページが表示されること') do
         visit root_path
-        expect(page).to have_content('ツリー一覧')
-      end
-
-      it('ツリー一覧画面にアクセスできること') do
-        visit trees_path
         expect(page).to have_content('ツリー一覧')
       end
 
