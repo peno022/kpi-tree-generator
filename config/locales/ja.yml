@@ -207,8 +207,8 @@ ja:
     pm: 午後
   views:
     pagination:
-      first: 最初
-      last: 最後
-      next: 次へ
-      previous: 前へ
+      first: << 最初へ
+      last: 最後へ >>
+      next: 次へ >
+      previous: < 前へ
       truncate: "..."

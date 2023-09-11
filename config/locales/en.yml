@@ -32,3 +32,10 @@
 en:
   alert:
     require_login: Please log in.
+  views:
+    pagination:
+      first: "<< First"
+      last: "Last >>"
+      previous: "< Prev"
+      next: "Next >"
+      truncate: "..."

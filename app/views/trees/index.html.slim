@@ -13,9 +13,9 @@
         tbody
           - @trees.each do |tree|
             tr
-              td = link_to tree.name, edit_tree_path(tree)
-              td = tree.updated_at
-              td
+              td.td-tree-name = link_to tree.name, edit_tree_path(tree)
+              td.td-tree-updated-at = tree.updated_at
+              td.td-tree-action
                 button.btn.btn-sm.mr-3
                   = link_to edit_tree_path(tree) do
                     | 編集
