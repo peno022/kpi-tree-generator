@@ -15,6 +15,21 @@ class Tree < ApplicationRecord
     end
   end
 
+  def create_default_structure
+    return if nodes.any?
+
+    ActiveRecord::Base.transaction do
+      parent_node = Node.create!(
+        name: '親の要素', value: 100, unit: '円', value_format: '万', is_value_locked: false, tree_id: id
+      )
+      Node.create!(name: '子の要素1', value: 1000, unit: '円', value_format: '万', is_value_locked: false,
+                   parent: parent_node, tree_id: id)
+      Node.create!(name: '子の要素2', value: 10, unit: '', value_format: '%', is_value_locked: false,
+                   parent: parent_node, tree_id: id)
+      Layer.create!(operation: 'multiply', fraction: 0, parent_node:, tree_id: id)
+    end
+  end
+
   private
 
   def process_params(tree_params)
