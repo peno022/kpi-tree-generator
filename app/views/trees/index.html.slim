@@ -1,7 +1,11 @@
 = render 'shared/header'
-.container.mx-16
-  h1.text-xl
-    | ツリー一覧
+.mx-16.my-8
+  .flex.items-center
+    h1.text-xl.font-bold
+      |ツリー一覧
+    - if @trees.any?
+      = button_to '新規作成', create_and_edit_trees_path, method: :post,
+       class: 'btn btn-sm my-2 ml-10'
   - if @trees.any?
     .overflow-x-auto.m-3
       table.table.table-lg
@@ -26,6 +30,5 @@
   - else
     .text-base.mt-6.mb-4
       |まだツリーがありません。
-    button.btn.btn-primary.my-2
-      |ツリーを作成する
-    / = link_to 'ツリーを作成する', create_and_edit_trees_path
+    = button_to 'ツリーを作成する', create_and_edit_trees_path, method: :post,
+       class: 'btn btn-primary my-2'

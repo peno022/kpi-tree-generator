@@ -282,4 +282,69 @@ RSpec.describe Tree do
       end
     end
   end
+
+  describe('create_default_structure') do
+    let(:user) { create(:user) }
+    let(:tree) { create(:tree, user:) }
+
+    context '既にツリーにノードが存在するとき' do
+      it '何もしないこと' do
+        create(:node, tree:)
+
+        expect do
+          tree.create_default_structure
+        end.not_to change { tree.nodes.count }.from(1)
+        expect(tree.layers).to be_empty
+      end
+    end
+
+    context 'ツリーにノードが存在しないとき' do
+      it '設定したデフォルトのノード・レイヤーを作成すること' do
+        tree.create_default_structure
+        expect(tree.nodes.count).to eq(3)
+        expect(tree.layers.count).to eq(1)
+        parent_node = tree.nodes.find_by(name: '親の要素')
+        expect(parent_node).to be_present
+        expect_node(
+          node: parent_node,
+          value: 100,
+          unit: '円',
+          value_format: '万',
+          is_value_locked: false
+        )
+        child_node1 = tree.nodes.find_by(name: '子の要素1')
+        expect(child_node1).to be_present
+        expect(child_node1.parent).to eq(parent_node)
+        expect_node(
+          node: child_node1,
+          value: 1000,
+          unit: '円',
+          value_format: '万',
+          is_value_locked: false
+        )
+        child_node2 = tree.nodes.find_by(name: '子の要素2')
+        expect(child_node2).to be_present
+        expect(child_node2.parent).to eq(parent_node)
+        expect_node(
+          node: child_node2,
+          value: 10,
+          unit: '',
+          value_format: '%',
+          is_value_locked: false
+        )
+        layer = tree.layers.first
+        expect(layer).to be_present
+        expect(layer.operation).to eq('multiply')
+        expect(layer.fraction).to eq(0)
+        expect(layer.parent_node).to eq(parent_node)
+      end
+    end
+  end
+end
+
+def expect_node(node:, value:, unit:, value_format:, is_value_locked:)
+  expect(node.value).to eq(value)
+  expect(node.unit).to eq(unit)
+  expect(node.value_format).to eq(value_format)
+  expect(node.is_value_locked).to be(is_value_locked)
 end
