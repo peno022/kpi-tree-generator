@@ -8,8 +8,7 @@ steps:
         ".",
       ]
   - name: "gcr.io/cloud-builders/docker"
-    args:
-      ["push", "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg:latest"]
+    args: ["push", "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"]
   # - name: "gcr.io/cloud-builders/gcloud"
   #   args:
   #     [
