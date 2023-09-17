@@ -121,13 +121,13 @@ resource "google_cloudbuild_trigger" "tmp" {
 
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance
 resource "google_sql_database_instance" "this" {
-  database_version     = "POSTGRES_15"
-  deletion_protection  = true
-  instance_type        = "CLOUD_SQL_INSTANCE"
-  maintenance_version  = "POSTGRES_15_2.R20230530.01_11"
-  name                 = "ktg"
-  project              = "kpi-tree-generator"
-  region               = "asia-northeast1"
+  database_version    = "POSTGRES_15"
+  deletion_protection = true
+  instance_type       = "CLOUD_SQL_INSTANCE"
+  maintenance_version = "POSTGRES_15_2.R20230530.01_11"
+  name                = "ktg"
+  project             = "kpi-tree-generator"
+  region              = "asia-northeast1"
   settings {
     activation_policy           = "ALWAYS"
     availability_type           = "ZONAL"
@@ -145,9 +145,16 @@ resource "google_sql_database_instance" "this" {
 
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database
 resource "google_sql_database" "database" {
-  depends_on = [google_sql_database_instance.this] 
-  name     = "ktg"
-  instance = google_sql_database_instance.this.name
+  depends_on = [google_sql_database_instance.this]
+  name       = "ktg"
+  instance   = google_sql_database_instance.this.name
+}
+
+resource "google_sql_user" "users" {
+  depends_on = [google_sql_database_instance.this]
+  name       = "ktg-production"
+  instance   = google_sql_database_instance.this.name
+  password   = var.db_password
 }
 
 # resource "google_cloud_run_v2_service" "this" {

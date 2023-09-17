@@ -51,3 +51,4 @@
 
 /terraform/.terraform
 /terraform/.terraform/*
+/terraform/terraform.tfvars

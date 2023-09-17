@@ -36,8 +36,7 @@ steps:
       - update
       - $_SERVICE_NAME
       - "--platform=managed"
-      - >-
-        --image="asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"
+      - "--image=asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"
       # - >-
       #   --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
       - "--region=$_DEPLOY_REGION"
