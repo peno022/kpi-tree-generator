@@ -1,0 +1,25 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg:latest",
+        ".",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      ["push", "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg:latest"]
+  # - name: "gcr.io/cloud-builders/gcloud"
+  #   args:
+  #     [
+  #       "run",
+  #       "deploy",
+  #       "kpi-tree-generator",
+  #       "--image",
+  #       "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg:latest",
+  #       "--region",
+  #       "asia-northeast1",
+  #       "--platform",
+  #       "managed",
+  #     ]
