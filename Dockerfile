@@ -79,5 +79,5 @@ ENV RAILS_LOG_TO_STDOUT="1" \
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
+EXPOSE 8080
 CMD ["./bin/rails", "server"]
