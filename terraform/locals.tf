@@ -1,5 +1,7 @@
 locals {
   service_accounts = {
+    # これらはチュートリアルの手順に沿って権限を付与するサービスアカウントのメールアドレス
+    # https://cloud.google.com/ruby/rails/run?hl=ja#create_encrypted_credentials_file_and_store_key_as_secret
     compute    = "254382313641-compute@developer.gserviceaccount.com"
     cloudbuild = "254382313641@cloudbuild.gserviceaccount.com"
   }
