@@ -76,9 +76,7 @@ resource "google_cloudbuild_trigger" "ktg_main_push" {
     name  = "kpi-tree-generator"
     owner = "peno022"
     push {
-      branch = "^prepare-gcp-deploy$"
-      # TODO: 動作確認できたらmainに戻す 
-      # branch = "^main$"
+      branch = "^main$"
     }
   }
 }
