@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ツリー一覧', js: true, login_required: true do
+RSpec.describe 'ツリー一覧', :js, :login_required do
   let!(:user) { User.find_or_create_from_auth_hash(OmniAuth.config.mock_auth[:google_oauth2]) }
 
   before do

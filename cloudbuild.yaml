@@ -1,0 +1,37 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - build
+      - "--no-cache"
+      - "-t"
+      - "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"
+      - .
+      - "-f"
+      - Dockerfile
+    id: Build
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - push
+      - "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"
+    id: Push
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - "--platform=managed"
+      - "--image=asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"
+      - "--region=$_DEPLOY_REGION"
+      - "--quiet"
+    id: Deploy
+    entrypoint: gcloud
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _PLATFORM: managed
+  _SERVICE_NAME: ktg
+  _DEPLOY_REGION: asia-northeast1
+  _AR_HOSTNAME: asia-northeast1-docker.pkg.dev

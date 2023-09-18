@@ -193,19 +193,13 @@ describe("TreeName", () => {
       mockSendTreeNameUpdateRequest.mockResolvedValueOnce("編集後のツリー名");
       render(<TreeName />);
       const editButton = screen.getByRole("button", { name: "Edit tree name" });
-      await act(async () => {
-        await user.click(editButton);
-      });
+      await user.click(editButton);
       const treeNameInput = screen.getByRole("textbox", {
         name: "tree-name-input",
       });
-      await act(async () => {
-        await user.type(treeNameInput, "編集後");
-      });
+      await user.type(treeNameInput, "編集後");
       const okButton = screen.getByRole("button", { name: "OK" });
-      await act(async () => {
-        await user.click(okButton);
-      });
+      await user.click(okButton);
       expect(mockSendTreeNameUpdateRequest).toHaveBeenCalledWith(
         "売上ツリー編集後"
       );
@@ -217,19 +211,13 @@ describe("TreeName", () => {
       mockSendTreeNameUpdateRequest.mockResolvedValueOnce("編集後のツリー名");
       render(<TreeName />);
       const editButton = screen.getByRole("button", { name: "Edit tree name" });
-      await act(async () => {
-        await user.click(editButton);
-      });
+      await user.click(editButton);
       const treeNameInput = screen.getByRole("textbox", {
         name: "tree-name-input",
       });
-      await act(async () => {
-        await user.type(treeNameInput, "編集後");
-      });
+      await user.type(treeNameInput, "編集後");
       const okButton = screen.getByRole("button", { name: "OK" });
-      await act(async () => {
-        await user.click(okButton);
-      });
+      await user.click(okButton);
       expect(
         screen.queryByRole("button", { name: "OK" })
       ).not.toBeInTheDocument();
@@ -242,19 +230,13 @@ describe("TreeName", () => {
       mockSendTreeNameUpdateRequest.mockResolvedValueOnce("編集後のツリー名");
       render(<TreeName />);
       const editButton = screen.getByRole("button", { name: "Edit tree name" });
-      await act(async () => {
-        await user.click(editButton);
-      });
+      await user.click(editButton);
       const treeNameInput = screen.getByRole("textbox", {
         name: "tree-name-input",
       });
-      await act(async () => {
-        await user.type(treeNameInput, "編集後");
-      });
+      await user.type(treeNameInput, "編集後");
       const okButton = screen.getByRole("button", { name: "OK" });
-      await act(async () => {
-        await user.click(okButton);
-      });
+      await user.click(okButton);
       expect(
         screen.getByRole("button", { name: "Edit tree name" })
       ).toBeInTheDocument();
@@ -264,19 +246,13 @@ describe("TreeName", () => {
       mockSendTreeNameUpdateRequest.mockResolvedValueOnce("編集後のツリー名");
       render(<TreeName />);
       const editButton = screen.getByRole("button", { name: "Edit tree name" });
-      await act(async () => {
-        await user.click(editButton);
-      });
+      await user.click(editButton);
       const treeNameInput = screen.getByRole("textbox", {
         name: "tree-name-input",
       });
-      await act(async () => {
-        await user.type(treeNameInput, "編集後");
-      });
+      await user.type(treeNameInput, "編集後");
       const okButton = screen.getByRole("button", { name: "OK" });
-      await act(async () => {
-        await user.click(okButton);
-      });
+      await user.click(okButton);
       expect(treeNameInput).not.toBeInTheDocument();
     });
   });

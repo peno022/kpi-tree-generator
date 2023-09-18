@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ツリー名を変更する', js: true, login_required: true do
+RSpec.describe 'ツリー名を変更する', :js, :login_required do
   before do
     visit log_out_path
     visit root_path

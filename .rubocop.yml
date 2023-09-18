@@ -9,7 +9,7 @@ Style/Documentation:
 # Enabling/Disabling Pending Cops in Bulk
 # https://docs.rubocop.org/rubocop/1.31/versioning.html#pending-cops
 AllCops:
-  NewCops: enable
+  NewCops: disable
 
 Metrics/MethodLength:
   CountComments: false

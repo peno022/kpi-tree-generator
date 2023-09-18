@@ -32,7 +32,7 @@ RSpec.describe 'ページごとのログイン要否' do
     end
   end
 
-  describe 'ログインしている時', login_required: true do
+  describe 'ログインしている時', :login_required do
     before do
       visit log_out_path
       visit root_path

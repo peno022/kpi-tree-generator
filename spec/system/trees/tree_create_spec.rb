@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ツリーを新規作成する', js: true, login_required: true do
+RSpec.describe 'ツリーを新規作成する', :js, :login_required do
   let!(:user) { User.find_or_create_from_auth_hash(OmniAuth.config.mock_auth[:google_oauth2]) }
 
   before do
@@ -31,7 +31,7 @@ RSpec.describe 'ツリーを新規作成する', js: true, login_required: true 
   it '作成されたツリーの名前は、「新しいツリー」になっている' do
     click_button 'ツリーを作成する'
     expect(page).to have_current_path(edit_tree_path(user.trees.last))
-    expect(find('h1', text: '新しいツリー')).to be_present
+    expect(page).to have_css('h1', text: '新しいツリー')
   end
 
   it '作成されたツリーは、デフォルトのツリー構造を持っている' do
@@ -64,7 +64,7 @@ RSpec.describe 'ツリーを新規作成する', js: true, login_required: true 
 
   it 'ツリー一覧画面に戻ると、作成されたツリーが表示されている' do
     click_button 'ツリーを作成する'
-    expect(find('h1', text: '新しいツリー')).to be_present
+    expect(page).to have_css('h1', text: '新しいツリー')
     find('a', text: 'ホーム').click
     expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: '新しいツリー')
   end
@@ -74,7 +74,7 @@ RSpec.describe 'ツリーを新規作成する', js: true, login_required: true 
     find('.edit-tree-name-button').click
     find('input[name="tree-name-input"]').set('変更後のツリー名')
     find('.edit-tree-name-ok').click
-    expect(find('h1', text: '変更後のツリー名')).to be_present
+    expect(page).to have_css('h1', text: '変更後のツリー名')
     find('a', text: 'ホーム').click
     expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: '変更後のツリー名')
   end
