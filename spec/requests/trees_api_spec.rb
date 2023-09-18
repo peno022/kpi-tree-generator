@@ -86,7 +86,7 @@ RSpec.describe 'TreesApi' do
         }], layers: [] } }
         put "/api/trees/#{tree.id}.json", params: invalid_data
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(JSON.parse(response.body)['errors']).to eq(["Name can't be blank"])
+        expect(response.parsed_body['errors']).to eq(["Name can't be blank"])
       end
     end
 
@@ -151,7 +151,7 @@ RSpec.describe 'TreesApi' do
           end
         }
         expect(response).to have_http_status(:ok)
-        expect(JSON.parse(response.body)).to eq(expected)
+        expect(response.parsed_body).to eq(expected)
         expect(tree.nodes.count).to eq(3)
         expect(tree.layers.count).to eq(1)
       end
@@ -230,14 +230,14 @@ RSpec.describe 'TreesApi' do
       tree = create(:tree, user_id: user.id)
       patch "/api/trees/#{tree.id}/update_name.json", params: { name: nil }
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(JSON.parse(response.body)['errors']).to eq("Name can't be blank")
+      expect(response.parsed_body['errors']).to eq("Name can't be blank")
     end
 
     it('ログインユーザーのツリーの名前を更新すること') do
       tree = create(:tree, user_id: user.id)
       patch "/api/trees/#{tree.id}/update_name.json", params: { name: 'new name' }
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body)['name']).to eq('new name')
+      expect(response.parsed_body['name']).to eq('new name')
       expect(tree.reload.name).to eq('new name')
     end
   end
