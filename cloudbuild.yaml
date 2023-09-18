@@ -1,13 +1,4 @@
 steps:
-  # args:
-  #   [
-  #     "build",
-  #     "-t",
-  #     "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg",
-  #     ".",
-  #   ]
-  # id: Build
-
   - name: "gcr.io/cloud-builders/docker"
     args:
       - build
@@ -18,10 +9,6 @@ steps:
       - "-f"
       - Dockerfile
     id: Build
-
-  # - name: "gcr.io/cloud-builders/docker"
-  #   args: ["push", "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"]
-  #   id: Push
 
   - name: "gcr.io/cloud-builders/docker"
     args:
@@ -37,15 +24,10 @@ steps:
       - $_SERVICE_NAME
       - "--platform=managed"
       - "--image=asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"
-      # - >-
-      #   --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
       - "--region=$_DEPLOY_REGION"
       - "--quiet"
     id: Deploy
     entrypoint: gcloud
-# images:
-#   - >-
-#     $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
@@ -53,8 +35,3 @@ substitutions:
   _SERVICE_NAME: ktg
   _DEPLOY_REGION: asia-northeast1
   _AR_HOSTNAME: asia-northeast1-docker.pkg.dev
-  # _TRIGGER_ID: c1c6f62b-e429-4ee3-9fc2-de98dc2c28fd
-# tags:
-#   - gcp-cloud-build-deploy-cloud-run
-#   - gcp-cloud-build-deploy-cloud-run-managed
-#   - ktg
