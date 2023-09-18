@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Tree pages', js: true do
-  describe 'ツリー編集画面', login_required: true do
+RSpec.describe 'Tree pages', :js do
+  describe 'ツリー編集画面', :login_required do
     before do
       visit log_out_path
       visit root_path

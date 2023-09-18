@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe '階層・ノードのプロパティを編集・更新', js: true, login_required: true do
+RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :login_required do
   before do
     visit log_out_path
     visit root_path

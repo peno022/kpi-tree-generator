@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ツリー上で葉ノードに子階層を追加する', js: true, login_required: true do
+RSpec.describe 'ツリー上で葉ノードに子階層を追加する', :js, :login_required do
   before do
     visit log_out_path
     visit root_path

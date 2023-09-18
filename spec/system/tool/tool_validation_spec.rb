@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ツールエリアのバリデーションチェック', js: true, login_required: true do
+RSpec.describe 'ツールエリアのバリデーションチェック', :js, :login_required do
   before do
     # ログイン
     visit log_out_path
