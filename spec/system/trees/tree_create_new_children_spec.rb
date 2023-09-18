@@ -79,9 +79,10 @@ RSpec.describe 'ツリー上で葉ノードに子階層を追加する', js: tru
     it('葉ノードにホバーして↓ボタンをクリックすると、子階層が追加される。追加された新しい子階層が選択状態で表示される') do
       find('g.custom-node', text: '孫2-3').hover
       find('g.add-layer-button').click
-      expect(page).to have_css('g.custom-node', text: '新規の要素', count: 2)
-      expect(page).to have_css('g.custom-node', text: '新規の要素') do |node|
-        expect(node).to have_css('rect[style="fill: moccasin;"]', count: 2)
+      created_nodes = all('g.custom-node', text: '新規の要素')
+      expect(created_nodes.size).to eq 2
+      created_nodes.each do |node|
+        expect(node.find('rect')[:style]).to include('fill: moccasin')
       end
       expect_node_detail(
         index: 1, name: '新規の要素', value: '1', value_format: 'なし', unit: '', is_value_locked: false

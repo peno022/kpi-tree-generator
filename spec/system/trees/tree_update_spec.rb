@@ -56,7 +56,9 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', js: tru
       )
 
       # 要素未選択状態に戻り、ツールエリアが閉じていることを確認
-      expect(page).not_to have_css('rect[style="fill: moccasin;"]')
+      all('g.custom-node > rect').each do |rect|
+        expect(rect[:style]).not_to include('fill: moccasin')
+      end
       expect(find_by_id('toolWrapper')).to have_content('要素を選択すると、ここに詳細が表示されます。')
     end
 
