@@ -1,3 +1,5 @@
+data "google_project" "project" {}
+
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket
 resource "google_storage_bucket" "this" {
   name          = "ktg-litestream"
@@ -7,19 +9,52 @@ resource "google_storage_bucket" "this" {
   public_access_prevention = "enforced"
 }
 
-// https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_service_account
+resource "google_storage_bucket" "ktg-static" {
+  name          = "ktg-static"
+  location      = "ASIA-NORTHEAST1" # https://cloud.google.com/storage/docs/locations?hl=ja
+  force_destroy = false
+}
+
+resource "google_storage_bucket_access_control" "public_rule" {
+  depends_on = [google_storage_bucket.ktg-static]
+  bucket     = google_storage_bucket.ktg-static.name
+  role       = "READER"
+  entity     = "allUsers"
+}
+
+# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_service_account
 resource "google_service_account" "litestream" {
   account_id   = "litestream"
   display_name = "litestream"
 }
 
-// https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_member
-resource "google_project_iam_member" "litestream" {
+# # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_member
+# resource "google_project_iam_member" "litestream" {
+#   project = "kpi-tree-generator"
+#   # https://litestream.io/guides/gcs/#create-a-service-account
+#   # https://cloud.google.com/storage/docs/access-control/iam-roles?hl=ja
+#   role   = "roles/storage.admin"
+#   member = "serviceAccount:${google_service_account.litestream.email}"
+# }
+
+# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_member
+resource "google_project_iam_member" "deploy" {
+  for_each = toset([local.service_accounts.compute, local.service_accounts.cloudbuild])
+  project  = "kpi-tree-generator"
+  # https://cloud.google.com/ruby/rails/run?hl=ja#store_secret_values_in
+  # https://cloud.google.com/secret-manager/docs/access-control?hl=ja
+  role   = "roles/secretmanager.secretAccessor"
+  member = "serviceAccount:${each.value}"
+}
+
+
+# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_member
+resource "google_project_iam_member" "cloudbuild_sql_access" {
   project = "kpi-tree-generator"
-  // https://litestream.io/guides/gcs/#create-a-service-account
-  // https://cloud.google.com/storage/docs/access-control/iam-roles?hl=ja
-  role   = "roles/storage.admin"
-  member = "serviceAccount:${google_service_account.litestream.email}"
+  # https://cloud.google.com/ruby/rails/run?hl=ja#grant_access_to
+  # https://cloud.google.com/sql/docs/mysql/iam-roles?hl=ja#roles
+  role   = "roles/cloudsql.client"
+  member = "serviceAccount:${local.service_accounts.cloudbuild}"
 }
 
 resource "google_artifact_registry_repository" "this" {
@@ -97,7 +132,7 @@ resource "google_cloudbuild_trigger" "tmp" {
 #     name  = "kpi-tree-generator"
 #     owner = "peno022"
 #     push {
-#       // branch       = "^main$"
+#       # branch       = "^main$"
 #       branch       = "^prepare-gcp-deploy$"
 #     }
 #   }
@@ -157,6 +192,130 @@ resource "google_sql_user" "users" {
   password   = var.db_password
 }
 
+import {
+  id = "asia-northeast1/ktg"
+  to = google_cloud_run_v2_service.this
+}
+
+# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_v2_service
+resource "google_cloud_run_v2_service" "this" {
+  # annotations    = {}
+  client         = "gcloud"
+  client_version = "446.0.1"
+  # description    = null
+  ingress = "INGRESS_TRAFFIC_ALL"
+  # labels = {
+  #   gcb-trigger-id     = "c1c6f62b-e429-4ee3-9fc2-de98dc2c28fd"
+  #   gcb-trigger-region = "global"
+  #   managed-by         = "gcp-cloud-build-deploy-cloud-run"
+  # }
+  # launch_stage = "GA"
+  location = "asia-northeast1"
+  name     = "ktg"
+  project  = "kpi-tree-generator"
+  template {
+    volumes {
+      name = "cloudsql"
+      cloud_sql_instance {
+        instances = [google_sql_database_instance.this.connection_name]
+      }
+    }
+    # annotations                      = {}
+    # encryption_key                   = null
+    # execution_environment            = null
+    # labels                           = {}
+    max_instance_request_concurrency = 80
+    # revision                         = "ktg-00003-hab"
+    service_account = local.service_accounts.compute
+    # session_affinity                 = false
+    timeout = "300s"
+    containers {
+      # args        = []
+      # command     = []
+      image = "asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg"
+      # name        = null
+      # working_dir = null
+      ports {
+        container_port = 8080
+        name           = "http1"
+      }
+      resources {
+        cpu_idle = true
+        limits = {
+          cpu    = "1000m"
+          memory = "512Mi"
+        }
+        startup_cpu_boost = true
+      }
+      #       dynamic "env" {
+      #   for_each = {for e in local.envvars : e.name => e.value }
+      #   content {
+      #     name = env.key
+      #     value = env.value
+      #   }
+      # }
+
+      dynamic "env" {
+        for_each = local.secrets
+        content {
+          name = split("__", env.value.id)[1]
+          value_source {
+            secret_key_ref {
+              version = "latest"
+              secret  = env.value.id
+            }
+          }
+        }
+      }
+      volume_mounts {
+        name       = "cloudsql"
+        mount_path = "/cloudsql"
+      }
+      # startup_probe {
+      #   failure_threshold     = 1
+      #   initial_delay_seconds = 0
+      #   period_seconds        = 240
+      #   timeout_seconds       = 240
+      #   tcp_socket {
+      #     port = 8080
+      #   }
+      # }
+    }
+    scaling {
+      max_instance_count = 2
+      min_instance_count = 0
+    }
+  }
+  # lifecycle {
+  #   ignore_changes = [ template[0].revision ]
+  # }
+  # timeouts {
+  #   create = null
+  #   delete = null
+  #   update = null
+  # }
+  # traffic {
+  #   percent  = 100
+  #   revision = null
+  #   tag      = null
+  #   type     = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+  # }
+}
+
+# https://cloud.google.com/run/docs/mapping-custom-domains?hl=ja#map
+resource "google_cloud_run_domain_mapping" "this" {
+  name     = "kpi-tree.com"
+  location = google_cloud_run_v2_service.this.location
+  metadata {
+    namespace = data.google_project.project.project_id
+  }
+  spec {
+    route_name = google_cloud_run_v2_service.this.name
+  }
+}
+
+
+# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_v2_service
 # resource "google_cloud_run_v2_service" "this" {
 #   location = "asia-northeast1"
 #   name = "ktg"
