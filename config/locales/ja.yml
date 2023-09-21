@@ -215,3 +215,6 @@ ja:
   custom_errors:
     messages:
       tree_create_failed: "ツリーの作成に失敗しました。画面を再読み込みしてもう一度お試しください。"
+      tree_destroy_failed: "ツリーの削除に失敗しました。画面を再読み込みしてもう一度お試しください。"
+  messages:
+    tree_destroyed: "%{target_tree_name}を削除しました。"

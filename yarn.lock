@@ -2895,7 +2895,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.50.0
     "@typescript-eslint/parser": ^5.50.0
     autoprefixer: ^10.4.13
-    daisyui: ^3.6.5
+    daisyui: ^3.7.7
     esbuild: ^0.16.15
     eslint: ^8.44.0
     eslint-config-prettier: ^8.6.0
@@ -3830,16 +3830,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"daisyui@npm:^3.6.5":
-  version: 3.7.5
-  resolution: "daisyui@npm:3.7.5"
+"daisyui@npm:^3.7.7":
+  version: 3.7.7
+  resolution: "daisyui@npm:3.7.7"
   dependencies:
     colord: ^2.9
     css-selector-tokenizer: ^0.8
     postcss: ^8
     postcss-js: ^4
     tailwindcss: ^3
-  checksum: 5bc5a8bcb9175d080f18162c64def552abfc6add8df5093721901a4faea6d3972311ecfa86a86239d3a209f2214b3b69ace3a1002b590704a014b4c4440a2bde
+  checksum: 85b868e306b04445ac91d902776a74ccf7e57f804a93d43ec785598040e152ce4b2dda883a38cd51d7b9b58779b515639cf5a858731c8314c43063f00040b8e2
   languageName: node
   linkType: hard
 
