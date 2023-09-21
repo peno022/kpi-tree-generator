@@ -5,7 +5,8 @@ require 'rails_helper'
 RSpec.describe 'Welcome pages' do
   it 'LPを表示する' do
     visit root_path
-    expect(page).to have_selector 'nav', text: 'KPIツリーメーカー'
+    expect(page).to have_css('img.ktg-logo-mark')
+    expect(page).to have_css('img.ktg-logo-text')
     expect(page).to have_button text: 'ログインなしで試す'
   end
 

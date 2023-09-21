@@ -1,7 +1,8 @@
 nav.navbar.bg-base-100.border-b-2.border-base-300
   .flex-1
-    a.btn.btn-ghost.normal-case.text-xl
-      |KPIツリーメーカー
+    = link_to root_path, class: 'flex items-center' do
+      = image_tag 'ktg-logo-mark-compressed.png', alt: 'KPI TREE MAKER logo mark', width: 30, class: 'mx-3 ktg-logo-mark'
+      = image_tag 'ktg-logo-text-compressed.png', alt: 'KPI TREE MAKER logo text', width: 250, class: 'ktg-logo-text'
   .flex-none
     ul.menu.menu-horizontal.px-1
       - if current_user
