@@ -42,3 +42,6 @@ en:
   custom_errors:
     messages:
       tree_create_failed: "The tree failed to create. Please reload the screen and try again."
+      tree_destroy_failed: "Failed to destroy the tree."
+  messages:
+    tree_destroyed: "Deleted the tree %{target_tree_name}."

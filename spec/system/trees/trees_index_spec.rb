@@ -127,4 +127,82 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       expect(first('table > tbody > tr > td.td-tree-name').text).to eq('ツリー31')
     end
   end
+
+  describe 'ツリーの削除' do
+    context 'ツリーが2件以上あるとき' do
+      before do
+        create(:tree, name: 'ツリー1', user_id: user.id, updated_at: 1.day.ago)
+        create(:tree, name: 'ツリー2', user_id: user.id, updated_at: 2.days.ago)
+        visit root_path
+      end
+
+      it 'ツリーの削除ボタンをクリックすると、削除実行確認モーダルが開くこと' do
+        page.all('table > tbody > tr > td.td-tree-action > label', text: '削除').first.click
+        expect(page).to have_content('ツリー1を削除してよろしいですか？')
+      end
+
+      it '削除実行確認モーダルでキャンセルをクリックすると、モーダルが閉じること' do
+        page.all('table > tbody > tr > td.td-tree-action > label', text: '削除').first.click
+        find('label', text: 'キャンセル').click
+        expect(page).not_to have_content('ツリー1を削除してよろしいですか？')
+      end
+
+      it '削除を実行するとツリーが削除され、ツリー一覧から消えること' do
+        expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー1')
+        expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー2')
+        expect(Tree.where(user_id: user.id).count).to eq(2)
+        page.all('table > tbody > tr > td.td-tree-action > label', text: '削除').first.click
+        click_button '削除する'
+        expect(Tree.where(user_id: user.id).count).to eq(1)
+        expect(page).not_to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー1')
+        expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー2')
+      end
+
+      it '削除の実行が完了すると、削除完了メッセージが表示されること' do
+        page.all('table > tbody > tr > td.td-tree-action > label', text: '削除').first.click
+        click_button '削除する'
+        expect(page).to have_content(I18n.t('messages.tree_destroyed', target_tree_name: 'ツリー1'))
+      end
+
+      it '削除を実行すると、ツリーが削除され、ツリーに紐づくノードとレイヤーも全て削除されていること' do
+        create(:node, name: 'ルート', tree_id: Tree.first.id)
+        create(:node, name: '子1', tree_id: Tree.first.id, parent_id: Node.first.id)
+        create(:node, name: '子2', tree_id: Tree.first.id, parent_id: Node.first.id)
+        create(:layer, tree_id: Tree.first.id)
+        visit root_path
+        expect(Tree.where(user_id: user.id).count).to eq(2)
+        expect(Node.where(tree_id: Tree.first.id).count).to eq(3)
+        expect(Layer.where(tree_id: Tree.first.id).count).to eq(1)
+        page.all('table > tbody > tr > td.td-tree-action > label', text: '削除').first.click
+        click_button '削除する'
+        expect(Tree.where(user_id: user.id).count).to eq(1)
+        expect(Node.where(tree_id: Tree.first.id).count).to eq(0)
+        expect(Layer.where(tree_id: Tree.first.id).count).to eq(0)
+      end
+    end
+
+    context 'ツリーが1件のとき' do
+      it 'ツリーの削除を実行したあと、ツリーが0件になったときは、ツリー一覧が表示されず、ツリー作成ボタンが表示されること' do
+        create(:tree, name: '1件だけのツリー', user_id: user.id)
+        visit root_path
+        page.all('table > tbody > tr > td.td-tree-action > label', text: '削除').first.click
+        click_button '削除する'
+        expect(page).to have_content(I18n.t('messages.tree_destroyed', target_tree_name: '1件だけのツリー'))
+        expect(page).to have_content('まだツリーがありません。')
+        expect(page).to have_button('ツリーを作成する')
+        expect(page).not_to have_table
+      end
+    end
+
+    context '削除対象のツリーが存在しないとき' do
+      it '404エラーページが表示されること' do
+        create(:tree, name: 'ツリー', user_id: user.id)
+        visit root_path
+        page.all('table > tbody > tr > td.td-tree-action > label', text: '削除').first.click
+        Tree.first.destroy!
+        click_button '削除する'
+        expect(page).to have_content("The page you were looking for doesn't exist.")
+      end
+    end
+  end
 end

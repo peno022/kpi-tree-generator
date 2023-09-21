@@ -19,12 +19,24 @@
             tr
               td.td-tree-name = link_to tree.name, edit_tree_path(tree)
               td.td-tree-updated-at = tree.updated_at
-              td.td-tree-action
-                button.btn.btn-sm.mr-3
+              td.td-tree-action.flex
+                button.btn.btn-sm.mr-1
                   = link_to edit_tree_path(tree) do
                     | 編集
-                button.btn.btn-sm.btn-ghost.mr-3
+                label.btn.btn-sm.btn-ghost[for="tree_delete_confirm_#{tree.id}"]
                   | 削除
+                input.modal-toggle[type="checkbox" id="tree_delete_confirm_#{tree.id}"]
+                .modal.cursor-pointer
+                  .modal-box
+                    p.py-4
+                      | #{tree.name}を削除してよろしいですか？
+                    .modal-action
+                      label.btn.btn-ghost[for="tree_delete_confirm_#{tree.id}"]
+                        = button_to '削除する', \
+                          tree, \
+                          method: :delete
+                      label.btn[for="tree_delete_confirm_#{tree.id}"]
+                        | キャンセル
 
       = paginate @trees
   - else
