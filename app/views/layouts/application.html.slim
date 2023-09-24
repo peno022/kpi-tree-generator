@@ -11,7 +11,8 @@ html
     = javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true
     script src="https://kit.fontawesome.com/48b449efbc.js" crossorigin="anonymous"
     = favicon_link_tag
-
+    = favicon_link_tag 'touch-icon.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '180x180'
+    = favicon_link_tag 'touch-icon.png', rel: 'icon', type: 'image/png', sizes: '192x192'
   body
     = render 'shared/flash'
     = yield
