@@ -16,6 +16,7 @@ services:
 
     volumes:
       - .:/rails
+      - node_modules:/rails/node_modules
     command: sleep infinity
     ports:
       - "3000:3000"
@@ -47,3 +48,4 @@ networks:
 
 volumes:
   postgres_data:
+  node_modules:
