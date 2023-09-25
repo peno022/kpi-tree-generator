@@ -84,9 +84,6 @@ RUN chown -R ktg:ktg db log storage tmp
 
 USER ktg:ktg
 
-# Deployment options
-# ENV RAILS_LOG_TO_STDOUT="1" \
-#     RAILS_SERVE_STATIC_FILES="true"
 # Set deployment oprtions for production
 RUN if [ "$ENVIRONMENT" = "production" ]; then \
       echo 'export RAILS_LOG_TO_STDOUT="1"' >> ~/.bashrc && \
