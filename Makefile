@@ -11,8 +11,13 @@ install:
 build:
 	docker build \
 		-t $(DOCKER_IMAGE_NAME):latest \
-		-t asia-northeast1-docker.pkg.dev/kpi-tree-generator/ktg/ktg \
 		-f ./Dockerfile \
+		--build-arg RAILS_ENV="" \
+		--build-arg BUNDLE_WITHOUT="" \
+		--build-arg BUNDLE_DEPLOYMENT="" \
+		--build-arg FROZEN_LOCKFILE="" \
+		--build-arg NO_DOCUMENT="" \
+		--build-arg ENVIRONMENT="development" \
 		.
 
 .PHONY: push
@@ -41,9 +46,7 @@ down:
 	docker compose -f ./compose.yaml down --remove-orphans
 
 .PHONY: reset
-reset:
-	@make down
-	@make up
+reset: down up
 
 .PHONY: log
 log:
@@ -51,7 +54,7 @@ log:
 
 .PHONY: login
 login:
-	docker compose -f ./compose.yaml exec app /bin/bash
+	docker compose -f ./compose.yaml exec -u root app /bin/bash
 
 .PHONY: download-gcloud-credential
 download-gcloud-credential:

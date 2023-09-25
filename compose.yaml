@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  app:
+    image: ktg
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        RAILS_ENV: ""
+        BUNDLE_WITHOUT: ""
+        BUNDLE_DEPLOYMENT: ""
+        FROZEN_LOCKFILE: ""
+        NO_DOCUMENT: ""
+        ENVIRONMENT: development
+
+    volumes:
+      - .:/rails
+      - node_modules:/rails/node_modules
+    command: sleep infinity
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    networks:
+      ktg-net:
+    environment:
+      - SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub
+
+  selenium_chrome:
+    image: selenium/standalone-chrome-debug
+    networks:
+      ktg-net:
+
+  db:
+    image: postgres:15.1
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./create-db-user.sql:/docker-entrypoint-initdb.d/create-db-user.sql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      ktg-net:
+
+networks:
+  ktg-net:
+
+volumes:
+  postgres_data:
+  node_modules:
