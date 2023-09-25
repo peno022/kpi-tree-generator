@@ -68,3 +68,18 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
   config.i18n.default_locale = :ja
 end
+
+# 開発環境で利用するGoogleログインのモックユーザーを設定
+Rails.application.configure do
+  OmniAuth.config.test_mode = true
+  auth_hash = {
+    provider: 'google_oauth2',
+    uid: '1234',
+    info: {
+      name: 'mockuser-develop',
+      email: 'test.mail@example.com',
+      image: 'https://test.com/test.png'
+    }
+  }
+  OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(auth_hash)
+end
