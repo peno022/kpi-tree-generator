@@ -6,6 +6,16 @@ class Tree < ApplicationRecord
   has_many :layers, dependent: :destroy
   validates :name, presence: true
 
+  scope :order_by_latest_updated_at, lambda {
+    select('trees.*,
+            GREATEST(trees.updated_at, COALESCE(MAX(nodes.updated_at), trees.updated_at),
+            COALESCE(MAX(layers.updated_at), trees.updated_at)) AS latest_updated')
+      .joins('LEFT OUTER JOIN nodes ON nodes.tree_id = trees.id')
+      .joins('LEFT OUTER JOIN layers ON layers.tree_id = trees.id')
+      .group('trees.id')
+      .order('latest_updated DESC')
+  }
+
   def update_tree_with_params(tree_params)
     ActiveRecord::Base.transaction do
       nodes, layers, initial_nodes_to_delete = process_params(tree_params)
@@ -28,6 +38,14 @@ class Tree < ApplicationRecord
                    parent: parent_node, tree_id: id)
       Layer.create!(operation: 'multiply', fraction: 0, parent_node:, tree_id: id)
     end
+  end
+
+  def latest_updated_at
+    [
+      updated_at,
+      nodes.maximum(:updated_at),
+      layers.maximum(:updated_at)
+    ].compact.max
   end
 
   private

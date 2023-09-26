@@ -22,11 +22,11 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
 
   describe 'ツリーが1件以上存在するときの画面' do
     let!(:tree_times) { [3.days.ago, 2.days.ago, 1.day.ago] }
+    let!(:tree1) { create(:tree, name: 'ツリー1', user_id: user.id, updated_at: tree_times[0]) }
+    let!(:tree2) { create(:tree, name: 'ツリー2', user_id: user.id, updated_at: tree_times[1]) }
+    let!(:tree3) { create(:tree, name: 'ツリー3', user_id: user.id, updated_at: tree_times[2]) }
 
     before do
-      tree_times.each_with_index do |time, index|
-        create(:tree, name: "ツリー#{index + 1}", user_id: user.id, updated_at: time)
-      end
       visit root_path
     end
 
@@ -37,18 +37,25 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー2')
       expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー3')
       tree_times.reverse.each_with_index do |time, index|
-        formatted_time = time.strftime('%Y-%m-%d %H:%M:%S %z')
+        formatted_time = time.strftime('%Y-%m-%d %H:%M:%S')
         expect(page).to have_selector("table > tbody > tr:nth-child(#{index + 1}) > td.td-tree-updated-at",
                                       text: formatted_time)
       end
       expect(page).to have_selector('table > tbody > tr > td.td-tree-action > button', text: '編集', count: 3)
     end
 
-    it('一覧のツリーがupdate_atの降順に並んでいること') do
+    it('一覧のツリーがlatest_update_atの降順に並んでいること') do
+      # 新しい順にtree3, tree2, tree1
+      # tree1内のノードのupdated_atを更新してtree1の最終更新が最新になるようにする（tree1, tree3, tree2の順)
+      tree1_new_node = create(:node, name: 'ルート', tree_id: tree1.id, updated_at: 1.hour.ago)
+      visit root_path
       timestamps = page.all('table > tbody > tr > td.td-tree-updated-at').map(&:text)
-      # フォーマット '2023-09-11 14:23:27 +0900' の文字列をDateTimeオブジェクトに変換
-      parsed_timestamps = timestamps.map { |ts| DateTime.strptime(ts, '%Y-%m-%d %H:%M:%S %z') }
-      expect(parsed_timestamps).to eq(parsed_timestamps.sort.reverse)
+      expect_timestamps = [tree1_new_node.updated_at, tree3.updated_at, tree2.updated_at].map do |ts|
+        ts.strftime('%Y-%m-%d %H:%M:%S')
+      end
+      timestamps.each_with_index do |timestamp, index|
+        expect(timestamp).to eq(expect_timestamps[index])
+      end
     end
 
     it('ツリー名をクリックすると、そのツリーの編集画面に遷移すること') do
