@@ -6,10 +6,9 @@ nav.navbar.bg-base-100.border-b-2.border-base-300
   .flex-none
     ul.menu.menu-horizontal.px-1
       - if current_user
-        - if current_user.image
-          label.btn.btn-ghost.btn-circle.avatar tabindex="0"
-            .w-10.rounded-full
-              = image_tag current_user.image, alt: 'アイコン'
+        label.btn.btn-ghost.btn-circle.avatar tabindex="0"
+          .w-10.rounded-full
+            = image_tag(current_user.image || "default-icon.png", alt: 'icon')
         = link_to 'ログアウト', log_out_path, class: 'btn btn-ghost'
       - else
         li
