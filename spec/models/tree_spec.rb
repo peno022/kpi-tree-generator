@@ -369,12 +369,12 @@ RSpec.describe Tree do
   end
 
   describe 'scope :ordered_by_latest_update は、latest_updated_atの降順でツリーを取得する' do
-    let!(:tree1) { create(:tree, updated_at: 2.days.ago) }
-    let!(:tree2) { create(:tree, updated_at: 3.days.ago) }
-
     it 'latest_updated_atの降順でツリーを取得すること' do
+      user = create(:user)
+      tree1 = create(:tree, updated_at: 2.days.ago, user:)
+      tree2 = create(:tree, updated_at: 3.days.ago, user:)
       create(:node, tree: tree2, updated_at: 1.day.ago)
-      expect(described_class.order_by_latest_updated_at).to eq([tree2, tree1])
+      expect(user.trees.order_by_latest_updated_at).to eq([tree2, tree1])
     end
   end
 end
