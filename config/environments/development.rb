@@ -78,7 +78,7 @@ Rails.application.configure do
     uid: '1234',
     info: {
       name: 'mockuser-develop',
-      email: 'test.mail@example.com',
+      email: 'test.mail@example.com'
     }
   }
   OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(auth_hash)
