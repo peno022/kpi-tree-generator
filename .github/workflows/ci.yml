@@ -95,7 +95,7 @@ jobs:
         run: yarn jest
 
       - name: Run rspec
-        run: bundle exec rspec -t ~login_required
+        run: bundle exec rspec
         continue-on-error: true
         id: rspec
 
