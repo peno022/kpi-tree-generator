@@ -1,8 +1,9 @@
 nav.navbar.bg-base-100.border-b-2.border-base-300
-  .flex-1
-    = link_to root_path, class: 'flex items-center' do
+  .flex-1.ktg-logo
+    = link_to root_path, class: 'flex items-center justify-center' do
       = image_tag 'ktg-logo-mark-compressed.png', alt: 'KPI TREE MAKER logo mark', width: 30, class: 'mx-3 ktg-logo-mark'
-      = image_tag 'ktg-logo-text-compressed.png', alt: 'KPI TREE MAKER logo text', width: 250, class: 'ktg-logo-text'
+      = image_tag 'ktg-logo-text-compressed.png', alt: 'KPI TREE MAKER logo text', width: 250, class: 'hidden md:block ktg-logo-text'
+      = image_tag 'ktg-logo-text-compressed.png', alt: 'KPI TREE MAKER logo text', width: 150, class: 'md:hidden ktg-logo-text'
   .flex-none
     ul.menu.menu-horizontal.px-1
       - if current_user
@@ -12,7 +13,7 @@ nav.navbar.bg-base-100.border-b-2.border-base-300
         = link_to 'ログアウト', log_out_path, class: 'btn btn-ghost'
       - else
         li
-          = button_to 'Googleでログイン', \
+          = button_to 'ログイン', \
           '/auth/google_oauth2', \
           method: :post, \
           data: { turbo: false }, \
