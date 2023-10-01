@@ -1,46 +1,47 @@
 = render 'shared/header'
-.mx-16.my-8
-  .flex.items-center
-    h1.text-xl.font-bold
-      |ツリー一覧
+.bg-neutral-content.min-h-screen.pt-20
+  .mx-16.my-8
+    .flex.items-center
+      h1.text-xl.font-bold
+        |ツリー一覧
+      - if @trees.any?
+        = button_to '新規作成', create_and_edit_trees_path, method: :post,
+        class: 'btn btn-sm my-2 ml-10'
     - if @trees.any?
-      = button_to '新規作成', create_and_edit_trees_path, method: :post,
-       class: 'btn btn-sm my-2 ml-10'
-  - if @trees.any?
-    .overflow-x-auto.m-3
-      table.table.table-lg
-        thead
-          tr
-            th 名前
-            th 最終更新
-            th
-        tbody
-          - @trees.each do |tree|
+      .overflow-x-auto.m-3
+        table.table.table-lg
+          thead
             tr
-              td.td-tree-name = link_to tree.name, edit_tree_path(tree)
-              td.td-tree-updated-at = tree.latest_updated_at.strftime('%Y-%m-%d %H:%M:%S')
-              td.td-tree-action.flex
-                button.btn.btn-sm.mr-1
-                  = link_to edit_tree_path(tree) do
-                    | 編集
-                label.btn.btn-sm.btn-ghost[for="tree_delete_confirm_#{tree.id}"]
-                  | 削除
-                input.modal-toggle[type="checkbox" id="tree_delete_confirm_#{tree.id}"]
-                .modal.cursor-pointer
-                  .modal-box
-                    p.py-4
-                      | #{tree.name}を削除してよろしいですか？
-                    .modal-action
-                      label.btn.btn-ghost[for="tree_delete_confirm_#{tree.id}"]
-                        = button_to '削除する', \
-                          tree, \
-                          method: :delete
-                      label.btn[for="tree_delete_confirm_#{tree.id}"]
-                        | キャンセル
+              th 名前
+              th 最終更新
+              th
+          tbody
+            - @trees.each do |tree|
+              tr
+                td.td-tree-name = link_to tree.name, edit_tree_path(tree)
+                td.td-tree-updated-at = tree.latest_updated_at.strftime('%Y-%m-%d %H:%M:%S')
+                td.td-tree-action.flex
+                  button.btn.btn-sm.mr-1
+                    = link_to edit_tree_path(tree) do
+                      | 編集
+                  label.btn.btn-sm.btn-ghost[for="tree_delete_confirm_#{tree.id}"]
+                    | 削除
+                  input.modal-toggle[type="checkbox" id="tree_delete_confirm_#{tree.id}"]
+                  .modal.cursor-pointer
+                    .modal-box
+                      p.py-4
+                        | #{tree.name}を削除してよろしいですか？
+                      .modal-action
+                        label.btn.btn-ghost[for="tree_delete_confirm_#{tree.id}"]
+                          = button_to '削除する', \
+                            tree, \
+                            method: :delete
+                        label.btn[for="tree_delete_confirm_#{tree.id}"]
+                          | キャンセル
 
-      = paginate @trees
-  - else
-    .text-base.mt-6.mb-4
-      |まだツリーがありません。
-    = button_to 'ツリーを作成する', create_and_edit_trees_path, method: :post,
-       class: 'btn btn-primary my-2'
+        = paginate @trees
+    - else
+      .text-base.mt-6.mb-4
+        |まだツリーがありません。
+      = button_to 'ツリーを作成する', create_and_edit_trees_path, method: :post,
+        class: 'btn btn-primary my-2'
