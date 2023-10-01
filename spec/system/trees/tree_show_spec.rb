@@ -7,7 +7,7 @@ RSpec.describe 'Tree pages', :js do
     before do
       visit log_out_path
       visit root_path
-      click_button 'Googleでログイン'
+      click_button 'ログイン'
 
       tree = create(:tree, user: User.find_by(uid: '1234'))
       root = create(:node, name: 'ルート', tree:)

@@ -6,12 +6,12 @@ RSpec.describe 'ページごとのログイン要否' do
   describe 'ログインしていない時' do
     it('ルートにアクセスするとウェルカムページが表示されること') do
       visit root_path
-      expect(page).to have_content('KPIツリーを簡単に')
+      expect(page).to have_content('KPI ツリーをかんたん作成')
     end
 
     it('ウェルカムページにアクセスできること') do
       visit welcome_path
-      expect(page).to have_content('KPIツリーを簡単に')
+      expect(page).to have_content('KPI ツリーをかんたん作成')
     end
 
     it('利用規約ページにアクセスできること') do
@@ -28,7 +28,7 @@ RSpec.describe 'ページごとのログイン要否' do
       tree = create(:tree)
       visit edit_tree_path(tree)
       expect(page).to have_content(I18n.t('alert.require_login'))
-      expect(page).to have_content('KPIツリーを簡単に')
+      expect(page).to have_content('KPI ツリーをかんたん作成')
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe 'ページごとのログイン要否' do
     before do
       visit log_out_path
       visit root_path
-      click_button 'Googleでログイン'
+      click_button 'ログイン'
     end
 
     describe 'ログイン必須の画面' do
@@ -55,7 +55,7 @@ RSpec.describe 'ページごとのログイン要否' do
     describe 'ログイン不要の画面' do
       it('ウェルカムページにアクセスできること') do
         visit welcome_path
-        expect(page).to have_content('KPIツリーを簡単に')
+        expect(page).to have_content('KPI ツリーをかんたん作成')
         expect(page).to have_content('ログアウト')
       end
 

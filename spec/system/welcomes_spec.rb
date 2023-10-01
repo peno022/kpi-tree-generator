@@ -7,7 +7,7 @@ RSpec.describe 'Welcome pages' do
     visit root_path
     expect(page).to have_css('img.ktg-logo-mark')
     expect(page).to have_css('img.ktg-logo-text')
-    expect(page).to have_button text: 'ログインなしで試す'
+    expect(page).to have_button text: 'サインアップ（無料）'
   end
 
   it 'LPのリンクから利用規約へ遷移する' do
@@ -19,7 +19,7 @@ RSpec.describe 'Welcome pages' do
   it '利用規約から「トップへ」リンクでLPに戻る' do
     visit terms_of_use_path
     click_link 'トップへ'
-    expect(page).to have_button text: 'ログインなしで試す'
+    expect(page).to have_button text: 'サインアップ（無料）'
   end
 
   it 'LPのリンクからプライバシーポリシーへ遷移する' do
@@ -31,6 +31,6 @@ RSpec.describe 'Welcome pages' do
   it 'プライバシーポリシーから「トップへ」リンクでLPに戻る' do
     visit privacy_policy_path
     click_link 'トップへ'
-    expect(page).to have_button text: 'ログインなしで試す'
+    expect(page).to have_button text: 'サインアップ（無料）'
   end
 end

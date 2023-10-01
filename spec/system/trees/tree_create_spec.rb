@@ -8,7 +8,7 @@ RSpec.describe 'ツリーを新規作成する', :js, :login_required do
   before do
     visit log_out_path
     visit root_path
-    click_button 'Googleでログイン'
+    click_button 'ログイン'
     visit root_path
   end
 

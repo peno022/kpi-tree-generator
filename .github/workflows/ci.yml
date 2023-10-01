@@ -25,6 +25,8 @@ jobs:
 
       selenium_chrome:
         image: selenium/standalone-chrome-debug
+        options: >-
+          --shm-size=2g
 
     container:
       image: ruby:3.1.3

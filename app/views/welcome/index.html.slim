@@ -1,20 +1,72 @@
 = render 'shared/header'
-.flex.flex-col.min-h-screen.border-b-2.border-base-300
-  .hero.bg-base-200.flex-grow
-    .hero-content.object-center
-      .max-w-md
-        h1.text-5xl.font-bold
-          | KPIツリーを簡単に
-        ul.py-6.list-disc.list-inside
-          li KPIツリーを画像で簡単出力
-          li 数クリックでツリーを作成し、数値を更新
-          li ログインすれば、ツリーデータを保存可能
-        = image_tag 'tmp-image.png', size: '500', alt: 'KPI tree image'
-        .text-center.py-6
-          button.btn.btn-primary.btn-lg
-            | ログインなしで試す
+.flex.flex-col.min-h-screen.bg-neutral-content.pt-20.w-full
+  .mx-auto.mt-10.flex-grow
+    .text-center.object-center
+        h1.text-4xl.font-bold.text-neutral.hidden.md:block
+          | KPI ツリーをかんたん作成
+        h1.text-4xl.font-bold.text-neutral.md:hidden
+          | KPI ツリーを
+          br
+          | かんたん作成
+        .py-6.flex.items-center.justify-center.md:w-3/5.w-5/6.mx-auto
+          = image_tag 'ktg-logo-mark-compressed.png', class: 'w-1/5 mr-2 md:mr-4', alt: 'KPI TREE MAKER logo text'
+          = image_tag 'ktg-logo-text-compressed.png', class: 'w-4/5', alt: 'KPI TREE MAKER logo mark'
+        .problems
+          .container.mx-auto.md:w-3/4.p-16
+            h2.text-3xl.font-bold.text-neutral.mb-10
+              | こんな時におすすめ
+            .flex.flex-col.md:flex-row.items-center.justify-center.mx-auto.md:space-x-8.space-y-12.md:space-y-0
+              = image_tag 'undraw-questions.svg', alt: 'こんな時におすすめの画像', class: 'w-40 md:w-1/3'
+              flex.flex-col.text-left.hidden.md:block
+                ul.list-disc.list-inside
+                  li.text-lg
+                    | 無料ツールで手軽にツリー図を書きたいんだけど……？
+                  li.text-lg
+                    | KPI 数値を手で修正せずに済まないかな……？
+              ul.list-disc.text-center.md:hidden.space-y-4
+                  li.text-lg
+                    | 無料ツールで手軽にツリー図を書きたいんだけど……？
+                  li.text-lg
+                    | KPI 数値を手で修正せずに済まないかな……？
+            .text-center.pt-16
+              button.btn.btn-primary.btn-lg
+                | サインアップ（無料）
+              .text-xs.text-neutral.mt-4
+                | ご利用には Google アカウントが必要です。
+                br
+                | サインアップによって、利用規約・プライバシーポリシーに同意したものとみなします。
 
-  footer.footer.footer-center.p-10.bg-base-100.text-base-content.rounded
+  .features.bg-base-100.flex-grow.w-full
+    .container.mx-auto.text-center.object-center.md:w-3/4.p-16
+      h2.text-3xl.font-bold.text-neutral.mb-14
+        | KPI ツリーメーカーの特徴
+      .flex.flex-col.md:flex-row.space-y-12.md:space-y-0.md:space-x-14
+        .flex-1.text-center
+          h3.text-xl.font-semibold
+            | 数クリックで簡単
+          = image_tag 'undraw-check.svg', alt: '数クリックで簡単のイメージ画像', class: 'w-40 h-32 mx-auto my-6'
+          p.text-lg
+            | Web 上ですぐにツリーの作成・計算ができます。
+        .flex-1.text-center
+          h3.text-xl.font-semibold
+            | 数値は自動計算
+          = image_tag 'undraw-data-processing.svg', alt: '数値は自動計算のイメージ画像', class: 'w-40 h-32 mx-auto my-6'
+          p.text-lg
+            | 数値変更があれば、ツリー全体に自動で計算を反映。
+        .flex-1.text-center
+          h3.text-xl.font-semibold
+            | もちろん無料
+          = image_tag 'undraw-payment.svg', alt: 'もちろん無料のイメージ画像', class: 'w-40 h-32 mx-auto my-6'
+          p.text-lg
+            | すべての機能を無料でご利用いただけます。
+      .text-center.py-10.mx-auto.md:hidden
+        button.btn.btn-primary.btn-lg
+          | サインアップ（無料）
+        .text-xs.text-neutral.mt-4
+          | ご利用には Google アカウントが必要です。
+          br
+          | サインアップによって、利用規約・プライバシーポリシーに同意したものとみなします。
+  footer.footer.footer-center.p-10.bg-base-100.text-base-content.rounded.border-base-300.border-t-2
     .grid.grid-flow-col.gap-4
       = link_to '利用規約', terms_of_use_path, class: 'link link-hover'
       = link_to 'プライバシーポリシー', privacy_policy_path, class: 'link link-hover'
