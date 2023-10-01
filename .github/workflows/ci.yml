@@ -25,7 +25,7 @@ jobs:
 
       selenium_chrome:
         image: selenium/standalone-chrome:latest
-        shm-size: 2gb
+        options: --shm-size=2gb
 
     container:
       image: ruby:3.1.3
