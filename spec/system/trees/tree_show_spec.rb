@@ -20,7 +20,7 @@ RSpec.describe 'Tree pages', :js do
     it('ログインユーザーのものでないツリーにはアクセスできない') do
       tree = create(:tree)
       visit edit_tree_path(tree)
-      expect(page).to have_content('The page you were looking for doesn\'t exist.')
+      expect(page).to have_content('404')
     end
 
     it('treeの詳細画面に、treeの図が表示されている') do

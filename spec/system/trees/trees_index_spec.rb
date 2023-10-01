@@ -209,7 +209,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
         find('table > tbody > tr > td.td-tree-name > a', text: '削除されるツリー').ancestor('tr').find('td.td-tree-action > label', text: '削除').click
         tree.destroy!
         click_button '削除する'
-        expect(page).to have_content("The page you were looking for doesn't exist.")
+        expect(page).to have_content('404')
       end
     end
   end
