@@ -24,10 +24,9 @@ jobs:
           --health-retries 5
 
       selenium_chrome:
-        image: selenium/standalone-chrome:latest
+        image: selenium/standalone-chrome-debug
         options: >-
-          --shm-size=2gb
-          --allow-insecure-localhost
+          --shm-size=2g
 
     container:
       image: ruby:3.1.3
