@@ -28,9 +28,14 @@
                     | 無料ツールで手軽にツリー図を書きたいんだけど……？
                   li.text-lg
                     | KPI 数値を手で修正せずに済まないかな……？
-        .text-center.pt-4.pb-16
-          button.btn.btn-primary.btn-lg
-            | サインアップ（無料）
+            .text-center.pt-16
+              button.btn.btn-primary.btn-lg
+                | サインアップ（無料）
+              .text-xs.text-neutral.mt-4
+                | ご利用には Google アカウントが必要です。
+                br
+                | サインアップによって、利用規約・プライバシーポリシーに同意したものとみなします。
+
   .features.bg-base-100.flex-grow.w-full
     .container.mx-auto.text-center.object-center.md:w-3/4.p-16
       h2.text-3xl.font-bold.text-neutral.mb-14
@@ -54,9 +59,13 @@
           = image_tag 'undraw-payment.svg', alt: 'もちろん無料のイメージ画像', class: 'w-40 h-32 mx-auto my-6'
           p.text-lg
             | すべての機能を無料でご利用いただけます。
-      .text-center.py-10.md:hidden
+      .text-center.py-10.mx-auto.md:hidden
         button.btn.btn-primary.btn-lg
           | サインアップ（無料）
+        .text-xs.text-neutral.mt-4
+          | ご利用には Google アカウントが必要です。
+          br
+          | サインアップによって、利用規約・プライバシーポリシーに同意したものとみなします。
   footer.footer.footer-center.p-10.bg-base-100.text-base-content.rounded.border-base-300.border-t-2
     .grid.grid-flow-col.gap-4
       = link_to '利用規約', terms_of_use_path, class: 'link link-hover'
