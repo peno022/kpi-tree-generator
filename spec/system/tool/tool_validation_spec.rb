@@ -7,7 +7,7 @@ RSpec.describe 'ツールエリアのバリデーションチェック', :js, :l
     # ログイン
     visit log_out_path
     visit root_path
-    click_button 'Googleでログイン'
+    click_button 'ログイン'
 
     # データの作成
     tree = create(:tree, user: User.find_by(uid: '1234'))

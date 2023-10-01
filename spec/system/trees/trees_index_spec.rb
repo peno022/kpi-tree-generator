@@ -8,7 +8,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
   before do
     visit log_out_path
     visit root_path
-    click_button 'Googleでログイン'
+    click_button 'ログイン'
   end
 
   describe 'ツリーが0件のときの画面' do

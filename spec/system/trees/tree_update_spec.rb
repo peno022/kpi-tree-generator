@@ -6,7 +6,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
   before do
     visit log_out_path
     visit root_path
-    click_button 'Googleでログイン'
+    click_button 'ログイン'
   end
 
   describe('選択した階層のノードのプロパティを編集・更新') do

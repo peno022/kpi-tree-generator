@@ -6,7 +6,7 @@ RSpec.describe 'ツリー名を変更する', :js, :login_required do
   before do
     visit log_out_path
     visit root_path
-    click_button 'Googleでログイン'
+    click_button 'ログイン'
 
     tree = create(:tree, user: User.find_by(uid: '1234'), name: '変更前のツリー名')
     create(:node, name: 'ルート', tree:)

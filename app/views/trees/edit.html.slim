@@ -6,8 +6,6 @@
         p.text-lg
           | ホーム
     .dropdown.dropdown-bottom
-      label.btn.btn-ghost.text-lg.rounded-btn[tabindex="0"]
-        | ファイル
       ul.menu.dropdown-content.p-2.shadow.bg-base-100.rounded-box.w-52.mt-4[tabindex="0"]
         li
           a
@@ -24,7 +22,7 @@
       = link_to 'ログアウト', log_out_path, class: 'btn btn-ghost'
     - else
       li
-        = button_to 'Googleでログイン', \
+        = button_to 'ログイン', \
         '/auth/google_oauth2', \
         method: :post, \
         data: { turbo: false }, \

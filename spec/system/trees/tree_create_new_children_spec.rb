@@ -6,7 +6,7 @@ RSpec.describe 'ツリー上で葉ノードに子階層を追加する', :js, :l
   before do
     visit log_out_path
     visit root_path
-    click_button 'Googleでログイン'
+    click_button 'ログイン'
 
     # データの作成
     tree = create(:tree, user: User.find_by(uid: '1234'))
