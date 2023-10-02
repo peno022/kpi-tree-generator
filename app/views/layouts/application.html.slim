@@ -1,12 +1,10 @@
 doctype html
-html
+html lang='ja'
   head
-    title
-      | KPI Tree Generator
     meta name="viewport" content="width=device-width,initial-scale=1"
     = csrf_meta_tags
     = csp_meta_tag
-
+    = display_meta_tags default_meta_tags
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true
     script src="https://kit.fontawesome.com/48b449efbc.js" crossorigin="anonymous"

@@ -47,6 +47,7 @@ gem 'bootsnap', require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'kaminari'
+gem 'meta-tags'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'rails-i18n', '~> 7.0.0'
