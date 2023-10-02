@@ -117,15 +117,17 @@ const EditTreePage = () => {
     setSelectedNodeIds(selectedNodeIds);
   };
 
+  const isLargeScreen = window.innerWidth >= 1024;
+
   return (
     <>
-      <div className="flex w-full">
+      <div className="flex flex-col lg:flex-row w-full">
         <div>{isUpdating && <Loading></Loading>}</div>
         <div
-          className="flex-1 ml-1"
+          className="flex-1 ml-1 h-1/2 lg:h-auto"
           id="treeWrapper"
           style={{
-            flexGrow: 2,
+            flexGrow: isLargeScreen ? 2 : 1,
             flexBasis: 0,
           }}
         >
@@ -140,7 +142,7 @@ const EditTreePage = () => {
           </ErrorBoundary>
         </div>
         <div
-          className="flex-1 border-l-2 border-base-300 mr-1"
+          className="flex-1 border-t-2 lg:border-l-2 lg:border-t-0 border-base-300 mr-1 h-1/2 lg:h-auto"
           id="toolWrapper"
           style={{
             flexGrow: 1,
@@ -164,7 +166,9 @@ const EditTreePage = () => {
 function fallbackRender({ error }: FallbackProps) {
   return (
     <div role="alert">
-      <p>エラーが発生しています。画面を再読み込みしてもう一度お試しください。</p>
+      <p>
+        エラーが発生しています。画面を再読み込みしてもう一度お試しください。
+      </p>
       <pre style={{ color: "red" }}>{error.message}</pre>
     </div>
   );
