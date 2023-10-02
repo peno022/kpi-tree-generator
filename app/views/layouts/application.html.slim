@@ -5,6 +5,7 @@ html lang='ja'
     = csrf_meta_tags
     = csp_meta_tag
     = display_meta_tags default_meta_tags
+    = render 'google_tag_manager_head'
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true
     script src="https://kit.fontawesome.com/48b449efbc.js" crossorigin="anonymous"
@@ -12,5 +13,6 @@ html lang='ja'
     = favicon_link_tag 'touch-icon.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '180x180'
     = favicon_link_tag 'touch-icon.png', rel: 'icon', type: 'image/png', sizes: '192x192'
   body
+    = render 'google_tag_manager_body'
     = render 'shared/flash'
     = yield
