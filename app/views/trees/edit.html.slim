@@ -6,11 +6,6 @@
         i.fa.fa-lg.fa-angle-left[aria-hidden="true"]
         p.text-lg.hidden.md:block
           | ホーム
-    .dropdown.dropdown-bottom
-      ul.menu.dropdown-content.p-2.shadow.bg-base-100.rounded-box.w-52.mt-4[tabindex="0"]
-        li
-          a
-            | 保存
     .flex-grow.flex.justify-center
       #tree-name data-tree-name=@tree.name data-tree-id=@tree.id
     .md:hidden
@@ -21,7 +16,7 @@
           li
             a data-action="download-image"
               | 画像ダウンロード
-          li data-action="save"
+          li
             = link_to 'ログアウト', log_out_path
     .hidden.md:block
       ul.menu.menu-horizontal.px-2.md:px-6
@@ -33,7 +28,7 @@
                 .w-10.rounded-full
                   = image_tag(current_user.image || 'default-icon.png', alt: 'icon')
               ul.dropdown-content.menu.p-2.shadow.bg-base-100.rounded-box.w-52[tabindex="0"]
-                li data-action="save"
+                li
                   = link_to 'ログアウト', log_out_path
         - else
           li

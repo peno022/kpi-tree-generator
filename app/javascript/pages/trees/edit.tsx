@@ -63,11 +63,15 @@ const EditTreePage = () => {
   };
 
   useEffect(() => {
-    const button = document.querySelector("[data-action='download-image']");
-    button?.addEventListener("click", downloadImage);
+    const buttons = document.querySelectorAll("[data-action='download-image']");
+    buttons.forEach((button) => {
+      button.addEventListener("click", downloadImage);
+    });
 
     return () => {
-      button?.removeEventListener("click", downloadImage);
+      buttons.forEach((button) => {
+        button.removeEventListener("click", downloadImage);
+      });
     };
   }, []);
 
