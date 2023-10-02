@@ -90,13 +90,20 @@ export const TreeName = () => {
         </>
       ) : (
         <>
-          <h1 className="text-xl font-bold mr-4">{treeNameEditing}</h1>
+            <h1 className="text-xl font-bold md:hidden">
+              {treeNameEditing.length > 9
+                ? treeNameEditing.slice(0, 9) + "…"
+                : treeNameEditing}
+            </h1>
+            <h1 className="text-xl font-bold hidden md:block">
+              {treeNameEditing}
+            </h1>
           <button
             className="btn btn-ghost edit-tree-name-button"
             aria-label="Edit tree name"
             onClick={handleEditButtonClick}
           >
-            <i className="fa fa-lg fa-pencil mx-1" aria-hidden="true"></i>
+            <i className="fa fa-lg fa-pencil" aria-hidden="true"></i>
           </button>
         </>
       )}

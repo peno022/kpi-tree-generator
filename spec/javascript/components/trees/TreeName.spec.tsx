@@ -204,7 +204,13 @@ describe("TreeName", () => {
         "売上ツリー編集後"
       );
       expect(treeNameInput).not.toBeInTheDocument();
-      expect(screen.getByText("編集後のツリー名")).toBeInTheDocument();
+      const allH1Elements = screen.getAllByRole("heading", { level: 1 });
+      const visibleH1ElementsWithText = allH1Elements.filter(
+        (element) =>
+          !element.classList.contains("hidden") &&
+          element.textContent === "編集後のツリー名"
+      );
+      expect(visibleH1ElementsWithText.length).toBe(1);
     });
 
     it("ツリー名の編集をして、OKボタンを押すと、OKボタンとキャンセルボタンが表示されないこと", async () => {

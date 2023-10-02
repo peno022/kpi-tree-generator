@@ -164,7 +164,7 @@ const EditTreePage = () => {
 function fallbackRender({ error }: FallbackProps) {
   return (
     <div role="alert">
-      <p>Something went wrong:</p>
+      <p>エラーが発生しています。画面を再読み込みしてもう一度お試しください。</p>
       <pre style={{ color: "red" }}>{error.message}</pre>
     </div>
   );
