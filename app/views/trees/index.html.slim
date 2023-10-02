@@ -1,8 +1,8 @@
 = render 'shared/header'
 .bg-neutral-content.min-h-screen.pt-20
-  .mx-16.my-8
-    .flex.items-center
-      h1.text-xl.font-bold
+  .mx-auto.max-w-7xl
+    .flex.items-center.mx-6.mt-3
+      h1.text-2xl.font-bold
         |ツリー一覧
       - if @trees.any?
         = button_to '新規作成', create_and_edit_trees_path, method: :post,
@@ -21,7 +21,7 @@
                 td.td-tree-name = link_to tree.name, edit_tree_path(tree)
                 td.td-tree-updated-at = tree.latest_updated_at.strftime('%Y-%m-%d %H:%M:%S')
                 td.td-tree-action.flex
-                  button.btn.btn-sm.mr-1
+                  button.btn.btn-sm.space-x-1
                     = link_to edit_tree_path(tree) do
                       | 編集
                   label.btn.btn-sm.btn-ghost[for="tree_delete_confirm_#{tree.id}"]

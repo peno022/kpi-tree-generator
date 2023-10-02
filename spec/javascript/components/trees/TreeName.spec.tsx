@@ -101,7 +101,7 @@ describe("TreeName", () => {
         await user.click(okButton);
       });
       expect(mockSendTreeNameUpdateRequest).not.toHaveBeenCalled();
-      expect(screen.getByText("売上ツリー")).toBeInTheDocument();
+      expectVisibleTreeName("売上ツリー");
       expect(
         screen.queryByRole("textbox", {
           name: "tree-name-input",
@@ -129,10 +129,8 @@ describe("TreeName", () => {
 
     it("treeNameと編集ボタンが表示されること", () => {
       render(<TreeName />);
-      const treeName = screen.getByText("売上ツリー");
+      expectVisibleTreeName("売上ツリー");
       const editButton = screen.getByRole("button", { name: "Edit tree name" });
-
-      expect(treeName).toBeInTheDocument();
       expect(editButton).toBeInTheDocument();
     });
 
@@ -162,7 +160,9 @@ describe("TreeName", () => {
       const cancelButton = screen.getByRole("button", { name: "キャンセル" });
       expect(okButton).toBeInTheDocument();
       expect(cancelButton).toBeInTheDocument();
-      expect(editButton).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: "Edit tree name" })
+      ).not.toBeInTheDocument();
     });
 
     it("キャンセルボタンを押すと、ツリー名の編集がキャンセルされること", async () => {
@@ -183,7 +183,7 @@ describe("TreeName", () => {
       });
       expect(treeNameInput).not.toBeInTheDocument();
       expect(cancelButton).not.toBeInTheDocument();
-      expect(screen.getByText("売上ツリー")).toBeInTheDocument();
+      expectVisibleTreeName("売上ツリー");
       expect(
         screen.getByRole("button", { name: "Edit tree name" })
       ).toBeInTheDocument();
@@ -204,7 +204,7 @@ describe("TreeName", () => {
         "売上ツリー編集後"
       );
       expect(treeNameInput).not.toBeInTheDocument();
-      expect(screen.getByText("編集後のツリー名")).toBeInTheDocument();
+      expectVisibleTreeName("編集後のツリー名");
     });
 
     it("ツリー名の編集をして、OKボタンを押すと、OKボタンとキャンセルボタンが表示されないこと", async () => {
@@ -257,3 +257,12 @@ describe("TreeName", () => {
     });
   });
 });
+
+function expectVisibleTreeName(name: string) {
+  const allH1Elements = screen.getAllByRole("heading", { level: 1 });
+  const visibleH1ElementsWithText = allH1Elements.filter(
+    (element) =>
+      !element.classList.contains("hidden") && element.textContent === name
+  );
+  expect(visibleH1ElementsWithText.length).toBe(1);
+}

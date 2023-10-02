@@ -138,19 +138,21 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
   describe 'ツリーの削除' do
     context 'ツリーが2件以上あるとき' do
       let!(:tree1) { create(:tree, name: 'ツリー1', user_id: user.id, updated_at: 1.day.ago) }
-      let!(:tree2) { create(:tree, name: 'ツリー2', user_id: user.id, updated_at: 2.days.ago) }
 
       before do
+        create(:tree, name: 'ツリー2', user_id: user.id, updated_at: 2.days.ago)
         visit root_path
       end
 
       it 'ツリーの削除ボタンをクリックすると、削除実行確認モーダルが開くこと' do
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label', text: '削除').click
+        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
+                                                                                              text: '削除').click
         expect(page).to have_content('ツリー1を削除してよろしいですか？')
       end
 
       it '削除実行確認モーダルでキャンセルをクリックすると、モーダルが閉じること' do
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label', text: '削除').click
+        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
+                                                                                              text: '削除').click
         find('label', text: 'キャンセル').click
         expect(page).not_to have_content('ツリー1を削除してよろしいですか？')
       end
@@ -159,7 +161,8 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
         expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー1')
         expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー2')
         expect(Tree.where(user_id: user.id).count).to eq(2)
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label', text: '削除').click
+        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
+                                                                                              text: '削除').click
         click_button '削除する'
         expect(Tree.where(user_id: user.id).count).to eq(1)
         expect(page).not_to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー1')
@@ -167,7 +170,8 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       end
 
       it '削除の実行が完了すると、削除完了メッセージが表示されること' do
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label', text: '削除').click
+        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
+                                                                                              text: '削除').click
         click_button '削除する'
         expect(page).to have_content(I18n.t('messages.tree_destroyed', target_tree_name: 'ツリー1'))
       end
@@ -181,7 +185,8 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
         expect(Tree.where(user_id: user.id).count).to eq(2)
         expect(Node.where(tree_id: tree1.id).count).to eq(3)
         expect(Layer.where(tree_id: tree1.id).count).to eq(1)
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label', text: '削除').click
+        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
+                                                                                              text: '削除').click
         click_button '削除する'
         expect(Tree.where(user_id: user.id).count).to eq(1)
         expect(Node.where(tree_id: tree1.id).count).to eq(0)
@@ -206,7 +211,9 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       it '404エラーページが表示されること' do
         tree = create(:tree, name: '削除されるツリー', user_id: user.id)
         visit root_path
-        find('table > tbody > tr > td.td-tree-name > a', text: '削除されるツリー').ancestor('tr').find('td.td-tree-action > label', text: '削除').click
+        find('table > tbody > tr > td.td-tree-name > a', text: '削除されるツリー').ancestor('tr').find(
+          'td.td-tree-action > label', text: '削除'
+        ).click
         tree.destroy!
         click_button '削除する'
         expect(page).to have_content('404')
