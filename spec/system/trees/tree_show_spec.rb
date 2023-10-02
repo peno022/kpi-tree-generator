@@ -122,5 +122,21 @@ RSpec.describe 'Tree pages', :js do
       find('g > text', text: '子2').ancestor('g.rd3t-leaf-node').click
       expect(find('.calculation')).to have_css('svg.fa-triangle-exclamation')
     end
+
+    it 'ノード名が9文字以上のときは、改行されて9文字目以降は2行目に表示されること' do
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      create(:node, name: 'あいうえおかきくけこさしすせそ', value: 1000, unit: '円', tree:)
+      visit edit_tree_path(tree)
+      expect(page).to have_css('g.custom-node > text', text: 'あいうえおかきく')
+      expect(page).to have_css('g.custom-node > text', text: 'けこさしすせそ')
+    end
+
+    it '単位付きのノードの値が13文字を超える時は、単位が2行目に表示されること' do
+      tree = create(:tree, user: User.find_by(uid: '1234'))
+      create(:node, name: 'ルート', value: 123_456_789, value_format: '万', unit: 'あいうえおかきくけこ', tree:)
+      visit edit_tree_path(tree)
+      expect(page).to have_css('g.custom-node > text', text: '123456789万')
+      expect(page).to have_css('g.custom-node > text', text: 'あいうえおかきくけこ')
+    end
   end
 end
