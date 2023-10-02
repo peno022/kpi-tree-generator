@@ -12,7 +12,7 @@ nav.bg-base-100.border-b-2.border-base-300.fixed.top-0.left-0.right-0.z-10.flex.
             .w-10.rounded-full
               = image_tag(current_user.image || 'default-icon.png', alt: 'icon')
           ul.dropdown-content.menu.p-2.shadow.bg-base-100.rounded-box.w-52[tabindex="0"]
-            li data-action="save"
+            li
               = link_to 'ログアウト', log_out_path
       - else
         li
