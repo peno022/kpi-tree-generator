@@ -65,14 +65,14 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
     it('ノードのプロパティを変更して更新を実行すると、更新後の値でツリーが表示される') do
       # 値を編集
       node_detail1 = find_by_id('node-detail-1')
-      node_detail1.find('input[name="name"]').set('変更後のノード名1')
+      node_detail1.find('input[name="name"]').set('変更後1')
       node_detail1.find('input[name="unit"]').set('人（変更後）')
       node_detail1.find('input[name="value"]').set(2)
       node_detail1.find('select[name="valueFormat"]').select('千')
       node_detail1.find('input[name="isValueLocked"]').set(true)
 
       node_detail2 = find_by_id('node-detail-2')
-      node_detail2.find('input[name="name"]').set('変更後のノード名2')
+      node_detail2.find('input[name="name"]').set('変更後2')
       node_detail2.find('input[name="unit"]').set('円（変更後）')
       node_detail2.find('input[name="value"]').set(4000)
       node_detail2.find('select[name="valueFormat"]').select('なし')
@@ -91,7 +91,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         is_leaf: false
       )
       expect_tree_node(
-        name: '変更後のノード名1',
+        name: '変更後1',
         display_value: '2千人（変更後）',
         is_value_locked: true,
         operation: 'multiply',
@@ -100,7 +100,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
 
       expect_tree_node(
-        name: '変更後のノード名2',
+        name: '変更後2',
         display_value: '4000円（変更後）',
         is_value_locked: true,
         operation: '',
@@ -526,21 +526,21 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
     it('要素を追加ボタンを押して、追加した要素と既存の要素のプロパティを編集し、更新ボタン→更新するを押すと、ツリーにすべての編集内容が反映される。') do
       click_button '要素を追加'
       node_detail1 = find_by_id('node-detail-1')
-      node_detail1.find('input[name="name"]').set('変更後のノード名1')
+      node_detail1.find('input[name="name"]').set('変更後1')
       node_detail1.find('input[name="unit"]').set('人（変更後）')
       node_detail1.find('input[name="value"]').set(2)
       node_detail1.find('select[name="valueFormat"]').select('千')
       node_detail1.find('input[name="isValueLocked"]').set(true)
 
       node_detail2 = find_by_id('node-detail-2')
-      node_detail2.find('input[name="name"]').set('変更後のノード名2')
+      node_detail2.find('input[name="name"]').set('変更後2')
       node_detail2.find('input[name="unit"]').set('円（変更後）')
       node_detail2.find('input[name="value"]').set(4000)
       node_detail2.find('select[name="valueFormat"]').select('なし')
       node_detail2.find('input[name="isValueLocked"]').set(true)
 
       node_detail3 = find_by_id('node-detail-3')
-      node_detail3.find('input[name="name"]').set('変更後のノード名3')
+      node_detail3.find('input[name="name"]').set('変更後3')
       node_detail3.find('input[name="unit"]').set('円')
       node_detail3.find('input[name="value"]').set(0.1)
       node_detail3.find('select[name="valueFormat"]').select('千')
@@ -550,7 +550,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       find('.modal-action label', text: '更新する').click
 
       expect_tree_node(
-        name: '変更後のノード名1',
+        name: '変更後1',
         display_value: '2千人（変更後）',
         is_value_locked: true,
         operation: 'multiply',
@@ -558,7 +558,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         has_inconsistent_value: true
       )
       expect_tree_node(
-        name: '変更後のノード名2',
+        name: '変更後2',
         display_value: '4000円（変更後）',
         is_value_locked: true,
         operation: 'multiply',
@@ -566,7 +566,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         has_inconsistent_value: true
       )
       expect_tree_node(
-        name: '変更後のノード名3',
+        name: '変更後3',
         display_value: '0.1千円',
         is_value_locked: true,
         operation: '',
