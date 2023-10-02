@@ -26,6 +26,31 @@ const CustomNode = ({
       createNewChildLayerAndNodes(nodeDatum.attributes.id);
     }
   };
+
+  // nodeDatum.nameを8文字ごとに分割
+  const splitName = nodeDatum.name.match(/.{1,8}/g) || [];
+
+  const displayValueFormat =
+    nodeDatum.attributes?.valueFormat === "なし" || null || undefined
+      ? ""
+      : (nodeDatum.attributes?.valueFormat || "").toString();
+
+  const displayValue =
+    (nodeDatum.attributes?.value.toString() || "") +
+    displayValueFormat +
+    (nodeDatum.attributes?.unit || "");
+
+  const splitDisplayValue =
+    displayValue.length > 13
+      ? [
+          (nodeDatum.attributes?.value.toString() || "") + displayValueFormat,
+          nodeDatum.attributes?.unit || "",
+        ]
+      : [displayValue];
+
+  const displayNameOriginY = splitName.length > 1 ? 30 : 40;
+  const displayValueOriginY = 75;
+
   return (
     <g id={`custom-node-${nodeDatum.attributes?.id.toString()}`}>
       <g>
@@ -47,68 +72,68 @@ const CustomNode = ({
           className="custom-node"
         >
           <rect
-            x="-75"
+            x="-100"
             rx="5"
             ry="5"
             style={
               nodeDatum.attributes?.isSelected
                 ? {
-                    width: "150",
-                    height: "85",
+                    width: "200",
+                    height: "100",
                     fill: "moccasin",
                     stroke: "dimgray",
                     strokeWidth: "1",
                   }
                 : {
-                    width: "150",
-                    height: "85",
+                    width: "200",
+                    height: "100",
                     fill: "ghostwhite",
                     stroke: "dimgray",
                     strokeWidth: "1",
                   }
             }
           />
-          <text
-            x="-60"
-            y="38"
-            style={{
-              fill: "#333",
-              strokeWidth: "0",
-              fontWeight: "bold",
-              fontSize: "1.2em",
-              maxWidth: "280",
-            }}
-          >
-            {nodeDatum.name}
-          </text>
+          {splitName.map((str, index) => (
+            <text
+              key={index}
+              x="-90"
+              y={displayNameOriginY + index * 20}
+              style={{
+                fill: "#333C4D",
+                strokeWidth: "0",
+                fontWeight: "bold",
+                fontSize: "1.2em",
+              }}
+            >
+              {str}
+            </text>
+          ))}
           {nodeDatum.attributes?.isValueLocked && (
             <FontAwesomeIcon
               icon={faLock}
               width={20}
               height={20}
-              x={45}
+              x={70}
               y={10}
               style={{
                 color: "dimgray",
               }}
             />
           )}
-          <text
-            x="-60"
-            y="65"
-            style={{
-              fill: "#333",
-              strokeWidth: "0",
-              fontSize: "1em",
-              maxWidth: "280",
-            }}
-          >
-            {nodeDatum.attributes?.value}
-            {nodeDatum.attributes?.valueFormat === "なし"
-              ? ""
-              : nodeDatum.attributes?.valueFormat}
-            {nodeDatum.attributes?.unit}
-          </text>
+          {splitDisplayValue.map((str, index) => (
+            <text
+              key={index}
+              x="-90"
+              y={displayValueOriginY + index * 20}
+              style={{
+                fill: "#333C4D",
+                strokeWidth: "0",
+                fontSize: "1.1em",
+              }}
+            >
+              {str}
+            </text>
+          ))}
         </g>
       </g>
 
@@ -131,7 +156,7 @@ const CustomNode = ({
           x="130"
           y="42"
           style={{
-            fill: "#333",
+            fill: "#333C4D",
             strokeWidth: "0",
             fontWeight: "bold",
             fontSize: "1.5em",
