@@ -138,7 +138,6 @@ const EditTreePage = () => {
               onUpdateStatusChange={(status: boolean) => setIsUpdating(status)}
             />
           </ErrorBoundary>
-          ;
         </div>
         <div
           className="flex-1 border-l-2 border-base-300 mr-1"
