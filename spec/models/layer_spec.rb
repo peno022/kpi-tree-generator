@@ -56,4 +56,10 @@ RSpec.describe Layer do
     layer.valid?
     expect(layer.errors[:fraction]).to include('is not a number')
   end
+
+  it 'fractionが10桁以上だと無効になる' do
+    layer = described_class.new(fraction: 1_000_000_000)
+    expect(layer).not_to be_valid
+    expect(layer.errors[:fraction]).to include('must be less than or equal to 999999999')
+  end
 end

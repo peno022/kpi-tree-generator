@@ -36,6 +36,10 @@ export const TreeName = () => {
       setErrorMessage("ツリー名を入力してください");
       return;
     }
+    if (treeNameEditing.length > 50) {
+      setErrorMessage("50文字以内で入力してください");
+      return;
+    }
     if (treeNameEditing === treeName) {
       setIsEditing(false);
       return;

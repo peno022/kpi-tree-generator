@@ -23,7 +23,7 @@ RSpec.describe 'ツールエリアのバリデーションチェック', :js, :l
     find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
   end
 
-  describe 'ノードの単項目のチェック' do
+  describe 'ノードの単項目バリデーション' do
     it('バリデーションエラーがないときは、エラー文言が表示されず、更新ボタンが押せる') do
       # 初期表示でバリデーションエラーがない状態
       expect(page).not_to have_css('span.text-error')
@@ -115,9 +115,24 @@ RSpec.describe 'ツールエリアのバリデーションチェック', :js, :l
       expect(find_by_id('node-detail-1').find('input[name="value"]')['class']).to include('input-error')
       expect(page).to have_css('label.btn.btn-primary.btn-disabled', text: '更新')
     end
+
+    it('ノード名を16文字以上入力するとエラーが表示される') do
+      find_by_id('node-detail-1').find('input[name="name"]').set('あいうえおかきくけこさしすせそた')
+      expect(page).to have_css('span.text-error', text: '15文字以内で入力してください', count: 1)
+    end
+
+    it('数値を10文字以上入力するとエラーが表示される') do
+      find_by_id('node-detail-1').find('input[name="value"]').set('1234567890')
+      expect(page).to have_css('span.text-error', text: '9桁以内で入力してください', count: 1)
+    end
+
+    it('単位を11文字以上入力するとエラーが表示される') do
+      find_by_id('node-detail-1').find('input[name="unit"]').set('あいうえおかきくけこさ')
+      expect(page).to have_css('span.text-error', text: '10文字以内で入力してください', count: 1)
+    end
   end
 
-  describe '端数の数値形式チェック' do
+  describe '端数のバリデーション' do
     it('端数が空白のときは、エラーは表示されない') do
       find('input[name="fraction"]').set('')
       expect(page).not_to have_css('span.text-error')
@@ -162,6 +177,11 @@ RSpec.describe 'ツールエリアのバリデーションチェック', :js, :l
       expect(page).to have_css('span.text-error', text: '数値を入力してください', count: 1)
       expect(find('input[name="fraction"]')['class']).to include('input-error')
       expect(page).to have_css('label.btn.btn-primary.btn-disabled', text: '更新')
+    end
+
+    it('端数を10文字以上入力するとエラーが表示される') do
+      find('input[name="fraction"]').set('1234567890')
+      expect(page).to have_css('span.text-error', text: '9桁以内で入力してください', count: 1)
     end
   end
 

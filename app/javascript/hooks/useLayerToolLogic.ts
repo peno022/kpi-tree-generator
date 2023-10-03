@@ -51,6 +51,15 @@ const useLayerToolLogic = (
         layer: newLayerValues,
       });
       return;
+    } else if (numericValue.toString().length > 9) {
+      setFractionValidation(false);
+      setFractionErrorMessage("9桁以内で入力してください");
+      newLayerValues.fraction = 0;
+      setLayerProperty({
+        ...layerProperty,
+        layer: newLayerValues,
+      });
+      return;
     }
     newLayerValues.fraction = numericValue;
     setFractionValidation(true);

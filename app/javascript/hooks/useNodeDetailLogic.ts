@@ -36,6 +36,14 @@ const useNodeDetailLogic = (
         handleFieldValidationErrorsChange([
           { index, fieldName: "name", errorMessage: "必須項目です" },
         ]);
+      } else if (value.toString().length > 15) {
+        handleFieldValidationErrorsChange([
+          {
+            index,
+            fieldName: "name",
+            errorMessage: "15文字以内で入力してください",
+          },
+        ]);
       } else {
         handleFieldValidationErrorsChange([
           { index, fieldName: "name", errorMessage: "" },
@@ -56,6 +64,14 @@ const useNodeDetailLogic = (
             errorMessage: "数値を入力してください",
           },
         ]);
+      } else if (value.toString().length > 9) {
+        handleFieldValidationErrorsChange([
+          {
+            index,
+            fieldName: "value",
+            errorMessage: "9桁以内で入力してください",
+          },
+        ]);
       } else {
         handleFieldValidationErrorsChange([
           { index, fieldName: name, errorMessage: "" },
@@ -65,19 +81,49 @@ const useNodeDetailLogic = (
     }
 
     if (name === "valueFormat") {
-      if (value === "%" && updatedNodeInfo.unit !== "") {
-        handleFieldValidationErrorsChange([
-          {
-            index,
-            fieldName: "unit",
-            errorMessage: "％表示のときは単位を空にしてください",
-          },
-          {
-            index,
-            fieldName: "valueFormat",
-            errorMessage: "％表示のときは単位を空にしてください",
-          },
-        ]);
+      if (updatedNodeInfo.unit !== "") {
+        if (value === "%") {
+          handleFieldValidationErrorsChange([
+            {
+              index,
+              fieldName: "unit",
+              errorMessage: "％表示のときは単位を空にしてください",
+            },
+            {
+              index,
+              fieldName: "valueFormat",
+              errorMessage: "％表示のときは単位を空にしてください",
+            },
+          ]);
+        } else {
+          if (updatedNodeInfo.unit.length > 10) {
+            handleFieldValidationErrorsChange([
+              {
+                index,
+                fieldName: "unit",
+                errorMessage: "10文字以内で入力してください",
+              },
+              {
+                index,
+                fieldName: "valueFormat",
+                errorMessage: "",
+              },
+            ]);
+          } else {
+            handleFieldValidationErrorsChange([
+              {
+                index,
+                fieldName: "unit",
+                errorMessage: "",
+              },
+              {
+                index,
+                fieldName: "valueFormat",
+                errorMessage: "",
+              },
+            ]);
+          }
+        }
       } else {
         handleFieldValidationErrorsChange([
           {
@@ -96,32 +142,57 @@ const useNodeDetailLogic = (
     }
 
     if (name === "unit") {
-      if (value !== "" && updatedNodeInfo.valueFormat === "%") {
-        handleFieldValidationErrorsChange([
-          {
-            index,
-            fieldName: "unit",
-            errorMessage: "％表示のときは単位を空にしてください",
-          },
-          {
-            index,
-            fieldName: "valueFormat",
-            errorMessage: "％表示のときは単位を空にしてください",
-          },
-        ]);
+      if (updatedNodeInfo.valueFormat === "%") {
+        if (value !== "") {
+          handleFieldValidationErrorsChange([
+            {
+              index,
+              fieldName: "unit",
+              errorMessage: "％表示のときは単位を空にしてください",
+            },
+            {
+              index,
+              fieldName: "valueFormat",
+              errorMessage: "％表示のときは単位を空にしてください",
+            },
+          ]);
+        } else {
+          handleFieldValidationErrorsChange([
+            {
+              index,
+              fieldName: "unit",
+              errorMessage: "",
+            },
+            {
+              index,
+              fieldName: "valueFormat",
+              errorMessage: "",
+            },
+          ]);
+        }
       } else {
-        handleFieldValidationErrorsChange([
-          {
-            index,
-            fieldName: "unit",
-            errorMessage: "",
-          },
-          {
-            index,
-            fieldName: "valueFormat",
-            errorMessage: "",
-          },
-        ]);
+        if (value.toString().length > 10) {
+          handleFieldValidationErrorsChange([
+            {
+              index,
+              fieldName: "unit",
+              errorMessage: "10文字以内で入力してください",
+            },
+          ]);
+        } else {
+          handleFieldValidationErrorsChange([
+            {
+              index,
+              fieldName: "unit",
+              errorMessage: "",
+            },
+            {
+              index,
+              fieldName: "valueFormat",
+              errorMessage: "",
+            },
+          ]);
+        }
       }
       return;
     }

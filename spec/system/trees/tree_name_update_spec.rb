@@ -57,6 +57,13 @@ RSpec.describe 'ツリー名を変更する', :js, :login_required do
       expect(page).to have_text('ツリー名を入力してください')
     end
 
+    it 'ツリー名を51文字以上入力した状態でOKボタンを押すと、「50文字以内で入力してください」というエラーが表示される' do
+      find('.edit-tree-name-button').click
+      find('input[name="tree-name-input"]').set('a' * 51)
+      find('.edit-tree-name-ok').click
+      expect(page).to have_text('50文字以内で入力してください')
+    end
+
     it 'エラーメッセージが表示された後、キャンセルボタンを押すとエラーが消える' do
       find('.edit-tree-name-button').click
       find('input[name="tree-name-input"]').set('')
