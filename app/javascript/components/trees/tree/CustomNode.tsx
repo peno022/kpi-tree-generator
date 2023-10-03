@@ -18,7 +18,6 @@ const CustomNode = ({
   createNewChildLayerAndNodes,
 }: CustomNodeProps) => {
   const handleAddLayerButtonClick = () => {
-    console.log("CustomNode handleClick");
     if (
       nodeDatum.attributes?.id &&
       typeof nodeDatum.attributes?.id === "number"

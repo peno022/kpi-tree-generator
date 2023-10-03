@@ -54,7 +54,6 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
 
   const createNewChildLayerAndNodes = async (parentNodeId: number) => {
     setErrorMessage(null);
-    console.log("createNewChildLayerAndNodes");
     const newChildLayer: Layer = {
       operation: "multiply",
       fraction: 0,
@@ -75,7 +74,6 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
     };
     const result = await sendUpdateRequest(newTreeData);
     if (result) {
-      console.log("createNewChildLayerAndNodes success");
       console.dir(result);
       const newNodeIds = result.nodes
         .filter((node) => node.parentId === parentNodeId)
