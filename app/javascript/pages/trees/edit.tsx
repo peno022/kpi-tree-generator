@@ -5,7 +5,6 @@ import { TreeArea } from "@/components/trees/tree/TreeArea";
 import { TreeNodeEventCallback } from "react-d3-tree/lib/types/Tree/types";
 import { TreeDataFromApi } from "@/types";
 import { ErrorBoundary } from "react-error-boundary";
-import { FallbackProps } from "react-error-boundary/dist/react-error-boundary";
 import keysToCamelCase from "@/keysToCamelCase";
 import html2canvas from "html2canvas";
 import Loading from "@/components/shared/Loading";
@@ -21,6 +20,7 @@ const EditTreePage = () => {
   const [selectedNodeIds, setSelectedNodeIds] = useState<number[]>([]);
   const [isLoading, setisLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const getTreeSize = () => {
     const svgElement = document.querySelector("#treeWrapper svg");
@@ -51,7 +51,6 @@ const EditTreePage = () => {
   const downloadImage = async () => {
     fitTreeToView();
     const treeElement = document.getElementById("treeWrapper");
-    console.log("treeElement", treeElement);
     if (!treeElement) return;
     const canvas = await html2canvas(treeElement);
     const dataURL = canvas.toDataURL("image/png");
@@ -77,16 +76,18 @@ const EditTreePage = () => {
 
   useEffect(() => {
     const load = async () => {
+      setErrorMessage(null);
       setisLoading(true);
-      try {
-        const responce = await fetch(`/api/trees/${treeId}.json`);
-        setTreeData(keysToCamelCase(await responce.json()));
-      } catch (err) {
-        console.log(err);
-        return <>エラーが発生しました。</>;
-      } finally {
+      const response = await fetch(`/api/trees/${treeId}.json`);
+      if (!response.ok) {
+        setErrorMessage(
+          "エラーが発生しています。時間をおいて再度お試しください。"
+        );
         setisLoading(false);
+        return;
       }
+      setTreeData(keysToCamelCase(await response.json()));
+      setisLoading(false);
     };
     load();
   }, [treeId]);
@@ -95,14 +96,13 @@ const EditTreePage = () => {
 
   const handleClick: TreeNodeEventCallback = (node) => {
     const clickedNodeId = node.data?.attributes?.id;
-    console.log(`id:${clickedNodeId}: ${node.data.name}をクリック`);
-
     const clickedNode = treeData.nodes.find(
       (node) => node.id === clickedNodeId
     );
     if (!clickedNode) {
-      // TODO: エラーメッセージの表示
-      console.log("ERROR: clickedNode is not found");
+      setErrorMessage(
+        "エラーが発生しています。画面を再読み込みしてもう一度お試しください。"
+      );
     } else if (clickedNode.parentId === null) {
       setSelectedNodeIds([clickedNode.id]);
     } else {
@@ -123,6 +123,13 @@ const EditTreePage = () => {
 
   const isLargeScreen = window.innerWidth >= 1024;
 
+  if (errorMessage) {
+    return (
+      <div role="alert" className="text-error mx-auto my-8 font-bold">
+        {errorMessage}
+      </div>
+    );
+  }
   return (
     <>
       <div className="flex flex-col lg:flex-row w-full">
@@ -167,13 +174,10 @@ const EditTreePage = () => {
   );
 };
 
-function fallbackRender({ error }: FallbackProps) {
+function fallbackRender() {
   return (
-    <div role="alert">
-      <p>
-        エラーが発生しています。画面を再読み込みしてもう一度お試しください。
-      </p>
-      <pre style={{ color: "red" }}>{error.message}</pre>
+    <div role="alert" className="text-error font-bold">
+      エラーが発生しています。時間をおいて再度お試しください。
     </div>
   );
 }
