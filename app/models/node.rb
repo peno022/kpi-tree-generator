@@ -9,9 +9,10 @@ class Node < ApplicationRecord
                         inverse_of: :parent_node
   has_many :children, class_name: 'Node', foreign_key: 'parent_id', dependent: :destroy, inverse_of: :parent
 
-  validates :name, presence: true
-  validates :value, presence: true, numericality: true
-  validates :value_format, presence: true # memo:enumで定義していない値を渡すと、RailsのArgumentErroｒになる
+  validates :name, presence: true, length: { maximum: 15 }
+  validates :value, presence: true, numericality: { less_than_or_equal_to: 999_999_999 }
+  validates :value_format, presence: true
+  validates :unit, length: { maximum: 10 }
   validates :unit, absence: true, if: :percent_formatted?
 
   def percent_formatted?

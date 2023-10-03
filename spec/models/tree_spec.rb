@@ -29,6 +29,12 @@ RSpec.describe Tree do
       tree.valid?
       expect(tree.errors[:name]).to include("can't be blank")
     end
+
+    it 'nameが51文字以上だと無効になる' do
+      tree = described_class.new(name: 'a' * 51)
+      expect(tree).not_to be_valid
+      expect(tree.errors[:name]).to include('is too long (maximum is 50 characters)')
+    end
   end
 
   describe('update_tree_with_params') do

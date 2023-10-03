@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_05_105355) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_03_095728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,10 +26,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_05_105355) do
   end
 
   create_table "nodes", force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 15
     t.float "value"
     t.integer "value_format"
-    t.string "unit"
+    t.string "unit", limit: 10
     t.boolean "is_value_locked", default: false
     t.bigint "tree_id", null: false
     t.bigint "parent_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_05_105355) do
   end
 
   create_table "trees", force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 50
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

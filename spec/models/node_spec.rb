@@ -81,6 +81,24 @@ RSpec.describe Node do
       node.valid?
       expect(node.errors[:unit]).to be_empty
     end
+
+    it 'nameが16文字以上だと無効になる' do
+      node = described_class.new(name: 'a' * 16)
+      expect(node).not_to be_valid
+      expect(node.errors[:name]).to include('is too long (maximum is 15 characters)')
+    end
+
+    it 'valueが10文字以上だと無効になる' do
+      node = described_class.new(value: 1_000_000_000)
+      expect(node).not_to be_valid
+      expect(node.errors[:value]).to include('must be less than or equal to 999999999')
+    end
+
+    it 'unitが11文字以上だと無効になる' do
+      node = described_class.new(unit: 'a' * 11)
+      expect(node).not_to be_valid
+      expect(node.errors[:unit]).to include('is too long (maximum is 10 characters)')
+    end
   end
 
   describe 'default values' do

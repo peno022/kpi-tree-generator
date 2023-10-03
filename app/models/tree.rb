@@ -4,7 +4,7 @@ class Tree < ApplicationRecord
   belongs_to :user
   has_many :nodes, dependent: :destroy
   has_many :layers, dependent: :destroy
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 50 }
 
   scope :order_by_latest_updated_at, lambda {
     select('trees.*,
