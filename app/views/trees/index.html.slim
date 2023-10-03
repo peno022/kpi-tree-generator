@@ -1,6 +1,6 @@
 - title 'KPIツリー一覧'
 = render 'shared/header'
-.bg-neutral-content.min-h-screen.pt-20
+.bg-neutral-content.min-h-screen.pt-20.text-neutral
   .mx-auto.max-w-7xl
     .flex.items-center.mx-6.mt-3
       h1.text-2xl.font-bold
@@ -42,7 +42,8 @@
 
         = paginate @trees
     - else
-      .text-base.mt-6.mb-4
-        |まだツリーがありません。
-      = button_to 'ツリーを作成する', create_and_edit_trees_path, method: :post,
-        class: 'btn btn-primary my-2'
+      .m-8
+        .text-lg.mb-4
+          | まだツリーがありません。
+        = button_to 'ツリーを作成する', create_and_edit_trees_path, method: :post,
+          class: 'btn btn-primary my-2'
