@@ -10,9 +10,7 @@ describe("Operation", () => {
     const operationProps: OperationProps = {
       isSelected: true,
       operation: "multiply",
-      onClick: () => {
-        console.log("かけ算・選択状態");
-      },
+      onClick: jest.fn(),
     };
     render(<Operation {...operationProps} />);
     const operationButton = screen.getByRole("button");
@@ -26,9 +24,7 @@ describe("Operation", () => {
     const operationProps: OperationProps = {
       isSelected: false,
       operation: "multiply",
-      onClick: () => {
-        console.log("かけ算・非選択状態");
-      },
+      onClick: jest.fn(),
     };
     render(<Operation {...operationProps} />);
     const operationButton = screen.getByRole("button");
@@ -42,9 +38,7 @@ describe("Operation", () => {
     const operationProps: OperationProps = {
       isSelected: true,
       operation: "add",
-      onClick: () => {
-        console.log("たし算・選択状態");
-      },
+      onClick: jest.fn(),
     };
     render(<Operation {...operationProps} />);
     const operationButton = screen.getByRole("button");

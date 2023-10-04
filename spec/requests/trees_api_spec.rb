@@ -156,7 +156,7 @@ RSpec.describe 'TreesApi' do
         expect(tree.layers.count).to eq(1)
       end
 
-      it('ツリーに新規ノード・階層を追加できること') do
+      it 'ツリーに新規ノード・階層を追加できること' do
         expect(tree.nodes.count).to eq(3)
         expect(tree.layers.count).to eq(1)
 
@@ -193,7 +193,7 @@ RSpec.describe 'TreesApi' do
         expect(tree.layers.count).to eq(2)
       end
 
-      it('ツリーのノード・階層を削除できること') do
+      it 'ツリーのノード・階層を削除できること' do
         expect(tree.nodes.count).to eq(3)
         expect(tree.layers.count).to eq(1)
 
@@ -226,14 +226,14 @@ RSpec.describe 'TreesApi' do
       expect(response).to have_http_status(:not_found)
     end
 
-    it('不正なパラメータを送信した場合、422エラーを返すこと') do
+    it '不正なパラメータを送信した場合、422エラーを返すこと' do
       tree = create(:tree, user_id: user.id)
       patch "/api/trees/#{tree.id}/update_name.json", params: { name: nil }
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['errors']).to eq("Name can't be blank")
     end
 
-    it('ログインユーザーのツリーの名前を更新すること') do
+    it 'ログインユーザーのツリーの名前を更新すること' do
       tree = create(:tree, user_id: user.id)
       patch "/api/trees/#{tree.id}/update_name.json", params: { name: 'new name' }
       expect(response).to have_http_status(:ok)

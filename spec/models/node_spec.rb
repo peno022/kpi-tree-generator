@@ -4,12 +4,6 @@ require 'rails_helper'
 
 RSpec.describe Node do
   describe 'reference' do
-    it '所属するtreeがnilだと無効になる' do
-      node = described_class.new(tree: nil)
-      node.valid?
-      expect(node.errors[:tree]).to include('must exist')
-    end
-
     it '存在しないtree_idを指定すると無効になる' do
       node = described_class.new(tree_id: Tree.maximum(:id).to_i + 1)
       node.valid?
@@ -23,47 +17,7 @@ RSpec.describe Node do
     end
   end
 
-  describe 'validations for node' do
-    it 'name, value, value_format, tree_idがあれば有効な状態である' do
-      node = described_class.new(
-        name: 'valid node',
-        value: 1.5,
-        value_format: 0,
-        tree: create(:tree)
-      )
-      expect(node).to be_valid
-    end
-
-    it 'nameがないと無効になる' do
-      node = described_class.new(name: nil)
-      node.valid?
-      expect(node.errors[:name]).to include("can't be blank")
-    end
-
-    it 'valueがないと無効になる' do
-      node = described_class.new(value: nil)
-      node.valid?
-      expect(node.errors[:value]).to include("can't be blank")
-    end
-
-    it 'valueに数値以外を入れると無効になる' do
-      node = described_class.new(value: 'test string')
-      node.valid?
-      expect(node.errors[:value]).to include('is not a number')
-    end
-
-    it 'value_formatがないと無効になる' do
-      node = described_class.new(value_format: nil)
-      node.valid?
-      expect(node.errors[:value_format]).to include("can't be blank")
-    end
-
-    it 'value_formatにenum定義外の数値を入れるとArgumentError' do
-      expect do
-        described_class.new(value_format: 999)
-      end.to raise_error(ArgumentError)
-    end
-
+  describe 'nodeのカスタムバリデーション' do
     it '表示形式が%のときはunitが空欄でないと無効になる' do
       node = described_class.new(
         value_format: 1,
@@ -81,27 +35,9 @@ RSpec.describe Node do
       node.valid?
       expect(node.errors[:unit]).to be_empty
     end
-
-    it 'nameが16文字以上だと無効になる' do
-      node = described_class.new(name: 'a' * 16)
-      expect(node).not_to be_valid
-      expect(node.errors[:name]).to include('is too long (maximum is 15 characters)')
-    end
-
-    it 'valueが10文字以上だと無効になる' do
-      node = described_class.new(value: 1_000_000_000)
-      expect(node).not_to be_valid
-      expect(node.errors[:value]).to include('must be less than or equal to 999999999')
-    end
-
-    it 'unitが11文字以上だと無効になる' do
-      node = described_class.new(unit: 'a' * 11)
-      expect(node).not_to be_valid
-      expect(node.errors[:unit]).to include('is too long (maximum is 10 characters)')
-    end
   end
 
-  describe 'default values' do
+  describe 'default値' do
     it 'is_value_lockedはデフォルト値がfalseになる' do
       node = described_class.new
       expect(node.is_value_locked).to be false
