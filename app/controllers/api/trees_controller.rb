@@ -23,11 +23,10 @@ module Api
     end
 
     def update_name
-      Rails.logger.info "Updating tree name to #{params[:name]}"
       if @tree.update(name: params[:name])
         render json: { name: @tree.reload.name }, status: :ok
       else
-        render json: { errors: @tree.errors.full_messages.join(', ') }, status: :unprocessable_entity
+        render json: { errors: @tree.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
