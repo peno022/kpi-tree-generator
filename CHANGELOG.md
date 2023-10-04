@@ -1,5 +1,81 @@
 # Changelog
 
+## [v0.0.3](https://github.com/peno022/kpi-tree-generator/compare/v0.0.2...v0.0.3) - 2023-10-04
+- issueをプロジェクトに追加するワークフローを作成 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/81
+- issueを作成したらプロジェクトに追加する by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/84
+- ciをアクションに切り出す必要がなくなったので修正 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/87
+- CIの依存ライブラリのキャッシュキーを修正・npmに統一 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/88
+- actions/setup-nodeを使う by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/90
+- postgresのバージョンを15.1に固定 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/98
+- Install typescript for react by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/99
+- CIにPostgreSQL接続を追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/102
+- LP（ログイン前トップページ）、利用規約、プラポリページを仮実装 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/101
+- package.jsonとyarn.lockが共存しないようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/127
+- Update yarn by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/129
+- RSpec の System Spec が headless_chromeで動くようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/130
+- User, Tree, Node, Layerのモデルを実装 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/131
+- seedsデータの作成 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/134
+- ツリー取得APIのスタブを作成 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/135
+- Modify association between nodes and layers by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/137
+- APIで取得したデータから、ノードとリンクのみのツリーを画面に表示する by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/142
+- Bump rack from 2.2.6.2 to 2.2.6.3 by @dependabot in https://github.com/peno022/kpi-tree-generator/pull/143
+- ツリーにたし算/かけ算記号を表示する by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/144
+- ツリー上にノードのロックアイコンを表示できるようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/146
+- TSモジュール側でツリーデータを配列から木構造に変換する by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/150
+- devcontainerにVSCodeのextensionsの設定を追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/151
+- Bump rack from 2.2.6.3 to 2.2.6.4 by @dependabot in https://github.com/peno022/kpi-tree-generator/pull/145
+- Bump nokogiri from 1.13.10 to 1.14.3 by @dependabot in https://github.com/peno022/kpi-tree-generator/pull/149
+- クリックしたノードとその兄弟ノードの色が変わる by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/153
+- ツリーの初期表示位置を調整 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/154
+- ツリー編集画面のヘッダーパーツを追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/157
+- Install slim_lint by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/158
+- ツリーエリアの見た目をつくる by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/159
+- 階層を選択してツールエリアに詳細が出るようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/160
+- ノードデータの入力値を計算式の表示に反映し、ノードの値同士を計算できるようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/170
+- tsでRailsから受け取ったデータのプロパティをスネークケース→キャメルケースに変換する by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/172
+- 要素間の関係の変更・端数の入力値を計算式に反映できるようにする  by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/174
+- Googleログイン機能を追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/180
+- .yarn/release/を除く.yarn配下をgitignoreに追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/184
+- ノードを編集・更新できるようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/175
+- tsのリファクタ by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/187
+- ノード追加機能 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/189
+- 別な階層を選択してもノード詳細が更新されない問題の解消、バリデーションロジックの修正 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/192
+- ノード削除機能 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/193
+- 子階層を新しく追加できるようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/196
+- 階層の削除機能 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/198
+- ツールエリアでノード名を編集し、更新を実行していない状態でツリー上の任意のノードをホバーすると、編集がリセットされてしまうバグを修正 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/201
+- APIにログインユーザーのチェックを入れる＆リクエストスペックを追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/202
+- 画像ダウンロード機能を実装 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/203
+- ツリー全体を表示ボタンを削除 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/205
+- 計算不整合の箇所をツリーに表示できるようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/206
+- ツリーの更新実行中にローディング要素を表示する by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/207
+- ツリー名を編集できるようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/208
+- ツリー一覧画面を作成 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/209
+- ツリーの新規作成機能 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/210
+- Cloud Runにデプロイできるようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/215
+- ヘッダーにロゴを表示、関連箇所のテストを修正 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/226
+- ツリー削除機能を実装 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/228
+- Deploy flyio by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/229
+- faviconを追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/230
+- mobile用のfaviconを追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/232
+- 開発手順の整備 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/234
+- ツリー一覧の最終更新を、ツリーとその中のノード・レイヤーを含めた最新の最終更新時刻に修正 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/235
+- ユーザーのアイコン画像がないときはデフォルトの画像を表示するようにする＆CIでログイン処理をスキップしないようにする by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/236
+- LPを実装 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/237
+- エラーページをrailsデフォルトのものからデザインをあてたものに変更 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/238
+- デザイン崩れの修正（ツリー一覧画面・編集画面） by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/240
+- meta tags、OGP画像の設定 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/242
+- Google Tag Manager を導入 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/243
+- PC表示で画像ダウンロードボタンが効かなくなっていた問題を修正 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/244
+- ツリー編集画面で入力できる値の文字数に上限値を設定 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/245
+- ツリー表示・クリック時のエラーハンドリングを追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/247
+- 削除し忘れているデバッグ用のconsole.log行を削除 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/248
+- ツリー0件のときのデザインを調整、flashの表示位置を修正 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/250
+- 利用規約、プライバシーポリシーを整備 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/251
+- ヘッダーのロゴ画像をホバーした時のアクションを追加 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/252
+- テストコードの過不足修正とリファクタ by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/253
+- ツリー名更新時のエラーを画面に表示できていなかったので修正 by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/254
+
 ## [v0.0.2](https://github.com/peno022/kpi-tree-generator/compare/v0.0.1...v0.0.2) - 2023-01-22
 - CodeQLをmainへのPRで都度動かすように戻す by @peno022 in https://github.com/peno022/kpi-tree-generator/pull/63
 - Bump rack from 2.2.5 to 2.2.6.2 by @dependabot in https://github.com/peno022/kpi-tree-generator/pull/67
