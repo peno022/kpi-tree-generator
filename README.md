@@ -1,16 +1,59 @@
-# kpi-tree-generator
+# KPI ツリーメーカー
+
+![logo](images/README_logo.png)
 
 ## サービス概要
 
-報告用の KPI ツリー図を作る手間を削減したい企業社員向けの、KPI ツリージェネレーターです。
-ユーザーは簡単な入力から KPI ツリー図を画像で出力でき、PowerPoint テンプレートや drawio とは違って、
-テキスト(yaml)でのツリーの生成から、ブラウザ操作での値の更新シミュレーションまで簡単にできることが特徴です。
+[KPI ツリーメーカー](https://kpi-tree.com/)を使うと、数クリックですぐに KPI ツリー図を作成し、画像でダウンロードすることができます。  
+KPI ツリーに特化したツールのため、Excel 等を利用するよりも簡単に、ツリー内の KPI を調整できることが特徴です。
 
-### 特徴
+### URL
 
-### 使い方
+https://kpi-tree.com/
 
-## 技術スタック
+## サービス利用の流れ
+
+1. Google アカウントでサインアップする
+
+   <image src="images/README_signup.png" width="300"></image>
+
+2. ツリーを新規作成する
+
+   <image src="images/README_create_new_tree.png" width="300"></image>
+
+3. ツリー要素の追加や編集を行う
+
+   <image src="images/README_start_editing_tree.png" width="600"></image>
+
+4. 作成したツリー画像はダウンロードできます
+
+   <image src="images/README_finish_editing.png" width="600"></image>
+
+## 利用技術
+
+### 言語
+
+- Ruby 3.1
+- TypeScript
+
+### フレームワーク
+
+- Ruby on Rails 7 系
+- React
+- Tailwind CSS
+- daisyUI
+
+### その他ツール・ライブラリ
+
+- [react-d3-tree](https://github.com/bkrem/react-d3-tree) （ツリーの描画）
+
+### データベース
+
+- PostgreSQL 15.3
+
+### ホスティング
+
+- [Fly.io](https://fly.io/)
 
 ## 開発手順
 
@@ -25,7 +68,7 @@
 2. プロジェクトルート直下に移動して、コンテナ起動コマンドを実行する。
 
    ```bash
-   # make up を実行すると、コンテナをビルドして docker compose 環境が起動します。
+   # make up を実行すると、コンテナをビルドして docker compose 環境が起動します
    $ cd kpi-tree-generator
    $ make up
    ```
@@ -41,7 +84,7 @@
 
    # rails server の起動
    $ bin/dev
-   # => ブラウザから http://localhost:3000 を開くと、アプリケーションにアクセスできます。
+   # => ブラウザから http://localhost:3000 を開くと、アプリケーションにアクセスできます
    ```
 
 4. 開発する。
@@ -107,9 +150,10 @@
 
    ```bash
    $ git add xxx
+   $ git commit -m xxx
    $ git push origin feature/example
    ```
 
 2. main ブランチに向けて PR を作成する。
 3. approve 後、main ブランチにマージする。
-4. GitHub Actions によって、Fly.io の環境にデプロイされる。
+4. main ブランチにマージされると、GitHub Actions によって Fly.io の環境にデプロイされる。
