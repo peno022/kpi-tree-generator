@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Api
+module API
   class BaseController < ApplicationController
     include SessionsHelper
     before_action :check_logged_in
