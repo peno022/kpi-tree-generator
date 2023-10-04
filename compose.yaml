@@ -28,6 +28,7 @@ services:
 
   selenium_chrome:
     image: selenium/standalone-chrome-debug
+    shm_size: "2g"
     networks:
       ktg-net:
 
