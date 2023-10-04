@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Tree do
-  describe('update_tree_with_params') do
+  describe 'update_tree_with_params' do
     let(:tree) { create(:tree, user: create(:user)) }
     let!(:root) do
       create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
@@ -114,8 +114,8 @@ RSpec.describe Tree do
       }
     end
 
-    describe('新規追加') do
-      it('既存レイヤーに新規ノードを追加できる') do
+    describe '新規追加' do
+      it '既存レイヤーに新規ノードを追加できる' do
         expect(tree.nodes.count).to eq(6)
         tree_params[:nodes] << {
           name: '孫2-4',
@@ -132,7 +132,7 @@ RSpec.describe Tree do
         expect(tree.nodes.find_by(name: '孫2-4').parent).to eq(child2)
       end
 
-      it('新規レイヤー・新規ノードを追加できる') do
+      it '新規レイヤー・新規ノードを追加できる' do
         expect(tree.nodes.count).to eq(6)
         expect(tree.layers.count).to eq(2)
         tree_params[:nodes] += [{
@@ -169,8 +169,8 @@ RSpec.describe Tree do
       end
     end
 
-    describe('更新') do
-      it('ルートノードを更新できる') do
+    describe '更新' do
+      it 'ルートノードを更新できる' do
         expect(tree.nodes.count).to eq(6)
         expect(tree.layers.count).to eq(2)
         tree_params[:nodes][0][:name] = '更新後ルート'
@@ -189,7 +189,7 @@ RSpec.describe Tree do
         expect(root_after_updated.is_value_locked).to be(false)
       end
 
-      it('既存レイヤー・既存ノードを更新できる') do
+      it '既存レイヤー・既存ノードを更新できる' do
         expect(tree.nodes.count).to eq(6)
         expect(tree.layers.count).to eq(2)
         tree_params[:nodes][1][:name] = '更新後子1'
@@ -211,8 +211,8 @@ RSpec.describe Tree do
       end
     end
 
-    describe('削除') do
-      it('既存レイヤーから葉ノードを削除できる') do
+    describe '削除' do
+      it '既存レイヤーから葉ノードを削除できる' do
         expect(tree.nodes.count).to eq(6)
         expect(tree.layers.count).to eq(2)
         tree_params[:nodes].reject! { |node| node[:name] == '孫2-3' }
@@ -222,7 +222,7 @@ RSpec.describe Tree do
         expect(tree.nodes.find_by(name: '孫2-3')).to be_nil
       end
 
-      it('既存レイヤーから非葉ノードと、その子孫レイヤー・ノードを削除できる') do
+      it '既存レイヤーから非葉ノードと、その子孫レイヤー・ノードを削除できる' do
         expect(tree.nodes.count).to eq(6)
         expect(tree.layers.count).to eq(2)
         tree_params[:nodes].reject! { |node| node[:name] == '子2' }
@@ -236,7 +236,7 @@ RSpec.describe Tree do
         expect(tree.layers.find_by(parent_node_id: child2.id)).to be_nil
       end
 
-      it('既存レイヤーとその中の全てのノード、その子孫レイヤー・ノードを削除できる') do
+      it '既存レイヤーとその中の全てのノード、その子孫レイヤー・ノードを削除できる' do
         expect(tree.nodes.count).to eq(6)
         expect(tree.layers.count).to eq(2)
         tree_params[:nodes].reject! { |node| node[:parent_id] == child2.id }
@@ -255,7 +255,7 @@ RSpec.describe Tree do
     end
   end
 
-  describe('create_default_structure') do
+  describe 'create_default_structure' do
     let(:user) { create(:user) }
     let(:tree) { create(:tree, user:) }
 
@@ -313,7 +313,7 @@ RSpec.describe Tree do
     end
   end
 
-  describe('latest_updated_atは、そのツリーに含まれるノードまたはレイヤーまたはそのツリー自身の中で、最も新しいupdated_atの値を返す') do
+  describe 'latest_updated_atは、そのツリーに含まれるノードまたはレイヤーまたはそのツリー自身の中で、最も新しいupdated_atの値を返す' do
     let!(:user) { create(:user) }
     let!(:tree) { create(:tree, user:, updated_at: 4.days.ago) }
     let!(:parent) { create(:node, tree:, updated_at: 5.days.ago) }

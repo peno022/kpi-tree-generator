@@ -9,7 +9,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
     click_button 'ログイン'
   end
 
-  describe('選択した階層のノードのプロパティを編集・更新') do
+  describe '選択した階層のノードのプロパティを編集・更新' do
     before do
       # データの作成
       tree = create(:tree, user: User.find_by(uid: '1234'))
@@ -25,7 +25,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
     end
 
-    it('なにもせずに更新ボタンを押すと、ツリーは更新されるが値は変わらず、ツールエリアが閉じる') do
+    it 'なにもせずに更新ボタンを押すと、ツリーは更新されるが値は変わらず、ツールエリアが閉じる' do
       # 値をなにも編集せずに更新を実行
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
@@ -62,7 +62,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       expect(find_by_id('toolWrapper')).to have_content('要素を選択すると、ここに詳細が表示されます。')
     end
 
-    it('ノードのプロパティを変更して更新を実行すると、更新後の値でツリーが表示される') do
+    it 'ノードのプロパティを変更して更新を実行すると、更新後の値でツリーが表示される' do
       # 値を編集
       node_detail1 = find_by_id('node-detail-1')
       node_detail1.find('input[name="name"]').set('変更後1')
@@ -109,7 +109,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
     end
 
-    it('要素間の関係を変更して更新すると、更新後の値でツリーが表示される') do
+    it '要素間の関係を変更して更新すると、更新後の値でツリーが表示される' do
       # 値を編集
       click_button('たし算')
 
@@ -145,7 +145,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
     end
 
-    it('端数を変更して更新できる') do
+    it '端数を変更して更新できる' do
       # 値を編集
       find('input[name="fraction"]').set(-50)
 
@@ -158,7 +158,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       expect(find('input[name="fraction"]').value).to eq '-50'
     end
 
-    it('要素間の関係、端数、ノード名、単位、数値、表示形式、数値の自動更新の全項目を変更し、更新すると、更新後の値でツリーが表示される') do
+    it '要素間の関係、端数、ノード名、単位、数値、表示形式、数値の自動更新の全項目を変更し、更新すると、更新後の値でツリーが表示される' do
       # 値を編集
       click_button('たし算')
       find('input[name="fraction"]').set(50)
@@ -211,7 +211,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       expect(find('input[name="fraction"]').value).to eq '50'
     end
 
-    it('ルートノードを選択し、値を更新できる') do
+    it 'ルートノードを選択し、値を更新できる' do
       find('g > text', text: 'ルート').ancestor('g.rd3t-node').click
 
       # 値を編集
@@ -252,7 +252,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
     end
 
-    it('更新操作を繰り返し（3回続けて）行うことができる') do
+    it '更新操作を繰り返し（3回続けて）行うことができる' do
       # 編集と更新（1回目）
       find_by_id('node-detail-1').find('input[name="name"]').set('子1\'')
       find_by_id('node-detail-1').find('input[name="value"]').set(4)
@@ -304,7 +304,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
     end
 
-    it('更新するボタンを押すと、モーダルが開く、キャンセルボタンを押すとモーダルが閉じる') do
+    it '更新するボタンを押すと、モーダルが開く、キャンセルボタンを押すとモーダルが閉じる' do
       expect(page).not_to have_css('.modal-box')
       find('#updateButton label', text: '更新').click
       expect(page).to have_css('.modal-box')
@@ -312,7 +312,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       expect(page).not_to have_css('.modal-box')
     end
 
-    it('項目を編集してからツリー上で任意のノードをホバーしても、ツールエリアの表示は変わらない') do
+    it '項目を編集してからツリー上で任意のノードをホバーしても、ツールエリアの表示は変わらない' do
       find_by_id('node-detail-1').find('input[name="name"]').set('変更後のノード名1')
       click_button 'たし算'
       find('g.custom-node', text: '子1').hover
@@ -320,7 +320,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       expect(page).to have_button('たし算', class: 'bg-base-100 border border-neutral')
     end
 
-    it('項目を編集してからツリー上で任意のノードをクリックすると、編集内容は失われてクリックしたノードを含む階層の情報でツールエリアが表示される') do
+    it '項目を編集してからツリー上で任意のノードをクリックすると、編集内容は失われてクリックしたノードを含む階層の情報でツールエリアが表示される' do
       find_by_id('node-detail-1').find('input[name="name"]').set('変更後のノード名1')
       click_button 'たし算'
       find('g.custom-node', text: '子1').click
@@ -329,7 +329,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       expect(page).to have_button('かけ算', class: 'bg-base-100 border border-neutral')
     end
 
-    it('親ノードの数値と合わない状態で！アイコンが表示されているノードについて、数値が合うように編集して更新すると！アイコンが消える') do
+    it '親ノードの数値と合わない状態で！アイコンが表示されているノードについて、数値が合うように編集して更新すると！アイコンが消える' do
       tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, unit: '円', is_value_locked: true)
       create(:node, tree:, name: '子1', value: 500, unit: '円', is_value_locked: false,
@@ -363,8 +363,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
     end
   end
 
-  describe('選択した階層の更新を、祖先ノードにも反映') do
-    it('孫ノードを選択して更新すると、その祖先ノードの値も更新される、数値を自動更新しないにチェックが入っているノードの値は更新されない') do
+  describe '選択した階層の更新を、祖先ノードにも反映' do
+    it '孫ノードを選択して更新すると、その祖先ノードの値も更新される、数値を自動更新しないにチェックが入っているノードの値は更新されない' do
       # データの作成
       tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
@@ -413,8 +413,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
     end
   end
 
-  describe('ルートノードのみのツリー') do
-    it('ルートノードを選択し、値を更新できる') do
+  describe 'ルートノードのみのツリー' do
+    it 'ルートノードを選択し、値を更新できる' do
       # ルートのみのツリーを作成
       tree = create(:tree, user: User.find_by(uid: '1234'))
       create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
@@ -446,7 +446,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
     end
   end
 
-  describe('選択した階層にノードを追加') do
+  describe '選択した階層にノードを追加' do
     before do
       # データの作成
       tree = create(:tree, user: User.find_by(uid: '1234'))
@@ -462,7 +462,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       find('g > text', text: '子1').ancestor('g.rd3t-leaf-node').click
     end
 
-    it('要素を追加ボタンを押すと、新しい要素のエリアが表示される。') do
+    it '要素を追加ボタンを押すと、新しい要素のエリアが表示される。' do
       click_button '要素を追加'
       expect(page).to have_selector('#node-detail-3')
       expect(page).to have_content('要素3')
@@ -473,7 +473,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       expect(page).to have_selector('#node-detail-3 input[name="isValueLocked"][type="checkbox"]:not(:checked)')
     end
 
-    it('追加された要素のデフォルトの数値値が、階層内の要素間の関係ごとに設定されている。') do
+    it '追加された要素のデフォルトの数値値が、階層内の要素間の関係ごとに設定されている。' do
       expect(page).to have_button('かけ算', class: 'bg-base-100 border border-neutral')
       click_button '要素を追加'
       expect(page).to have_selector('#node-detail-3 input[name="value"][value="1"]')
@@ -482,7 +482,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       expect(page).to have_selector('#node-detail-4 input[name="value"][value="0"]')
     end
 
-    it('要素を追加ボタンを押すと、計算式に要素が追加されている。') do
+    it '要素を追加ボタンを押すと、計算式に要素が追加されている。' do
       click_button '要素を追加'
       within('#calc-member-3') do
         expect(page).to have_text('要素3')
@@ -490,13 +490,13 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       end
     end
 
-    it('要素を追加ボタンを押しても、ツリーの表示はまだ変わらない。') do
+    it '要素を追加ボタンを押しても、ツリーの表示はまだ変わらない。' do
       click_button '要素を追加'
       expect(page).not_to have_selector('g > text', text: '要素3')
       expect(page).to have_selector('g > text', text: '子1')
     end
 
-    it('要素を追加ボタンを押して、更新ボタン→更新するを押すと、ツリーに要素が追加される。') do
+    it '要素を追加ボタンを押して、更新ボタン→更新するを押すと、ツリーに要素が追加される。' do
       click_button '要素を追加'
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
@@ -523,7 +523,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
     end
 
-    it('要素を追加ボタンを押して、追加した要素と既存の要素のプロパティを編集し、更新ボタン→更新するを押すと、ツリーにすべての編集内容が反映される。') do
+    it '要素を追加ボタンを押して、追加した要素と既存の要素のプロパティを編集し、更新ボタン→更新するを押すと、ツリーにすべての編集内容が反映される。' do
       click_button '要素を追加'
       node_detail1 = find_by_id('node-detail-1')
       node_detail1.find('input[name="name"]').set('変更後1')
@@ -575,7 +575,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
     end
 
-    it('子要素を持つ階層に要素を追加できる。') do
+    it '子要素を持つ階層に要素を追加できる。' do
       # データの作成
       tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
@@ -609,7 +609,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
     end
 
-    it('一度の更新で複数の要素を追加できる。') do
+    it '一度の更新で複数の要素を追加できる。' do
       click_button '要素を追加'
       click_button '要素を追加'
       find('#updateButton label', text: '更新').click
@@ -644,7 +644,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       )
     end
 
-    it('要素の追加を繰り返して行うことができる。') do
+    it '要素の追加を繰り返して行うことができる。' do
       click_button '要素を追加'
       find('#updateButton label', text: '更新').click
       find('.modal-action label', text: '更新する').click
@@ -705,7 +705,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
     end
   end
 
-  describe('選択した階層のノードを削除') do
+  describe '選択した階層のノードを削除' do
     before do
       # データの作成
       tree = create(:tree, user: User.find_by(uid: '1234'))
@@ -728,31 +728,31 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
     end
 
-    describe('削除ボタンの表示・非表示') do
-      it('ルートノードを選択すると、要素のツールメニューが表示されない。') do
+    describe '削除ボタンの表示・非表示' do
+      it 'ルートノードを選択すると、要素のツールメニューが表示されない。' do
         find('g > text', text: 'ルート').ancestor('g.rd3t-node').click
         expect(find_by_id('node-detail-1')).not_to have_css('.tool-menu')
       end
 
-      it('ルートノード以外のノードを選択したとき、要素のツールメニューが表示される。（ノードが2つの場合）') do
+      it 'ルートノード以外のノードを選択したとき、要素のツールメニューが表示される。（ノードが2つの場合）' do
         find('g > text', text: '子2').ancestor('g.rd3t-node').click
         expect(find_by_id('node-detail-1')).to have_css('.tool-menu')
       end
 
-      it('ルートノード以外のノードを選択したとき、要素のツールメニューが表示される。（ノードが3つ以上の場合）') do
+      it 'ルートノード以外のノードを選択したとき、要素のツールメニューが表示される。（ノードが3つ以上の場合）' do
         find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
         expect(find_by_id('node-detail-1')).to have_css('.tool-menu')
       end
     end
 
-    describe('ツールエリア上の挙動') do
-      it('要素を削除ボタンを押すと、ツールエリアからそのノードの表示が消える。') do
+    describe 'ツールエリア上の挙動' do
+      it '要素を削除ボタンを押すと、ツールエリアからそのノードの表示が消える。' do
         find_by_id('node-detail-3').find('.tool-menu').click
         click_link '要素を削除'
         expect(page).not_to have_selector('#node-detail-3')
       end
 
-      it('要素を削除ボタンを押すと、計算式からそのノードの表示が消える。計算結果の値も変わる。ツリーの表示は変わらない。') do
+      it '要素を削除ボタンを押すと、計算式からそのノードの表示が消える。計算結果の値も変わる。ツリーの表示は変わらない。' do
         expect(find_by_id('calc-member-parent')).to have_text('2,000')
         expect(page).to have_selector('#calc-member-3')
         find_by_id('node-detail-3').find('.tool-menu').click
@@ -768,7 +768,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         )
       end
 
-      it('要素を削除ボタンを押して、更新を実行せずに別な階層を選択し、再び元の階層に戻ると、要素は削除前の状態に戻っている。') do
+      it '要素を削除ボタンを押して、更新を実行せずに別な階層を選択し、再び元の階層に戻ると、要素は削除前の状態に戻っている。' do
         expect(node_details.length).to eq 3
         find_by_id('node-detail-3').find('.tool-menu').click
         click_link '要素を削除'
@@ -779,8 +779,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       end
     end
 
-    describe('削除を実行') do
-      it('葉ノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードが削除される。') do
+    describe '削除を実行' do
+      it '葉ノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードが削除される。' do
         find_by_id('node-detail-3').find('.tool-menu').click
         click_link '要素を削除'
         find('#updateButton label', text: '更新').click
@@ -802,7 +802,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         expect(page).not_to have_selector('g > text', text: '孫2-3')
       end
 
-      it('階層内のノードが全て葉ノードのとき、階層内のすべてのノードを削除できる') do
+      it '階層内のノードが全て葉ノードのとき、階層内のすべてのノードを削除できる' do
         find_by_id('node-detail-3').find('.tool-menu').click
         click_link '要素を削除'
         find_by_id('node-detail-2').find('.tool-menu').click
@@ -824,7 +824,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         )
       end
 
-      it('階層内のノードが全て葉ノードのとき、「選択中の全要素を削除」ボタンを押してから更新を実行すると、階層内のすべてのノードを削除できる') do
+      it '階層内のノードが全て葉ノードのとき、「選択中の全要素を削除」ボタンを押してから更新を実行すると、階層内のすべてのノードを削除できる' do
         find('.layer-tool-menu').click
         click_link '選択中の全要素を削除'
         expect(page).not_to have_selector('[id^="node-detail-"]')
@@ -842,7 +842,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         )
       end
 
-      it('非葉ノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードと子孫ノードが削除される。') do
+      it '非葉ノードについて、要素を削除ボタンを押してから、更新ボタン→更新するを押すと、ツリーからそのノードと子孫ノードが削除される。' do
         find('g > text', text: '子2').ancestor('g.custom-node').click
         find_by_id('node-detail-2').find('.tool-menu').click
         click_link '要素を削除'
@@ -862,7 +862,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         expect(page).not_to have_selector('g > text', text: '孫2-3')
       end
 
-      it('階層内に非葉ノードが含まれるとき、階層内のすべてのノードを削除でき、一緒に子孫のノードも削除される') do
+      it '階層内に非葉ノードが含まれるとき、階層内のすべてのノードを削除でき、一緒に子孫のノードも削除される' do
         find('g > text', text: '子2').ancestor('g.custom-node').click
         find_by_id('node-detail-2').find('.tool-menu').click
         click_link '要素を削除'
@@ -885,7 +885,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         )
       end
 
-      it('階層内に非葉ノードが含まれるとき、「選択中の全要素を削除」ボタンを押してから更新を実行すると階層内のノードがすべて削除され、一緒に子孫のノードも削除される。') do
+      it '階層内に非葉ノードが含まれるとき、「選択中の全要素を削除」ボタンを押してから更新を実行すると階層内のノードがすべて削除され、一緒に子孫のノードも削除される。' do
         find('g > text', text: '子2').ancestor('g.custom-node').click
         find('.layer-tool-menu').click
         click_link '選択中の全要素を削除'
@@ -907,7 +907,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         )
       end
 
-      it('要素を削除ボタンを押して、更新ボタン→更新するを押すと、親ノードの値も計算結果に応じて更新される。') do
+      it '要素を削除ボタンを押して、更新ボタン→更新するを押すと、親ノードの値も計算結果に応じて更新される。' do
         find_by_id('node-detail-3').find('.tool-menu').click
         click_link '要素を削除'
         find('#updateButton label', text: '更新').click
@@ -937,7 +937,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         )
       end
 
-      it('新しい要素の追加と既存の要素の削除を同時に行うことができる。') do
+      it '新しい要素の追加と既存の要素の削除を同時に行うことができる。' do
         click_button '要素を追加'
         find_by_id('node-detail-3').find('.tool-menu').click
         click_link '要素を削除'
@@ -966,7 +966,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
         )
       end
 
-      it('要素の追加と削除を繰り返し行うことができる。') do
+      it '要素の追加と削除を繰り返し行うことができる。' do
         3.times do
           find('g > text', text: '孫2-3').ancestor('g.rd3t-leaf-node').click
           click_button '要素を追加'

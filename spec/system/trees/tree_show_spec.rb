@@ -17,13 +17,13 @@ RSpec.describe 'Tree pages', :js do
       visit edit_tree_path(tree)
     end
 
-    it('ログインユーザーのものでないツリーにはアクセスできない') do
+    it 'ログインユーザーのものでないツリーにはアクセスできない' do
       tree = create(:tree)
       visit edit_tree_path(tree)
       expect(page).to have_content('404')
     end
 
-    it('treeの詳細画面に、treeの図が表示されている') do
+    it 'treeの詳細画面に、treeの図が表示されている' do
       expect(page).to have_css('g > text', text: 'ルート')
       expect(page).to have_css('g > text', text: '子1')
       expect(page).to have_css('g > text', text: '子2')
@@ -31,7 +31,7 @@ RSpec.describe 'Tree pages', :js do
       expect(page).to have_content('要素を選択すると、ここに詳細が表示されます。')
     end
 
-    it('treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が要素のid順で表示される。') do
+    it 'treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が要素のid順で表示される。' do
       target_node_before = find('g > text', text: '子1').ancestor('g.custom-node')
       sibling_node_before = find('g > text', text: '子2').ancestor('g.custom-node')
       expect(target_node_before.find('rect')[:style]).to include('fill: ghostwhite')
@@ -48,7 +48,7 @@ RSpec.describe 'Tree pages', :js do
       expect(find_by_id('node-detail-2')).to have_css('input[value="子2"]')
     end
 
-    it('treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。') do
+    it 'treeのルートノードをクリックすると、ルートノードの色が変わり、ノード詳細が表示される。' do
       tree3 = create(:tree, user: User.find_by(uid: '1234'))
       create(:node, name: 'ルート', tree: tree3)
 
@@ -67,7 +67,7 @@ RSpec.describe 'Tree pages', :js do
       expect(page).to have_css('input[value="ルート"]')
     end
 
-    it('任意の要素をクリック後に別な階層の要素をクリックすると、表示される項目が変わること') do
+    it '任意の要素をクリック後に別な階層の要素をクリックすると、表示される項目が変わること' do
       # データの作成
       tree = create(:tree, user: User.find_by(uid: '1234'))
       root_node = create(:node, tree:, name: 'ルート', value: 1000, value_format: '万', unit: '円', is_value_locked: true)
@@ -106,7 +106,7 @@ RSpec.describe 'Tree pages', :js do
       )
     end
 
-    it('親ノードとの数値が合っていない階層は、！アイコンが各ノードとツールエリアに表示される') do
+    it '親ノードとの数値が合っていない階層は、！アイコンが各ノードとツールエリアに表示される' do
       tree = create(:tree, user: User.find_by(uid: '1234'))
       root = create(:node, name: 'ルート', value: 1000, unit: '円', tree:)
       create(:node, name: '子1', value: 200, unit: '円', tree:, parent: root)

@@ -12,7 +12,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
   end
 
   describe 'ツリーが0件のときの画面' do
-    it('ツリーが0件のときは、テーブルが表示されず、ツリー作成ボタンが表示されること') do
+    it 'ツリーが0件のときは、テーブルが表示されず、ツリー作成ボタンが表示されること' do
       visit root_path
       expect(page).to have_content('まだツリーがありません。')
       expect(page).to have_button('ツリーを作成する')
@@ -30,7 +30,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       visit root_path
     end
 
-    it('ツリーの一覧が表示されること') do
+    it 'ツリーの一覧が表示されること' do
       expect(page).to have_table
       expect(page).to have_selector('table > tbody > tr', count: 3)
       expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー1')
@@ -44,7 +44,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       expect(page).to have_selector('table > tbody > tr > td.td-tree-action > button', text: '編集', count: 3)
     end
 
-    it('一覧のツリーがlatest_update_atの降順に並んでいること') do
+    it '一覧のツリーがlatest_update_atの降順に並んでいること' do
       # 新しい順にtree3, tree2, tree1
       # tree1内のノードのupdated_atを更新してtree1の最終更新が最新になるようにする（tree1, tree3, tree2の順)
       tree1_new_node = create(:node, name: 'ルート', tree_id: tree1.id, updated_at: 1.hour.ago)
@@ -58,13 +58,13 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       end
     end
 
-    it('ツリー名をクリックすると、そのツリーの編集画面に遷移すること') do
+    it 'ツリー名をクリックすると、そのツリーの編集画面に遷移すること' do
       most_recent_updated_tree = user.trees.order_by_latest_updated_at.first
       page.all('table > tbody > tr > td.td-tree-name > a').first.click
       expect(page).to have_current_path(edit_tree_path(most_recent_updated_tree))
     end
 
-    it('編集ボタンをクリックすると、そのツリーの編集画面に遷移すること') do
+    it '編集ボタンをクリックすると、そのツリーの編集画面に遷移すること' do
       most_recent_updated_tree = user.trees.order_by_latest_updated_at.first
       page.all('table > tbody > tr > td.td-tree-action > button', text: '編集').first.click
       expect(page).to have_current_path(edit_tree_path(most_recent_updated_tree))
@@ -72,13 +72,13 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
   end
 
   describe 'ページネーションの動作' do
-    it('ツリーが10件以下のときはページネーションが表示されないこと') do
+    it 'ツリーが10件以下のときはページネーションが表示されないこと' do
       create(:tree, name: 'ツリー1', user_id: user.id)
       visit root_path
       expect(page).not_to have_selector('nav.pagination')
     end
 
-    it('ツリーが11件以上のときはページネーションが表示されること') do
+    it 'ツリーが11件以上のときはページネーションが表示されること' do
       11.times do |i|
         create(:tree, name: "ツリー#{i + 1}", user_id: user.id)
       end
@@ -86,7 +86,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       expect(page).to have_selector('nav.pagination')
     end
 
-    it('ツリーが11件以上のときは、1ページに10件のリストが表示されていること') do
+    it 'ツリーが11件以上のときは、1ページに10件のリストが表示されていること' do
       11.times do |i|
         create(:tree, name: "ツリー#{i + 1}", user_id: user.id)
       end
@@ -94,7 +94,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       expect(page).to have_selector('table > tbody > tr', count: 10)
     end
 
-    it('ページネーションのNextをクリックすると、ツリー一覧が切り替わること') do
+    it 'ページネーションのNextをクリックすると、ツリー一覧が切り替わること' do
       create_list(:tree, 31, user_id: user.id).each_with_index do |tree, index|
         tree.update(name: "ツリー#{index + 1}", updated_at: index.hours.ago)
       end
@@ -104,7 +104,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       expect(first('table > tbody > tr > td.td-tree-name').text).to eq('ツリー11')
     end
 
-    it('ページネーションのPreviousをクリックすると、ツリー一覧が切り替わること') do
+    it 'ページネーションのPreviousをクリックすると、ツリー一覧が切り替わること' do
       create_list(:tree, 31, user_id: user.id).each_with_index do |tree, index|
         tree.update(name: "ツリー#{index + 1}", updated_at: index.hours.ago)
       end
@@ -114,7 +114,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       expect(first('table > tbody > tr > td.td-tree-name').text).to eq('ツリー1')
     end
 
-    it('ページネーションのFirstをクリックすると、ツリー一覧が切り替わること') do
+    it 'ページネーションのFirstをクリックすると、ツリー一覧が切り替わること' do
       create_list(:tree, 31, user_id: user.id).each_with_index do |tree, index|
         tree.update(name: "ツリー#{index + 1}", updated_at: index.hours.ago)
       end
@@ -124,7 +124,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       expect(first('table > tbody > tr > td.td-tree-name').text).to eq('ツリー1')
     end
 
-    it('ページネーションのLastをクリックすると、ツリー一覧が切り替わること') do
+    it 'ページネーションのLastをクリックすると、ツリー一覧が切り替わること' do
       create_list(:tree, 31, user_id: user.id).each_with_index do |tree, index|
         tree.update(name: "ツリー#{index + 1}", updated_at: index.hours.ago)
       end
