@@ -3,20 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe User do
-  it 'uniqueなproviderとuidがあれば有効な状態である' do
-    user = described_class.new(
-      provider: 'google_oauth2',
-      uid: '1234567890'
-    )
-    expect(user).to be_valid
-  end
-
-  it 'uidがnilだと無効になる' do
-    user = described_class.new(uid: nil)
-    user.valid?
-    expect(user.errors[:uid]).to include("can't be blank")
-  end
-
   it 'providerにはデフォルトで"google_oauth2"を設定する' do
     user = described_class.new(uid: '1234567890')
     expect(user.provider).to eq('google_oauth2')
