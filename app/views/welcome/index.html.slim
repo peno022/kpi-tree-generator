@@ -30,8 +30,11 @@
                   li.text-lg
                     | KPI 数値を手で修正せずに済まないかな……？
             .text-center.pt-16
-              button.btn.btn-primary.btn-lg
-                | サインアップ（無料）
+              = button_to 'サインアップ（無料）', \
+                '/auth/google_oauth2', \
+                method: :post, \
+                data: { turbo: false }, \
+                class: 'btn btn-primary btn-lg'
               .text-xs.text-neutral.mt-4
                 | ご利用には Google アカウントが必要です。
                 br
@@ -61,8 +64,11 @@
           p.text-lg
             | すべての機能を無料でご利用いただけます。
       .text-center.py-10.mx-auto.md:hidden
-        button.btn.btn-primary.btn-lg
-          | サインアップ（無料）
+        = button_to 'サインアップ（無料）', \
+        '/auth/google_oauth2', \
+        method: :post, \
+        data: { turbo: false }, \
+        class: 'btn btn-primary btn-lg'
         .text-xs.text-neutral.mt-4
           | ご利用には Google アカウントが必要です。
           br

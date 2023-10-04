@@ -33,4 +33,16 @@ RSpec.describe 'Welcome pages' do
     click_link 'トップへ'
     expect(page).to have_button text: 'サインアップ（無料）'
   end
+
+  it 'サインアップボタンからログイン完了するとツリー一覧ページに遷移する' do
+    visit root_path
+    click_button 'サインアップ（無料）'
+    expect(page).to have_selector 'h1', text: 'ツリー一覧'
+  end
+
+  it 'ログインボタンからログイン完了するとツリー一覧ページに遷移する' do
+    visit root_path
+    click_button 'ログイン'
+    expect(page).to have_selector 'h1', text: 'ツリー一覧'
+  end
 end
