@@ -194,31 +194,6 @@ describe("選択したノードが子ノードのとき", () => {
       expect(updateButton).not.toHaveClass("btn-disabled");
     });
   });
-  describe("更新を実行する時", () => {
-    it.skip("更新ボタンを押した後にモーダル上の「更新する」ボタンを押すと更新処理を呼ぶこと", async () => {
-      const toolAreaProps: ToolAreaProps = {
-        treeData: fixtures.treeData,
-        selectedNodeIds: [2, 3], // 子ノード1と子ノード2を選択
-        onUpdateSuccess: jest.fn(),
-        onUpdateStatusChange: jest.fn(),
-      };
-      render(<ToolArea {...toolAreaProps} />);
-
-      const updateButton = getUpdateButton();
-      expect(updateButton).toBeInTheDocument();
-      expect(updateButton).toHaveClass("btn-primary");
-      expect(updateButton).not.toHaveClass("btn-disabled");
-      await user.click(updateButton);
-
-      const updateModalButton = screen.getByRole("button", {
-        name: "更新する",
-      });
-      expect(updateModalButton).toBeInTheDocument();
-      await user.click(updateModalButton);
-
-      // TODO:更新するボタンを押すと、layerToolコンポーネントのsaveLayerPropertyメソッドが呼ばれること
-    });
-  });
 });
 
 describe("入力値のバリデーション", () => {
@@ -667,10 +642,5 @@ describe("選択したノードがルートノードの時", () => {
       expect(updateButton).toHaveClass("btn-primary");
       expect(updateButton).not.toHaveClass("btn-disabled");
     });
-  });
-  describe("更新を実行する時", () => {
-    it.todo(
-      "更新ボタンを押した後にモーダル上の「更新する」ボタンを押すと更新処理を呼ぶこと"
-    );
   });
 });
