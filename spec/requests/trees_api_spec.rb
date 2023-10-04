@@ -230,7 +230,7 @@ RSpec.describe 'TreesApi' do
       tree = create(:tree, user_id: user.id)
       patch "/api/trees/#{tree.id}/update_name.json", params: { name: nil }
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['errors']).to eq("Name can't be blank")
+      expect(response.parsed_body['errors']).to eq(["Name can't be blank"])
     end
 
     it 'ログインユーザーのツリーの名前を更新すること' do

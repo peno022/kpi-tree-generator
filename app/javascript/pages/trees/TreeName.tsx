@@ -50,7 +50,6 @@ export const TreeName = () => {
       setIsEditing(false);
     } else {
       setTreeNameEditing(treeName);
-      setErrorMessage("ツリー名の更新に失敗しました。再度お試しください。");
     }
   };
 
