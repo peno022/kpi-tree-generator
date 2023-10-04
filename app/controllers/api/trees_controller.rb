@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Api
+module API
   class TreesController < BaseController
     before_action :set_tree
     before_action :ensure_tree_belongs_to_current_user

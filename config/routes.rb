@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   namespace 'api' do
-    resources :trees do
+    resources :trees, only: %i[show update] do
       member do
         patch 'update_name'
       end
