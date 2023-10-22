@@ -7,7 +7,7 @@ class TreesController < ApplicationController
     @tree
   end
 
-  def create_and_edit
+  def create
     @tree = Tree.new(name: '新しいツリー', user_id: current_user.id)
 
     begin
