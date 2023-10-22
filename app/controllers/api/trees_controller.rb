@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class TreesController < API::BaseController
-    before_action :set_tree
-    before_action :ensure_tree_belongs_to_current_user
-
+  class TreesController < Trees::BaseController
     def show
       @nodes = @tree.nodes.order(:id)
       @layers = @tree.layers.order(:id)
@@ -24,12 +21,6 @@ module API
 
     private
 
-    def set_tree
-      @tree = Tree.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: 'Not Found' }, status: :not_found and return
-    end
-
     def tree_params
       params.require(:tree).permit(
         nodes: %i[id name value value_format unit is_value_locked parent_id tree_id],
@@ -40,10 +31,6 @@ module API
     def reload_tree
       @tree.nodes.reload
       @tree.layers.reload
-    end
-
-    def ensure_tree_belongs_to_current_user
-      render json: { error: 'Not Found' }, status: :not_found and return unless @tree.user_id == current_user.id
     end
   end
 end
