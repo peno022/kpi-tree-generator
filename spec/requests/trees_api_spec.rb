@@ -16,9 +16,9 @@ RSpec.describe 'TreesApi' do
       expect(response).to have_http_status(:unauthorized)
     end
 
-    it 'PATCH /api/trees/:id/update_name は401エラーを返すこと' do
+    it 'PATCH /api/trees/:id/name は401エラーを返すこと' do
       tree = create(:tree)
-      patch "/api/trees/#{tree.id}/update_name.json", params: { name: 'new name' }
+      patch "/api/trees/#{tree.id}/name.json", params: { name: 'new name' }
       expect(response).to have_http_status(:unauthorized)
     end
   end
@@ -208,7 +208,7 @@ RSpec.describe 'TreesApi' do
     end
   end
 
-  describe 'PATCH /api/trees/:id/update_name' do
+  describe 'PATCH /api/trees/:id/name' do
     let!(:user) { User.find_or_create_from_auth_hash(OmniAuth.config.mock_auth[:google_oauth2]) }
 
     before do
@@ -216,26 +216,26 @@ RSpec.describe 'TreesApi' do
     end
 
     it 'ログイン済みで、存在しないツリー（ID=0）の場合は404エラーを返すこと' do
-      patch '/api/trees/0/update_name.json', params: { name: 'new name' }
+      patch '/api/trees/0/name.json', params: { name: 'new name' }
       expect(response).to have_http_status(:not_found)
     end
 
     it 'ログインユーザーのツリーでない場合は404エラーを返すこと' do
       tree = create(:tree)
-      patch "/api/trees/#{tree.id}.json", params: { name: 'new name' }
+      patch "/api/trees/#{tree.id}/name.json", params: { name: 'new name' }
       expect(response).to have_http_status(:not_found)
     end
 
     it '不正なパラメータを送信した場合、422エラーを返すこと' do
       tree = create(:tree, user_id: user.id)
-      patch "/api/trees/#{tree.id}/update_name.json", params: { name: nil }
+      patch "/api/trees/#{tree.id}/name.json", params: { name: nil }
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.parsed_body['errors']).to eq(["Name can't be blank"])
     end
 
     it 'ログインユーザーのツリーの名前を更新すること' do
       tree = create(:tree, user_id: user.id)
-      patch "/api/trees/#{tree.id}/update_name.json", params: { name: 'new name' }
+      patch "/api/trees/#{tree.id}/name.json", params: { name: 'new name' }
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body['name']).to eq('new name')
       expect(tree.reload.name).to eq('new name')

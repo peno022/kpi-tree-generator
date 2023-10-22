@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class TreesController < BaseController
+  class TreesController < API::BaseController
     before_action :set_tree
     before_action :ensure_tree_belongs_to_current_user
 
@@ -20,14 +20,6 @@ module API
       }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
-    end
-
-    def update_name
-      if @tree.update(name: params[:name])
-        render json: { name: @tree.reload.name }, status: :ok
-      else
-        render json: { errors: @tree.errors.full_messages }, status: :unprocessable_entity
-      end
     end
 
     private
