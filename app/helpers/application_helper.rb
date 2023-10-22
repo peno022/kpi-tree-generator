@@ -7,7 +7,7 @@ module ApplicationHelper
       site: 'KPI TREE MAKER',
       reverse: true,
       charset: 'utf-8',
-      description: 'KPIツリーが無料で簡単につくれるWebサービスです。',
+      description: 'KPI ツリーが無料で簡単につくれる Web サービスです。',
       viewport: 'width=device-width, initial-scale=1.0',
       og: {
         title: :title,
