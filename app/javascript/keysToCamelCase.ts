@@ -4,6 +4,7 @@ function toCamelCase(string: string): string {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function keysToCamelCase(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map((v) => keysToCamelCase(v));
