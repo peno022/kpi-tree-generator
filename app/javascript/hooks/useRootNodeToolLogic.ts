@@ -8,6 +8,7 @@ const useRootNodeToolLogic = (selectedRootNode: NodeFromApi) => {
   const { fieldValidationErrors, handleFieldValidationErrorsChange } =
     useFieldValidation(1);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleNodeInfoChange = (_index = 0, newNodeInfo: Node) => {
     setNodeInfo(newNodeInfo);
   };
