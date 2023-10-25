@@ -12,7 +12,13 @@ nav.bg-base-100.border-b-2.border-base-300.fixed.top-0.left-0.right-0.z-10.flex.
               = image_tag(current_user.image || 'default-icon.png', alt: 'icon')
           ul.dropdown-content.menu.p-2.shadow.bg-base-100.rounded-box.w-52[tabindex="0"]
             li
-              = link_to 'ログアウト', log_out_path
+              = link_to '利用規約', terms_of_use_path
+            li
+              = link_to 'プライバシーポリシー', privacy_policy_path
+            li
+              = link_to(log_out_path) do
+                i.fa-solid.fa-right-from-bracket
+                | ログアウト
       - else
         li
           = button_to 'ログイン', \

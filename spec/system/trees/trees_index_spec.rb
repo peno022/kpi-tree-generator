@@ -220,4 +220,34 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       end
     end
   end
+
+  describe 'ヘッダーメニューの動作' do
+    before do
+      visit root_path
+    end
+
+    it 'アカウント画像をクリックすると、アカウントメニューが開くこと' do
+      expect(page).not_to have_selector('.dropdown-content')
+      find('.avatar').click
+      expect(page).to have_selector('.dropdown-content')
+    end
+
+    it 'アカウントメニューの利用規約をクリックすると、利用規約ページに遷移すること' do
+      find('.avatar').click
+      click_link '利用規約'
+      expect(page).to have_selector 'h1', text: '利用規約'
+    end
+
+    it 'アカウントメニューのプライバシーポリシーをクリックすると、プライバシーポリシーページに遷移すること' do
+      find('.avatar').click
+      click_link 'プライバシーポリシー'
+      expect(page).to have_selector 'h1', text: 'プライバシーポリシー'
+    end
+
+    it 'アカウントメニューのログアウトをクリックすると、ログイン前トップページに遷移すること' do
+      find('.avatar').click
+      click_link 'ログアウト'
+      expect(page).to have_button text: 'サインアップ（無料）'
+    end
+  end
 end

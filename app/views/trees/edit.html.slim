@@ -17,7 +17,13 @@
             a data-action="download-image"
               | 画像ダウンロード
           li
-            = link_to 'ログアウト', log_out_path
+            = link_to '利用規約', terms_of_use_path
+          li
+            = link_to 'プライバシーポリシー', privacy_policy_path
+          li
+            = link_to(log_out_path) do
+              i.fa-solid.fa-right-from-bracket
+              | ログアウト
     .hidden.md:block
       ul.menu.menu-horizontal.px-2.md:px-6
         a.btn.btn-outline.mx-4 data-action="download-image"
@@ -29,7 +35,13 @@
                   = image_tag(current_user.image || 'default-icon.png', alt: 'icon')
               ul.dropdown-content.menu.p-2.shadow.bg-base-100.rounded-box.w-52[tabindex="0"]
                 li
-                  = link_to 'ログアウト', log_out_path
+                  = link_to '利用規約', terms_of_use_path
+                li
+                  = link_to 'プライバシーポリシー', privacy_policy_path
+                li
+                  = link_to(log_out_path) do
+                    i.fa-solid.fa-right-from-bracket
+                    | ログアウト
         - else
           li
             = button_to 'ログイン', \
