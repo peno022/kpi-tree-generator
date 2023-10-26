@@ -9,8 +9,9 @@ module API
       private
 
       def set_tree
-        @tree = Tree.find(params[:id] || params[:tree_id])
-      rescue ActiveRecord::RecordNotFound
+        @tree = Tree.find_by(id: params[:id] || params[:tree_id])
+        return if @tree
+
         render json: { error: 'Not Found' }, status: :not_found and return
       end
 
