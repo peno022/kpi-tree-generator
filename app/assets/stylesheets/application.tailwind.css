@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 通常のロゴ（ホバー時には非表示にする） */
+.ktg-logo-sm:hover .ktg-logo-header-image-sm {
+  display: none;
+}
+.ktg-logo-md:hover .ktg-logo-header-image-md {
+  display: none;
+}
+
+/* ホバー時のロゴ（ホバー時に表示する） */
+.ktg-logo-sm:hover .ktg-logo-header-image-hovered-sm {
+  display: block;
+}
+.ktg-logo-md:hover .ktg-logo-header-image-hovered-md {
+  display: block;
+}

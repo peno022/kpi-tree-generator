@@ -1,8 +1,12 @@
 nav.bg-base-100.border-b-2.border-base-300.fixed.top-0.left-0.right-0.z-10.flex.justify-between.items-center
-  .ktg-logo.btn.btn-lg.btn-ghost.flex.items-center
+  .ktg-logo-sm.flex.items-center.md:hidden
     = link_to root_path, class: 'block flex items-center justify-center mx-3' do
-      = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo', width: '180', class: 'md:hidden ktg-logo-image'
-      = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo', width: '280', class: 'hidden md:block ktg-logo-image'
+      = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo', width: '180', class: 'md:hidden ktg-logo-header-image-sm'
+      = image_tag 'ktg-logo-hovered.svg', alt: 'KPI TREE MAKER logo', width: '180', class: 'hidden ktg-logo-header-image-hovered-sm'
+  .ktg-logo-md.flex.items-center.hidden.md:block
+    = link_to root_path, class: 'block flex items-center justify-center mx-3' do
+      = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo', width: '280', class: 'hidden md:block ktg-logo-header-image-md'
+      = image_tag 'ktg-logo-hovered.svg', alt: 'KPI TREE MAKER logo', width: '280', class: 'hidden ktg-logo-header-image-hovered-md'
   .account
     ul.menu.menu-horizontal.px-2.md:px-6
       - if current_user
