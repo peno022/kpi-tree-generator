@@ -66,7 +66,7 @@ RSpec.describe 'ツリーを新規作成する', :js, :login_required do
     click_button 'ツリーを作成する'
     expect(page).to have_css('h1', text: '新しいツリー')
     find('a', text: 'ツリー一覧').click
-    expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: '新しいツリー')
+    expect(page).to have_selector('.tree-name', text: '新しいツリー')
   end
 
   it '新規作成したツリーの名前を変更して保存できる' do
@@ -76,7 +76,7 @@ RSpec.describe 'ツリーを新規作成する', :js, :login_required do
     find('.edit-tree-name-ok').click
     expect(page).to have_css('h1', text: '変更後のツリー名')
     find('a', text: 'ツリー一覧').click
-    expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: '変更後のツリー名')
+    expect(page).to have_selector('.tree-name', text: '変更後のツリー名')
   end
 
   it '新規作成したツリーのノードを編集して保存できる' do
