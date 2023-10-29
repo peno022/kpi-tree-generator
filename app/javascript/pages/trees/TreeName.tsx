@@ -70,26 +70,30 @@ export const TreeName = () => {
       {isEditing ? (
         <>
           <div className="text-error">{errorMessage}</div>
-          <input
-            type="text"
-            className="input input-bordered input-primary w-full max-w-xs"
-            value={treeNameEditing}
-            onChange={handleTreeNameChange}
-            name="tree-name-input"
-            aria-label="tree-name-input"
-          />
-          <button
-            className="btn btn-ghost btn-sm edit-tree-name-ok"
-            onClick={handleTreeNameSubmit}
-          >
-            OK
-          </button>
-          <button
-            className="btn btn-ghost btn-sm edit-tree-name-cancel"
-            onClick={handleCancelEditButtonClick}
-          >
-            キャンセル
-          </button>
+          <div className="flex">
+            <div className="items-center">
+              <input
+                type="text"
+                className="input input-bordered max-w-xs h-10 mr-2.5"
+                value={treeNameEditing}
+                onChange={handleTreeNameChange}
+                name="tree-name-input"
+                aria-label="tree-name-input"
+              />
+              <button
+                className="btn btn-sm border-gray-400 bg-slate-50 edit-tree-name-ok h-9"
+                onClick={handleTreeNameSubmit}
+              >
+                OK
+              </button>
+              <button
+                className="btn btn-ghost btn-sm edit-tree-name-cancel"
+                onClick={handleCancelEditButtonClick}
+              >
+                キャンセル
+              </button>
+            </div>
+          </div>
         </>
       ) : (
         <>
