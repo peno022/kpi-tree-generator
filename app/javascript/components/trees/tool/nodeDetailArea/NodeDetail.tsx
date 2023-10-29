@@ -32,10 +32,12 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   return (
     <div className="relative">
       <fieldset
-        className="border border-base-300 p-2 my-2.5"
+        className="rounded-lg border border-base-300 p-2 my-2.5 bg-slate-50"
         id={`node-detail-${index + 1}`}
       >
-        <legend>{`要素${index + 1}`}</legend>
+        <legend className="bg-base-100 border border-base-300 rounded-xl text-sm font-bold flex items-center justify-center h-8 w-16">
+          {`要素 ${index + 1}`}
+        </legend>
         <div className="absolute right-0 top-2 mt-1.5">
           {!isRoot && (
             <ToolMenu

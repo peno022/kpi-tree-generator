@@ -2,7 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.describe 'ツリーを表示', :js do
+RSpec.describe 'ツリーを表示', :js do\
+  node_selected_style_fill = 'fill: rgb(209, 250, 229)'
+  node_not_selected_style_fill = 'fill: rgb(248, 250, 252)'
+
   before do
     visit log_out_path
     visit root_path
@@ -33,13 +36,13 @@ RSpec.describe 'ツリーを表示', :js do
   it 'treeの子ノードをクリックすると、兄弟ノードの色が変わり、ノード詳細が要素のid順で表示される。' do
     target_node_before = find('g > text', text: '子1').ancestor('g.custom-node')
     sibling_node_before = find('g > text', text: '子2').ancestor('g.custom-node')
-    expect(target_node_before.find('rect')[:style]).to include('fill: ghostwhite')
-    expect(sibling_node_before.find('rect')[:style]).to include('fill: ghostwhite')
+    expect(target_node_before.find('rect')[:style]).to include(node_not_selected_style_fill)
+    expect(sibling_node_before.find('rect')[:style]).to include(node_not_selected_style_fill)
     target_node_before.click
     target_node_after = find('g > text', text: '子1').ancestor('g.custom-node')
-    expect(target_node_after.find('rect')[:style]).to include('fill: moccasin')
+    expect(target_node_after.find('rect')[:style]).to include(node_selected_style_fill)
     sibling_node_after = find('g > text', text: '子2').ancestor('g.custom-node')
-    expect(sibling_node_after.find('rect')[:style]).to include('fill: moccasin')
+    expect(sibling_node_after.find('rect')[:style]).to include(node_selected_style_fill)
 
     # ツールエリアにクリックしたノードの階層の詳細が表示されていること
     expect(page).to have_content('要素間の関係')
@@ -55,13 +58,13 @@ RSpec.describe 'ツリーを表示', :js do
 
     # クリックしたルートノードの色が変わること
     target_node_before = find('g > text', text: 'ルート').ancestor('g.custom-node')
-    expect(target_node_before.find('rect')[:style]).to include('fill: ghostwhite')
+    expect(target_node_before.find('rect')[:style]).to include(node_not_selected_style_fill)
     target_node_before.click
     target_node_after = find('g > text', text: 'ルート').ancestor('g.custom-node')
-    expect(target_node_after.find('rect')[:style]).to include('fill: moccasin')
+    expect(target_node_after.find('rect')[:style]).to include(node_selected_style_fill)
 
     # ツールエリアにクリックしたノードの階層の詳細が表示されていること
-    expect(page).to have_content('要素1')
+    expect(page).to have_content('要素 1')
     expect(page).not_to have_content('要素間の関係')
     expect(page).to have_css('input[value="ルート"]')
   end

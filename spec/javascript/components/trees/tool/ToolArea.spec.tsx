@@ -14,27 +14,27 @@ function getNodeField(
   switch (fieldName) {
     case "名前": {
       return within(
-        screen.getByRole("group", { name: `要素${index}` })
+        screen.getByRole("group", { name: `要素 ${index}` })
       ).getByRole("textbox", { name: "名前" });
     }
     case "数値": {
       return within(
-        screen.getByRole("group", { name: `要素${index}` })
+        screen.getByRole("group", { name: `要素 ${index}` })
       ).getByRole("textbox", { name: "数値" });
     }
     case "単位": {
       return within(
-        screen.getByRole("group", { name: `要素${index}` })
+        screen.getByRole("group", { name: `要素 ${index}` })
       ).getByRole("textbox", { name: "単位" });
     }
     case "表示形式": {
       return within(
-        screen.getByRole("group", { name: `要素${index}` })
+        screen.getByRole("group", { name: `要素 ${index}` })
       ).getByRole("combobox", { name: "表示形式" });
     }
     case "数値を自動更新しない": {
       return within(
-        screen.getByRole("group", { name: `要素${index}` })
+        screen.getByRole("group", { name: `要素 ${index}` })
       ).getByRole("checkbox", { name: "数値を自動更新しない" });
     }
   }
@@ -111,15 +111,15 @@ describe("選択したノードが子ノードのとき", () => {
       render(<ToolArea {...toolAreaProps} />);
 
       expect(screen.getByText("要素間の関係")).toBeInTheDocument();
+      const activeButtonClass = "bg-slate-50 border border-gray-400";
+      const inActiveButtonClass =
+        "bg-gray-200 text-gray-400 border border-gray-400";
       const multiplyButton = screen.getByRole("button", { name: "かけ算" });
       expect(multiplyButton).toBeInTheDocument();
-      const activeButtonClass =
-        "bg-base-200 text-base-300 border border-base-200";
-      expect(multiplyButton).toHaveClass(activeButtonClass);
+      expect(multiplyButton).toHaveClass(inActiveButtonClass);
       const addButton = screen.getByRole("button", { name: "たし算" });
       expect(addButton).toBeInTheDocument();
-      const inActiveButtonClass = "bg-base-100 border border-neutral";
-      expect(addButton).toHaveClass(inActiveButtonClass);
+      expect(addButton).toHaveClass(activeButtonClass);
     });
 
     it("親子ノード間の計算式が表示されていること", () => {

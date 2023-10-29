@@ -79,14 +79,14 @@ const CustomNode = ({
                 ? {
                     width: "200",
                     height: "100",
-                    fill: "moccasin",
-                    stroke: "dimgray",
+                    fill: "#D1FAE5", // bg-emerald-100 rgb(209, 250, 229)
+                    stroke: "#047857", // border-emerald-700
                     strokeWidth: "1",
                   }
                 : {
                     width: "200",
                     height: "100",
-                    fill: "ghostwhite",
+                    fill: "#F8FAFC", // bg-slate-50 rgb(248, 250, 252)
                     stroke: "dimgray",
                     strokeWidth: "1",
                   }

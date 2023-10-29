@@ -22,7 +22,7 @@ const Operations: React.FC<OperationsProps> = ({
   }, [selectedLayer]);
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex">
       <div>
         <Operation
           isSelected={selected === "multiply"}
