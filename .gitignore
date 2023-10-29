@@ -52,3 +52,5 @@
 /terraform/.terraform
 /terraform/.terraform/*
 /terraform/terraform.tfvars
+/coverage
+/coverage/*
