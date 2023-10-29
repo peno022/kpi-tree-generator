@@ -11,13 +11,20 @@ const Operation: React.FC<OperationProps> = ({
   operation,
   onClick,
 }) => {
-  const styleSelected = "bg-base-100 border border-neutral";
-  const styleUnselected = "bg-base-200 text-base-300 border border-base-200";
+  const styleSelected = "bg-slate-50 border border-gray-400";
+  const styleUnselected = "bg-gray-200 text-gray-400 border border-gray-400";
+
+  const roundedMultiply = "rounded-l-md";
+  const roundedAdd = "rounded-r-md";
+  const borderMultiply = "border-r-0";
+
   return (
     <button
-      className={`w-28 h-8 text-center rounded ${
-        isSelected ? styleSelected : styleUnselected
-      }`}
+      className={`w-28 h-8 text-center ${
+        operation === "multiply"
+          ? `${roundedMultiply} ${borderMultiply}`
+          : roundedAdd
+      } ${isSelected ? styleSelected : styleUnselected}`}
       onClick={onClick}
     >
       {operation === "multiply" ? "かけ算" : "たし算"}

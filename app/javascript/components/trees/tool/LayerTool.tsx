@@ -10,6 +10,8 @@ import { useTreeUpdate } from "@/hooks/useTreeUpdate";
 import AlertError from "@/components/shared/AlertError";
 import useLayerToolLogic from "@/hooks/useLayerToolLogic";
 import useUpdateButtonStatus from "@/hooks/useUpdateButtonStatus";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 type LayerToolProps = {
   selectedNodes: NodeFromApi[];
@@ -98,7 +100,7 @@ const LayerTool: React.FC<LayerToolProps> = ({
   return (
     <>
       <div className="relative flex flex-col h-full">
-        <div className="absolute inset-0 overflow-y-auto p-2 pb-20 tool">
+        <div className="absolute inset-0 overflow-y-auto p-4 pb-24 tool">
           {errorMessage && <AlertError message={errorMessage} />}
           <div className="flex justify-between">
             <div className="text-base font-semibold label-operation">
@@ -149,13 +151,17 @@ const LayerTool: React.FC<LayerToolProps> = ({
             />
           ))}
           <div className="flex justify-center">
-            <button className="btn btn-sm btn-outline mt-2" onClick={addNode}>
+            <button
+              className="btn btn-sm mt-2 border-gray-400 bg-slate-50"
+              onClick={addNode}
+            >
+              <FontAwesomeIcon icon={faPlus} />
               要素を追加
             </button>
           </div>
         </div>
         <div
-          className="absolute bottom-0 w-full flex justify-center items-center border-t-2 border-base-300 bg-base-100 mt-auto p-2"
+          className="absolute bottom-0 w-full flex justify-center items-center border-t-2 border-base-300 bg-base-100 mt-auto p-4"
           id="updateButton"
         >
           <OpenModalButton

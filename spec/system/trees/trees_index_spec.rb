@@ -31,17 +31,15 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
     end
 
     it 'ツリーの一覧が表示されること' do
-      expect(page).to have_table
-      expect(page).to have_selector('table > tbody > tr', count: 3)
-      expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー1')
-      expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー2')
-      expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー3')
-      tree_times.reverse.each_with_index do |time, index|
-        formatted_time = time.strftime('%Y-%m-%d %H:%M:%S')
-        expect(page).to have_selector("table > tbody > tr:nth-child(#{index + 1}) > td.td-tree-updated-at",
-                                      text: formatted_time)
+      expect(page).to have_selector('.tree-name', count: 3)
+      expect(page).to have_selector('.tree-name', text: 'ツリー1')
+      expect(page).to have_selector('.tree-name', text: 'ツリー2')
+      expect(page).to have_selector('.tree-name', text: 'ツリー3')
+      tree_times.each do |time|
+        formatted_time = time.strftime('%Y年%m月%d日 %H:%M')
+        expect(page).to have_selector('.tree-updated-at', text: formatted_time)
       end
-      expect(page).to have_selector('table > tbody > tr > td.td-tree-action > button', text: '編集', count: 3)
+      expect(page).to have_selector('.tree-action > button', text: '編集', count: 3)
     end
 
     it '一覧のツリーがlatest_update_atの降順に並んでいること' do
@@ -49,9 +47,9 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       # tree1内のノードのupdated_atを更新してtree1の最終更新が最新になるようにする（tree1, tree3, tree2の順)
       tree1_new_node = create(:node, name: 'ルート', tree_id: tree1.id, updated_at: 1.hour.ago)
       visit root_path
-      timestamps = page.all('table > tbody > tr > td.td-tree-updated-at').map(&:text)
+      timestamps = page.all('tree-updated-at').map(&:text)
       expect_timestamps = [tree1_new_node.updated_at, tree3.updated_at, tree2.updated_at].map do |ts|
-        ts.strftime('%Y-%m-%d %H:%M:%S')
+        ts.strftime('%Y年%m月%d日 %H:%M')
       end
       timestamps.each_with_index do |timestamp, index|
         expect(timestamp).to eq(expect_timestamps[index])
@@ -60,13 +58,13 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
 
     it 'ツリー名をクリックすると、そのツリーの編集画面に遷移すること' do
       most_recent_updated_tree = user.trees.order_by_latest_updated_at.first
-      page.all('table > tbody > tr > td.td-tree-name > a').first.click
+      page.all('.tree-name > a').first.click
       expect(page).to have_current_path(edit_tree_path(most_recent_updated_tree))
     end
 
     it '編集ボタンをクリックすると、そのツリーの編集画面に遷移すること' do
       most_recent_updated_tree = user.trees.order_by_latest_updated_at.first
-      page.all('table > tbody > tr > td.td-tree-action > button', text: '編集').first.click
+      page.all('.tree-action > button', text: '編集').first.click
       expect(page).to have_current_path(edit_tree_path(most_recent_updated_tree))
     end
   end
@@ -91,7 +89,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
         create(:tree, name: "ツリー#{i + 1}", user_id: user.id)
       end
       visit root_path
-      expect(page).to have_selector('table > tbody > tr', count: 10)
+      expect(page).to have_selector('.tree-name', count: 10)
     end
 
     it 'ページネーションのNextをクリックすると、ツリー一覧が切り替わること' do
@@ -100,8 +98,8 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       end
       visit root_path
       click_link 'Next >'
-      expect(page).to have_selector('table > tbody > tr', count: 10)
-      expect(first('table > tbody > tr > td.td-tree-name').text).to eq('ツリー11')
+      expect(page).to have_selector('.tree-name', count: 10)
+      expect(first('.tree-name').text).to eq('ツリー11')
     end
 
     it 'ページネーションのPreviousをクリックすると、ツリー一覧が切り替わること' do
@@ -110,8 +108,8 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       end
       visit "#{root_path}?page=2"
       click_link '< Prev'
-      expect(page).to have_selector('table > tbody > tr', count: 10)
-      expect(first('table > tbody > tr > td.td-tree-name').text).to eq('ツリー1')
+      expect(page).to have_selector('.tree-name', count: 10)
+      expect(first('.tree-name').text).to eq('ツリー1')
     end
 
     it 'ページネーションのFirstをクリックすると、ツリー一覧が切り替わること' do
@@ -120,8 +118,8 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       end
       visit "#{root_path}?page=3"
       click_link '<< First'
-      expect(page).to have_selector('table > tbody > tr', count: 10)
-      expect(first('table > tbody > tr > td.td-tree-name').text).to eq('ツリー1')
+      expect(page).to have_selector('.tree-name', count: 10)
+      expect(first('.tree-name').text).to eq('ツリー1')
     end
 
     it 'ページネーションのLastをクリックすると、ツリー一覧が切り替わること' do
@@ -130,8 +128,8 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       end
       visit root_path
       click_link 'Last >>'
-      expect(page).to have_selector('table > tbody > tr', count: 1)
-      expect(first('table > tbody > tr > td.td-tree-name').text).to eq('ツリー31')
+      expect(page).to have_selector('.tree-name', count: 1)
+      expect(first('.tree-name').text).to eq('ツリー31')
     end
   end
 
@@ -145,33 +143,33 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       end
 
       it 'ツリーの削除ボタンをクリックすると、削除実行確認モーダルが開くこと' do
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
-                                                                                              text: '削除').click
+        find('.tree-name > a', text: 'ツリー1').ancestor('.tree').find('.tree-action > label',
+                                                                       text: '削除').click
         expect(page).to have_content('ツリー1を削除してよろしいですか？')
       end
 
       it '削除実行確認モーダルでキャンセルをクリックすると、モーダルが閉じること' do
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
-                                                                                              text: '削除').click
+        find('.tree-name > a', text: 'ツリー1').ancestor('.tree').find('.tree-action > label',
+                                                                       text: '削除').click
         find('label', text: 'キャンセル').click
         expect(page).not_to have_content('ツリー1を削除してよろしいですか？')
       end
 
       it '削除を実行するとツリーが削除され、ツリー一覧から消えること' do
-        expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー1')
-        expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー2')
+        expect(page).to have_selector('.tree-name', text: 'ツリー1')
+        expect(page).to have_selector('.tree-name', text: 'ツリー2')
         expect(Tree.where(user_id: user.id).count).to eq(2)
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
-                                                                                              text: '削除').click
+        find('.tree-name > a', text: 'ツリー1').ancestor('.tree').find('.tree-action > label',
+                                                                       text: '削除').click
         click_button '削除する'
         expect(Tree.where(user_id: user.id).count).to eq(1)
-        expect(page).not_to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー1')
-        expect(page).to have_selector('table > tbody > tr > td.td-tree-name', text: 'ツリー2')
+        expect(page).not_to have_selector('.tree-name', text: 'ツリー1')
+        expect(page).to have_selector('.tree-name', text: 'ツリー2')
       end
 
       it '削除の実行が完了すると、削除完了メッセージが表示されること' do
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
-                                                                                              text: '削除').click
+        find('.tree-name > a', text: 'ツリー1').ancestor('.tree').find('.tree-action > label',
+                                                                       text: '削除').click
         click_button '削除する'
         expect(page).to have_content(I18n.t('messages.tree_destroyed', target_tree_name: 'ツリー1'))
       end
@@ -185,8 +183,8 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
         expect(Tree.where(user_id: user.id).count).to eq(2)
         expect(Node.where(tree_id: tree1.id).count).to eq(3)
         expect(Layer.where(tree_id: tree1.id).count).to eq(1)
-        find('table > tbody > tr > td.td-tree-name > a', text: 'ツリー1').ancestor('tr').find('td.td-tree-action > label',
-                                                                                              text: '削除').click
+        find('.tree-name > a', text: 'ツリー1').ancestor('.tree').find('.tree-action > label',
+                                                                       text: '削除').click
         click_button '削除する'
         expect(Tree.where(user_id: user.id).count).to eq(1)
         expect(Node.where(tree_id: tree1.id).count).to eq(0)
@@ -198,7 +196,7 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       it 'ツリーの削除を実行したあと、ツリーが0件になったときは、ツリー一覧が表示されず、ツリー作成ボタンが表示されること' do
         create(:tree, name: '1件だけのツリー', user_id: user.id)
         visit root_path
-        page.all('table > tbody > tr > td.td-tree-action > label', text: '削除').first.click
+        page.all('.tree-action > label', text: '削除').first.click
         click_button '削除する'
         expect(page).to have_content(I18n.t('messages.tree_destroyed', target_tree_name: '1件だけのツリー'))
         expect(page).to have_content('まだツリーがありません。')
@@ -211,13 +209,43 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       it '404エラーページが表示されること' do
         tree = create(:tree, name: '削除されるツリー', user_id: user.id)
         visit root_path
-        find('table > tbody > tr > td.td-tree-name > a', text: '削除されるツリー').ancestor('tr').find(
-          'td.td-tree-action > label', text: '削除'
+        find('.tree-name > a', text: '削除されるツリー').ancestor('.tree').find(
+          '.tree-action > label', text: '削除'
         ).click
         tree.destroy!
         click_button '削除する'
         expect(page).to have_content('404')
       end
+    end
+  end
+
+  describe 'ヘッダーメニューの動作' do
+    before do
+      visit root_path
+    end
+
+    it 'アカウント画像をクリックすると、アカウントメニューが開くこと' do
+      expect(page).not_to have_selector('.dropdown-content')
+      find('.avatar').click
+      expect(page).to have_selector('.dropdown-content')
+    end
+
+    it 'アカウントメニューの利用規約をクリックすると、利用規約ページに遷移すること' do
+      find('.avatar').click
+      click_link '利用規約'
+      expect(page).to have_selector 'h1', text: '利用規約'
+    end
+
+    it 'アカウントメニューのプライバシーポリシーをクリックすると、プライバシーポリシーページに遷移すること' do
+      find('.avatar').click
+      click_link 'プライバシーポリシー'
+      expect(page).to have_selector 'h1', text: 'プライバシーポリシー'
+    end
+
+    it 'アカウントメニューのログアウトをクリックすると、ログイン前トップページに遷移すること' do
+      find('.avatar').click
+      click_link 'ログアウト'
+      expect(page).to have_button text: 'サインアップ（無料）'
     end
   end
 end

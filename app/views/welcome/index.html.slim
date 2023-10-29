@@ -10,7 +10,7 @@
           br
           | かんたん作成
         .py-6.flex.items-center.justify-center.md:w-3/5.w-5/6.mx-auto
-          = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo'
+          = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo', class: 'ktg-logo-image'
         .problems
           .container.mx-auto.md:w-3/4.p-16
             h2.text-3xl.font-bold.text-neutral.mb-10
@@ -72,7 +72,7 @@
           | ご利用には Google アカウントが必要です。
           br
           | サインアップによって、利用規約・プライバシーポリシーに同意したものとみなします。
-  footer.footer.footer-center.p-10.bg-base-100.text-base-content.rounded.border-base-300.border-t-2
+  footer.footer.footer-center.p-10.bg-base-100.text-base-content.rounded.border-base-300.border-t
     .grid.grid-flow-col.gap-4
       = link_to '利用規約', terms_of_use_path, class: 'link link-hover'
       = link_to 'プライバシーポリシー', privacy_policy_path, class: 'link link-hover'

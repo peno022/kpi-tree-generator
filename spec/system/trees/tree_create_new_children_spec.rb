@@ -82,7 +82,7 @@ RSpec.describe 'ツリー上で葉ノードに子階層を追加する', :js, :l
       created_nodes = all('g.custom-node', text: '新規の要素')
       expect(created_nodes.size).to eq 2
       created_nodes.each do |node|
-        expect(node.find('rect')[:style]).to include('fill: moccasin')
+        expect(node.find('rect')[:style]).to include('fill: rgb(209, 250, 229)')
       end
       expect_node_detail(
         index: 1, name: '新規の要素', value: '1', value_format: 'なし', unit: '', is_value_locked: false

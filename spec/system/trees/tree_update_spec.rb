@@ -57,7 +57,7 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
 
       # 要素未選択状態に戻り、ツールエリアが閉じていることを確認
       all('g.custom-node > rect').each do |rect|
-        expect(rect[:style]).not_to include('fill: moccasin')
+        expect(rect[:style]).not_to include('fill: #D1FAE5')
       end
       expect(find_by_id('toolWrapper')).to have_content('要素を選択すると、ここに詳細が表示されます。')
     end
@@ -317,7 +317,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       click_button 'たし算'
       find('g.custom-node', text: '子1').hover
       expect(find_by_id('node-detail-1').find('input[name="name"]').value).to eq '変更後のノード名1'
-      expect(page).to have_button('たし算', class: 'bg-base-100 border border-neutral')
+      active_operation_button_styles = 'bg-slate-50 border border-gray-400'
+      expect(page).to have_button('たし算', class: active_operation_button_styles)
     end
 
     it '項目を編集してからツリー上で任意のノードをクリックすると、編集内容は失われてクリックしたノードを含む階層の情報でツールエリアが表示される' do
@@ -326,7 +327,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
       find('g.custom-node', text: '子1').click
       expect(find_by_id('node-detail-1').find('input[name="name"]').value).not_to eq '変更後のノード名1'
       expect(find_by_id('node-detail-1').find('input[name="name"]').value).to eq '子1'
-      expect(page).to have_button('かけ算', class: 'bg-base-100 border border-neutral')
+      active_operation_button_styles = 'bg-slate-50 border border-gray-400'
+      expect(page).to have_button('かけ算', class: active_operation_button_styles)
     end
 
     it '親ノードの数値と合わない状態で！アイコンが表示されているノードについて、数値が合うように編集して更新すると！アイコンが消える' do
@@ -474,7 +476,8 @@ RSpec.describe '階層・ノードのプロパティを編集・更新', :js, :l
     end
 
     it '追加された要素のデフォルトの数値値が、階層内の要素間の関係ごとに設定されている。' do
-      expect(page).to have_button('かけ算', class: 'bg-base-100 border border-neutral')
+      active_operation_button_styles = 'bg-slate-50 border border-gray-400'
+      expect(page).to have_button('かけ算', class: active_operation_button_styles)
       click_button '要素を追加'
       expect(page).to have_selector('#node-detail-3 input[name="value"][value="1"]')
       click_button 'たし算'
