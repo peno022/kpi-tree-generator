@@ -71,7 +71,7 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
     <>
       <div className="relative flex flex-col h-full">
         {errorMessage && <AlertError message={errorMessage} />}
-        <div className="absolute inset-0 overflow-y-auto p-2 pb-20" id="tool">
+        <div className="absolute inset-0 overflow-y-auto p-2 pb-24" id="tool">
           <NodeDetail
             index={0}
             node={nodeInfo}
@@ -85,7 +85,7 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
           />
         </div>
         <div
-          className="absolute bottom-0 w-full flex justify-center items-center border-t-2 border-base-300 bg-base-100 mt-auto p-2"
+          className="absolute bottom-0 w-full flex justify-center items-center border-t-2 border-base-300 bg-base-100 mt-auto p-4"
           id="updateButton"
         >
           <OpenModalButton
