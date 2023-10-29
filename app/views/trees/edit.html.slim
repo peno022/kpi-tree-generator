@@ -24,9 +24,9 @@
             = link_to(log_out_path) do
               i.fa-solid.fa-right-from-bracket
               | ログアウト
-    .hidden.md:block
-      ul.menu.menu-horizontal.px-2.md:px-6
-        a.btn.btn-outline.mx-4 data-action="download-image"
+    .hidden.md:block.flex
+      ul.menu.menu-horizontal.px-2.md:px-6.items-center
+        a.btn.btn-sm.border-neutral.bg-slate-50.h-9.mx-4 data-action="download-image"
           | 画像ダウンロード
         - if current_user
             .dropdown.dropdown-end
