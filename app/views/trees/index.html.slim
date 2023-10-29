@@ -7,7 +7,7 @@
         |ツリー一覧
       - if @trees.any?
         = button_to '新規作成', create_and_edit_trees_path, method: :post,
-        class: 'btn btn-sm my-2 ml-10'
+        class: 'btn btn-primary btn-sm border-emerald-700 bg-emerald-100 h-9 w-28 text-base my-2 ml-10'
     - if @trees.any?
       .overflow-x-auto.m-3.trees
         - @trees.each do |tree|
@@ -16,7 +16,7 @@
               .tree-name.p-2.text-lg.w-2/3
                 = link_to tree.name, edit_tree_path(tree)
               .tree-action.w-1/3.flex.justify-center
-                button.btn.btn-sm.mx-1
+                button.btn.btn-sm.mx-1.border-gray-400.bg-slate-50
                   = link_to edit_tree_path(tree) do
                     | 編集
                 label.btn.btn-sm.mr-1.btn-ghost[for="tree_delete_confirm_#{tree.id}"]
