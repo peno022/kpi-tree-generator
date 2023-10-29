@@ -35,7 +35,11 @@ const NodeField: React.FC<Props> = ({
           type="checkbox"
           name={name}
           onChange={handleInputChange}
-          className={isValidField ? "checkbox" : "checkbox checkbox-error"}
+          className={
+            isValidField
+              ? "checkbox rounded-sm"
+              : "checkbox rounded-sm checkbox-error"
+          }
           checked={checked}
           id={`node-${index}-${name}`}
         />
@@ -86,7 +90,10 @@ const NodeField: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col">
-      <label htmlFor={`node-${index}-${name}`} className="text-sm">
+      <label
+        htmlFor={`node-${index}-${name}`}
+        className={`text-sm ${type === "checkbox" ? "cursor-pointer" : ""}`}
+      >
         {label}
       </label>
       {inputElement}

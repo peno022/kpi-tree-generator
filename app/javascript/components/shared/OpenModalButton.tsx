@@ -19,7 +19,9 @@ const OpenModalButton: React.FC<OpenModalButtonProps> = ({
   modalButtonText,
   handleClick,
 }) => {
-  const buttonClass = `btn btn-primary ${disabled ? "btn-disabled" : ""}`;
+  const buttonClass = `btn btn-primary btn-sm border-emerald-700 bg-emerald-100 h-12 w-44 text-base ${
+    disabled ? "btn-disabled" : ""
+  }`;
   return (
     <>
       {/* The button to open modal */}

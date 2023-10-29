@@ -6,6 +6,10 @@ import Operation, {
 } from "@/components/trees/tool/operationArea/Operation";
 
 describe("Operation", () => {
+  const activeButtonClass = "bg-slate-50 border border-gray-400";
+  const inActiveButtonClass =
+    "bg-gray-200 text-gray-400 border border-gray-400";
+
   it("かけ算・選択状態のとき", () => {
     const operationProps: OperationProps = {
       isSelected: true,
@@ -14,9 +18,7 @@ describe("Operation", () => {
     };
     render(<Operation {...operationProps} />);
     const operationButton = screen.getByRole("button");
-    expect(operationButton).toHaveClass("bg-base-100");
-    expect(operationButton).toHaveClass("border");
-    expect(operationButton).toHaveClass("border-neutral");
+    expect(operationButton).toHaveClass(activeButtonClass);
     expect(operationButton).toHaveTextContent("かけ算");
   });
 
@@ -28,9 +30,7 @@ describe("Operation", () => {
     };
     render(<Operation {...operationProps} />);
     const operationButton = screen.getByRole("button");
-    expect(operationButton).toHaveClass("bg-base-200");
-    expect(operationButton).toHaveClass("text-base-300");
-    expect(operationButton).toHaveClass("border");
+    expect(operationButton).toHaveClass(inActiveButtonClass);
     expect(operationButton).toHaveTextContent("かけ算");
   });
 
