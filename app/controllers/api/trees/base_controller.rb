@@ -10,13 +10,11 @@ module API
 
       def set_tree
         @tree = Tree.find_by(id: params[:id] || params[:tree_id])
-        return if @tree
-
-        render json: { error: 'Not Found' }, status: :not_found and return
+        render json: { error: 'Not Found' }, status: :not_found unless @tree
       end
 
       def ensure_tree_belongs_to_current_user
-        render json: { error: 'Not Found' }, status: :not_found and return unless @tree.user_id == current_user.id
+        render json: { error: 'Not Found' }, status: :not_found unless @tree.user_id == current_user.id
       end
     end
   end
