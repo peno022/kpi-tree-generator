@@ -1,0 +1,21 @@
+.text-center
+  = button_to 'サインアップ（無料）', \
+  '/auth/google_oauth2', \
+  method: :post, \
+  data: { turbo: false }, \
+  class: 'btn btn-primary btn-lg'
+  .text-xs.text-neutral.mt-4.md:hidden
+    | ご利用には Google アカウントが必要です。
+    br
+    | サインアップによって、利用規約・プライバシー
+    br
+    | ポリシーに同意したものとみなします。
+  .text-xs.text-neutral.mt-4.hidden.md:block
+    | ご利用には Google アカウントが必要です。
+    br
+    | サインアップによって、利用規約・プライバシーポリシーに同意したものとみなします。
+  = button_to 'ログインはこちら', \
+  '/auth/google_oauth2', \
+  method: :post, \
+  data: { turbo: false }, \
+  class: 'btn btn-sm btn-link ml-auto text-accent mt-4 md:mt-6'

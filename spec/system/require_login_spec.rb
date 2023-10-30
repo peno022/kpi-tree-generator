@@ -56,7 +56,6 @@ RSpec.describe 'ページごとのログイン要否' do
       it 'ウェルカムページにアクセスできること' do
         visit welcome_path
         expect(page).to have_content('KPI ツリーをかんたん作成')
-        expect(page).to have_css('.avatar')
       end
 
       it '利用規約ページにアクセスできること' do

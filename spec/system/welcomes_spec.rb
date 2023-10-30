@@ -45,12 +45,9 @@ RSpec.describe 'Welcome pages' do
     expect(page).to have_selector 'h1', text: 'ツリー一覧'
   end
 
-  it 'ヘッダーのロゴをホバーするとホバー時用の画像が表示される' do
+  it 'ログインはこちらボタンからログイン完了するとツリー一覧ページに遷移する' do
     visit root_path
-    expect(page).to have_css('.ktg-logo-header-image-md', visible: :visible)
-    expect(page).to have_css('.ktg-logo-header-image-hovered-md', visible: :hidden)
-    find('.ktg-logo-md').hover
-    expect(page).to have_css('.ktg-logo-header-image-md', visible: :hidden)
-    expect(page).to have_css('.ktg-logo-header-image-hovered-md', visible: :visible)
+    click_button 'ログインはこちら'
+    expect(page).to have_selector 'h1', text: 'ツリー一覧'
   end
 end
