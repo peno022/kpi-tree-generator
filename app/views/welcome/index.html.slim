@@ -1,43 +1,21 @@
 - title 'KPI ツリーをかんたん作成'
-= render 'header'
-.flex.flex-col.min-h-screen.bg-neutral-content.pt-20.w-full
-  .mx-auto.mt-10.flex-grow
+.flex.flex-col.min-h-screen.bg-neutral-content.w-full
+  = button_to 'ログイン', \
+    '/auth/google_oauth2', \
+    method: :post, \
+    data: { turbo: false }, \
+    class: 'btn btn-sm btn-outline ml-auto btn-accent mx-4 mt-4 h-10 hidden md:block'
+  .mx-auto.flex-grow
     .text-center.object-center
-        h1.text-4xl.font-bold.text-neutral.hidden.md:block
-          | KPI ツリーをかんたん作成
-        h1.text-4xl.font-bold.text-neutral.md:hidden
-          | KPI ツリーを
-          br
-          | かんたん作成
-        .py-6.flex.items-center.justify-center.md:w-3/5.w-5/6.mx-auto
-          = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo', class: 'ktg-logo-image'
-        .problems
-          .container.mx-auto.md:w-3/4.p-16
-            h2.text-3xl.font-bold.text-neutral.mb-10
-              | こんな時におすすめ
-            .flex.flex-col.md:flex-row.items-center.justify-center.mx-auto.md:space-x-8.space-y-12.md:space-y-0
-              = image_tag 'undraw-questions.svg', alt: 'こんな時におすすめの画像', class: 'w-40 md:w-1/3'
-              flex.flex-col.text-left.hidden.md:block
-                ul.list-disc.list-inside
-                  li.text-lg
-                    | 無料ツールで手軽にツリー図を書きたいんだけど……？
-                  li.text-lg
-                    | KPI 数値を手で修正せずに済まないかな……？
-              ul.list-disc.text-center.md:hidden.space-y-4
-                  li.text-lg
-                    | 無料ツールで手軽にツリー図を書きたいんだけど……？
-                  li.text-lg
-                    | KPI 数値を手で修正せずに済まないかな……？
-            .text-center.pt-16
-              = button_to 'サインアップ（無料）', \
-                '/auth/google_oauth2', \
-                method: :post, \
-                data: { turbo: false }, \
-                class: 'btn btn-primary btn-lg'
-              .text-xs.text-neutral.mt-4
-                | ご利用には Google アカウントが必要です。
-                br
-                | サインアップによって、利用規約・プライバシーポリシーに同意したものとみなします。
+      .pb-10.flex.items-center.justify-center.md:w-3/5.w-5/6.mx-auto.max-w-3xl.mt-8.md:mt-0
+        = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo', class: 'ktg-logo-image'
+      h1.text-2xl.md:text-4xl.font-bold.text-neutral.mb-2
+        | KPI ツリーをかんたん作成
+      .tree-sample
+        .container.mx-auto.p-2.md:w-3/4.md:p-16
+          = image_tag 'top-kpi-tree-screen-sample.svg', alt: 'KPIツリーメーカー画面', class: 'kpi-tree-screen-sample'
+          .pt-12.md:pt-16
+            = render 'welcome/signup'
 
   .features.bg-base-100.flex-grow.w-full
     .container.mx-auto.text-center.object-center.md:w-3/4.p-16
@@ -62,16 +40,8 @@
           = image_tag 'undraw-payment.svg', alt: 'もちろん無料のイメージ画像', class: 'w-40 h-32 mx-auto my-6'
           p.text-lg
             | すべての機能を無料でご利用いただけます。
-      .text-center.py-10.mx-auto.md:hidden
-        = button_to 'サインアップ（無料）', \
-        '/auth/google_oauth2', \
-        method: :post, \
-        data: { turbo: false }, \
-        class: 'btn btn-primary btn-lg'
-        .text-xs.text-neutral.mt-4
-          | ご利用には Google アカウントが必要です。
-          br
-          | サインアップによって、利用規約・プライバシーポリシーに同意したものとみなします。
+      .py-10.mx-auto.md:hidden
+        = render 'welcome/signup'
   footer.footer.footer-center.p-10.bg-base-100.text-base-content.rounded.border-base-300.border-t
     .grid.grid-flow-col.gap-4
       = link_to '利用規約', terms_of_use_path, class: 'link link-hover'
