@@ -247,5 +247,14 @@ RSpec.describe 'ツリー一覧', :js, :login_required do
       click_link 'ログアウト'
       expect(page).to have_button text: 'サインアップ（無料）'
     end
+
+    it 'ヘッダーのロゴをホバーするとホバー時用の画像が表示される' do
+      visit root_path
+      expect(page).to have_css('.ktg-logo-header-image-md', visible: :visible)
+      expect(page).to have_css('.ktg-logo-header-image-hovered-md', visible: :hidden)
+      find('.ktg-logo-md').hover
+      expect(page).to have_css('.ktg-logo-header-image-md', visible: :hidden)
+      expect(page).to have_css('.ktg-logo-header-image-hovered-md', visible: :visible)
+    end
   end
 end
