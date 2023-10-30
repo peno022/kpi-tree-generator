@@ -6,7 +6,7 @@
       h1.text-2xl.font-bold
         |ツリー一覧
       - if @trees.any?
-        = button_to '新規作成', create_and_edit_trees_path, method: :post,
+        = button_to '新規作成', trees_path, method: :post,
         class: 'btn btn-primary btn-sm border-emerald-700 bg-emerald-100 h-9 w-28 text-base my-2 ml-10'
     - if @trees.any?
       .overflow-x-auto.m-3.trees
@@ -42,5 +42,5 @@
       .m-8
         .text-lg.mb-4
           | まだツリーがありません。
-        = button_to 'ツリーを作成する', create_and_edit_trees_path, method: :post,
+        = button_to 'ツリーを作成する', trees_path, method: :post,
           class: 'btn btn-primary my-2 border-emerald-700 bg-emerald-100 text-base'

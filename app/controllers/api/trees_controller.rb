@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class TreesController < BaseController
-    before_action :set_tree
-    before_action :ensure_tree_belongs_to_current_user
-
+  class TreesController < Trees::BaseController
     def show
       @nodes = @tree.nodes.order(:id)
       @layers = @tree.layers.order(:id)
@@ -22,21 +19,7 @@ module API
       render json: { errors: e.record.errors.full_messages, record: e.record }, status: :unprocessable_entity
     end
 
-    def update_name
-      if @tree.update(name: params[:name])
-        render json: { name: @tree.reload.name }, status: :ok
-      else
-        render json: { errors: @tree.errors.full_messages }, status: :unprocessable_entity
-      end
-    end
-
     private
-
-    def set_tree
-      @tree = Tree.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: 'Not Found' }, status: :not_found and return
-    end
 
     def tree_params
       params.require(:tree).permit(
@@ -48,10 +31,6 @@ module API
     def reload_tree
       @tree.nodes.reload
       @tree.layers.reload
-    end
-
-    def ensure_tree_belongs_to_current_user
-      render json: { error: 'Not Found' }, status: :not_found and return unless @tree.user_id == current_user.id
     end
   end
 end

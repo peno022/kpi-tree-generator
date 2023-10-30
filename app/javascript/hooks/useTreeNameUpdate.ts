@@ -9,7 +9,7 @@ export type TreeNameUpdateHook = {
 };
 
 export const patchTreeName = async (name: string, treeId: number) => {
-  const response = await fetch(`/api/trees/${treeId}/update_name.json"`, {
+  const response = await fetch(`/api/trees/${treeId}/name.json"`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json; charset=utf-8",

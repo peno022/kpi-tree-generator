@@ -3,17 +3,11 @@
 Rails.application.routes.draw do
   namespace 'api' do
     resources :trees, only: %i[show update] do
-      member do
-        patch 'update_name'
-      end
+      resource :name, only: [:update], module: :trees
     end
   end
 
-  resources :trees, only: %i[edit destroy] do
-    collection do
-      post :create_and_edit
-    end
-  end
+  resources :trees, only: %i[create edit destroy]
 
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
