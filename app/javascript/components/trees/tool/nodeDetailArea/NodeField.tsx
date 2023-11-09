@@ -30,15 +30,14 @@ const NodeField: React.FC<Props> = ({
   let inputElement: JSX.Element;
   switch (type) {
     case "checkbox": {
+      const baseInputClass = "checkbox rounded-sm mt-1";
       inputElement = (
         <input
           type="checkbox"
           name={name}
           onChange={handleInputChange}
           className={
-            isValidField
-              ? "checkbox rounded-sm"
-              : "checkbox rounded-sm checkbox-error"
+            isValidField ? baseInputClass : `${baseInputClass} checkbox-error`
           }
           checked={checked}
           id={`node-${index}-${name}`}
@@ -48,7 +47,7 @@ const NodeField: React.FC<Props> = ({
     }
     case "number":
     case "text": {
-      const baseInputClass = "input input-sm input-bordered w-32";
+      const baseInputClass = "input input-sm input-bordered w-32 rounded";
       const inputClass = isValidField
         ? baseInputClass
         : `${baseInputClass} input-error`;
@@ -67,7 +66,7 @@ const NodeField: React.FC<Props> = ({
       break;
     }
     case "dropdown": {
-      const baseSelectClass = "input input-sm input-bordered w-32";
+      const baseSelectClass = "input input-sm input-bordered w-32 rounded";
       const selectClass = isValidField
         ? baseSelectClass
         : `${baseSelectClass} select-error`;
@@ -92,7 +91,9 @@ const NodeField: React.FC<Props> = ({
     <div className="flex flex-col">
       <label
         htmlFor={`node-${index}-${name}`}
-        className={`text-sm ${type === "checkbox" ? "cursor-pointer" : ""}`}
+        className={`text-sm mb-1 ${
+          type === "checkbox" ? "cursor-pointer" : ""
+        }`}
       >
         {label}
       </label>
