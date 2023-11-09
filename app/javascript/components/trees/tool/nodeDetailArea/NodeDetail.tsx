@@ -32,10 +32,10 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
   return (
     <div className="relative">
       <fieldset
-        className="rounded-lg border border-base-300 p-2 my-2.5 bg-slate-50"
+        className="rounded border border-base-300 px-4 py-2 my-2.5 bg-slate-50"
         id={`node-detail-${index + 1}`}
       >
-        <legend className="bg-base-100 border border-base-300 rounded-xl text-sm font-bold flex items-center justify-center h-8 w-16">
+        <legend className="bg-base-100 border border-base-300 rounded text-sm font-bold flex items-center justify-center h-8 w-16">
           {`要素 ${index + 1}`}
         </legend>
         <div className="absolute right-0 top-2 mt-1.5">
@@ -50,7 +50,7 @@ const NodeDetail: React.FC<NodeDetailProps> = ({
             />
           )}
         </div>
-        <div className="flex flex-row space-x-4 mb-1.5">
+        <div className="flex flex-row space-x-4 mb-2.5">
           <NodeField
             type="text"
             name="name"
