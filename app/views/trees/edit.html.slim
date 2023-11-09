@@ -1,8 +1,8 @@
 - title @tree.name.to_s
 .flex.flex-col.min-h-screen
   nav.bg-base-100.flex.justify-between.items-center.border-b-2.border-base-300
-    = link_to root_path, class: 'btn btn-ghost' do
-      p.mx-1
+    = link_to root_path, class: 'hover:underline flex space-x-2 items-center font-bold mx-3' do
+      p
         i.fa.fa-lg.fa-angle-left[aria-hidden="true"]
         p.text-lg.hidden.md:block
           | ツリー一覧
