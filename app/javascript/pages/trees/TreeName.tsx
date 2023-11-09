@@ -105,13 +105,18 @@ export const TreeName = () => {
           <h1 className="text-xl font-bold hidden md:block">
             {treeNameEditing}
           </h1>
-          <button
-            className="btn btn-ghost edit-tree-name-button"
-            aria-label="Edit tree name"
-            onClick={handleEditButtonClick}
-          >
-            <i className="fa fa-lg fa-pencil" aria-hidden="true"></i>
-          </button>
+          <div className="group">
+            <button
+              className="edit-tree-name-button mx-4"
+              aria-label="Edit tree name"
+              onClick={handleEditButtonClick}
+            >
+              <i
+                className="fa fa-pencil text-slate-500 group-hover:text-gray-400"
+                aria-hidden="true"
+              ></i>
+            </button>
+          </div>
         </>
       )}
     </div>
