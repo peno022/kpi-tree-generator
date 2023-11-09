@@ -21,6 +21,12 @@ RSpec.describe 'Welcome pages' do
     expect(page).to have_button text: 'サインアップ（無料）'
   end
 
+  it '利用規約からヘッダーロゴをクリックしてLPに戻る' do
+    visit terms_of_use_path
+    find('.ktg-logo-md').click
+    expect(page).to have_button text: 'サインアップ（無料）'
+  end
+
   it 'LPのリンクからプライバシーポリシーへ遷移する' do
     visit root_path
     click_link 'プライバシーポリシー'
@@ -30,6 +36,12 @@ RSpec.describe 'Welcome pages' do
   it 'プライバシーポリシーから「トップへ」リンクでLPに戻る' do
     visit privacy_policy_path
     click_link 'トップへ'
+    expect(page).to have_button text: 'サインアップ（無料）'
+  end
+
+  it 'プライバシーポリシーからヘッダーロゴをクリックしてLPに戻る' do
+    visit privacy_policy_path
+    find('.ktg-logo-md').click
     expect(page).to have_button text: 'サインアップ（無料）'
   end
 
