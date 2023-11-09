@@ -38,7 +38,7 @@ https://kpi-tree.com/
 
 ### フレームワーク
 
-- Ruby on Rails 7 系
+- Ruby on Rails 7.0
 - React
 - Tailwind CSS
 - daisyUI
