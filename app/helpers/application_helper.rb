@@ -4,7 +4,7 @@ module ApplicationHelper
   # rubocop:disable Metrics/MethodLength
   def default_meta_tags
     {
-      site: 'KPI TREE MAKER',
+      site: 'KPI ツリーメーカー',
       reverse: true,
       charset: 'utf-8',
       description: 'KPI ツリーメーカーは、KPI ツリーが無料で簡単につくれる Web サービスです。',
@@ -12,7 +12,7 @@ module ApplicationHelper
       og: {
         title: :title,
         type: 'website',
-        site_name: 'KPI TREE MAKER',
+        site_name: 'KPI ツリーメーカー',
         description: :description,
         image: 'https://kpi-tree.com/ogp/ogp.png',
         url: 'https://kpi-tree.com'
