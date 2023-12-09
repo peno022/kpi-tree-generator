@@ -6,7 +6,7 @@ import MessageBubble from "@/components/trees/tool/calculationArea/MessageBubble
 import { Node, Layer } from "@/types";
 import calculateParentNodeValue from "@/calculateParentNodeValue";
 
-type NodeProperty = {
+export type NodeProperty = {
   id?: number;
   name: string;
   value: number | string;
