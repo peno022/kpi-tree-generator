@@ -58,9 +58,7 @@ describe("calculateParentNodeValue", () => {
           );
           expect(result).toBe(6);
         });
-      });
-      describe("fractionがありの場合", () => {
-        it("2 * 3 + 0.1 = 6.1 になること", () => {
+        it("-2 * 3 = -6 になること", () => {
           const parentNode: Node = {
             ...mockNodePropertis,
             valueFormat: "なし",
@@ -70,12 +68,526 @@ describe("calculateParentNodeValue", () => {
             {
               ...mockNodePropertis,
               valueFormat: "なし",
-              value: 2,
+              value: -2,
             },
             {
               ...mockNodePropertis,
               valueFormat: "なし",
               value: 3,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-6);
+        });
+        it("0.1 * 3 = 0.3 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 3,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0.3);
+        });
+        it("-0.1 * 3 = -0.3 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 3,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-0.3);
+        });
+        it("0 * 3 = 0 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 3,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0);
+        });
+        it("-3 * -4 = 12 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -3,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -4,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(12);
+        });
+        it("-3 * 0.1 = -0.3 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -3,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-0.3);
+        });
+        it("-3 * -0.1 = 0.3 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -3,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0.3);
+        });
+        it("-3 * 0 = 0 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -3,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0);
+        });
+        it("0.1 * 0.1 = 0.01 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0.01);
+        });
+        it("0.1 * -0.1 = -0.01 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-0.01);
+        });
+        it("0.1 * 0 = 0 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0);
+        });
+        it("-0.1 * -0.1 = 0.01 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0.01);
+        });
+        it("-0.1 * 0 = 0 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0);
+        });
+        it("0 * 0 = 0 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+            value: 0,
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0);
+        });
+      });
+      describe("fractionがありの場合", () => {
+        it("0.2 * 0.3 + 1 = 1.06 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.2,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.3,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: 1,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(1.06);
+        });
+        it("0.2 * 0.3 + (-1) = -0.94 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.2,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.3,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: -1,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-0.94);
+        });
+        it("0.2 * 0.3 + 0.1 = 0.16 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.2,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.3,
             },
           ];
 
@@ -90,7 +602,39 @@ describe("calculateParentNodeValue", () => {
             selectedNodes,
             selectedLayer
           );
-          expect(result).toBe(6.1);
+          expect(result).toBe(0.16);
+        });
+        it("0.2 * 0.3 + (-0.1) = -0.04 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.2,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.3,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "multiply",
+            fraction: -0.1,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-0.04);
         });
       });
     });
@@ -168,7 +712,7 @@ describe("calculateParentNodeValue", () => {
   describe("operationがaddの場合", () => {
     describe("valueFormatがなしの場合", () => {
       describe("fractionがなしの場合", () => {
-        it("3.1 + 5.2 = 8.3 になること", () => {
+        it("10 + 25 = 35 になること", () => {
           const parentNode: Node = {
             ...mockNodePropertis,
             valueFormat: "なし",
@@ -178,12 +722,12 @@ describe("calculateParentNodeValue", () => {
             {
               ...mockNodePropertis,
               valueFormat: "なし",
-              value: 3.1,
+              value: 10,
             },
             {
               ...mockNodePropertis,
               valueFormat: "なし",
-              value: 5.2,
+              value: 25,
             },
           ];
 
@@ -198,7 +742,455 @@ describe("calculateParentNodeValue", () => {
             selectedNodes,
             selectedLayer
           );
-          expect(result).toBe(8.3);
+          expect(result).toBe(35);
+        });
+        it("10 + (-25) = -15 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 10,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -25,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-15);
+        });
+        it("10 + 0.1 = 10.1 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 10,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(10.1);
+        });
+        it("10 + (-0.1) = 9.9 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 10,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(9.9);
+        });
+        it("10 + 0 = 10 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 10,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(10);
+        });
+        it("-10 + (-5) = -15 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -10,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -5,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-15);
+        });
+        it("-10 + 0.1 = -9.9 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -10,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-9.9);
+        });
+        it("-10 + (-0.1) = -10.1 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -10,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-10.1);
+        });
+        it("-10 + 0 = -10 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -10,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-10);
+        });
+        it("0.1 + 0.2 = 0.3 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.2,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0.3);
+        });
+        it("0.1 + (-0.2) = -0.1 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.2,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-0.1);
+        });
+        it("0.1 + 0 = 0.1 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0.1);
+        });
+        it("-0.1 + (-0.2) = -0.3 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.2,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-0.3);
+        });
+        it("-0.1 + 0 = -0.1 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: -0.1,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(-0.1);
+        });
+        it("0 + 0 = 0 になること", () => {
+          const parentNode: Node = {
+            ...mockNodePropertis,
+            valueFormat: "なし",
+          };
+
+          const selectedNodes: Node[] = [
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+            {
+              ...mockNodePropertis,
+              valueFormat: "なし",
+              value: 0,
+            },
+          ];
+
+          const selectedLayer: Layer = {
+            ...mockLayerPropertis,
+            operation: "add",
+            fraction: 0,
+          };
+
+          const result = calculateParentNodeValue(
+            parentNode,
+            selectedNodes,
+            selectedLayer
+          );
+          expect(result).toBe(0);
         });
       });
       describe("fractionがありの場合", () => {

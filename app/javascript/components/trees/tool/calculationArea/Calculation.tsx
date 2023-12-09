@@ -6,8 +6,18 @@ import MessageBubble from "@/components/trees/tool/calculationArea/MessageBubble
 import { Node, Layer } from "@/types";
 import calculateParentNodeValue from "@/calculateParentNodeValue";
 
+export type NodeProperty = {
+  id?: number;
+  name: string;
+  value: number | string;
+  valueFormat: "なし" | "%" | "千" | "万";
+  unit: string;
+  isValueLocked: boolean;
+  parentId: number;
+};
+
 type CalculationProps = {
-  selectedNodes: Node[];
+  selectedNodes: NodeProperty[];
   selectedLayer: Layer;
   inputFraction: string;
   fractionValidation: boolean;
@@ -29,9 +39,10 @@ const Calculation: React.FC<CalculationProps> = ({
   const [calculationResult, setCalculationResult] = useState(0);
 
   useEffect(() => {
+    const newSelectedNodes = convertInvalidValueToZero(selectedNodes);
     const newResult = calculateParentNodeValue(
       parentNode,
-      selectedNodes,
+      newSelectedNodes,
       selectedLayer
     );
     setCalculationResult(newResult);
@@ -82,13 +93,34 @@ const Calculation: React.FC<CalculationProps> = ({
   );
 };
 
-function getDisplayUnit(node: Node) {
+function getDisplayUnit(node: NodeProperty) {
   const unit = node.unit ? node.unit : "";
   if (node.valueFormat === "なし") {
     return unit;
   } else {
     return `${node.valueFormat}${unit}`;
   }
+}
+
+function convertInvalidValueToZero(nodes: NodeProperty[]): Node[] {
+  return nodes.map((node) => {
+    if (
+      node.value === null ||
+      node.value === undefined ||
+      node.value === "" ||
+      isNaN(Number(node.value))
+    ) {
+      return {
+        ...node,
+        value: 0,
+      };
+    } else {
+      return {
+        ...node,
+        value: Number(node.value),
+      };
+    }
+  });
 }
 
 export default Calculation;

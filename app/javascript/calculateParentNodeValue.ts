@@ -1,15 +1,18 @@
 import { Node, Layer } from "@/types";
+import Big from "big.js";
 
 export default function calculateParentNodeValue(
   parentNode: Node,
   selectedNodes: Node[],
   selectedLayer: Layer
 ) {
+  const nodesValue = calculateNodes(selectedLayer.operation, selectedNodes);
+  const fractionValue = isNaN(Number(selectedLayer.fraction))
+    ? Big(0)
+    : Big(selectedLayer.fraction);
+
   return getValueForDisplay(
-    calculateNodes(selectedLayer.operation, selectedNodes) +
-      (isNaN(Number(selectedLayer.fraction))
-        ? 0
-        : Number(selectedLayer.fraction)),
+    nodesValue.plus(fractionValue),
     parentNode.valueFormat
   );
 }
@@ -17,44 +20,45 @@ export default function calculateParentNodeValue(
 function calculateNodes(operation: "multiply" | "add", nodes: Node[]) {
   if (operation === "multiply") {
     return nodes.reduce((acc, node) => {
-      return acc * getValueForCalculation(node);
-    }, 1);
+      return acc.times(getValueForCalculation(node));
+    }, Big(1));
   } else {
     return nodes.reduce((acc, node) => {
-      return acc + getValueForCalculation(node);
-    }, 0);
+      return acc.plus(getValueForCalculation(node));
+    }, Big(0));
   }
 }
 
 function getValueForCalculation(node: Node) {
+  const nodeValue = Big(node.value);
   switch (node.valueFormat) {
     case "なし":
-      return node.value;
+      return nodeValue;
     case "%":
-      return node.value / 100;
+      return nodeValue.div(100);
     case "千":
-      return node.value * 1000;
+      return nodeValue.times(1000);
     case "万":
-      return node.value * 10000;
+      return nodeValue.times(10000);
     default:
-      return node.value;
+      return nodeValue;
   }
 }
 
 function getValueForDisplay(
-  value: number,
+  bigValue: Big,
   valueFormat: "なし" | "%" | "千" | "万"
 ) {
   switch (valueFormat) {
     case "なし":
-      return value;
+      return bigValue.toNumber();
     case "%":
-      return value * 100;
+      return bigValue.times(100).toNumber();
     case "千":
-      return value / 1000;
+      return bigValue.div(1000).toNumber();
     case "万":
-      return value / 10000;
+      return bigValue.div(10000).toNumber();
     default:
-      return value;
+      return bigValue.toNumber();
   }
 }

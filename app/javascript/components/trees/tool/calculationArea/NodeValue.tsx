@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   name: string;
-  value: number;
+  value: number | string;
   displayUnit: string;
   elementId: number | string;
 };
