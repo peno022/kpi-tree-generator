@@ -12,6 +12,8 @@ type RootNodeToolProps = {
   onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
   treeData: TreeDataFromApi;
   onUpdateStatusChange: (isUpdating: boolean) => void;
+  handleErrorMessage: (errorMessage: string | null) => void;
+  errorMessage: string | null;
 };
 
 const RootNodeTool: React.FC<RootNodeToolProps> = ({
@@ -19,9 +21,13 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
   treeData,
   onUpdateSuccess,
   onUpdateStatusChange,
+  handleErrorMessage,
+  errorMessage,
 }) => {
-  const { errorMessage, sendUpdateRequest, setErrorMessage, isUpdating } =
-    useTreeUpdate(treeData.tree.id);
+  const { sendUpdateRequest, isUpdating } = useTreeUpdate(
+    treeData.tree.id,
+    handleErrorMessage
+  );
 
   const {
     nodeInfo,
@@ -40,9 +46,9 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
   );
 
   const saveNodeInfo = async () => {
-    setErrorMessage(null);
+    handleErrorMessage(null);
     if (nodeInfo.id === undefined || nodeInfo.id === null) {
-      setErrorMessage(
+      handleErrorMessage(
         "システムエラーが発生しました。画面を再読み込みしてもう一度お試しください。"
       );
       return;
@@ -69,8 +75,8 @@ const RootNodeTool: React.FC<RootNodeToolProps> = ({
 
   return (
     <>
+      {errorMessage && <AlertError message={errorMessage} />}
       <div className="relative flex flex-col h-full">
-        {errorMessage && <AlertError message={errorMessage} />}
         <div className="absolute inset-0 overflow-y-auto p-2 pb-24" id="tool">
           <NodeDetail
             index={0}

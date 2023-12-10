@@ -34,8 +34,14 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
   onUpdateSuccess,
   onUpdateStatusChange,
 }) => {
-  const { errorMessage, sendUpdateRequest, setErrorMessage, isUpdating } =
-    useTreeUpdate(treeData.tree.id);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const handleErrorMessage = (message: string | null) => {
+    setErrorMessage(message);
+  };
+  const { sendUpdateRequest, isUpdating } = useTreeUpdate(
+    treeData.tree.id,
+    handleErrorMessage
+  );
   const [hoveredNodeId, setHoveredNodeId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -74,7 +80,6 @@ export const TreeArea: React.FC<TreeAreaProps> = ({
     };
     const result = await sendUpdateRequest(newTreeData);
     if (result) {
-      console.dir(result);
       const newNodeIds = result.nodes
         .filter((node) => node.parentId === parentNodeId)
         .map((node) => node.id);

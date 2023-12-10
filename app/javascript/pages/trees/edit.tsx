@@ -21,6 +21,9 @@ const EditTreePage = () => {
   const [isLoading, setisLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [updateErrorMessage, setUpdateErrorMessage] = useState<string | null>(
+    null
+  );
 
   const getTreeSize = () => {
     const svgElement = document.querySelector("#treeWrapper svg");
@@ -99,6 +102,7 @@ const EditTreePage = () => {
     const clickedNode = treeData.nodes.find(
       (node) => node.id === clickedNodeId
     );
+    handleUpdateErrorMessage(null);
     if (!clickedNode) {
       setErrorMessage(
         "エラーが発生しています。画面を再読み込みしてもう一度お試しください。"
@@ -119,6 +123,11 @@ const EditTreePage = () => {
   ) => {
     setTreeData(updatedTreeData);
     setSelectedNodeIds(selectedNodeIds);
+    setUpdateErrorMessage(null);
+  };
+
+  const handleUpdateErrorMessage = (errorMessage: string | null) => {
+    setUpdateErrorMessage(errorMessage);
   };
 
   const isLargeScreen = window.innerWidth >= 1024;
@@ -166,6 +175,8 @@ const EditTreePage = () => {
               selectedNodeIds={selectedNodeIds}
               onUpdateSuccess={handleUpdateSuccess}
               onUpdateStatusChange={(status: boolean) => setIsUpdating(status)}
+              handleErrorMessage={handleUpdateErrorMessage}
+              errorMessage={updateErrorMessage}
             />
           </ErrorBoundary>
         </div>
