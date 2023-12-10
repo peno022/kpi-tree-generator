@@ -6,18 +6,18 @@ import nullifyParentNodeId from "@/nullifyParentNodeId";
 import token from "@/token";
 
 export type TreeUpdateHook = {
-  errorMessage: string | null;
   sendUpdateRequest: (treeData: TreeData) => Promise<TreeDataFromApi | null>;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
   isUpdating: boolean;
 };
 
-export const useTreeUpdate = (treeId: number): TreeUpdateHook => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+export const useTreeUpdate = (
+  treeId: number,
+  handleErrorMessage: (errorMessage: string | null) => void
+): TreeUpdateHook => {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const sendUpdateRequest = async (treeData: TreeData) => {
-    setErrorMessage(null);
+    handleErrorMessage(null);
     setIsUpdating(true);
     const treeDataToSave = nullifyParentNodeId(treeData);
     const bodyData = JSON.stringify(
@@ -39,11 +39,11 @@ export const useTreeUpdate = (treeId: number): TreeUpdateHook => {
       if (response.status === 422) {
         const json = await response.json();
         setIsUpdating(false);
-        setErrorMessage(json.errors.join("／"));
+        handleErrorMessage(json.errors.join("／"));
         return null;
       } else if (response.status >= 500) {
         setIsUpdating(false);
-        setErrorMessage(
+        handleErrorMessage(
           "システムエラーが発生しました。時間を置いてもう一度お試しください。"
         );
         return null;
@@ -53,7 +53,7 @@ export const useTreeUpdate = (treeId: number): TreeUpdateHook => {
         return null;
       } else {
         setIsUpdating(false);
-        setErrorMessage(
+        handleErrorMessage(
           "システムエラーが発生しました。時間を置いてもう一度お試しください。"
         );
         return null;
@@ -65,9 +65,7 @@ export const useTreeUpdate = (treeId: number): TreeUpdateHook => {
   };
 
   return {
-    errorMessage,
     sendUpdateRequest,
-    setErrorMessage,
     isUpdating,
   };
 };

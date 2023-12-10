@@ -9,6 +9,8 @@ export type ToolAreaProps = {
   selectedNodeIds: number[];
   onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
   onUpdateStatusChange: (isUpdating: boolean) => void;
+  handleErrorMessage: (errorMessage: string | null) => void;
+  errorMessage: string | null;
 };
 
 export const ToolArea: React.FC<ToolAreaProps> = ({
@@ -16,6 +18,8 @@ export const ToolArea: React.FC<ToolAreaProps> = ({
   selectedNodeIds,
   onUpdateSuccess,
   onUpdateStatusChange,
+  handleErrorMessage,
+  errorMessage,
 }) => {
   const allNodes = treeData.nodes;
   const allLayers = treeData.layers;
@@ -46,6 +50,8 @@ export const ToolArea: React.FC<ToolAreaProps> = ({
         onUpdateSuccess={onUpdateSuccess}
         treeData={treeData}
         onUpdateStatusChange={onUpdateStatusChange}
+        handleErrorMessage={handleErrorMessage}
+        errorMessage={errorMessage}
       />
     );
   }
@@ -65,6 +71,8 @@ export const ToolArea: React.FC<ToolAreaProps> = ({
         onUpdateSuccess={onUpdateSuccess}
         treeData={treeData}
         onUpdateStatusChange={onUpdateStatusChange}
+        handleErrorMessage={handleErrorMessage}
+        errorMessage={errorMessage}
       ></LayerTool>
     );
   }

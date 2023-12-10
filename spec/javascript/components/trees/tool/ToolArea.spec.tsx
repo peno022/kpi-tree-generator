@@ -55,6 +55,8 @@ describe("ノードが選択されていないとき", () => {
       selectedNodeIds: [],
       onUpdateSuccess: jest.fn(),
       onUpdateStatusChange: jest.fn(),
+      handleErrorMessage: jest.fn(),
+      errorMessage: null,
     };
     render(<ToolArea {...toolAreaProps} />);
     expect(
@@ -71,6 +73,8 @@ describe("正常なデータでは起きないはずのエラー", () => {
         selectedNodeIds: [999999, 9999999],
         onUpdateSuccess: jest.fn(),
         onUpdateStatusChange: jest.fn(),
+        handleErrorMessage: jest.fn(),
+        errorMessage: null,
       };
       render(<ToolArea {...toolAreaProps} />);
       expect(
@@ -92,6 +96,8 @@ describe("正常なデータでは起きないはずのエラー", () => {
         selectedNodeIds: [2, 3],
         onUpdateSuccess: jest.fn(),
         onUpdateStatusChange: jest.fn(),
+        handleErrorMessage: jest.fn(),
+        errorMessage: null,
       };
       render(<ToolArea {...toolAreaProps} />);
       expect(screen.getByText("存在しない階層です。")).toBeInTheDocument();
@@ -107,6 +113,8 @@ describe("選択したノードが子ノードのとき", () => {
         selectedNodeIds: [2, 3], // 子ノード1と子ノード2を選択
         onUpdateSuccess: jest.fn(),
         onUpdateStatusChange: jest.fn(),
+        handleErrorMessage: jest.fn(),
+        errorMessage: null,
       };
       render(<ToolArea {...toolAreaProps} />);
 
@@ -128,6 +136,8 @@ describe("選択したノードが子ノードのとき", () => {
         selectedNodeIds: [2, 3], // 子ノード1と子ノード2を選択
         onUpdateSuccess: jest.fn(),
         onUpdateStatusChange: jest.fn(),
+        handleErrorMessage: jest.fn(),
+        errorMessage: null,
       };
       const { container } = render(<ToolArea {...toolAreaProps} />);
       const calculationDiv = container.querySelector(".calculation");
@@ -152,6 +162,8 @@ describe("選択したノードが子ノードのとき", () => {
         selectedNodeIds: [2, 3], // 子ノード1と子ノード2を選択
         onUpdateSuccess: jest.fn(),
         onUpdateStatusChange: jest.fn(),
+        handleErrorMessage: jest.fn(),
+        errorMessage: null,
       };
       render(<ToolArea {...toolAreaProps} />);
       expect(getNodeField(1, "名前")).toHaveValue("子ノード1");
@@ -172,6 +184,8 @@ describe("選択したノードが子ノードのとき", () => {
         selectedNodeIds: [2, 3], // 子ノード1と子ノード2を選択
         onUpdateSuccess: jest.fn(),
         onUpdateStatusChange: jest.fn(),
+        handleErrorMessage: jest.fn(),
+        errorMessage: null,
       };
       render(<ToolArea {...toolAreaProps} />);
 
@@ -186,6 +200,8 @@ describe("選択したノードが子ノードのとき", () => {
         selectedNodeIds: [2, 3], // 子ノード1と子ノード2を選択
         onUpdateSuccess: jest.fn(),
         onUpdateStatusChange: jest.fn(),
+        handleErrorMessage: jest.fn(),
+        errorMessage: null,
       };
       render(<ToolArea {...toolAreaProps} />);
       const updateButton = getUpdateButton();
@@ -203,6 +219,8 @@ describe("入力値のバリデーション", () => {
       selectedNodeIds: [2, 3], // 子ノード1と子ノード2を選択
       onUpdateSuccess: jest.fn(),
       onUpdateStatusChange: jest.fn(),
+      handleErrorMessage: jest.fn(),
+      errorMessage: null,
     };
     render(<ToolArea {...toolAreaProps} />);
   });
@@ -611,6 +629,8 @@ describe("選択したノードがルートノードの時", () => {
         selectedNodeIds: [1],
         onUpdateSuccess: jest.fn(),
         onUpdateStatusChange: jest.fn(),
+        handleErrorMessage: jest.fn(),
+        errorMessage: null,
       };
       render(<ToolArea {...toolAreaProps} />);
     });

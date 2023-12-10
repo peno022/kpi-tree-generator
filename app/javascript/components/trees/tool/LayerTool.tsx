@@ -20,6 +20,8 @@ type LayerToolProps = {
   onUpdateSuccess: (updatedTreeData: TreeDataFromApi) => void;
   treeData: TreeDataFromApi;
   onUpdateStatusChange: (isUpdating: boolean) => void;
+  handleErrorMessage: (errorMessage: string | null) => void;
+  errorMessage: string | null;
 };
 
 const LayerTool: React.FC<LayerToolProps> = ({
@@ -29,9 +31,13 @@ const LayerTool: React.FC<LayerToolProps> = ({
   onUpdateSuccess,
   treeData,
   onUpdateStatusChange,
+  handleErrorMessage,
+  errorMessage,
 }) => {
-  const { errorMessage, sendUpdateRequest, setErrorMessage, isUpdating } =
-    useTreeUpdate(treeData.tree.id);
+  const { sendUpdateRequest, isUpdating } = useTreeUpdate(
+    treeData.tree.id,
+    handleErrorMessage
+  );
 
   const {
     layerProperty,
@@ -64,7 +70,6 @@ const LayerTool: React.FC<LayerToolProps> = ({
     });
     setInputFraction(selectedLayer.fraction.toString());
     resetValidationResults(selectedNodes.length);
-    setErrorMessage(null);
   }, [selectedNodes, selectedLayer, parentNode]);
 
   useEffect(() => {
