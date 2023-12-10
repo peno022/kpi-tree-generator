@@ -1,4 +1,4 @@
-- title 'KPI ツリーをかんたん作成'
+- title 'KPIツリー作成ツール'
 .flex.flex-col.min-h-screen.bg-neutral-content.w-full
   = button_to 'ログイン', \
     '/auth/google_oauth2', \
@@ -8,12 +8,12 @@
   .mx-auto.flex-grow
     .text-center.object-center
       .pb-10.flex.items-center.justify-center.md:w-3/5.w-5/6.mx-auto.max-w-3xl.mt-8.md:mt-0
-        = image_tag 'ktg-logo.svg', alt: 'KPI TREE MAKER logo', class: 'ktg-logo-image'
+        = image_tag 'ktg-logo.svg', alt: 'KPIツリーメーカーのロゴ', class: 'ktg-logo-image'
       h1.text-2xl.md:text-4xl.font-bold.text-neutral.mb-2
         | KPI ツリーをかんたん作成
       .tree-sample
         .container.mx-auto.p-2.md:w-3/4.md:p-16
-          = image_tag 'top-kpi-tree-screen-sample.svg', alt: 'KPIツリーメーカー画面', class: 'kpi-tree-screen-sample'
+          = image_tag 'top-kpi-tree-screen-sample.svg', alt: 'KPIツリー作成ツールのサンプル画面', class: 'kpi-tree-screen-sample'
           .pt-12.md:pt-16
             = render 'welcome/signup'
 
@@ -25,19 +25,19 @@
         .flex-1.text-center
           h3.text-xl.font-semibold
             | 数クリックで簡単
-          = image_tag 'undraw-check.svg', alt: '数クリックで簡単のイメージ画像', class: 'w-40 h-32 mx-auto my-6'
+          = image_tag 'undraw-check.svg', alt: '数クリックで簡単にKPIツリーを作成できるツールです', class: 'w-40 h-32 mx-auto my-6'
           p.text-lg
             | Web 上ですぐにツリーの作成・計算ができます。
         .flex-1.text-center
           h3.text-xl.font-semibold
             | 数値は自動計算
-          = image_tag 'undraw-data-processing.svg', alt: '数値は自動計算のイメージ画像', class: 'w-40 h-32 mx-auto my-6'
+          = image_tag 'undraw-data-processing.svg', alt: 'KPIツリーの数値は自動計算されます', class: 'w-40 h-32 mx-auto my-6'
           p.text-lg
             | 数値変更があれば、ツリー全体に自動で計算を反映。
         .flex-1.text-center
           h3.text-xl.font-semibold
             | もちろん無料
-          = image_tag 'undraw-payment.svg', alt: 'もちろん無料のイメージ画像', class: 'w-40 h-32 mx-auto my-6'
+          = image_tag 'undraw-payment.svg', alt: '無料で利用できます', class: 'w-40 h-32 mx-auto my-6'
           p.text-lg
             | すべての機能を無料でご利用いただけます。
       .py-10.mx-auto.md:hidden

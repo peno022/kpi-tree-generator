@@ -4,15 +4,15 @@ module ApplicationHelper
   # rubocop:disable Metrics/MethodLength
   def default_meta_tags
     {
-      site: 'KPI ツリーメーカー',
+      site: '簡単・無料で使えるKPIツリーメーカー',
       reverse: true,
       charset: 'utf-8',
-      description: 'KPI ツリーメーカーは、KPI ツリーが無料で簡単につくれる Web サービスです。',
+      description: '簡単にKPIツリーを作成できるツール。無料で利用可能です。',
       viewport: 'width=device-width, initial-scale=1.0',
       og: {
         title: :title,
         type: 'website',
-        site_name: 'KPI ツリーメーカー',
+        site_name: '簡単・無料で使えるKPIツリーメーカー',
         description: :description,
         image: 'https://kpi-tree.com/ogp/ogp.png',
         url: 'https://kpi-tree.com'
